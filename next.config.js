@@ -1,4 +1,8 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+const { withAtlasConfig } = require("@wpengine/atlas-next");
 
-module.exports = nextConfig;
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Your existing Next.js config
+};
+
+module.exports = withAtlasConfig(nextConfig);

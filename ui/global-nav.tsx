@@ -25,12 +25,12 @@ export function GlobalNav() {
         },
         {
           name: 'Heroes',
-          slug: 'route-groups',
+          slug: 'heroes',
           description: 'Organize routes without affecting URL paths',
         },
         {
           name: 'Items',
-          slug: 'parallel-routes',
+          slug: 'items',
           description: 'Render multiple pages in the same layout',
         },
       ],
@@ -71,7 +71,7 @@ export function GlobalNav() {
   ];
 
   return (
-    <div className="fixed top-0 z-10 flex flex-col w-full bg-black border-b border-gray-800 lg:bottom-0 lg:z-auto lg:w-72 lg:border-b-0 lg:border-r lg:border-gray-800">
+    <div className="fixed top-0 z-10 flex flex-col bg-black border-b border-gray-800 w-72 lg:bottom-0 lg:z-auto lg:border-b-0 lg:border-r lg:border-gray-800">
       <div className="flex items-center px-4 py-4 h-14 lg:h-auto">
         <Link
           href="/"

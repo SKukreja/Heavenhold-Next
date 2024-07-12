@@ -10,9 +10,13 @@ export default {
   future: {
     hoverOnlyWhenSupported: true,
   },
+  mode: 'jit',
   darkMode: 'class',
   theme: {
     extend: {
+      scale: {
+        '-100': '-1',
+      },
       colors: {
         gray: colors.zinc,
         'gray-1000': 'rgb(17,17,19)',

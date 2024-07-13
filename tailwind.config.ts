@@ -14,6 +14,9 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      grayscale: {
+        50: '50%',
+      },
       scale: {
         '-100': '-1',
       },

@@ -4,8 +4,10 @@ import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import clsx from 'clsx';
 import { useState } from 'react';
+import { home, item, hero, book, rank, login, contribute, discord } from './icons';
 
 type Item = {
+    icon: () => JSX.Element;
     name: string;
     slug: string;
     description?: string;
@@ -19,16 +21,19 @@ export function GlobalNav() {
     {
       items: [
         {
+          icon: home,
           name: 'Home',
           slug: 'home',
           description: 'Create UI that is shared across routes',
         },
         {
+          icon: hero,
           name: 'Heroes',
           slug: 'heroes',
           description: 'Organize routes without affecting URL paths',
         },
         {
+          icon: item,
           name: 'Items',
           slug: 'items',
           description: 'Render multiple pages in the same layout',
@@ -38,11 +43,13 @@ export function GlobalNav() {
     {
         items: [
           {
+            icon: rank,
             name: 'Tier List',
             slug: 'tier-list',
             description: 'See the current meta',
           },
           {
+            icon: book,
             name: 'Guides',
             slug: 'guides',
             description: 'Learn the best strategies',
@@ -52,16 +59,19 @@ export function GlobalNav() {
       {
         items: [
           {
+            icon: login,
             name: 'Log In',
             slug: 'log-in',
             description: 'See the current meta',
           },
           {
+            icon: discord,
             name: 'Discord',
             slug: 'discord',
             description: 'Organize routes without affecting URL paths',
           },
           {
+            icon: contribute,
             name: 'Contribute',
             slug: 'contribute',
             description: 'Render multiple pages in the same layout',
@@ -141,14 +151,14 @@ function GlobalNavItem({
       onClick={close}
       href={`/${item.slug}`}
       className={clsx(
-        'block px-8 py-4 text-sm font-medium hover:text-gray-300',
+        'px-8 py-4 text-sm font-medium hover:text-gray-300 flex items-center gap-x-4',
         {
           'text-gray-400 hover:bg-gray-800': !isActive,
           'text-white': isActive,
         },
       )}
     >
-      {item.name}
+      {item.icon()} {item.name}
     </Link>
   );
 }

@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { home, item, hero, book, rank, login, contribute, discord } from './icons';
 
 type Item = {
+    id: number;
     icon: () => JSX.Element;
     name: string;
     slug: string;
@@ -21,18 +22,21 @@ export function GlobalNav() {
     {
       items: [
         {
+          id: 1,
           icon: home,
           name: 'Home',
           slug: 'home',
           description: 'Create UI that is shared across routes',
         },
         {
+          id: 2,
           icon: hero,
           name: 'Heroes',
           slug: 'heroes',
           description: 'Organize routes without affecting URL paths',
         },
         {
+          id: 3,
           icon: item,
           name: 'Items',
           slug: 'items',
@@ -43,12 +47,14 @@ export function GlobalNav() {
     {
         items: [
           {
+            id: 4,
             icon: rank,
             name: 'Tier List',
             slug: 'tier-list',
             description: 'See the current meta',
           },
           {
+            id: 5,
             icon: book,
             name: 'Guides',
             slug: 'guides',
@@ -59,18 +65,21 @@ export function GlobalNav() {
       {
         items: [
           {
+            id: 6,
             icon: login,
             name: 'Log In',
             slug: 'log-in',
             description: 'See the current meta',
           },
           {
+            id: 7,
             icon: discord,
             name: 'Discord',
             slug: 'discord',
             description: 'Organize routes without affecting URL paths',
           },
           {
+            id: 8,
             icon: contribute,
             name: 'Contribute',
             slug: 'contribute',
@@ -117,7 +126,7 @@ export function GlobalNav() {
         <nav className="pt-8 space-y-6 pb-28">
           {menu.map((section) => {
             return (
-              <div>
+              <div key={section.items[0].id}>
                 <div className="mb-6 border-b border-gray-800 w-100 text-gray-400/80">
 
                 </div>

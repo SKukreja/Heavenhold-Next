@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { useSearchParams, useRouter } from 'next/navigation';
 
 const ToggleStyles = "flex items-center justify-between w-full px-8 py-4 text-white bg-gray-800";
-const ToggleText = "font-medium";
-const InputStyles = "w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500";
-const LabelStyles = "flex min-w-0 ml-4 text-sm font-medium text-gray-400 hover:text-gray-300";
-const SectionStyles = "my-6";
+const ToggleText = "font-medium text-sm";
+const InputStyles = "hidden"; // Hide the checkbox input
+const LabelStyles = "flex items-center min-w-0 text-sm px-4 font-medium cursor-pointer";
+const SectionStyles = "my-8";
 const ButtonWrapperStyles = "flow-root w-full";
-const ButtonIconContainerStyles = "flex items-center ml-6";
+const ButtonIconContainerStyles = "flex items-center";
 const ButtonIconStyles = "w-5 h-5";
 
 const elementOptions = [
@@ -20,23 +21,35 @@ const elementOptions = [
 ];
 
 const roleOptions = [
-  { id: 'filter-mobile-category-tank', value: 'tank', label: 'Tank', icon: '/icons/tank.webp' },
+  { id: 'filter-mobile-category-tank', value: 'tanker', label: 'Tank', icon: '/icons/tanker.webp' },
   { id: 'filter-mobile-category-warrior', value: 'warrior', label: 'Warrior', icon: '/icons/warrior.webp' },
   { id: 'filter-mobile-category-ranged', value: 'ranged', label: 'Ranged', icon: '/icons/ranged.webp' },
   { id: 'filter-mobile-category-support', value: 'support', label: 'Support', icon: '/icons/support.webp' },
 ];
 
-interface HeroFiltersProps {
-  onFilterChange: (filter: string, value: boolean) => void;
-  onSortChange: (sort: string) => void;
-}
-
-export default function HeroFilters({ onFilterChange, onSortChange }: HeroFiltersProps) {
+export default function HeroFilters() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
     "filter-section-mobile-0": false,
     "filter-section-mobile-1": false,
     "filter-section-mobile-2": false,
   });
+
+  const [activeFilters, setActiveFilters] = useState<{ [key: string]: boolean }>({});
+
+  useEffect(() => {
+    const params = Object.fromEntries(searchParams.entries());
+    const filters: { [key: string]: boolean } = {};
+    Object.keys(params).forEach((key) => {
+      if (params[key] === 'true') {
+        filters[key] = true;
+      }
+    });
+    console.log("Setting active filters from query params:", filters);
+    setActiveFilters(filters);
+    applyFilters(filters);
+  }, [searchParams]);
 
   const toggleSection = (section: string) => {
     setOpenSections((prev) => ({
@@ -45,8 +58,52 @@ export default function HeroFilters({ onFilterChange, onSortChange }: HeroFilter
     }));
   };
 
-  const handleCheckboxChange = (filter: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    onFilterChange(filter, event.target.checked);
+  const handleToggleChange = (filter: string) => () => {
+    const isActive = !activeFilters[filter];
+    const newFilters = {
+      ...activeFilters,
+      [filter]: isActive,
+    };
+    setActiveFilters(newFilters);
+
+    const newQuery = new URLSearchParams(searchParams);
+    if (isActive) {
+      newQuery.set(filter, 'true');
+    } else {
+      newQuery.delete(filter);
+    }
+    router.push(`?${newQuery.toString()}`);
+    applyFilters(newFilters);
+  };
+
+  const applyFilters = (filters: { [key: string]: boolean }) => {
+    const elements = document.querySelectorAll('[data-filter]');
+    console.log("Applying filters:", filters);
+
+    const elementFilters = Object.keys(filters).filter(filter => filters[filter] && elementOptions.some(option => option.value === filter));
+    const roleFilters = Object.keys(filters).filter(filter => filters[filter] && roleOptions.some(option => option.value === filter));
+    const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && ['1-star', '2-star', '3-star'].includes(filter));
+
+    if (elementFilters.length === 0 && roleFilters.length === 0 && rarityFilters.length === 0) {
+      elements.forEach((el) => {
+        el.classList.remove("hidden", "opacity-0");
+      });
+    } else {
+      elements.forEach((el) => {
+        const elFilters = el.getAttribute('data-filter')?.split(' ') || [];
+        
+        const matchesElement = elementFilters.length === 0 || elementFilters.some(filter => elFilters.includes(filter));
+        const matchesRole = roleFilters.length === 0 || roleFilters.some(filter => elFilters.includes(filter));
+        const matchesRarity = rarityFilters.length === 0 || rarityFilters.some(filter => elFilters.includes(filter));
+        
+        if (matchesElement && matchesRole && matchesRarity) {
+          el.classList.remove("hidden", "opacity-0");
+        } else {
+          el.classList.add("hidden");
+          setTimeout(() => el.classList.add("opacity-0"), 50); // Add a slight delay to trigger the transition
+        }
+      });
+    }
   };
 
   return (
@@ -80,21 +137,21 @@ export default function HeroFilters({ onFilterChange, onSortChange }: HeroFilter
               </button>
             </h3>
             <div
-              className={`px-8 pt-4 transition-max-height duration-500 ease-in-out overflow-hidden ${openSections[sectionId] ? 'max-h-96' : 'max-h-0'}`}
+              className={`transition-max-height duration-500 ease-in-out overflow-hidden ${openSections[sectionId] ? 'max-h-96' : 'max-h-0'}`}
               id={sectionId}
             >
-              <div className="space-y-6">
+              <div>
                 {section === "Element" && elementOptions.map((option) => (
-                  <FilterToggle key={option.id} {...option} onChange={handleCheckboxChange(option.value)} />
+                  <FilterToggle key={option.id} {...option} onChange={handleToggleChange(option.value)} isActive={!!activeFilters[option.value]} />
                 ))}
                 {section === "Role" && roleOptions.map((option) => (
-                  <FilterToggle key={option.id} {...option} onChange={handleCheckboxChange(option.value)} />
+                  <FilterToggle key={option.id} {...option} onChange={handleToggleChange(option.value)} isActive={!!activeFilters[option.value]} />
                 ))}
                 {section === "Rarity" && (
                   <>
-                    <FilterToggle id="filter-mobile-size-0" value="2l" label="2L" onChange={handleCheckboxChange('2l')} />
-                    <FilterToggle id="filter-mobile-size-1" value="6l" label="6L" onChange={handleCheckboxChange('6l')} />
-                    <FilterToggle id="filter-mobile-size-2" value="12l" label="12L" onChange={handleCheckboxChange('12l')} />
+                    <FilterToggle id="filter-mobile-size-0" value="r-1-star" label="★" onChange={handleToggleChange('1-star')} isActive={!!activeFilters['1-star']} />
+                    <FilterToggle id="filter-mobile-size-1" value="r-2-star" label="★★" onChange={handleToggleChange('2-star')} isActive={!!activeFilters['2-star']} />
+                    <FilterToggle id="filter-mobile-size-2" value="r-3-star" label="★★★" onChange={handleToggleChange('3-star')} isActive={!!activeFilters['3-star']} />
                   </>
                 )}
               </div>
@@ -106,12 +163,19 @@ export default function HeroFilters({ onFilterChange, onSortChange }: HeroFilter
   );
 }
 
-function FilterToggle({ id, value, label, icon, onChange, checked = false }: { id: string; value: string; label: string; icon?: string; onChange: (event: React.ChangeEvent<HTMLInputElement>) => void; checked?: boolean }) {
+function FilterToggle({ id, value, label, icon, onChange, isActive }: { id: string; value: string; label: string; icon?: string; onChange: () => void; isActive: boolean }) {
+  const handleClick = () => {
+    onChange();
+  };
+
   return (
-    <div className="flex items-center cursor-pointer">
-      <input id={id} name="filter" value={value} type="checkbox" checked={checked} onChange={onChange} className={InputStyles} />
+    <div
+      className={`flex items-center p-4 cursor-pointer ${isActive ? 'bg-gray-700 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 ' + `${value !== 'r-3-star' && value !== 'r-2-star' && value !== 'r-1-star' && 'hover:text-white'}`} ${value === 'r-3-star' && 'text-yellow-500'} ${value === 'r-2-star' && 'text-gray-300'} ${value === 'r-1-star' && 'text-orange-600'}`}
+      onClick={handleClick}
+    >
+      <input id={id} name="filter" value={value} type="checkbox" className={InputStyles} checked={isActive} readOnly />
       <label htmlFor={id} className={LabelStyles}>
-        {icon && <Image src={icon} alt={label} width={20} height={20} className="mr-2" />}
+        {icon && <Image src={icon} alt={label} width={20} height={20} className="mr-4" />}
         {label}
       </label>
     </div>

@@ -14,7 +14,7 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
   return (
     <html lang="en" className="[color-scheme:dark]">
-      <body className="h-screen overflow-y-scroll bg-gray-1100 pb-36">
+      <body className="h-screen overflow-y-scroll scrollbar-thin scrollbar-thumb-sky-700 scrollbar-track-sky-300 bg-gray-1100 pb-36">
         <GlobalNav />
         <Sidebar />
         <div className="absolute right-0 w-[calc(100%-36rem)]">

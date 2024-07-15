@@ -10,7 +10,7 @@ export default function Sidebar() {
     const heroPathValue = match ? match[1] : null;
 
     return(
-        <div className="fixed top-0 z-10 flex flex-col overflow-y-scroll bg-black border-b border-gray-800 w-72 left-72 lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800">
+        <div className="fixed top-0 z-10 flex flex-col overflow-y-scroll bg-black border-b border-gray-800 scrollbar-none w-72 left-72 lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800">
             {pathname === '/heroes' && <HeroFilters />}
             {heroPathValue && <HeroList heroPathValue={heroPathValue} />}
         </div>

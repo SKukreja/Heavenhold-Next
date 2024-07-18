@@ -32,7 +32,7 @@ export function GlobalNav() {
           id: 2,
           icon: hero,
           name: 'Heroes',
-          slug: 'heroes?3-star=true&2-star=true',
+          slug: 'heroes?r-3-star=true&r-2-star=true',
           description: 'Organize routes without affecting URL paths',
         },
         {

@@ -82,7 +82,7 @@ export default function HeroFilters() {
 
     const elementFilters = Object.keys(filters).filter(filter => filters[filter] && elementOptions.some(option => option.value === filter));
     const roleFilters = Object.keys(filters).filter(filter => filters[filter] && roleOptions.some(option => option.value === filter));
-    const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && ['1-star', '2-star', '3-star'].includes(filter));
+    const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && ['r-1-star', 'r-2-star', 'r-3-star'].includes(filter));
 
     if (elementFilters.length === 0 && roleFilters.length === 0 && rarityFilters.length === 0) {
       elements.forEach((el) => {
@@ -108,7 +108,7 @@ export default function HeroFilters() {
 
   return (
     <form className="pt-8 pb-8">
-      <h3 className="px-8">Filters</h3>
+      <h3 className="px-8 text-lg font-medium">Filters</h3>
 
       {["Element", "Role", "Rarity"].map((section, index) => {
         const sectionId = `filter-section-mobile-${index}`;
@@ -149,9 +149,9 @@ export default function HeroFilters() {
                 ))}
                 {section === "Rarity" && (
                   <>
-                    <FilterToggle id="filter-mobile-size-0" value="r-1-star" label="★" onChange={handleToggleChange('1-star')} isActive={!!activeFilters['1-star']} />
-                    <FilterToggle id="filter-mobile-size-1" value="r-2-star" label="★★" onChange={handleToggleChange('2-star')} isActive={!!activeFilters['2-star']} />
-                    <FilterToggle id="filter-mobile-size-2" value="r-3-star" label="★★★" onChange={handleToggleChange('3-star')} isActive={!!activeFilters['3-star']} />
+                    <FilterToggle id="filter-mobile-size-0" value="r-1-star" label="★" onChange={handleToggleChange('r-1-star')} isActive={!!activeFilters['r-1-star']} />
+                    <FilterToggle id="filter-mobile-size-1" value="r-2-star" label="★★" onChange={handleToggleChange('r-2-star')} isActive={!!activeFilters['r-2-star']} />
+                    <FilterToggle id="filter-mobile-size-2" value="r-3-star" label="★★★" onChange={handleToggleChange('r-3-star')} isActive={!!activeFilters['r-3-star']} />
                   </>
                 )}
               </div>
@@ -170,8 +170,15 @@ function FilterToggle({ id, value, label, icon, onChange, isActive }: { id: stri
 
   return (
     <div
-      className={`flex items-center p-4 cursor-pointer ${isActive ? 'bg-gray-700 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 ' + `${value !== 'r-3-star' && value !== 'r-2-star' && value !== 'r-1-star' && 'hover:text-white'}`} ${value === 'r-3-star' && 'text-yellow-500'} ${value === 'r-2-star' && 'text-gray-300'} ${value === 'r-1-star' && 'text-orange-600'}`}
-      onClick={handleClick}
+        className={`flex items-center p-4 cursor-pointer 
+            ${isActive ? 'bg-gray-700' : 'bg-gray-800'} 
+            ${!isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'hover:bg-gray-700 hover:text-white' : ''} 
+            ${isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'text-white' : ''} 
+            ${!isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'text-gray-400' : ''} 
+            ${value === 'r-3-star' ? 'text-yellow-500' : ''} 
+            ${value === 'r-2-star' ? 'text-gray-300' : ''} 
+            ${value === 'r-1-star' ? 'text-orange-600' : ''}`}
+        onClick={handleClick}
     >
       <input id={id} name="filter" value={value} type="checkbox" className={InputStyles} checked={isActive} readOnly />
       <label htmlFor={id} className={LabelStyles}>

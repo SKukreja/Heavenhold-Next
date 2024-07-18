@@ -10,7 +10,7 @@ const FadeInImage = (props: ImageProps) => {
     <div className={`fade-in ${isLoaded ? 'loaded' : ''}`}>
       <Image
         {...props}
-        onLoadingComplete={() => setIsLoaded(true)}
+        onLoad={() => setIsLoaded(true)}
       />
     </div>
   );

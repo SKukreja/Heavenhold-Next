@@ -4,11 +4,11 @@
   export const earth = '/icons/earth.webp';
   export const fire = '/icons/fire.webp';
   export const light = '/icons/light.webp';
+  export const water = '/icons/water.webp';
   export const ranged = '/icons/ranged.webp';
   export const support = '/icons/support.webp';
   export const tank = '/icons/tank.webp';
   export const warrior = '/icons/warrior.webp';
-  export const water = '/icons/water.webp';
   
   const menuClasses = 'w-6 h-6 fill-gray-300 hover:fill-white';
 

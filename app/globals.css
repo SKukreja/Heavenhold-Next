@@ -2,6 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --color-fire: #f5901e;
+    --color-water: #1e83f5;
+    --color-dark: #901ef5;
+    --color-earth: #0bef84; 
+    --color-light: #eff51e; 
+    --color-basic: #a5a5a5; 
+}
+
+.e-fire::after {
+    outline-color: var(--color-fire);
+}
+
+.e-water::after {
+    outline-color: var(--color-water);
+}
+
+.e-dark::after {
+    outline-color: var(--color-dark);
+}
+
+.e-earth::after {
+    outline-color: var(--color-earth);
+}
+
+.e-light::after {
+    outline-color: var(--color-light);
+}
+
+.e-basic::after {
+    outline-color: var(--color-basic);
+}
+
 .fade-in {
     opacity: 0;
     transition: opacity 1s ease-in-out;
@@ -10,4 +43,3 @@
 .fade-in.loaded {
     opacity: 1;
 }
-  

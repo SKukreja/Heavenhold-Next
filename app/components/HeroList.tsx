@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, Suspense, useRef, useState } from "react";
 import Loading from "./loading";
+import FadeInImage from "./FadeInImage";
 
 // Define the types for the data returned by the GraphQL query
 interface Hero {
@@ -102,7 +103,7 @@ const HeroList: React.FC<HeroListProps> = ({ heroPathValue }) => {
           >
             <Link href={`${hero.uri}`} className={"w-full"}>
               <h3 className="flex items-center">
-                <Image
+                <FadeInImage
                   src={
                     hero.featuredImage?.node?.mediaDetails?.sizes?.[0]?.sourceUrl
                       ? hero.featuredImage.node.mediaDetails.sizes[0].sourceUrl

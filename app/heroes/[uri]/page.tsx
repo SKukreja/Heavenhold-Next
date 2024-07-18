@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Loading from "../../loading";
 import { formatDate } from "#/ui/helpers";
 import FadeInImage from "#/app/components/FadeInImage";
+import { montserrat } from "#/ui/fonts";
 
 // Define the types for the data returned by the GraphQL query
 interface Item {
@@ -65,6 +66,7 @@ interface HeroInformation {
   portrait: ArtNode;
   illustration: ArtNode;
   illustration2: ArtNode;
+  background: ArtNode;
   // Add other fields as needed
 }
 
@@ -139,6 +141,11 @@ async function getPost(uri: string): Promise<Hero> {
           }
         }
         illustration2 {
+          node {
+            sourceUrl
+          }
+        }
+        background {
           node {
             sourceUrl
           }
@@ -401,9 +408,9 @@ export default async function PostDetails({ params }: PostDetailsProps): Promise
   const hero = await getPost(params.uri);
   const rarity = `r-${hero.heroInformation.bioFields.rarity.toString().replace(/ /g, "-").toLowerCase()}`;
   return (
-    <main className="">
+    <main className="h-screen overflow-hidden bg-cover bg-no-repeat bg-center after:bg-black after:opacity-95 after:absolute after:inset-0" style={{backgroundImage: `url(${hero.heroInformation.background.node.sourceUrl ?? ""})`}}>
       <Suspense fallback={<Loading />}>
-        <div className="p-8 hero-buttons w-full text-xl flex gap-8 mb-8">
+        <div className="p-8 hero-buttons w-full text-xl relative overflow-hidden flex gap-8 mb-8 z-10">
           <span className="p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full card bg-gray-700 text-white">Bio</span>
           <span className="p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full card bg-gray-800 text-gray-400">Abilities</span>          
           <span className="p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full card bg-gray-800 text-gray-400">Build</span>
@@ -412,10 +419,10 @@ export default async function PostDetails({ params }: PostDetailsProps): Promise
           <span className="p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full card bg-gray-800 text-gray-400">Costumes</span>   
           <span className="p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full card bg-gray-800 text-gray-400">Gallery</span>          
         </div>
-        <div className="relative z-10 w-full h-[calc(100vh-12rem)] overflow-clip">          
-          <div className="px-16">
-            <h2 className="text-2xl font-medium uppercase tracking-widest">{hero.title.replace(hero.heroInformation.bioFields.name, '').trim()}</h2>
-            <h1 className="text-8xl font-extrabold -ml-1 mb-6">{hero.heroInformation.bioFields.name}</h1>
+        <div className="relative overflow-hidden z-10 w-full h-full items-start flex px-8">          
+          <div className="px-8 w-1/3">
+            <h2 className="text-2xl font-medium uppercase tracking-widest mb-0">{hero.title.replace(hero.heroInformation.bioFields.name, '').trim()}</h2>
+            <h1 className="text-7xl font-extrabold font-oswald -ml-1 tracking-wide mb-6">{hero.heroInformation.bioFields.name}</h1>
             <div className={`flex gap-4 align-middle `}>
                 {hero.heroInformation.bioFields.element && (
                   <FadeInImage src={`/icons/${hero.heroInformation.bioFields.element.toLowerCase()}.webp`} className="flex flex-col justify-center h-full object-contain" width={30} height={30} alt={hero.heroInformation.bioFields.element} />
@@ -428,28 +435,24 @@ export default async function PostDetails({ params }: PostDetailsProps): Promise
               ${rarity === 'r-1-star' ? 'text-orange-600' : ''}`}>{rarity === 'r-3-star' && '★★★'}{rarity === 'r-2-star' && '★★'}{rarity === 'r-1-star' && '★'}</span>                        
             </div>
             <div className="">
-              <div className="pt-8 flex flex-col gap-8 justify-between w-1/4 text-md">
-                <div className="w-full"><span className="w-1/2 inline-block font-medium">Name</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.name}</span></div>
-                <div className="w-full"><span className="w-1/2 inline-block font-medium">Released</span><span className="w-1/2 inline-block text-right">{formatDate(hero.heroInformation.bioFields.naReleaseDate)}</span></div>
-                <div className="w-full"><span className="w-1/2 inline-block font-medium">Age</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.age}</span></div>
-                <div className="w-full"><span className="w-1/2 inline-block font-medium">Height</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.height}</span></div>
-                <div className="w-full"><span className="w-1/2 inline-block font-medium">Weight</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.weight}</span></div>
-                <div className="w-full"><span className="w-1/2 inline-block font-medium">Species</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.species}</span></div>
-                <div className="w-full"><span className="w-1/2 inline-block font-medium">Equipment</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.compatibleEquipment.map((equipment) => (<span className="ml-2" key={"eq-" + equipment}>{equipment}</span>))}</span></div>
+              <div className="pt-8 flex flex-col gap-8 justify-between w-full text-sm">
+                <div className="w-full"><span className="w-1/2 inline-block font-bold">Name</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.name}</span></div>
+                <div className="w-full"><span className="w-1/2 inline-block font-bold">Released</span><span className="w-1/2 inline-block text-right">{formatDate(hero.heroInformation.bioFields.naReleaseDate)}</span></div>
+                <div className="w-full"><span className="w-1/2 inline-block font-bold">Age</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.age}</span></div>
+                <div className="w-full"><span className="w-1/2 inline-block font-bold">Height</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.height}</span></div>
+                <div className="w-full"><span className="w-1/2 inline-block font-bold">Weight</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.weight}</span></div>
+                <div className="w-full"><span className="w-1/2 inline-block font-bold">Species</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.species}</span></div>
+                <div className="w-full"><span className="w-1/2 inline-block font-bold">Equipment</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.compatibleEquipment.map((equipment) => (<span className="ml-2" key={"eq-" + equipment}>{equipment}</span>))}</span></div>
               </div>
             </div>
           </div>
-          <FadeInImage src={hero.heroInformation.illustration?.node.sourceUrl ?? ""} width={800} height={200} className="absolute w-1/2 object-contain h-full right-8 -bottom-20" quality={100} alt={hero.heroInformation.illustration?.node.title ?? ""} />
-          <div className="bg-gray-900 w-full h-96 block absolute bottom-0 -z-10">
-            <span>Hi</span>
+          <div className={"w-1/3 h-full px-8"}>
+            <FadeInImage src={hero.heroInformation.illustration?.node.sourceUrl ?? ""} width={500} height={300} priority={true} className="object-contain w-full h-full" quality={100} alt={hero.heroInformation.illustration?.node.title ?? ""} />
           </div>
-        </div>
-        <div className="hero-sections">
-        <div className="pt-8 card" key={params.uri}>
-          <p>Story: {hero.heroInformation.bioFields.story}</p>
-          {/* Display other fields as needed */}
-        </div>
-        </div>
+          <div className="w-1/3 h-[calc(100%-16rem)] overflow-y-scroll px-8">
+            <span className="w-full h-full overflow-y-scroll text-sm" dangerouslySetInnerHTML={{__html: hero.heroInformation.bioFields.story}}></span>
+          </div>
+        </div>        
       </Suspense>
     </main>
   );

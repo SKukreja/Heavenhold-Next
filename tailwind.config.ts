@@ -14,6 +14,10 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        oswald: ['var(--font-oswald)'],
+        montserrat: ['var(--font-montserrat)'],
+      },
       grayscale: {
         50: '50%',
       },

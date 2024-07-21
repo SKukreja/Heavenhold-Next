@@ -47,6 +47,9 @@ importers:
       tailwindcss:
         specifier: 3.3.2
         version: 3.3.2
+      tailwindcss-animation-delay:
+        specifier: 2.0.1
+        version: 2.0.1(tailwindcss@3.3.2)
     devDependencies:
       '@types/node':
         specifier: 20.14.10
@@ -1482,6 +1485,11 @@ packages:
     engines: {node: '>=12.13.0'}
     peerDependencies:
       tailwindcss: 3.x
+
+  tailwindcss-animation-delay@2.0.1:
+    resolution: {integrity: sha512-ruJNsjkoS9V73ce4DVBy6adj4/l6URP4uoG0nrch57xvPlE774kR5tgkzaBGtlEIaE9SctZ1BrMV8HCSN1K6cw==}
+    peerDependencies:
+      tailwindcss: '>=2.0.0 || >=3.0.0'
 
   tailwindcss@3.3.2:
     resolution: {integrity: sha512-9jPkMiIBXvPc2KywkraqsUfbfj+dHDb+JPWtSJa9MLFdrPyazI7q6WX2sUrm7R9eVR7qqv3Pas7EvQFzxKnI6w==}
@@ -3245,6 +3253,10 @@ snapshots:
   supports-preserve-symlinks-flag@1.0.0: {}
 
   tailwind-scrollbar@3.1.0(tailwindcss@3.3.2):
+    dependencies:
+      tailwindcss: 3.3.2
+
+  tailwindcss-animation-delay@2.0.1(tailwindcss@3.3.2):
     dependencies:
       tailwindcss: 3.3.2
 

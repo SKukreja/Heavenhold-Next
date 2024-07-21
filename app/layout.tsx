@@ -18,10 +18,10 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
       <body className="h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 bg-gray-1100 pb-36">
         <GlobalNav />
         <Sidebar />
-        <div className="absolute right-0 w-[calc(100%-36rem)]">
+        <div className="absolute right-0 w-[calc(100%-36rem)] min-h-screen">
           <div>
             <div className="rounded-lg shadow-lg shadow-black/20">
-              <div className="bg-black ">{children}</div>
+              <div className="bg-black min-h-screen ">{children}</div>
             </div>
           </div>
         </div>

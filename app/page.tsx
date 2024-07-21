@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import Loading from "./loading";
+import Loading from "#/app/components/loading";
 
 // Define the types for the data returned by the GraphQL query
 interface Hero {

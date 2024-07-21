@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, Suspense, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
+import { usePathname } from 'next/navigation';
 import Loading from "./loading";
 import FadeInImage from "./FadeInImage";
 
@@ -18,10 +19,6 @@ interface Hero {
       };
     };
   };
-}
-
-interface HeroListProps {
-  heroPathValue: string;
 }
 
 // Update the function to return the correct type
@@ -71,9 +68,12 @@ async function getHeroes(): Promise<Hero[]> {
   return data.data.heroes.nodes;
 }
 
-const HeroList: React.FC<HeroListProps> = ({ heroPathValue }) => {
+const HeroList: React.FC = () => {
   const [heroes, setHeroes] = useState<Hero[]>([]);
   const heroesRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();  
+  const [activeHero, setActiveHero] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchHeroes = async () => {
@@ -86,20 +86,33 @@ const HeroList: React.FC<HeroListProps> = ({ heroPathValue }) => {
   }, []);
 
   useEffect(() => {
-    const element = heroesRef.current[heroPathValue];
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
+    if (!heroesRef.current) return;
+    const element = heroesRef.current[pathname + "/"];
+    if (element && containerRef.current) {
+      const offset = 100; // Adjust this value to control the scroll offset
+      const elementRect = element.getBoundingClientRect();
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const scrollTop = containerRef.current.scrollTop;
+      const offsetPosition = elementRect.top - containerRect.top + scrollTop - offset;
+
+      containerRef.current.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+      setActiveHero(pathname + "/");
     }
-  }, [heroPathValue, heroes]);
+  }, [pathname, heroes]);
 
   return (
     <Suspense fallback={<Loading />}>
-      <div className="pt-4 pb-4">
+      <div ref={containerRef} className="pt-4 pb-4 overflow-y-auto scrollbar-none h-full">
         {heroes.map((hero) => (
           <div
             key={hero.uri}
             ref={(el) => { heroesRef.current[hero.uri] = el; }}
-            className="pt-4 pb-4 pl-8 pr-8 text-gray-400 card hover:bg-gray-800"
+            className={`pt-4 pb-4 pl-8 pr-8 card ${
+              activeHero === hero.uri ? 'bg-gray-700 text-gray-300' : 'text-gray-400 hover:bg-gray-800'
+            }`}
           >
             <Link href={`${hero.uri}`} className={"w-full"}>
               <h3 className="flex items-center">
@@ -109,12 +122,12 @@ const HeroList: React.FC<HeroListProps> = ({ heroPathValue }) => {
                       ? hero.featuredImage.node.mediaDetails.sizes[0].sourceUrl
                       : "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"
                   }
-                  className="w-10"
+                  className="w-12 h-12 aspect-square object-cover"
                   width={50}
                   height={50}
                   alt={hero.title}
                 />
-                <span className="flex items-center ml-4 text-sm font-medium text-gray-400 hover:text-gray-300">{hero.title}</span>
+                <span className="flex items-center pl-4 text-xs font-medium w-[calc(100%-4rem)]">{hero.title}</span>
               </h3>
             </Link>
           </div>

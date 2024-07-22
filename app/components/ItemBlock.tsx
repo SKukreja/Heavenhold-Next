@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import Image, { ImageProps } from 'next/image';
+import FadeInImage from './FadeInImage';
 
 // Define the props interface
 interface FadeInImageProps extends ImageProps {

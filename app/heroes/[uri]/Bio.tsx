@@ -3,6 +3,7 @@
 import { formatDate } from "#/ui/helpers";
 import FadeInImage from "#/app/components/FadeInImage";
 import { Hero } from "#/types";
+import { equipmentIcons } from "#/ui/icons";
 
 interface BioProps {
   hero: Hero;
@@ -34,12 +35,20 @@ function Bio({ hero }: BioProps) {
           <div className="w-full"><span className="w-1/2 inline-block font-bold">Height</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.height}</span></div>
           <div className="w-full"><span className="w-1/2 inline-block font-bold">Weight</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.weight}</span></div>
           <div className="w-full"><span className="w-1/2 inline-block font-bold">Species</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.species}</span></div>
-          <div className="w-full"><span className="w-1/2 inline-block font-bold">Equipment</span><span className="w-1/2 inline-block text-right">{hero.heroInformation.bioFields.compatibleEquipment.map((equipment) => (<span className="ml-2" key={"eq-" + equipment}>{equipment}</span>))}</span></div>
+          <div className="w-full">
+            <span className="w-1/2 inline-block font-bold">Equipment</span><span className="w-1/2 inline-block text-right">
+                {hero.heroInformation.bioFields.compatibleEquipment.map((equipment) => (
+                    <span className="ml-2" key={"eq-" + equipment}>
+                        <FadeInImage src={equipmentIcons[equipment as keyof typeof equipmentIcons]} className="" setWidth={30} width={30} height={30} alt={equipment} />
+                    </span>
+                ))}
+            </span>
+          </div>
         </div>
         <div className="pt-16 block relative tracking-wider">
             <h2 className="mb-6 text-4xl font-medium font-oswald">Stats</h2>
             <div className="mb-2 relative h-8 bg-gray-1100">
-                <div className="bg-red-600 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - hero.heroInformation.statFields.atkRank / hero.heroInformation.statFields.heroCount) * 100, 10)}%` }}></div>
+                <div className="bg-red-600 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - hero.heroInformation.statFields.atkRank / (hero.heroInformation.statFields.heroCount ?? 1)) * 100, 10)}%` }}></div>
                 <div className="absolute inset-0 px-4 flex justify-between items-center text-xs">
                 <span className="font-bold">ATK {hero.heroInformation.statFields.atk}</span>
                 <span>RANK: {hero.heroInformation.statFields.atkRank}/{hero.heroInformation.statFields.heroCount}</span>
@@ -47,7 +56,7 @@ function Bio({ hero }: BioProps) {
             </div>
 
             <div className="mb-2 relative h-8 bg-gray-1100">
-                <div className="bg-green-600 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - hero.heroInformation.statFields.hpRank / hero.heroInformation.statFields.heroCount) * 100, 10)}%` }}></div>
+                <div className="bg-green-600 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - hero.heroInformation.statFields.hpRank / (hero.heroInformation.statFields.heroCount ?? 1)) * 100, 10)}%` }}></div>
                 <div className="absolute inset-0 px-4 flex justify-between items-center text-xs">
                 <span className="font-bold">HP {hero.heroInformation.statFields.hp}</span>
                 {hero.heroInformation.statFields.hpRank ? (<span>RANK: {hero.heroInformation.statFields.hpRank}/{hero.heroInformation.statFields.heroCount}</span>) : (<span>UNRANKED</span>)}
@@ -55,7 +64,7 @@ function Bio({ hero }: BioProps) {
             </div>
 
             <div className="mb-2 relative h-8 bg-gray-1100">
-                <div className="bg-blue-600 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - hero.heroInformation.statFields.defRank / hero.heroInformation.statFields.heroCount) * 100, 10)}%` }}></div>
+                <div className="bg-blue-600 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - hero.heroInformation.statFields.defRank / (hero.heroInformation.statFields.heroCount ?? 1)) * 100, 10)}%` }}></div>
                 <div className="absolute inset-0 px-4 flex justify-between items-center text-xs">
                 <span className="font-bold">DEF {hero.heroInformation.statFields.def}</span>
                 {hero.heroInformation.statFields.defRank ? (<span>RANK: {hero.heroInformation.statFields.defRank}/{hero.heroInformation.statFields.heroCount}</span>) : (<span>UNRANKED</span>)}
@@ -64,7 +73,7 @@ function Bio({ hero }: BioProps) {
 
             {hero.heroInformation.statFields.damageReduction > 0 && (
                 <div className="mb-2 relative h-8 bg-gray-1100">
-                <div className="bg-purple-500 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - hero.heroInformation.statFields.drRank / hero.heroInformation.statFields.heroCount) * 100, 10)}%` }}></div>
+                <div className="bg-purple-500 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - (hero.heroInformation.statFields.drRank ?? 1) / (hero.heroInformation.statFields.heroCount ?? 1)) * 100, 10)}%` }}></div>
                 <div className="absolute inset-0 px-4 flex justify-between items-center text-xs">
                     <span className="font-bold">DAMAGE REDUCTION {hero.heroInformation.statFields.damageReduction}</span>
                     {hero.heroInformation.statFields.drRank ? (<span>RANK: {hero.heroInformation.statFields.drRank}/{hero.heroInformation.statFields.heroCount}</span>) : (<span>UNRANKED</span>)}
@@ -74,7 +83,7 @@ function Bio({ hero }: BioProps) {
 
             {hero.heroInformation.statFields.crit > 0 && (
                 <div className="mb-2 relative h-8 bg-gray-1100">
-                <div className="bg-orange-600 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - hero.heroInformation.statFields.critRank / hero.heroInformation.statFields.heroCount) * 100, 10)}%` }}></div>
+                <div className="bg-orange-600 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - (hero.heroInformation.statFields.critRank ?? 1) / (hero.heroInformation.statFields.heroCount ?? 1)) * 100, 10)}%` }}></div>
                 <div className="absolute inset-0 px-4 flex justify-between items-center text-xs">
                     <span className="font-bold">CRIT {hero.heroInformation.statFields.crit}</span>
                     {hero.heroInformation.statFields.critRank ? (<span>RANK: {hero.heroInformation.statFields.critRank}/{hero.heroInformation.statFields.heroCount}</span>) : (<span>UNRANKED</span>)}
@@ -84,7 +93,7 @@ function Bio({ hero }: BioProps) {
 
             {hero.heroInformation.statFields.heal > 0 && (
                 <div className="mb-2 relative h-8 bg-gray-1100">
-                <div className="bg-teal-500 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - hero.heroInformation.statFields.healRank / hero.heroInformation.statFields.heroCount) * 100, 10)}%` }}></div>
+                <div className="bg-teal-500 h-8 rounded-sm progress-bar" style={{ width: `${Math.max((1 - (hero.heroInformation.statFields.healRank ?? 1) / (hero.heroInformation.statFields.heroCount ?? 1)) * 100, 10)}%` }}></div>
                 <div className="absolute inset-0 px-4 flex justify-between items-center text-xs">
                     <span className="font-bold">HEAL {hero.heroInformation.statFields.heal}</span>
                     {hero.heroInformation.statFields.healRank ? (<span>RANK: {hero.heroInformation.statFields.healRank}/{hero.heroInformation.statFields.heroCount}</span>) : (<span>UNRANKED</span>)}

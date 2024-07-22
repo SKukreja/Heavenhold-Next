@@ -20,11 +20,101 @@ async function fetchHero(uri: string): Promise<Hero> {
           age
           compatibleEquipment
           exclusiveWeapon {
-            edges {
-              node {
-                ... on Item {
-                  id
-                  title
+            nodes {
+              ... on Item {
+                id
+                title
+                weapons {
+                  maxDps
+                  element
+                  exclusiveEffects
+                  exclusive
+                  magazine
+                  maxAtk
+                  minAtk
+                  minDps
+                  weaponSkill
+                  weaponSkillAtk
+                  weaponSkillChain
+                  weaponSkillDescription
+                  weaponSkillName
+                  weaponSkillRegenTime
+                  weaponType
+                  engraving {
+                    value
+                    stat
+                  }
+                }
+                featuredImage {
+                  node {
+                    sourceUrl
+                  }
+                }
+                equipmentSubOptions {
+                  fieldGroupName
+                  maxLines
+                  subAtk
+                  subAtkOnKill
+                  subBasicTypeAtk
+                  subCritChance
+                  subDamageReduction
+                  subDarkTypeAtk
+                  subDef
+                  subDefFlat
+                  subEarthTypeAtk
+                  subFireTypeAtk
+                  subHealFlat
+                  subHealPercent
+                  subHp
+                  subHpOnKill
+                  subLightTypeAtk
+                  subShieldOnKill
+                  subShieldOnStart
+                  subSkillDamage
+                  subSkillRegenOnKill
+                  subSkillRegenSpeed
+                  subWaterTypeAtk
+                }
+                equipmentOptions {
+                  atk
+                  atkOnKill
+                  basicTypeAtk
+                  critChance
+                  critHitMultiplier
+                  damageReduction
+                  darkTypeAtk
+                  decreaseDamageTakenBySkill
+                  def
+                  defFlat
+                  earthTypeAtk
+                  extraDamageType
+                  fieldGroupName
+                  fireTypeAtk
+                  healFlat
+                  healPercent
+                  hp
+                  hpOnKill
+                  increaseDamageAmount
+                  increaseDamageCondition
+                  increaseDamageThreshold
+                  increaseDamageToTanks
+                  lb5Value
+                  lightTypeAtk
+                  minDamageReduction
+                  minDefFlat
+                  onHitDamage
+                  onHitDamageSeconds
+                  onHitHealAllies
+                  onHitHealSeconds
+                  shieldOnKill
+                  shieldOnStart
+                  skillDamage
+                  skillRegenOnKill
+                  skillRegenSpeed
+                  waterTypeAtk
+                }
+                itemInformation {
+                  rarity
                 }
               }
             }

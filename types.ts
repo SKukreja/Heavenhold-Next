@@ -109,14 +109,16 @@ export interface ArtNode {
   };
 }
 
+export interface PartyBuff {
+  affectsParty: boolean;
+  value: string;
+  stat: number;
+}
+
 export interface AbilityFields {
   chainStateTrigger: string;
   chainStateResult: string;
-  partyBuff: {
-    affectsParty: boolean;
-    value: string;
-    stat: string;
-  };
+  partyBuff: PartyBuff[];
   chainSkillDescription: string;
   chainSkillName: string;
   normalAtkDescription: string;

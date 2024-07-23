@@ -30,7 +30,7 @@ function Abilities({ hero }: AbilitiesProps) {
              <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Passives</h2>
               <div className="w-full h-auto">
                 {hero.heroInformation.abilityFields.partyBuff.map((passive) => (
-                  <p>{passive.stat}</p>
+                  <p key={passive.stat}>{passive.stat}</p>
                 ))}
               </div>
             </div>)}

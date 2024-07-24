@@ -94,6 +94,8 @@ async function getHeroes(): Promise<Hero[]> {
     }
   );
 
+  console.log(`${process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT}?query=${encodeURIComponent(query)}`);
+
   if (!res.ok) {
     throw new Error(`Network response was not ok: ${res.statusText}`);
   }

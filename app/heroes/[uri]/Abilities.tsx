@@ -3,6 +3,7 @@
 import { Hero } from "#/types";
 import FadeInImage from "#/app/components/FadeInImage";
 import { formatDate } from "#/ui/helpers";
+import StatFormatter from "#/app/components/StatFormatter";
 
 interface AbilitiesProps {
   hero: Hero;
@@ -30,18 +31,18 @@ function Abilities({ hero }: AbilitiesProps) {
              <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Passives</h2>
               <div className="w-full h-auto">
                 {hero.heroInformation.abilityFields.partyBuff.map((passive) => (
-                  <p key={passive.stat}>{passive.stat}</p>
+                  <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value} isPassive={true} affectsParty={passive.affectsParty} />
                 ))}
               </div>
             </div>)}
             {hero.heroInformation.bioFields.exclusiveWeapon?.nodes && (
             <div className="w-full">
               <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Exclusive Weapons</h2>
-              <div className="flex w-full">
+              <div className="flex gap-8 w-full">
                 {hero.heroInformation.bioFields.exclusiveWeapon.nodes.map((weaponNode) =>
                 { 
                   return (
-                  <div key={weaponNode.id} className="mb-8 w-1/2 bg-gray-800 p-4 3xl:p-8">
+                  <div key={weaponNode.id} className="mb-8 w-[calc(50%-2rem)] bg-gray-800 p-4 3xl:p-8">
                     <div className="flex">
                       <div className="w-16 3xl:w-20">
                         <FadeInImage src={weaponNode.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} setWidth={96} className="h-auto aspect-square object-contain" width={100} height={100} alt={weaponNode.title} />

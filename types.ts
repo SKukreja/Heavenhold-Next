@@ -111,8 +111,8 @@ export interface ArtNode {
 
 export interface PartyBuff {
   affectsParty: boolean;
-  value: string;
-  stat: number;
+  value: number;
+  stat: string;
 }
 
 export interface AbilityFields {

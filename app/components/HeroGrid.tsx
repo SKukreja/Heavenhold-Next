@@ -93,7 +93,7 @@ async function getHeroes(): Promise<Hero[]> {
       next: { revalidate: 10 },
     }
   );
-
+  console.log(res);
   console.log(`${process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT}?query=${encodeURIComponent(query)}`);
 
   if (!res.ok) {

@@ -8,8 +8,8 @@ export interface Item {
     };
   };
   weapons?: Weapon;
-  equipmentSubOptions?: EquipmentOption[];
-  equipmentOptions?: EquipmentOption[];
+  equipmentSubOptions?: EquipmentOption;
+  equipmentOptions?: EquipmentOption;
   itemInformation?: ItemInformation;
 }
 
@@ -34,6 +34,13 @@ export interface Weapon {
   weaponSkillRegenTime: number;
   weaponType: string;
   engraving?: Engraving;
+  weaponSkillVideo?: Video;
+}
+
+export interface Video {
+  node: {
+    mediaItemUrl: string;
+  }
 }
 
 export interface Engraving {
@@ -42,6 +49,7 @@ export interface Engraving {
 }
 
 export interface EquipmentOption {
+  options: string[];
   fieldGroupName: string;
   maxLines?: number;
   subAtk?: number;
@@ -86,6 +94,7 @@ export interface EquipmentOption {
   increaseDamageCondition?: string;
   increaseDamageThreshold?: number;
   increaseDamageToTanks?: number;
+  lb5Option?: string;
   lb5Value?: number;
   lightTypeAtk?: number;
   minDamageReduction?: number;

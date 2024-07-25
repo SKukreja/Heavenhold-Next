@@ -30,6 +30,11 @@ query GetHeroByUri($uri: ID!) {
                 weaponSkillDescription
                 weaponSkillName
                 weaponSkillRegenTime
+                weaponSkillVideo {
+                  node {
+                    mediaItemUrl
+                  }
+                }
                 weaponType
                 engraving {
                   value
@@ -67,6 +72,7 @@ query GetHeroByUri($uri: ID!) {
                 subWaterTypeAtk
               }
               equipmentOptions {
+                options
                 atk
                 atkOnKill
                 basicTypeAtk
@@ -89,6 +95,7 @@ query GetHeroByUri($uri: ID!) {
                 increaseDamageCondition
                 increaseDamageThreshold
                 increaseDamageToTanks
+                lb5Option
                 lb5Value
                 lightTypeAtk
                 minDamageReduction

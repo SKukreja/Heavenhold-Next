@@ -50,6 +50,7 @@ export interface Engraving {
 
 export interface EquipmentOption {
   options: string[];
+  subOptions?: string[];
   fieldGroupName: string;
   maxLines?: number;
   subAtk?: number;

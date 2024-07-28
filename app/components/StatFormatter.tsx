@@ -104,9 +104,7 @@ const StatFormatter: React.FC<StatFormatterProps> = ({ statName, statValue, isPa
   };
 
   return (
-    <div>
       <div dangerouslySetInnerHTML={{ __html: formatStat(statName, statValue, isPassive, affectsParty, element ? element.toString().toLowerCase() : "") }} />
-    </div>
   );
 };
 

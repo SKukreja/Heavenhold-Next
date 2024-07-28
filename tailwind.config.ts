@@ -24,6 +24,9 @@ export default {
       scale: {
         '-100': '-1',
       },
+      screens: {
+        '4xl': { 'raw': '(min-width: 2560px)' },
+      },
       colors: {
         gray: colors.zinc,
         'gray-1000': 'rgb(17,17,19)',

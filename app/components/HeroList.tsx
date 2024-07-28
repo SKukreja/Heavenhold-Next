@@ -127,7 +127,7 @@ const HeroList: React.FC = () => {
                   height={50}
                   alt={hero.title}
                 />
-                <span className="flex items-center pl-4 text-xs font-medium w-[calc(100%-4rem)]">{hero.title}</span>
+                <span className="flex items-center pl-4 text-xs xl:text-sm font-medium w-[calc(100%-4rem)]">{hero.title}</span>
               </h3>
             </Link>
           </div>

@@ -47,6 +47,7 @@ query GetHeroByUri($uri: ID!) {
                 }
               }
               equipmentSubOptions {
+                subOptions
                 fieldGroupName
                 maxLines
                 subAtk

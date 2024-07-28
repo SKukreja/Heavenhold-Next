@@ -59,3 +59,7 @@
     'Staff': '/icons/equipment/staff.webp',
     'Accessory': '/icons/equipment/accessory.webp',
 }
+
+export const normal = '/icons/normal.webp';
+export const special = '/icons/special.webp';
+export const chain = '/icons/chain.webp';

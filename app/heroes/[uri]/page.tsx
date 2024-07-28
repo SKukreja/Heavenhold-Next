@@ -6,6 +6,8 @@ import Bio from "./Bio";
 import Abilities from "./Abilities";
 import { query } from "./Query";
 import { Hero, GetHeroResponse } from "#/types"; // Import types
+import Build from "./Build";
+import Costumes from "./Costumes";
 
 async function fetchHero(uri: string): Promise<Hero> {
 
@@ -58,7 +60,10 @@ export default function HeroDetails({ params }: HeroDetailsProps) {
         return <Bio hero={hero} />;
       case "Abilities":
         return <Abilities hero={hero} />;
-      // Add cases for other tabs as needed
+      case "Build":
+          return <Build hero={hero} />;
+      case "Costumes":
+          return <Costumes hero={hero} />;
       default:
         return <Bio hero={hero} />;
     }
@@ -77,7 +82,8 @@ export default function HeroDetails({ params }: HeroDetailsProps) {
       <div className="p-8 hero-buttons w-full h-24 3xl:h-48 text-xl relative overflow-hidden flex gap-8 mb-8 z-20">
         <span onClick={() => setActiveTab("Bio")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Bio" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Bio</span>
         <span onClick={() => setActiveTab("Abilities")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Abilities" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Abilities</span>
-        {/* Add more tabs as needed */}
+        <span onClick={() => setActiveTab("Build")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Build" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Build</span>
+        <span onClick={() => setActiveTab("Costumes")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Costumes" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Costumes</span>
       </div>
       {renderTabContent()}
     </main>

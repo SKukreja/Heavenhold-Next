@@ -7,11 +7,11 @@ import { formatDate } from "#/ui/helpers";
 import StatFormatter from "#/app/components/StatFormatter";
 import { normal, special, chain } from "#/ui/icons";
 
-interface AbilitiesProps {
+interface BuildProps {
   hero: Hero;
 }
 
-function Abilities({ hero }: AbilitiesProps) {
+function Build({ hero }: BuildProps) {
     const [selectedWeapon, setSelectedWeapon] = useState(0);
     const rarity = `r-${hero.heroInformation.bioFields.rarity.toString().replace(/ /g, "-").toLowerCase()}`;
 
@@ -23,7 +23,7 @@ function Abilities({ hero }: AbilitiesProps) {
       <div id="Bio" className="relative overflow-visible z-10 w-full h-[calc(100vhrem)] items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-4 3xl:px-8">
         <div className="px-4 3xl:px-8 w-full justify-start h-[calc(100%-8rem)] flex">
           <div className="w-1/2 h-full">
-            <h2 className="text-xl h-[calc(4rem)] 3xl:text-2xl font-medium uppercase tracking-widest mb-16">{hero.title.replace(hero.heroInformation.bioFields.name, '').trim()} {hero.heroInformation.bioFields.name} / Abilities</h2>            
+            <h2 className="text-xl h-[calc(4rem)] 3xl:text-2xl font-medium uppercase tracking-widest mb-16">{hero.title.replace(hero.heroInformation.bioFields.name, '').trim()} {hero.heroInformation.bioFields.name} / Build</h2>            
             
             <div className="w-full flex gap-8 flex-wrap">
               <div className="w-[calc(50%-1.5rem)] mb-16">
@@ -220,4 +220,4 @@ function Abilities({ hero }: AbilitiesProps) {
     )
 }
 
-export default Abilities;
+export default Build;

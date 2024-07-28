@@ -26,8 +26,8 @@ function Costumes({ hero }: CostumeProps) {
             <h2 className="text-xl h-[calc(4rem)] 3xl:text-2xl font-medium uppercase tracking-widest mb-16">{hero.title.replace(hero.heroInformation.bioFields.name, '').trim()} {hero.heroInformation.bioFields.name} / Costumes</h2>            
             
             <div className="w-full h-full flex gap-8 flex-wrap overflow-y-auto">
-              {hero.heroInformation.costumes.edges.map((costume, index) => (
-                <div className="w-96 h-96 mb-16 relative">
+              {hero.heroInformation.costumes.edges.length > 0 && hero.heroInformation.costumes.edges.map((costume, index) => (
+                <div key={costume.node.id} className="w-96 h-96 mb-16 relative">
                   <FadeInImage className="pb-4 w-full h-auto object-cover absolute inset-0" src={costume.node.featuredImage.node.sourceUrl ?? ""} alt={costume.node.title} width={500} height={500} />                  
                   <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald absolute drop-shadow-2xl w-full text-center -bottom-2">{costume.node.title}</h2>
                 </div>   

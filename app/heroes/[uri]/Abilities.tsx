@@ -20,7 +20,7 @@ function Abilities({ hero }: AbilitiesProps) {
     };
 
     return (
-      <div id="Bio" className="relative overflow-visible z-10 w-full h-[calc(100vhrem)] items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-4 3xl:px-8">
+      <div id="Abilities" className="relative overflow-visible z-10 w-full h-[calc(100vhrem)] items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-4 3xl:px-8">
         <div className="px-4 3xl:px-8 w-full justify-start h-[calc(100%-8rem)] flex">
           <div className="w-1/2 h-full">
             <h2 className="text-xl h-[calc(4rem)] 3xl:text-2xl font-medium uppercase tracking-widest mb-16">{hero.title.replace(hero.heroInformation.bioFields.name, '').trim()} {hero.heroInformation.bioFields.name} / Abilities</h2>            
@@ -34,6 +34,7 @@ function Abilities({ hero }: AbilitiesProps) {
                   <span className="w-full" dangerouslySetInnerHTML={{ __html: hero.heroInformation.abilityFields.normalAtkDescription }}></span>
                 </div>
               </div>
+              {hero.heroInformation.bioFields.exclusiveWeapon &&
               <div className="w-[calc(50%-1.5rem)] mb-16">
                 <span className="flex gap-2 relative">
                   <FadeInImage className="pb-4" src={'/icons/' + hero.heroInformation.bioFields.exclusiveWeapon.nodes[selectedWeapon]?.weapons?.weaponSkillChain.toString().toLowerCase() + '.webp'} alt={'Chain Trigger ' + hero.heroInformation.abilityFields.chainStateTrigger} width={40} height={40} />                </span>
@@ -42,7 +43,7 @@ function Abilities({ hero }: AbilitiesProps) {
                 <div className="w-full h-auto">
                   <span className="w-full" dangerouslySetInnerHTML={{ __html: hero.heroInformation.bioFields.exclusiveWeapon.nodes[selectedWeapon]?.weapons?.weaponSkillDescription ?? "" }}></span>
                 </div>
-              </div>
+              </div>}
               <div className="w-[calc(50%-1.5rem)] mb-16">
                 <FadeInImage className="pb-4" src={special} alt={'Special Ability Icon'} width={40} height={40} />
                 <h2 className="uppercase tracking-widest text-green-500">Special Ability</h2>

@@ -83,7 +83,7 @@ export default function HeroDetails({ params }: HeroDetailsProps) {
         <span onClick={() => setActiveTab("Bio")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Bio" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Bio</span>
         <span onClick={() => setActiveTab("Abilities")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Abilities" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Abilities</span>
         <span onClick={() => setActiveTab("Build")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Build" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Build</span>
-        <span onClick={() => setActiveTab("Costumes")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Costumes" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Costumes</span>
+        <span onClick={() => {if (hero.heroInformation.costumes) setActiveTab("Costumes")}} className={`p-8 text-center font-bold w-full h-full flex items-center justify-center card ${activeTab === "Costumes" ? "bg-gray-700 text-white" : hero.heroInformation.costumes ? "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer" : "bg-gray-900 text-gray-500 cursor-not-allowed"}`}>Costumes</span>
       </div>
       {renderTabContent()}
     </main>

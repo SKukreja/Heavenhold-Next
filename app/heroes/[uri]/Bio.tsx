@@ -103,10 +103,22 @@ function Bio({ hero }: BioProps) {
                         
             <div className="flex gap-2 justify-between">
                 <div className="flex items-center w-1/2 bg-red-600 text-white font-medium justify-center text-xs py-2 px-3 rounded-sm">
-                BASIC RESISTANCE -30%
+                 {hero.heroInformation.statFields.fireResistance == -30 ? "FIRE" :
+                  hero.heroInformation.statFields.waterResistance == -30 ? "WATER" :
+                  hero.heroInformation.statFields.earthResistance == -30 ? "EARTH" :
+                  hero.heroInformation.statFields.darkResistance == -30 ? "DARK" :
+                  hero.heroInformation.statFields.lightResistance == -30 ? "LIGHT" :
+                  hero.heroInformation.statFields.basicResistance == -30 ? "BASIC" : "?"
+                 } RESISTANCE -30%
                 </div>
                 <div className="flex items-center w-1/2 bg-green-600 text-white text-xs py-4 px-3 justify-center rounded-sm">
-                DARK RESISTANCE +30%
+                {hero.heroInformation.statFields.fireResistance == 30 ? "FIRE" :
+                  hero.heroInformation.statFields.waterResistance == 30 ? "WATER" :
+                  hero.heroInformation.statFields.earthResistance == 30 ? "EARTH" :
+                  hero.heroInformation.statFields.darkResistance == 30 ? "DARK" :
+                  hero.heroInformation.statFields.lightResistance == 30 ? "LIGHT" :
+                  hero.heroInformation.statFields.basicResistance == 30 ? "BASIC" : "?"
+                 } RESISTANCE +30%
                 </div>
             </div>
         </div>

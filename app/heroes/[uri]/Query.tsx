@@ -392,7 +392,62 @@ query GetHeroByUri($uri: ID!) {
       analysisFields {
         detailedReview
       }
-    }    
+      ascentAbilities {
+        chainSkillDescription
+        chainSkillName
+        chainStateResult
+        chainStateTrigger
+        normalAtkDescription
+        normalAtkName
+        partyBuff {
+          affectsParty
+          stat
+          value
+        }
+        specialAbilityDescription
+        specialAbilityName
+      }
+      ascentExAbilities {
+        chainSkillDescription
+        chainSkillName
+        chainStateResult
+        chainStateTrigger
+        normalAtkDescription
+        normalAtkName
+        partyBuff {
+          affectsParty
+          stat
+          value
+        }
+        specialAbilityDescription
+        specialAbilityName
+      }
+      exAbilities {
+        chainSkillDescription
+        chainSkillName
+        chainStateResult
+        chainStateTrigger
+        normalAtkDescription
+        normalAtkName
+        partyBuff {
+          affectsParty
+          stat
+          value
+        }
+        specialAbilityDescription
+        specialAbilityName
+      }
+      variations
+      illustrations {
+        name
+        image {
+          node {
+            title
+            sourceUrl
+          }
+        }
+      }
+    }
   }
 }
 `;

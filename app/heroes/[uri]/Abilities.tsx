@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import FadeInImage from "#/app/components/FadeInImage";
 import { formatDate } from "#/ui/helpers";
 import StatFormatter from "#/app/components/StatFormatter";
-import { normal, special, chain } from "#/ui/icons";
+import { normal, special, arrowUpRight, arrowDownLeft } from "#/ui/icons";
+import LoopVideo from "#/app/components/LoopVideo";
 
 interface AbilitiesProps {
   hero: Hero;
@@ -13,10 +14,14 @@ interface AbilitiesProps {
 
 function Abilities({ hero }: AbilitiesProps) {
     const [selectedWeapon, setSelectedWeapon] = useState(0);
-    const rarity = `r-${hero.heroInformation.bioFields.rarity.toString().replace(/ /g, "-").toLowerCase()}`;
+    const [ascended, setAscended] = useState(false);
 
     const handleWeaponClick = (index: number) => {
       setSelectedWeapon(index);
+    };
+
+    const handleAscendClick = () => {
+      setAscended(!ascended);
     };
 
     return (
@@ -24,14 +29,27 @@ function Abilities({ hero }: AbilitiesProps) {
         <div className="px-4 3xl:px-8 w-full justify-start h-[calc(100%-8rem)] flex">
           <div className="w-1/2 h-full">
             <h2 className="text-xl h-[calc(4rem)] 3xl:text-2xl font-medium uppercase tracking-widest mb-16">{hero.title.replace(hero.heroInformation.bioFields.name, '').trim()} {hero.heroInformation.bioFields.name} / Abilities</h2>            
-            
+            {hero.heroInformation.variations.find(x => x == "Ascent") && <div className="w-full flex gap-8 mb-16 cursor-pointer text-4xl font-bold uppercase" onClick={() => handleAscendClick()}>
+              <h2 className="text-white flex items-center justify-center">                
+                <span>{ascended ? "Descent" : "Ascent"}</span>
+                <span className="w-7 h-7 ml-4 -mt-3">{ascended ? arrowDownLeft("white") : arrowUpRight("white")}</span>
+              </h2>
+            </div>}
             <div className="w-full flex gap-8 flex-wrap">
               <div className="w-[calc(50%-1.5rem)] mb-16">
                 <FadeInImage className="pb-4" src={normal} alt={'Normal Attack Icon'} width={40} height={40} />
                 <h2 className="uppercase tracking-widest text-green-500">Normal Attack</h2>
-                <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">{hero.heroInformation.abilityFields.normalAtkName}</h2>
+                <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">
+                {
+                  selectedWeapon === 0 ? (ascended ? hero.heroInformation.ascentAbilities.normalAtkName : hero.heroInformation.abilityFields.normalAtkName) : 
+                  selectedWeapon === 1 ? (ascended ? hero.heroInformation.ascentExAbilities.normalAtkName : hero.heroInformation.exAbilities.normalAtkName) : ""
+                }
+                </h2>
                 <div className="w-full h-auto">
-                  <span className="w-full" dangerouslySetInnerHTML={{ __html: hero.heroInformation.abilityFields.normalAtkDescription }}></span>
+                  <span className="w-full" dangerouslySetInnerHTML={{ __html: 
+                  selectedWeapon === 0 ? (ascended ? hero.heroInformation.ascentAbilities.normalAtkDescription : hero.heroInformation.abilityFields.normalAtkDescription) : 
+                  selectedWeapon === 1 ? (ascended ? hero.heroInformation.ascentExAbilities.normalAtkDescription : hero.heroInformation.exAbilities.normalAtkDescription) : ""
+                  }}></span>
                 </div>
               </div>
               {hero.heroInformation.bioFields.exclusiveWeapon &&
@@ -47,9 +65,17 @@ function Abilities({ hero }: AbilitiesProps) {
               <div className="w-[calc(50%-1.5rem)] mb-16">
                 <FadeInImage className="pb-4" src={special} alt={'Special Ability Icon'} width={40} height={40} />
                 <h2 className="uppercase tracking-widest text-green-500">Special Ability</h2>
-                <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">{hero.heroInformation.abilityFields.specialAbilityName}</h2>
+                <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">
+                  {
+                  selectedWeapon === 0 ? (ascended ? hero.heroInformation.ascentAbilities.specialAbilityName : hero.heroInformation.abilityFields.specialAbilityName) : 
+                  selectedWeapon === 1 ? (ascended ? hero.heroInformation.ascentExAbilities.specialAbilityName : hero.heroInformation.exAbilities.specialAbilityName) : ""
+                  }
+                </h2>
                 <div className="w-full h-auto">
-                  <span className="w-full" dangerouslySetInnerHTML={{ __html: hero.heroInformation.abilityFields.specialAbilityDescription }}></span>
+                  <span className="w-full" dangerouslySetInnerHTML={{ __html: 
+                  selectedWeapon === 0 ? (ascended ? hero.heroInformation.ascentAbilities.specialAbilityDescription : hero.heroInformation.abilityFields.specialAbilityDescription) : 
+                  selectedWeapon === 1 ? (ascended ? hero.heroInformation.ascentExAbilities.specialAbilityDescription : hero.heroInformation.exAbilities.specialAbilityDescription) : ""
+                  }}></span>
                 </div>
               </div>
               <div className="w-[calc(50%-1.5rem)] mb-16">
@@ -58,9 +84,17 @@ function Abilities({ hero }: AbilitiesProps) {
                   <FadeInImage src={'/icons/' + hero.heroInformation.abilityFields.chainStateResult.toString().toLowerCase() + '.webp'} alt={'Chain Result ' + hero.heroInformation.abilityFields.chainStateResult} width={40} height={40} />
                 </span>
                 <h2 className="uppercase tracking-widest text-green-500">Chain Ability</h2>
-                <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">{hero.heroInformation.abilityFields.chainSkillName}</h2>
+                <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">
+                {
+                  selectedWeapon === 0 ? (ascended ? hero.heroInformation.ascentAbilities.chainSkillName : hero.heroInformation.abilityFields.chainSkillName) : 
+                  selectedWeapon === 1 ? (ascended ? hero.heroInformation.ascentExAbilities.chainSkillName : hero.heroInformation.exAbilities.chainSkillName) : ""
+                }
+                </h2>
                 <div className="w-full h-auto">
-                  <span className="w-full" dangerouslySetInnerHTML={{ __html: hero.heroInformation.abilityFields.chainSkillDescription }}></span>
+                  <span className="w-full" dangerouslySetInnerHTML={{ __html: 
+                  selectedWeapon === 0 ? (ascended ? hero.heroInformation.ascentAbilities.chainSkillDescription : hero.heroInformation.abilityFields.chainSkillDescription) : 
+                  selectedWeapon === 1 ? (ascended ? hero.heroInformation.ascentExAbilities.chainSkillDescription : hero.heroInformation.exAbilities.chainSkillDescription) : ""
+                  }}></span>
                 </div>
               </div>
             </div>
@@ -68,16 +102,33 @@ function Abilities({ hero }: AbilitiesProps) {
               {hero.heroInformation.abilityFields.partyBuff && (<div className="w-[calc(50%-1.5rem)] mb-16">
                 <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Passives</h2>
                   <div className="w-full h-auto">
-                    {hero.heroInformation.abilityFields.partyBuff.map((passive) => (
-                      <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
-                    ))}
+                    {
+                      selectedWeapon === 0 ? (
+                        ascended ? 
+                          hero.heroInformation.ascentAbilities.partyBuff.map((passive) => (
+                            <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
+                          ))
+                        : hero.heroInformation.abilityFields.partyBuff.map((passive) => (
+                            <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
+                          ))
+                      ) 
+                      : selectedWeapon === 1 ? (
+                        ascended ? 
+                          hero.heroInformation.ascentExAbilities.partyBuff.map((passive) => (
+                            <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
+                          ))
+                        : hero.heroInformation.exAbilities.partyBuff.map((passive) => (
+                            <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
+                          ))
+                      ) 
+                      : ""
+                    }
                   </div>
               </div>)}
-            </div>            
+            </div>
           </div>
           {hero.heroInformation.bioFields.exclusiveWeapon?.nodes && (
-            <div className="w-1/2 h-full flex flex-col px-4">
-              <div className="relative h-16 w-full flex justify-end items-start"><h2>Ascent</h2></div>
+            <div className="w-1/2 h-full flex flex-col px-4">              
               <h2 className="uppercase tracking-widest text-green-500">&nbsp;</h2>
               <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Exclusive Weapons</h2>
               <div className="flex gap-8 justify-between w-full">
@@ -199,20 +250,9 @@ function Abilities({ hero }: AbilitiesProps) {
               </div>
             
               <div className="w-full mb-16">
-              {hero.heroInformation.bioFields.exclusiveWeapon.nodes[selectedWeapon].weapons?.weaponSkillVideo?.node?.mediaItemUrl && (
-              <div className="w-full h-auto">
-                <video width="320" height="240" className="w-full h-full object-cover" preload="none" autoPlay loop muted>
-                  <source src={hero.heroInformation.bioFields.exclusiveWeapon.nodes[selectedWeapon].weapons?.weaponSkillVideo?.node?.mediaItemUrl} type="video/mp4" />
-                  <track
-                    src={hero.heroInformation.bioFields.exclusiveWeapon.nodes[selectedWeapon].weapons?.weaponSkillVideo?.node?.mediaItemUrl}
-                    kind="subtitles"
-                    srcLang="en"
-                    label="English"
-                  />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-              )}   
+                {hero.heroInformation.bioFields.exclusiveWeapon.nodes[selectedWeapon].weapons?.weaponSkillVideo?.node?.mediaItemUrl && (
+                  <LoopVideo videoSrc={hero.heroInformation.bioFields.exclusiveWeapon.nodes[selectedWeapon].weapons?.weaponSkillVideo?.node?.mediaItemUrl ?? ""} />
+                )}   
               </div>
             </div>
           )}

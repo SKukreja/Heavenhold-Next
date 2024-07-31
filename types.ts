@@ -273,6 +273,11 @@ export interface SuggestedItem {
   }[];
 }
 
+export interface IllustrationNode {
+  name: string;
+  image: ArtNode;
+}
+
 export interface SuggestedCard {
   cardExplanation: string;
   suggestedCard: string;
@@ -285,9 +290,13 @@ export interface AnalysisFields {
 export interface HeroInformation {
   bioFields: BioFields;
   abilityFields: AbilityFields;
+  exAbilities: AbilityFields;
+  ascentAbilities: AbilityFields;
+  ascentExAbilities: AbilityFields;
   portrait: ArtNode;
   illustration: ArtNode;
   illustration2: ArtNode;
+  illustrations: IllustrationNode[];
   background: ArtNode;
   statFields: StatFields;
   evolutionFields: EvolutionFields;
@@ -298,6 +307,7 @@ export interface HeroInformation {
   buildGuideFields: BuildGuideFields;
   bioFields2: BioFields;
   analysisFields: AnalysisFields;
+  variations: string[];
 }
 
 export interface Hero {

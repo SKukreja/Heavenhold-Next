@@ -311,6 +311,7 @@ export interface HeroInformation {
 }
 
 export interface Hero {
+  heroId: number;
   title: string;
   heroInformation: HeroInformation;
 }

@@ -1,6 +1,7 @@
-export const query = `
+export const GetHero = `
 query GetHeroByUri($uri: ID!) {
   hero(id: $uri, idType: URI) {
+    heroId
     title
     heroInformation {
       bioFields {
@@ -450,4 +451,16 @@ query GetHeroByUri($uri: ID!) {
     }
   }
 }
+`;
+
+export const GetItemsLikesAndDislikesWithUserVote = `
+  query GetItemsLikesAndDislikesWithUserVote($heroId: Int!, $userId: Int!) {
+    itemsLikesByHero(heroId: $heroId, userId: $userId) {
+      dislikeCount
+      likeCount
+      userVote
+      itemId
+      userId
+    }
+  }
 `;

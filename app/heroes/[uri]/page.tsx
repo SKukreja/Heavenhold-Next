@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect } from "react";
 import Loading from "#/app/components/loading";
 import Bio from "./Bio";
 import Abilities from "./Abilities";
-import { query } from "./Query";
+import { GetHero as query } from "./HeroQueries";
 import { Hero, GetHeroResponse } from "#/types"; // Import types
 import Build from "./Build";
 import Costumes from "./Costumes";
@@ -25,7 +25,7 @@ async function fetchHero(uri: string): Promise<Hero> {
   });
 
   const responseBody: GetHeroResponse = await res.json();
-  console.log(responseBody)
+  
   if (responseBody && responseBody.data && responseBody.data.hero) {
     return responseBody.data.hero;
   } else {
@@ -61,7 +61,7 @@ export default function HeroDetails({ params }: HeroDetailsProps) {
       case "Abilities":
         return <Abilities hero={hero} />;
       case "Build":
-          return <Build hero={hero} />;
+          return <Build hero={hero} userId={1} />; // Hard coded ID for now
       case "Costumes":
           return <Costumes hero={hero} />;
       default:

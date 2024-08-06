@@ -71,3 +71,10 @@
 export const normal = '/icons/normal.webp';
 export const special = '/icons/special.webp';
 export const chain = '/icons/chain.webp';
+
+export const upvote = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M0 272L160 128 320 272v48H0V272z"/></svg>
+);
+
+export const downvote = () => (
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M320 240L160 384 0 240l0-48 320 0 0 48z"/></svg>);

@@ -458,9 +458,22 @@ export const GetItemsLikesAndDislikesWithUserVote = `
     itemsLikesByHero(heroId: $heroId, userId: $userId) {
       dislikeCount
       likeCount
-      userVote
       itemId
       userId
+      userVote
+      item {
+        title
+        itemTypes {
+          nodes {
+            name
+          }
+        }
+        featuredImage {
+          node {
+            sourceUrl
+          }
+        }
+      }
     }
   }
 `;

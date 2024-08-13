@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import { useEffect, useRef, useState, Suspense } from "react";
+import { useEffect, useRef, useState, Suspense, useMemo } from "react";
 import { usePathname } from 'next/navigation';
 import Loading from "./loading";
 import FadeInImage from "./FadeInImage";
@@ -11,17 +10,14 @@ import { useHeroes } from './GetHeroesProvider';
 
 export default function HeroList() {
   const { data } = useHeroes();
-  if (!data?.heroes?.nodes) {
-    return null;
-  }
-  const heroes = [...data.heroes.nodes] as Hero[];
+  const heroes = useMemo(() => [...(data?.heroes?.nodes ?? [])] as Hero[], [data]);
   const heroesRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();  
   const [activeHero, setActiveHero] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!heroesRef.current) return;
+    if (!heroes.length || !heroesRef.current) return;
     const element = heroesRef.current[pathname + "/"];
     if (element && containerRef.current) {
       const offset = 100; // Adjust this value to control the scroll offset
@@ -38,10 +34,14 @@ export default function HeroList() {
     }
   }, [pathname, heroes]);
 
+  if (!heroes.length) {
+    return null;
+  }
+
   return (
     <Suspense fallback={<Loading />}>
       <div ref={containerRef} className="pt-4 pb-4 overflow-y-auto scrollbar-none h-full">
-        {heroes && heroes?.map((hero: Hero) => (
+        {heroes.map((hero: Hero) => (
           <div
             key={hero.uri}
             ref={(el) => { heroesRef.current[hero.uri ?? ""] = el; }}

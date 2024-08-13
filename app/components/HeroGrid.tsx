@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import Loading from "./loading";
 import FadeInImage from "./FadeInImage"; 
 import { Hero } from "#/graphql/generated/types";
@@ -9,17 +9,20 @@ import { useHeroes } from './GetHeroesProvider';
 
 export default function HeroGrid() {
   const { data } = useHeroes();
-  if (!data?.heroes?.nodes) {
+
+  const heroes = useMemo(() => {
+    const sortedHeroes = [...(data?.heroes?.nodes ?? [])] as Hero[];
+    sortedHeroes.sort((a: Hero, b: Hero) => {
+      const aName = a.heroInformation?.bioFields?.name || '';
+      const bName = b.heroInformation?.bioFields?.name || '';
+      return aName.localeCompare(bName);
+    });
+    return sortedHeroes;
+  }, [data]);
+
+  if (!heroes.length) {
     return null;
   }
-
-  const heroes = [...data.heroes.nodes] as Hero[];
-
-  heroes.sort((a: Hero, b: Hero) => {
-    const aName = a.heroInformation?.bioFields?.name || '';
-    const bName = b.heroInformation?.bioFields?.name || '';
-    return aName.localeCompare(bName);
-  });
 
   return (
     <Suspense fallback={<Loading />}>

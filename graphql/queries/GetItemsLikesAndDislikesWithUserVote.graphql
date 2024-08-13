@@ -1,0 +1,23 @@
+query GetItemsLikesAndDislikesWithUserVote($heroId: Int!, $userId: Int!) {
+  itemsLikesByHero(heroId: $heroId, userId: $userId) {
+    dislikeCount
+    likeCount
+    itemId
+    userId
+    userVote
+    item {
+      id
+      title
+      itemTypes {
+        nodes {
+          name
+        }
+      }
+      featuredImage {
+        node {
+          sourceUrl
+        }
+      }
+    }
+  }
+}

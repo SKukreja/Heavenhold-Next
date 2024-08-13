@@ -1,7 +1,7 @@
 // Build.tsx
 "use client";
 
-import { Hero } from "#/types";
+import { Hero } from "#/graphql/generated/types";
 import { useState, useEffect } from "react";
 import { upvote, downvote } from "#/ui/icons";
 import { GetItemsLikesAndDislikesWithUserVote as query } from "./HeroQueries";
@@ -15,6 +15,7 @@ interface Item {
   userId: number;
   userVote: string;
   item: {
+    id: string;
     title: string;
     itemTypes: {
       nodes: {
@@ -247,14 +248,12 @@ export default function Build({ hero, userId }: BuildProps) {
       <div className="px-4 3xl:px-8 w-full justify-start h-[calc(100%-8rem)] flex">
         <div className="w-full h-full">
           <h2 className="text-xl h-[calc(4rem)] 3xl:text-2xl font-medium uppercase tracking-widest mb-16">
-            {hero.title.replace(hero.heroInformation.bioFields.name, "").trim()}{" "}
-            {hero.heroInformation.bioFields.name} / Build
+            {hero?.heroInformation?.bioFields?.name} / Build
           </h2>
 
           <div className="w-full flex gap-8 flex-wrap">
-            {hero.heroInformation.bioFields.compatibleEquipment.map((equipment) => {
-              const mappedType = mapToWeapon(equipment);
-
+            {hero.heroInformation?.bioFields?.compatibleEquipment?.map((equipment) => {
+              const mappedType = equipment ? mapToWeapon(equipment) : '';
               // Skip rendering if this type has already been rendered
               if (renderedTypes.has(mappedType)) {
                 return null;

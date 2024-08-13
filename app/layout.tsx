@@ -1,7 +1,11 @@
+// layout.tsx
 import './globals.css';
 import { GlobalNav } from '#/ui/global-nav';
 import Sidebar from '#/ui/sidebar';
 import { montserrat, oswald } from '#/ui/fonts';
+import { ApolloWrapper } from './components/ApolloWrapper';
+import dynamic from 'next/dynamic';
+import { HeroesProvider } from './components/GetHeroesProvider';
 
 export const metadata = {
   title: "Heavenhold",
@@ -14,18 +18,27 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
   return (
-    <html lang="en" className={`[color-scheme:dark] ${montserrat.variable} ${oswald.variable} font-montserrat tracking-wide font-medium text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg`}>
-      <body className="h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 bg-gray-1100 pb-36">
-        <GlobalNav />
-        <Sidebar />
-        <div className="absolute right-0 w-[calc(100%-36rem)] min-h-screen">
-          <div>
-            <div className="rounded-lg shadow-lg shadow-black/20">
-              <div className="bg-black min-h-screen ">{children}</div>
+    <ApolloWrapper>
+      <html
+        lang="en"
+        className={`[color-scheme:dark] ${montserrat.variable} ${oswald.variable} font-montserrat tracking-wide font-medium text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg`}
+      >
+        <body className="h-screen overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 bg-gray-1100 pb-36">
+          <GlobalNav />
+          <HeroesProvider>
+            <Sidebar />
+            <div className="absolute right-0 w-[calc(100%-36rem)] min-h-screen">
+              <div>
+                <div className="rounded-lg shadow-lg shadow-black/20">
+                  <div className="bg-black min-h-screen ">
+                    {children}
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </body>
-    </html>
+          </HeroesProvider>
+        </body>
+      </html>
+    </ApolloWrapper>
   );
 }

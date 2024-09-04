@@ -53,13 +53,15 @@ export default function HeroList() {
               <h3 className="flex items-center">
                 <FadeInImage
                   src={
-                    hero.featuredImage?.node?.mediaDetails?.sizes?.[0]?.sourceUrl
-                      ? hero.featuredImage.node.mediaDetails.sizes[0].sourceUrl
+                    hero.heroInformation?.thumbnail?.node.sourceUrl
+                      ? hero.heroInformation?.thumbnail?.node.sourceUrl + ""
                       : "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"
                   }
-                  className="w-12 h-12 aspect-square object-cover"
-                  width={50}
-                  height={50}
+                  className={`w-16 h-16 aspect-square object-cover bg-gradient-to-b border-b-4 ${
+                    (hero?.heroInformation?.bioFields?.rarity?.toString() == '3 Star') ? `from-yellow-700 to-yellow-500 border-b-4 border-yellow-500` : (hero?.heroInformation?.bioFields?.rarity?.toString() == '2 Star' ? `from-gray-600 to-gray-400 border-b-4 border-gray-400` : `from-amber-800 to-amber-600 border-b-4 border-amber-600`)
+                  }`} 
+                  width={100}
+                  height={100}
                   alt={hero.title + ""}
                 />
                 <span className="flex items-center pl-4 text-xs xl:text-sm font-medium w-[calc(100%-4rem)]">{hero.title}</span>

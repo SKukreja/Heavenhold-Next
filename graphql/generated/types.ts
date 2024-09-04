@@ -211,77 +211,6 @@ export type Banner_Fields = {
   rightOrnament: Maybe<AcfMediaItemConnectionEdge>;
 };
 
-/** Likes per hero build item option */
-export type BuildLike = DatabaseIdentifier & Node & {
-  __typename?: 'BuildLike';
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** The hero id */
-  heroDatabaseId: Maybe<Scalars['Int']['output']>;
-  /** The globally unique ID for the object */
-  id: Scalars['ID']['output'];
-  /** The IP address of the user */
-  ipAddress: Maybe<Scalars['String']['output']>;
-  /** Connection between the BuildLike type and the Item type */
-  item: Maybe<BuildLikeToItemConnectionEdge>;
-  /** The item id */
-  itemDatabaseId: Maybe<Scalars['Int']['output']>;
-  /** 1 for upvote, 0 for downvote */
-  upOrDown: Maybe<Scalars['Int']['output']>;
-  /** Connection between the BuildLike type and the User type */
-  user: Maybe<BuildLikeToUserConnectionEdge>;
-  /** The user account associated with the like */
-  userDatabaseId: Maybe<Scalars['Int']['output']>;
-};
-
-/** Connection to BuildLike Nodes */
-export type BuildLikeConnection = {
-  /** A list of edges (relational context) between RootQuery and connected BuildLike Nodes */
-  edges: Array<BuildLikeConnectionEdge>;
-  /** A list of connected BuildLike Nodes */
-  nodes: Array<BuildLike>;
-  /** Information about pagination in a connection. */
-  pageInfo: BuildLikeConnectionPageInfo;
-};
-
-/** Edge between a Node and a connected BuildLike */
-export type BuildLikeConnectionEdge = {
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The connected BuildLike Node */
-  node: BuildLike;
-};
-
-/** Page Info on the connected BuildLikeConnectionEdge */
-export type BuildLikeConnectionPageInfo = {
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
-};
-
-/** Connection between the BuildLike type and the Item type */
-export type BuildLikeToItemConnectionEdge = Edge & ItemConnectionEdge & OneToOneConnection & {
-  __typename?: 'BuildLikeToItemConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Item;
-};
-
-/** Connection between the BuildLike type and the User type */
-export type BuildLikeToUserConnectionEdge = Edge & OneToOneConnection & UserConnectionEdge & {
-  __typename?: 'BuildLikeToUserConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: User;
-};
-
 /** The category type */
 export type Category = DatabaseIdentifier & HierarchicalNode & HierarchicalTermNode & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
   __typename?: 'Category';
@@ -1896,7 +1825,9 @@ export enum ContentTypeEnum {
   /** The Type of Content object */
   Page = 'PAGE',
   /** The Type of Content object */
-  Post = 'POST'
+  Post = 'POST',
+  /** The Type of Content object */
+  Teams = 'TEAMS'
 }
 
 /** The Type of Identifier used to fetch a single Content Type node. To be used along with the "id" field. Default is "ID". */
@@ -2527,6 +2458,35 @@ export type CreateTagPayload = {
   tag: Maybe<Tag>;
 };
 
+/** Input for the createTeam mutation. */
+export type CreateTeamInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date: InputMaybe<Scalars['String']['input']>;
+  /** The excerpt of the object */
+  excerpt: InputMaybe<Scalars['String']['input']>;
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder: InputMaybe<Scalars['Int']['input']>;
+  /** The password used to protect the content of the object */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** The slug of the object */
+  slug: InputMaybe<Scalars['String']['input']>;
+  /** The status of the object */
+  status: InputMaybe<PostStatusEnum>;
+  /** The title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The payload for the createTeam mutation. */
+export type CreateTeamPayload = {
+  __typename?: 'CreateTeamPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+  /** The Post object mutation type. */
+  team: Maybe<Team>;
+};
+
 /** Input for the createUser mutation. */
 export type CreateUserInput = {
   /** User's AOL IM account. */
@@ -2904,6 +2864,29 @@ export type DeleteTagPayload = {
   tag: Maybe<Tag>;
 };
 
+/** Input for the deleteTeam mutation. */
+export type DeleteTeamInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** Whether the object should be force deleted instead of being moved to the trash */
+  forceDelete: InputMaybe<Scalars['Boolean']['input']>;
+  /** The ID of the team to delete */
+  id: Scalars['ID']['input'];
+  /** Override the edit lock when another user is editing the post */
+  ignoreEditLock: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** The payload for the deleteTeam mutation. */
+export type DeleteTeamPayload = {
+  __typename?: 'DeleteTeamPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+  /** The ID of the deleted object */
+  deletedId: Maybe<Scalars['ID']['output']>;
+  /** The object before it was deleted */
+  team: Maybe<Team>;
+};
+
 /** Input for the deleteUser mutation. */
 export type DeleteUserInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2934,23 +2917,23 @@ export type DiscussionSettings = {
   defaultPingStatus: Maybe<Scalars['String']['output']>;
 };
 
-/** Input for the downvoteItem mutation. */
-export type DownvoteItemInput = {
+/** Input for the downvoteTeam mutation. */
+export type DownvoteTeamInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId: InputMaybe<Scalars['String']['input']>;
   /** The ID of the hero */
   heroId: InputMaybe<Scalars['Int']['input']>;
   /** The IP address of the voter */
   ipAddress: InputMaybe<Scalars['String']['input']>;
-  /** The ID of the item */
-  itemId: InputMaybe<Scalars['Int']['input']>;
+  /** The ID of the team */
+  teamId: InputMaybe<Scalars['Int']['input']>;
   /** The ID of the user */
   userId: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** The payload for the downvoteItem mutation. */
-export type DownvoteItemPayload = {
-  __typename?: 'DownvoteItemPayload';
+/** The payload for the downvoteTeam mutation. */
+export type DownvoteTeamPayload = {
+  __typename?: 'DownvoteTeamPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId: Maybe<Scalars['String']['output']>;
   /** The current vote status after the operation */
@@ -4587,10 +4570,6 @@ export type HeroInformation = AcfFieldGroup & AcfFieldGroupFields & HeroInformat
    * @deprecated Use __typename instead
    */
   fieldGroupName: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
-  illustration: Maybe<AcfMediaItemConnectionEdge>;
-  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
-  illustration2: Maybe<AcfMediaItemConnectionEdge>;
   /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
   illustrations: Maybe<Array<Maybe<HeroInformationIllustrations>>>;
   /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
@@ -4605,6 +4584,8 @@ export type HeroInformation = AcfFieldGroup & AcfFieldGroupFields & HeroInformat
   statPriorities: Maybe<Array<Maybe<HeroInformationStatPriorities>>>;
   /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
   synergies: Maybe<Array<Maybe<HeroInformationSynergies>>>;
+  /** Field of the &quot;image_aspect_ratio_crop&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
+  thumbnail: Maybe<AcfMediaItemConnectionEdge>;
   /** Field of the &quot;checkbox&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
   variations: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
@@ -5908,10 +5889,6 @@ export type HeroInformation_Fields = {
    * @deprecated Use __typename instead
    */
   fieldGroupName: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
-  illustration: Maybe<AcfMediaItemConnectionEdge>;
-  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
-  illustration2: Maybe<AcfMediaItemConnectionEdge>;
   /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
   illustrations: Maybe<Array<Maybe<HeroInformationIllustrations>>>;
   /** Field of the &quot;group&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
@@ -5926,6 +5903,8 @@ export type HeroInformation_Fields = {
   statPriorities: Maybe<Array<Maybe<HeroInformationStatPriorities>>>;
   /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
   synergies: Maybe<Array<Maybe<HeroInformationSynergies>>>;
+  /** Field of the &quot;image_aspect_ratio_crop&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
+  thumbnail: Maybe<AcfMediaItemConnectionEdge>;
   /** Field of the &quot;checkbox&quot; Field Type added to the schema as part of the &quot;HeroInformation&quot; Field Group */
   variations: Maybe<Array<Maybe<Scalars['String']['output']>>>;
 };
@@ -7054,23 +7033,6 @@ export type ItemItemTypesNodeInput = {
   name: InputMaybe<Scalars['String']['input']>;
   /** The slug of the itemType. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
   slug: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Item ID, Like Count, Dislike Count, and Item Details */
-export type ItemLikeDislikeCount = {
-  __typename?: 'ItemLikeDislikeCount';
-  /** The total number of dislikes */
-  dislikeCount: Maybe<Scalars['Int']['output']>;
-  /** The item details */
-  item: Maybe<Item>;
-  /** The item ID */
-  itemId: Maybe<Scalars['Int']['output']>;
-  /** The total number of likes */
-  likeCount: Maybe<Scalars['Int']['output']>;
-  /** The ID of the user */
-  userId: Maybe<Scalars['Int']['output']>;
-  /** The current user&#039;s vote status on the item: &quot;like&quot;, &quot;dislike&quot;, or &quot;none&quot; */
-  userVote: Maybe<Scalars['String']['output']>;
 };
 
 /** Connection between the Item type and the Comment type */
@@ -8541,7 +8503,7 @@ export enum MenuItemNodeIdTypeEnum {
 }
 
 /** Deprecated in favor of MenuItemLinkeable Interface */
-export type MenuItemObjectUnion = Category | Collection | Hero | Item | ItemType | Page | Post | Tag;
+export type MenuItemObjectUnion = Category | Collection | Hero | Item | ItemType | Page | Post | Tag | Team;
 
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = Edge & MenuConnectionEdge & OneToOneConnection & {
@@ -11026,6 +10988,8 @@ export type RootMutation = {
   createPostFormat: Maybe<CreatePostFormatPayload>;
   /** The createTag mutation */
   createTag: Maybe<CreateTagPayload>;
+  /** The createTeam mutation */
+  createTeam: Maybe<CreateTeamPayload>;
   /** The createUser mutation */
   createUser: Maybe<CreateUserPayload>;
   /** The deleteCategory mutation */
@@ -11054,10 +11018,12 @@ export type RootMutation = {
   deletePostFormat: Maybe<DeletePostFormatPayload>;
   /** The deleteTag mutation */
   deleteTag: Maybe<DeleteTagPayload>;
+  /** The deleteTeam mutation */
+  deleteTeam: Maybe<DeleteTeamPayload>;
   /** The deleteUser mutation */
   deleteUser: Maybe<DeleteUserPayload>;
-  /** The downvoteItem mutation */
-  downvoteItem: Maybe<DownvoteItemPayload>;
+  /** The downvoteTeam mutation */
+  downvoteTeam: Maybe<DownvoteTeamPayload>;
   /** Increase the count. */
   increaseCount: Maybe<Scalars['Int']['output']>;
   /** The registerUser mutation */
@@ -11096,10 +11062,12 @@ export type RootMutation = {
   updateSettings: Maybe<UpdateSettingsPayload>;
   /** The updateTag mutation */
   updateTag: Maybe<UpdateTagPayload>;
+  /** The updateTeam mutation */
+  updateTeam: Maybe<UpdateTeamPayload>;
   /** The updateUser mutation */
   updateUser: Maybe<UpdateUserPayload>;
-  /** The upvoteItem mutation */
-  upvoteItem: Maybe<UpvoteItemPayload>;
+  /** The upvoteTeam mutation */
+  upvoteTeam: Maybe<UpvoteTeamPayload>;
 };
 
 
@@ -11178,6 +11146,12 @@ export type RootMutationCreatePostFormatArgs = {
 /** The root mutation */
 export type RootMutationCreateTagArgs = {
   input: CreateTagInput;
+};
+
+
+/** The root mutation */
+export type RootMutationCreateTeamArgs = {
+  input: CreateTeamInput;
 };
 
 
@@ -11266,14 +11240,20 @@ export type RootMutationDeleteTagArgs = {
 
 
 /** The root mutation */
+export type RootMutationDeleteTeamArgs = {
+  input: DeleteTeamInput;
+};
+
+
+/** The root mutation */
 export type RootMutationDeleteUserArgs = {
   input: DeleteUserInput;
 };
 
 
 /** The root mutation */
-export type RootMutationDownvoteItemArgs = {
-  input: DownvoteItemInput;
+export type RootMutationDownvoteTeamArgs = {
+  input: DownvoteTeamInput;
 };
 
 
@@ -11392,14 +11372,20 @@ export type RootMutationUpdateTagArgs = {
 
 
 /** The root mutation */
+export type RootMutationUpdateTeamArgs = {
+  input: UpdateTeamInput;
+};
+
+
+/** The root mutation */
 export type RootMutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
 
 
 /** The root mutation */
-export type RootMutationUpvoteItemArgs = {
-  input: UpvoteItemInput;
+export type RootMutationUpvoteTeamArgs = {
+  input: UpvoteTeamInput;
 };
 
 /** The root entry point into the Graph */
@@ -11407,8 +11393,6 @@ export type RootQuery = {
   __typename?: 'RootQuery';
   /** Entry point to get all settings for the site */
   allSettings: Maybe<Settings>;
-  /** Connection between the RootQuery type and the BuildLike type */
-  buildLikes: Maybe<RootQueryToBuildLikeConnection>;
   /** Connection between the RootQuery type and the category type */
   categories: Maybe<RootQueryToCategoryConnection>;
   /** A 0bject */
@@ -11473,8 +11457,6 @@ export type RootQuery = {
   itemTypes: Maybe<RootQueryToItemTypeConnection>;
   /** Connection between the RootQuery type and the item type */
   items: Maybe<RootQueryToItemConnection>;
-  /** Get items and their total like and dislike counts for a specific hero and user */
-  itemsLikesByHero: Maybe<Array<Maybe<ItemLikeDislikeCount>>>;
   /** An object of the mediaItem Type.  */
   mediaItem: Maybe<MediaItem>;
   /**
@@ -11538,6 +11520,19 @@ export type RootQuery = {
   taxonomies: Maybe<RootQueryToTaxonomyConnection>;
   /** Fetch a Taxonomy node by unique Identifier */
   taxonomy: Maybe<Taxonomy>;
+  /** An object of the team Type. Teams */
+  team: Maybe<Team>;
+  /**
+   * A team object
+   * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
+   */
+  teamBy: Maybe<Team>;
+  /** Connection between the RootQuery type and the TeamVote type */
+  teamVotes: Maybe<RootQueryToTeamVoteConnection>;
+  /** Connection between the RootQuery type and the team type */
+  teams: Maybe<RootQueryToTeamConnection>;
+  /** Get teams and their total vote and downvote counts for a specific hero and user */
+  teamsVotesByHero: Maybe<Array<Maybe<TeamVoteCount>>>;
   /** A node in a taxonomy used to group and relate content nodes */
   termNode: Maybe<TermNode>;
   /** Connection between the RootQuery type and the TermNode type */
@@ -11552,7 +11547,7 @@ export type RootQuery = {
   userRole: Maybe<UserRole>;
   /** Connection between the RootQuery type and the UserRole type */
   userRoles: Maybe<RootQueryToUserRoleConnection>;
-  /** Get the current user&#039;s vote status for a specific hero and item */
+  /** Get the current user&#039;s vote status for a specific hero and team */
   userVoteStatus: Maybe<Scalars['String']['output']>;
   /** Connection between the RootQuery type and the User type */
   users: Maybe<RootQueryToUserConnection>;
@@ -11560,15 +11555,6 @@ export type RootQuery = {
   viewer: Maybe<User>;
   /** Fields of the &#039;WritingSettings&#039; settings group */
   writingSettings: Maybe<WritingSettings>;
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryBuildLikesArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -11780,14 +11766,6 @@ export type RootQueryItemsArgs = {
   first: InputMaybe<Scalars['Int']['input']>;
   last: InputMaybe<Scalars['Int']['input']>;
   where: InputMaybe<RootQueryToItemConnectionWhereArgs>;
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryItemsLikesByHeroArgs = {
-  heroId: InputMaybe<Scalars['Int']['input']>;
-  ipAddress?: InputMaybe<Scalars['String']['input']>;
-  userId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -12012,6 +11990,50 @@ export type RootQueryTaxonomyArgs = {
 
 
 /** The root entry point into the Graph */
+export type RootQueryTeamArgs = {
+  asPreview: InputMaybe<Scalars['Boolean']['input']>;
+  id: Scalars['ID']['input'];
+  idType: InputMaybe<TeamIdType>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryTeamByArgs = {
+  id: InputMaybe<Scalars['ID']['input']>;
+  slug: InputMaybe<Scalars['String']['input']>;
+  teamId: InputMaybe<Scalars['Int']['input']>;
+  uri: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryTeamVotesArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryTeamsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  where: InputMaybe<RootQueryToTeamConnectionWhereArgs>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryTeamsVotesByHeroArgs = {
+  heroId: InputMaybe<Scalars['Int']['input']>;
+  ipAddress?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The root entry point into the Graph */
 export type RootQueryTermNodeArgs = {
   id: Scalars['ID']['input'];
   idType: InputMaybe<TermNodeIdTypeEnum>;
@@ -12070,7 +12092,7 @@ export type RootQueryUserRolesArgs = {
 export type RootQueryUserVoteStatusArgs = {
   heroId: InputMaybe<Scalars['Int']['input']>;
   ipAddress: InputMaybe<Scalars['String']['input']>;
-  itemId: InputMaybe<Scalars['Int']['input']>;
+  teamId: InputMaybe<Scalars['Int']['input']>;
   userId?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -12082,39 +12104,6 @@ export type RootQueryUsersArgs = {
   first: InputMaybe<Scalars['Int']['input']>;
   last: InputMaybe<Scalars['Int']['input']>;
   where: InputMaybe<RootQueryToUserConnectionWhereArgs>;
-};
-
-/** Connection between the RootQuery type and the BuildLike type */
-export type RootQueryToBuildLikeConnection = BuildLikeConnection & Connection & {
-  __typename?: 'RootQueryToBuildLikeConnection';
-  /** Edges for the RootQueryToBuildLikeConnection connection */
-  edges: Array<RootQueryToBuildLikeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<BuildLike>;
-  /** Information about pagination in a connection. */
-  pageInfo: RootQueryToBuildLikeConnectionPageInfo;
-};
-
-/** An edge in a connection */
-export type RootQueryToBuildLikeConnectionEdge = BuildLikeConnectionEdge & Edge & {
-  __typename?: 'RootQueryToBuildLikeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: BuildLike;
-};
-
-/** Page Info on the &quot;RootQueryToBuildLikeConnection&quot; */
-export type RootQueryToBuildLikeConnectionPageInfo = BuildLikeConnectionPageInfo & PageInfo & WpPageInfo & {
-  __typename?: 'RootQueryToBuildLikeConnectionPageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
 };
 
 /** Connection between the RootQuery type and the category type */
@@ -13557,6 +13546,110 @@ export type RootQueryToTaxonomyConnectionPageInfo = PageInfo & TaxonomyConnectio
   startCursor: Maybe<Scalars['String']['output']>;
 };
 
+/** Connection between the RootQuery type and the team type */
+export type RootQueryToTeamConnection = Connection & TeamConnection & {
+  __typename?: 'RootQueryToTeamConnection';
+  /** Edges for the RootQueryToTeamConnection connection */
+  edges: Array<RootQueryToTeamConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Team>;
+  /** Information about pagination in a connection. */
+  pageInfo: RootQueryToTeamConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type RootQueryToTeamConnectionEdge = Edge & TeamConnectionEdge & {
+  __typename?: 'RootQueryToTeamConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: Team;
+};
+
+/** Page Info on the &quot;RootQueryToTeamConnection&quot; */
+export type RootQueryToTeamConnectionPageInfo = PageInfo & TeamConnectionPageInfo & WpPageInfo & {
+  __typename?: 'RootQueryToTeamConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** Arguments for filtering the RootQueryToTeamConnection connection */
+export type RootQueryToTeamConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword: InputMaybe<Scalars['Boolean']['input']>;
+  /** Specific database ID of the object */
+  id: InputMaybe<Scalars['Int']['input']>;
+  /** Array of IDs for the objects to retrieve */
+  in: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name: InputMaybe<Scalars['String']['input']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** What parameter to use to order the objects by. */
+  orderby: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent: InputMaybe<Scalars['ID']['input']>;
+  /** Specify objects whose parent is in an array */
+  parentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Show posts with a specific password. */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** Show Posts based on a keyword search */
+  search: InputMaybe<Scalars['String']['input']>;
+  /** Retrieve posts where post status is in an array. */
+  stati: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Connection between the RootQuery type and the TeamVote type */
+export type RootQueryToTeamVoteConnection = Connection & TeamVoteConnection & {
+  __typename?: 'RootQueryToTeamVoteConnection';
+  /** Edges for the RootQueryToTeamVoteConnection connection */
+  edges: Array<RootQueryToTeamVoteConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<TeamVote>;
+  /** Information about pagination in a connection. */
+  pageInfo: RootQueryToTeamVoteConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type RootQueryToTeamVoteConnectionEdge = Edge & TeamVoteConnectionEdge & {
+  __typename?: 'RootQueryToTeamVoteConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: TeamVote;
+};
+
+/** Page Info on the &quot;RootQueryToTeamVoteConnection&quot; */
+export type RootQueryToTeamVoteConnectionPageInfo = PageInfo & TeamVoteConnectionPageInfo & WpPageInfo & {
+  __typename?: 'RootQueryToTeamVoteConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
 /** Connection between the RootQuery type and the TermNode type */
 export type RootQueryToTermNodeConnection = Connection & TermNodeConnection & {
   __typename?: 'RootQueryToTermNodeConnection';
@@ -14342,620 +14435,774 @@ export type TaxonomyToTermNodeConnectionPageInfo = PageInfo & TermNodeConnection
   startCursor: Maybe<Scalars['String']['output']>;
 };
 
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type Team = AcfFieldGroup & AcfFieldGroupFields & Team_Fields & {
+/** The team type */
+export type Team = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithExcerpt & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfGuideFields & WithAcfTeamFields & {
   __typename?: 'Team';
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  accessory1: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  accessory2: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  accessory3: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  accessory4: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  cards1: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  cards2: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  cards3: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  cards4: Maybe<Scalars['String']['output']>;
+  /**
+   * The ancestors of the content node.
+   * @deprecated This content type is not hierarchical and typically will not have ancestors
+   */
+  ancestors: Maybe<TeamToTeamConnection>;
+  /** Connection between the ContentNode type and the ContentType type */
+  contentType: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String']['output'];
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int']['output'];
+  /** Post publishing date. */
+  date: Maybe<Scalars['String']['output']>;
+  /** The publishing date set in GMT. */
+  dateGmt: Maybe<Scalars['String']['output']>;
+  /** The desired slug of the post */
+  desiredSlug: Maybe<Scalars['String']['output']>;
+  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+  editingLockedBy: Maybe<ContentNodeToEditLockConnectionEdge>;
+  /** The RSS enclosure for the object */
+  enclosure: Maybe<Scalars['String']['output']>;
+  /** Connection between the ContentNode type and the EnqueuedScript type */
+  enqueuedScripts: Maybe<ContentNodeToEnqueuedScriptConnection>;
+  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+  /** The excerpt of the post. */
+  excerpt: Maybe<Scalars['String']['output']>;
+  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+  guid: Maybe<Scalars['String']['output']>;
+  /** Fields of the GuideFields ACF Field Group */
+  guideFields: Maybe<GuideFields>;
+  /** Whether the teams object is password protected. */
+  hasPassword: Maybe<Scalars['Boolean']['output']>;
+  /** The globally unique identifier of the teams object. */
+  id: Scalars['ID']['output'];
+  /** Whether the node is a Comment */
+  isComment: Scalars['Boolean']['output'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean']['output'];
+  /** Whether the node represents the front page. */
+  isFrontPage: Scalars['Boolean']['output'];
+  /** Whether  the node represents the blog page. */
+  isPostsPage: Scalars['Boolean']['output'];
+  /** Whether the object is a node in the preview state */
+  isPreview: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the object is restricted from the current viewer */
+  isRestricted: Maybe<Scalars['Boolean']['output']>;
+  /** True if the node is a revision of another node */
+  isRevision: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean']['output'];
+  /** The user that most recently edited the node */
+  lastEditedBy: Maybe<ContentNodeToEditLastConnectionEdge>;
+  /** The permalink of the post */
+  link: Maybe<Scalars['String']['output']>;
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  modified: Maybe<Scalars['String']['output']>;
+  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+  modifiedGmt: Maybe<Scalars['String']['output']>;
+  /**
+   * The parent of the content node.
+   * @deprecated This content type is not hierarchical and typically will not have a parent
+   */
+  parent: Maybe<TeamToParentConnectionEdge>;
+  /** The password for the teams object. */
+  password: Maybe<Scalars['String']['output']>;
+  /** Connection between the Team type and the team type */
+  preview: Maybe<TeamToPreviewConnectionEdge>;
+  /** The database id of the preview node */
+  previewRevisionDatabaseId: Maybe<Scalars['Int']['output']>;
+  /** Whether the object is a node in the preview state */
+  previewRevisionId: Maybe<Scalars['ID']['output']>;
+  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+  revisionOf: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+  /** Connection between the Team type and the team type */
+  revisions: Maybe<TeamToRevisionConnection>;
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  slug: Maybe<Scalars['String']['output']>;
+  /** The current status of the object */
+  status: Maybe<Scalars['String']['output']>;
+  /** Fields of the TeamFields ACF Field Group */
+  teamFields: Maybe<TeamFields>;
+  /**
+   * The id field matches the WP_Post-&gt;ID field.
+   * @deprecated Deprecated in favor of the databaseId field
+   */
+  teamId: Scalars['Int']['output'];
+  /** The template assigned to the node */
+  template: Maybe<ContentTemplate>;
+  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+  title: Maybe<Scalars['String']['output']>;
+  /** The unique resource identifier path */
+  uri: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The team type */
+export type TeamAncestorsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The team type */
+export type TeamEnqueuedScriptsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The team type */
+export type TeamEnqueuedStylesheetsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The team type */
+export type TeamExcerptArgs = {
+  format: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+
+/** The team type */
+export type TeamRevisionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  where: InputMaybe<TeamToRevisionConnectionWhereArgs>;
+};
+
+
+/** The team type */
+export type TeamTitleArgs = {
+  format: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+/** Connection to team Nodes */
+export type TeamConnection = {
+  /** A list of edges (relational context) between RootQuery and connected team Nodes */
+  edges: Array<TeamConnectionEdge>;
+  /** A list of connected team Nodes */
+  nodes: Array<Team>;
+  /** Information about pagination in a connection. */
+  pageInfo: TeamConnectionPageInfo;
+};
+
+/** Edge between a Node and a connected team */
+export type TeamConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The connected team Node */
+  node: Team;
+};
+
+/** Page Info on the connected TeamConnectionEdge */
+export type TeamConnectionPageInfo = {
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** The &quot;TeamFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFields = AcfFieldGroup & AcfFieldGroupFields & TeamFields_Fields & {
+  __typename?: 'TeamFields';
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;TeamFields&quot; Field Group */
+  composition: Maybe<Array<Maybe<TeamFieldsComposition>>>;
   /**
    * The name of the field group
    * @deprecated Use __typename instead
    */
   fieldGroupName: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero1: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero1Substitutions: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero2: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero2Substitutions: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero3: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero3Substitutions: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero4: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero4Substitutions: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  merch1: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  merch2: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  merch3: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  merch4: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
+  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;TeamFields&quot; Field Group */
   notes: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  shield1: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  shield2: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  shield3: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  shield4: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;TeamFields&quot; Field Group */
   teamDamage: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;radio&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
+  /** Field of the &quot;radio&quot; Field Type added to the schema as part of the &quot;TeamFields&quot; Field Group */
   teamType: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  weapon1: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  weapon2: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  weapon3: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  weapon4: Maybe<AcfContentNodeConnection>;
 };
 
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamAccessory1Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamAccessory2Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamAccessory3Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamAccessory4Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamHero1Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamHero1SubstitutionsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamHero2Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamHero2SubstitutionsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamHero3Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamHero3SubstitutionsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamHero4Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamHero4SubstitutionsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamMerch1Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamMerch2Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamMerch3Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamMerch4Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamShield1Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamShield2Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamShield3Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamShield4Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamWeapon1Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamWeapon2Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamWeapon3Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;Team&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamWeapon4Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-/** The &quot;TeamBlock&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamBlock = AcfFieldGroup & AcfFieldGroupFields & TeamBlock_Fields & {
-  __typename?: 'TeamBlock';
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsComposition = AcfFieldGroup & AcfFieldGroupFields & TeamFieldsComposition_Fields & {
+  __typename?: 'TeamFieldsComposition';
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  accessory: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  accessorySubstitutions: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  cards: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  cardsSubstitutions: Maybe<AcfContentNodeConnection>;
   /**
    * The name of the field group
    * @deprecated Use __typename instead
    */
   fieldGroupName: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamBlock&quot; Field Group */
-  team: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  hero: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  heroSubstitutions: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  merch: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  merchSubstitutions: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  relic: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  relicSubstitutions: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  shield: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  shieldSubstitutions: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  weapon: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  weaponSubstitutions: Maybe<AcfContentNodeConnection>;
 };
 
 
-/** The &quot;TeamBlock&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type TeamBlockTeamArgs = {
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionAccessoryArgs = {
   after: InputMaybe<Scalars['String']['input']>;
   before: InputMaybe<Scalars['String']['input']>;
   first: InputMaybe<Scalars['Int']['input']>;
   last: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** Interface representing fields of the ACF &quot;TeamBlock&quot; Field Group */
-export type TeamBlock_Fields = {
-  /**
-   * The name of the field group
-   * @deprecated Use __typename instead
-   */
-  fieldGroupName: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamBlock&quot; Field Group */
-  team: Maybe<AcfContentNodeConnection>;
-};
 
-
-/** Interface representing fields of the ACF &quot;TeamBlock&quot; Field Group */
-export type TeamBlock_FieldsTeamArgs = {
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionAccessorySubstitutionsArgs = {
   after: InputMaybe<Scalars['String']['input']>;
   before: InputMaybe<Scalars['String']['input']>;
   first: InputMaybe<Scalars['Int']['input']>;
   last: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_Fields = {
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  accessory1: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  accessory2: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  accessory3: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  accessory4: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  cards1: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  cards2: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  cards3: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  cards4: Maybe<Scalars['String']['output']>;
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionCardsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionCardsSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionHeroArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionHeroSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionMerchArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionMerchSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionRelicArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionRelicSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionShieldArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionShieldSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionWeaponArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The &quot;TeamFieldsComposition&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type TeamFieldsCompositionWeaponSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_Fields = {
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  accessory: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  accessorySubstitutions: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  cards: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  cardsSubstitutions: Maybe<AcfContentNodeConnection>;
   /**
    * The name of the field group
    * @deprecated Use __typename instead
    */
   fieldGroupName: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero1: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero1Substitutions: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero2: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero2Substitutions: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero3: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero3Substitutions: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero4: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  hero4Substitutions: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  merch1: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  merch2: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  merch3: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  merch4: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  hero: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  heroSubstitutions: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  merch: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  merchSubstitutions: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  relic: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  relicSubstitutions: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  shield: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  shieldSubstitutions: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  weapon: Maybe<AcfContentNodeConnection>;
+  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;TeamFieldsComposition&quot; Field Group */
+  weaponSubstitutions: Maybe<AcfContentNodeConnection>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsAccessoryArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsAccessorySubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsCardsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsCardsSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsHeroArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsHeroSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsMerchArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsMerchSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsRelicArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsRelicSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsShieldArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsShieldSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsWeaponArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** Interface representing fields of the ACF &quot;TeamFieldsComposition&quot; Field Group */
+export type TeamFieldsComposition_FieldsWeaponSubstitutionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** Interface representing fields of the ACF &quot;TeamFields&quot; Field Group */
+export type TeamFields_Fields = {
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;TeamFields&quot; Field Group */
+  composition: Maybe<Array<Maybe<TeamFieldsComposition>>>;
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;TeamFields&quot; Field Group */
   notes: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  shield1: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  shield2: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  shield3: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  shield4: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;TeamFields&quot; Field Group */
   teamDamage: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;radio&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
+  /** Field of the &quot;radio&quot; Field Type added to the schema as part of the &quot;TeamFields&quot; Field Group */
   teamType: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  weapon1: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  weapon2: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  weapon3: Maybe<AcfContentNodeConnection>;
-  /** Field of the &quot;post_object&quot; Field Type added to the schema as part of the &quot;Team&quot; Field Group */
-  weapon4: Maybe<AcfContentNodeConnection>;
 };
 
+/** The Type of Identifier used to fetch a single resource. Default is ID. */
+export enum TeamIdType {
+  /** Identify a resource by the Database ID. */
+  DatabaseId = 'DATABASE_ID',
+  /** Identify a resource by the (hashed) Global ID. */
+  Id = 'ID',
+  /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
+  Slug = 'SLUG',
+  /** Identify a resource by the URI. */
+  Uri = 'URI'
+}
 
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsAccessory1Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Connection between the Team type and the team type */
+export type TeamToParentConnectionEdge = Edge & OneToOneConnection & TeamConnectionEdge & {
+  __typename?: 'TeamToParentConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /**
+   * The node of the connection, without the edges
+   * @deprecated This content type is not hierarchical and typically will not have a parent
+   */
+  node: Team;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsAccessory2Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Connection between the Team type and the team type */
+export type TeamToPreviewConnectionEdge = Edge & OneToOneConnection & TeamConnectionEdge & {
+  __typename?: 'TeamToPreviewConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The node of the connection, without the edges */
+  node: Team;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsAccessory3Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Connection between the Team type and the team type */
+export type TeamToRevisionConnection = Connection & TeamConnection & {
+  __typename?: 'TeamToRevisionConnection';
+  /** Edges for the TeamToRevisionConnection connection */
+  edges: Array<TeamToRevisionConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Team>;
+  /** Information about pagination in a connection. */
+  pageInfo: TeamToRevisionConnectionPageInfo;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsAccessory4Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** An edge in a connection */
+export type TeamToRevisionConnectionEdge = Edge & TeamConnectionEdge & {
+  __typename?: 'TeamToRevisionConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: Team;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsHero1Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Page Info on the &quot;TeamToRevisionConnection&quot; */
+export type TeamToRevisionConnectionPageInfo = PageInfo & TeamConnectionPageInfo & WpPageInfo & {
+  __typename?: 'TeamToRevisionConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsHero1SubstitutionsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Arguments for filtering the TeamToRevisionConnection connection */
+export type TeamToRevisionConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword: InputMaybe<Scalars['Boolean']['input']>;
+  /** Specific database ID of the object */
+  id: InputMaybe<Scalars['Int']['input']>;
+  /** Array of IDs for the objects to retrieve */
+  in: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name: InputMaybe<Scalars['String']['input']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** What parameter to use to order the objects by. */
+  orderby: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent: InputMaybe<Scalars['ID']['input']>;
+  /** Specify objects whose parent is in an array */
+  parentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Show posts with a specific password. */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** Show Posts based on a keyword search */
+  search: InputMaybe<Scalars['String']['input']>;
+  /** Retrieve posts where post status is in an array. */
+  stati: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsHero2Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Connection between the Team type and the team type */
+export type TeamToTeamConnection = Connection & TeamConnection & {
+  __typename?: 'TeamToTeamConnection';
+  /** Edges for the TeamToTeamConnection connection */
+  edges: Array<TeamToTeamConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Team>;
+  /** Information about pagination in a connection. */
+  pageInfo: TeamToTeamConnectionPageInfo;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsHero2SubstitutionsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** An edge in a connection */
+export type TeamToTeamConnectionEdge = Edge & TeamConnectionEdge & {
+  __typename?: 'TeamToTeamConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated This content type is not hierarchical and typically will not have ancestors
+   */
+  cursor: Maybe<Scalars['String']['output']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated This content type is not hierarchical and typically will not have ancestors
+   */
+  node: Team;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsHero3Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Page Info on the &quot;TeamToTeamConnection&quot; */
+export type TeamToTeamConnectionPageInfo = PageInfo & TeamConnectionPageInfo & WpPageInfo & {
+  __typename?: 'TeamToTeamConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsHero3SubstitutionsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Votes per hero team team option */
+export type TeamVote = DatabaseIdentifier & Node & {
+  __typename?: 'TeamVote';
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int']['output'];
+  /** The hero id */
+  heroDatabaseId: Maybe<Scalars['Int']['output']>;
+  /** The globally unique ID for the object */
+  id: Scalars['ID']['output'];
+  /** The IP address of the user */
+  ipAddress: Maybe<Scalars['String']['output']>;
+  /** Connection between the TeamVote type and the Team type */
+  team: Maybe<TeamVoteToTeamConnectionEdge>;
+  /** The team id */
+  teamDatabaseId: Maybe<Scalars['Int']['output']>;
+  /** 1 for upvote, 0 for downvote */
+  upOrDown: Maybe<Scalars['Int']['output']>;
+  /** Connection between the TeamVote type and the User type */
+  user: Maybe<TeamVoteToUserConnectionEdge>;
+  /** The user account associated with the vote */
+  userDatabaseId: Maybe<Scalars['Int']['output']>;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsHero4Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Connection to TeamVote Nodes */
+export type TeamVoteConnection = {
+  /** A list of edges (relational context) between RootQuery and connected TeamVote Nodes */
+  edges: Array<TeamVoteConnectionEdge>;
+  /** A list of connected TeamVote Nodes */
+  nodes: Array<TeamVote>;
+  /** Information about pagination in a connection. */
+  pageInfo: TeamVoteConnectionPageInfo;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsHero4SubstitutionsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Edge between a Node and a connected TeamVote */
+export type TeamVoteConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The connected TeamVote Node */
+  node: TeamVote;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsMerch1Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Page Info on the connected TeamVoteConnectionEdge */
+export type TeamVoteConnectionPageInfo = {
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsMerch2Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Team ID, Vote Count, Downvote Count, and Team Details */
+export type TeamVoteCount = {
+  __typename?: 'TeamVoteCount';
+  /** The total number of downvotes */
+  downvoteCount: Maybe<Scalars['Int']['output']>;
+  /** The team details */
+  team: Maybe<Team>;
+  /** The team ID */
+  teamId: Maybe<Scalars['Int']['output']>;
+  /** The total number of votes */
+  upvoteCount: Maybe<Scalars['Int']['output']>;
+  /** The ID of the user */
+  userId: Maybe<Scalars['Int']['output']>;
+  /** The current user&#039;s vote status on the team: &quot;upvote&quot;, &quot;downvote&quot;, or &quot;none&quot; */
+  userVote: Maybe<Scalars['String']['output']>;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsMerch3Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Connection between the TeamVote type and the Team type */
+export type TeamVoteToTeamConnectionEdge = Edge & OneToOneConnection & TeamConnectionEdge & {
+  __typename?: 'TeamVoteToTeamConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The node of the connection, without the edges */
+  node: Team;
 };
 
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsMerch4Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsShield1Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsShield2Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsShield3Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsShield4Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsWeapon1Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsWeapon2Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsWeapon3Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** Interface representing fields of the ACF &quot;Team&quot; Field Group */
-export type Team_FieldsWeapon4Args = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
+/** Connection between the TeamVote type and the User type */
+export type TeamVoteToUserConnectionEdge = Edge & OneToOneConnection & UserConnectionEdge & {
+  __typename?: 'TeamVoteToUserConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The node of the connection, without the edges */
+  node: User;
 };
 
 /** Terms are nodes within a Taxonomy, used to group and relate other nodes. */
@@ -15754,6 +16001,39 @@ export type UpdateTagPayload = {
   tag: Maybe<Tag>;
 };
 
+/** Input for the updateTeam mutation. */
+export type UpdateTeamInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date: InputMaybe<Scalars['String']['input']>;
+  /** The excerpt of the object */
+  excerpt: InputMaybe<Scalars['String']['input']>;
+  /** The ID of the team object */
+  id: Scalars['ID']['input'];
+  /** Override the edit lock when another user is editing the post */
+  ignoreEditLock: InputMaybe<Scalars['Boolean']['input']>;
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder: InputMaybe<Scalars['Int']['input']>;
+  /** The password used to protect the content of the object */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** The slug of the object */
+  slug: InputMaybe<Scalars['String']['input']>;
+  /** The status of the object */
+  status: InputMaybe<PostStatusEnum>;
+  /** The title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The payload for the updateTeam mutation. */
+export type UpdateTeamPayload = {
+  __typename?: 'UpdateTeamPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+  /** The Post object mutation type. */
+  team: Maybe<Team>;
+};
+
 /** Input for the updateUser mutation. */
 export type UpdateUserInput = {
   /** User's AOL IM account. */
@@ -15803,23 +16083,23 @@ export type UpdateUserPayload = {
   user: Maybe<User>;
 };
 
-/** Input for the upvoteItem mutation. */
-export type UpvoteItemInput = {
+/** Input for the upvoteTeam mutation. */
+export type UpvoteTeamInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId: InputMaybe<Scalars['String']['input']>;
   /** The ID of the hero */
   heroId: InputMaybe<Scalars['Int']['input']>;
   /** The IP address of the voter */
   ipAddress: InputMaybe<Scalars['String']['input']>;
-  /** The ID of the item */
-  itemId: InputMaybe<Scalars['Int']['input']>;
+  /** The ID of the team */
+  teamId: InputMaybe<Scalars['Int']['input']>;
   /** The ID of the user */
   userId: InputMaybe<Scalars['Int']['input']>;
 };
 
-/** The payload for the upvoteItem mutation. */
-export type UpvoteItemPayload = {
-  __typename?: 'UpvoteItemPayload';
+/** The payload for the upvoteTeam mutation. */
+export type UpvoteTeamPayload = {
+  __typename?: 'UpvoteTeamPayload';
   /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId: Maybe<Scalars['String']['output']>;
   /** The current vote status after the operation */
@@ -15833,8 +16113,6 @@ export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdenti
   __typename?: 'User';
   /** Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument. */
   avatar: Maybe<Avatar>;
-  /** Connection between the User type and the BuildLike type */
-  buildLikes: Maybe<UserToBuildLikeConnection>;
   /** User metadata option name. Usually it will be &quot;wp_capabilities&quot;. */
   capKey: Maybe<Scalars['String']['output']>;
   /** A list of capabilities (permissions) granted to the user */
@@ -15895,6 +16173,8 @@ export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdenti
   shouldShowAdminToolbar: Maybe<Scalars['Boolean']['output']>;
   /** The slug for the user. This field is equivalent to WP_User-&gt;user_nicename */
   slug: Maybe<Scalars['String']['output']>;
+  /** Connection between the User type and the TeamVote type */
+  teamVotes: Maybe<UserToTeamVoteConnection>;
   /** The unique resource identifier path */
   uri: Maybe<Scalars['String']['output']>;
   /** A website url that is associated with the user. */
@@ -15914,15 +16194,6 @@ export type UserAvatarArgs = {
   forceDefault: InputMaybe<Scalars['Boolean']['input']>;
   rating: InputMaybe<AvatarRatingEnum>;
   size?: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** A User object */
-export type UserBuildLikesArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -15996,6 +16267,15 @@ export type UserRevisionsArgs = {
 
 /** A User object */
 export type UserRolesArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** A User object */
+export type UserTeamVotesArgs = {
   after: InputMaybe<Scalars['String']['input']>;
   before: InputMaybe<Scalars['String']['input']>;
   first: InputMaybe<Scalars['Int']['input']>;
@@ -16098,8 +16378,6 @@ export enum UserRoleEnum {
   /** User role with specific capabilities */
   Administrator = 'ADMINISTRATOR',
   /** User role with specific capabilities */
-  Author = 'AUTHOR',
-  /** User role with specific capabilities */
   Blocked = 'BLOCKED',
   /** User role with specific capabilities */
   Contributor = 'CONTRIBUTOR',
@@ -16107,8 +16385,6 @@ export enum UserRoleEnum {
   Curator = 'CURATOR',
   /** User role with specific capabilities */
   Keymaster = 'KEYMASTER',
-  /** User role with specific capabilities */
-  Moderator = 'MODERATOR',
   /** User role with specific capabilities */
   Participant = 'PARTICIPANT',
   /** User role with specific capabilities */
@@ -16120,39 +16396,6 @@ export enum UserRoleEnum {
   /** User role with specific capabilities */
   Transcriber = 'TRANSCRIBER'
 }
-
-/** Connection between the User type and the BuildLike type */
-export type UserToBuildLikeConnection = BuildLikeConnection & Connection & {
-  __typename?: 'UserToBuildLikeConnection';
-  /** Edges for the UserToBuildLikeConnection connection */
-  edges: Array<UserToBuildLikeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<BuildLike>;
-  /** Information about pagination in a connection. */
-  pageInfo: UserToBuildLikeConnectionPageInfo;
-};
-
-/** An edge in a connection */
-export type UserToBuildLikeConnectionEdge = BuildLikeConnectionEdge & Edge & {
-  __typename?: 'UserToBuildLikeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: BuildLike;
-};
-
-/** Page Info on the &quot;UserToBuildLikeConnection&quot; */
-export type UserToBuildLikeConnectionPageInfo = BuildLikeConnectionPageInfo & PageInfo & WpPageInfo & {
-  __typename?: 'UserToBuildLikeConnectionPageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
-};
 
 /** Connection between the User type and the Comment type */
 export type UserToCommentConnection = CommentConnection & Connection & {
@@ -16645,6 +16888,39 @@ export type UserToRevisionsConnectionWhereArgs = {
   title: InputMaybe<Scalars['String']['input']>;
 };
 
+/** Connection between the User type and the TeamVote type */
+export type UserToTeamVoteConnection = Connection & TeamVoteConnection & {
+  __typename?: 'UserToTeamVoteConnection';
+  /** Edges for the UserToTeamVoteConnection connection */
+  edges: Array<UserToTeamVoteConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<TeamVote>;
+  /** Information about pagination in a connection. */
+  pageInfo: UserToTeamVoteConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type UserToTeamVoteConnectionEdge = Edge & TeamVoteConnectionEdge & {
+  __typename?: 'UserToTeamVoteConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: TeamVote;
+};
+
+/** Page Info on the &quot;UserToTeamVoteConnection&quot; */
+export type UserToTeamVoteConnectionPageInfo = PageInfo & TeamVoteConnectionPageInfo & WpPageInfo & {
+  __typename?: 'UserToTeamVoteConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
 /** Connection between the User type and the UserRole type */
 export type UserToUserRoleConnection = Connection & UserRoleConnection & {
   __typename?: 'UserToUserRoleConnection';
@@ -16914,6 +17190,12 @@ export type WithAcfItemInformation = {
   itemInformation: Maybe<ItemInformation>;
 };
 
+/** Provides access to fields of the &quot;TeamFields&quot; ACF Field Group via the &quot;teamFields&quot; field */
+export type WithAcfTeamFields = {
+  /** Fields of the TeamFields ACF Field Group */
+  teamFields: Maybe<TeamFields>;
+};
+
 /** Provides access to fields of the &quot;Toughness&quot; ACF Field Group via the &quot;toughness&quot; field */
 export type WithAcfToughness = {
   /** Fields of the Toughness ACF Field Group */
@@ -16937,31 +17219,133 @@ export type WritingSettings = {
   useSmilies: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type GetAllHeroesQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetAllHeroesQuery = { __typename?: 'RootQuery', heroes: { __typename?: 'RootQueryToHeroConnection', nodes: Array<{ __typename?: 'Hero', uri: string | null, slug: string | null, heroId: number, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaDetails: { __typename?: 'MediaDetails', sizes: Array<{ __typename?: 'MediaSize', sourceUrl: string | null, name: string | null } | null> | null } | null } } | null, heroInformation: { __typename?: 'HeroInformation', variations: Array<string | null> | null, portrait: Array<{ __typename?: 'HeroInformationPortrait', title: string | null, art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null> | null, bioFields: { __typename?: 'HeroInformationBioFields', rarity: Array<string | null> | null, element: string | null, role: string | null, name: string | null, age: string | null, compatibleEquipment: Array<string | null> | null, weight: string | null, story: string | null, species: string | null, naReleaseDate: string | null, krReleaseDate: string | null, jpReleaseDate: string | null, height: string | null, exclusiveWeapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, title: string | null, weapons: { __typename?: 'Weapons', maxDps: number | null, element: Array<string | null> | null, exclusiveEffects: string | null, exclusive: boolean | null, magazine: number | null, maxAtk: number | null, minAtk: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl: string | null } } | null, engraving: Array<{ __typename?: 'WeaponsEngraving', value: number | null, stat: Array<string | null> | null } | null> | null } | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, equipmentSubOptions: { __typename?: 'EquipmentSubOptions', subOptions: Array<string | null> | null, fieldGroupName: string | null, maxLines: number | null, subAtk: number | null, subAtkOnKill: number | null, subBasicTypeAtk: number | null, subCritChance: number | null, subDamageReduction: number | null, subDarkTypeAtk: number | null, subDef: number | null, subDefFlat: number | null, subEarthTypeAtk: number | null, subFireTypeAtk: number | null, subHealFlat: number | null, subHealPercent: number | null, subHp: number | null, subHpOnKill: number | null, subLightTypeAtk: number | null, subShieldOnKill: number | null, subShieldOnStart: number | null, subSkillDamage: number | null, subSkillRegenOnKill: number | null, subSkillRegenSpeed: number | null, subWaterTypeAtk: number | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', options: Array<string | null> | null, atk: number | null, atkOnKill: number | null, basicTypeAtk: number | null, critChance: number | null, critHitMultiplier: number | null, damageReduction: number | null, darkTypeAtk: number | null, decreaseDamageTakenBySkill: number | null, def: number | null, defFlat: number | null, earthTypeAtk: number | null, extraDamageType: boolean | null, fieldGroupName: string | null, fireTypeAtk: number | null, healFlat: number | null, healPercent: number | null, hp: number | null, hpOnKill: number | null, increaseDamageAmount: number | null, increaseDamageCondition: boolean | null, increaseDamageThreshold: number | null, increaseDamageToTanks: number | null, lb5Option: Array<string | null> | null, lb5Value: number | null, lightTypeAtk: number | null, minDamageReduction: number | null, minDefFlat: number | null, onHitDamage: number | null, onHitDamageSeconds: number | null, onHitHealAllies: number | null, onHitHealSeconds: number | null, shieldOnKill: number | null, shieldOnStart: number | null, skillDamage: number | null, skillRegenOnKill: number | null, skillRegenSpeed: number | null, waterTypeAtk: number | null } | null, itemInformation: { __typename?: 'ItemInformation', rarity: Array<string | null> | null } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' }> } | null } | null, abilityFields: { __typename?: 'HeroInformationAbilityFields', chainStateTrigger: Array<string | null> | null, chainStateResult: Array<string | null> | null, chainSkillDescription: string | null, chainSkillName: string | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityName: string | null, specialAbilityDescription: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAbilityFieldsPartyBuff', affectsParty: boolean | null, value: number | null, stat: Array<string | null> | null } | null> | null } | null, illustration: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, illustration2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, background: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, mlbAwakeningFields: { __typename?: 'HeroInformationMlbAwakeningFields', midGradeHpMlb: number | null, midGradeDreamMlb: number | null, midGradeDefMlb: number | null, midGradeAtkMlb: number | null, lowGradeHpMlb: number | null, lowGradeDreamMlb: number | null, lowGradeDefMlb: number | null, lowGradeAtkMlb: number | null, legendaryAwakeningMlb: number | null, highGradeHpMlb: number | null, highGradeDreamMlb: number | null, highGradeDefMlb: number | null, highGradeAtkMlb: number | null, gold: number | null } | null, statFields: { __typename?: 'HeroInformationStatFields', atk: number | null, basicResistance: number | null, cardSlot: number | null, crit: number | null, damageReduction: number | null, darkResistance: number | null, def: number | null, earthResistance: number | null, fieldGroupName: string | null, heal: number | null, hp: number | null, lightResistance: number | null, waterResistance: number | null, fireResistance: number | null, atkRank: number | null, defRank: number | null, hpRank: number | null, critRank: number | null, healRank: number | null, drRank: number | null, heroCount: number | null } | null, statPriorities: Array<{ __typename?: 'HeroInformationStatPriorities', buildName: string | null, explanation: string | null, statPriority: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item' } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post', id: string, title: string | null } }> } | null } | null> | null, portrait2: Array<{ __typename?: 'HeroInformationPortrait2', art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null, title: string | null } } | null } | null> | null, costumes: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } }> } | null, evolutionFields2: { __typename?: 'HeroInformationEvolutionFields2', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evolutionFields: { __typename?: 'HeroInformationEvolutionFields', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evaluationFields: { __typename?: 'HeroInformationEvaluationFields', pros: string | null, cons: string | null, tags: Array<string | null> | null } | null, buildGuideFields: { __typename?: 'HeroInformationBuildGuideFields', suggestedWeapons: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedWeapons', weaponExplanation: string | null, suggestedWeapon: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } }> } | null } | null> | null, suggestedShield: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedShield', shieldExplanation: string | null, suggestedShield: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } }> } | null } | null> | null, suggestedMerch: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedMerch', merchExplanation: string | null, suggestedMerch: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } }> } | null } | null> | null, suggestedCards: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedCards', cardExplanation: string | null, suggestedCard: string | null } | null> | null, suggestedAccessories: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedAccessories', accessoryExplanation: string | null, suggestedAccessory: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } }> } | null } | null> | null } | null, bioFields2: { __typename?: 'HeroInformationBioFields2', weight: string | null, story: string | null, name: string | null, height: string | null, age: string | null } | null, analysisFields: { __typename?: 'HeroInformationAnalysisFields', detailedReview: string | null } | null, ascentAbilities: { __typename?: 'HeroInformationAscentAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, ascentExAbilities: { __typename?: 'HeroInformationAscentExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, exAbilities: { __typename?: 'HeroInformationExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, illustrations: Array<{ __typename?: 'HeroInformationIllustrations', name: string | null, image: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', title: string | null, sourceUrl: string | null } } | null } | null> | null } | null }> } | null };
-
-export type GetHeroByUriQueryVariables = Exact<{
-  uri: Scalars['ID']['input'];
+export type DownvoteTeamMutationVariables = Exact<{
+  heroId: Scalars['Int']['input'];
+  teamId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
+  ipAddress: Scalars['String']['input'];
 }>;
 
 
-export type GetHeroByUriQuery = { __typename?: 'RootQuery', hero: { __typename?: 'Hero', heroId: number, title: string | null, heroInformation: { __typename?: 'HeroInformation', variations: Array<string | null> | null, bioFields: { __typename?: 'HeroInformationBioFields', rarity: Array<string | null> | null, element: string | null, role: string | null, name: string | null, age: string | null, compatibleEquipment: Array<string | null> | null, weight: string | null, story: string | null, species: string | null, naReleaseDate: string | null, krReleaseDate: string | null, jpReleaseDate: string | null, height: string | null, exclusiveWeapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, title: string | null, weapons: { __typename?: 'Weapons', maxDps: number | null, element: Array<string | null> | null, exclusiveEffects: string | null, exclusive: boolean | null, magazine: number | null, maxAtk: number | null, minAtk: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl: string | null } } | null, engraving: Array<{ __typename?: 'WeaponsEngraving', value: number | null, stat: Array<string | null> | null } | null> | null } | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, equipmentSubOptions: { __typename?: 'EquipmentSubOptions', subOptions: Array<string | null> | null, fieldGroupName: string | null, maxLines: number | null, subAtk: number | null, subAtkOnKill: number | null, subBasicTypeAtk: number | null, subCritChance: number | null, subDamageReduction: number | null, subDarkTypeAtk: number | null, subDef: number | null, subDefFlat: number | null, subEarthTypeAtk: number | null, subFireTypeAtk: number | null, subHealFlat: number | null, subHealPercent: number | null, subHp: number | null, subHpOnKill: number | null, subLightTypeAtk: number | null, subShieldOnKill: number | null, subShieldOnStart: number | null, subSkillDamage: number | null, subSkillRegenOnKill: number | null, subSkillRegenSpeed: number | null, subWaterTypeAtk: number | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', options: Array<string | null> | null, atk: number | null, atkOnKill: number | null, basicTypeAtk: number | null, critChance: number | null, critHitMultiplier: number | null, damageReduction: number | null, darkTypeAtk: number | null, decreaseDamageTakenBySkill: number | null, def: number | null, defFlat: number | null, earthTypeAtk: number | null, extraDamageType: boolean | null, fieldGroupName: string | null, fireTypeAtk: number | null, healFlat: number | null, healPercent: number | null, hp: number | null, hpOnKill: number | null, increaseDamageAmount: number | null, increaseDamageCondition: boolean | null, increaseDamageThreshold: number | null, increaseDamageToTanks: number | null, lb5Option: Array<string | null> | null, lb5Value: number | null, lightTypeAtk: number | null, minDamageReduction: number | null, minDefFlat: number | null, onHitDamage: number | null, onHitDamageSeconds: number | null, onHitHealAllies: number | null, onHitHealSeconds: number | null, shieldOnKill: number | null, shieldOnStart: number | null, skillDamage: number | null, skillRegenOnKill: number | null, skillRegenSpeed: number | null, waterTypeAtk: number | null } | null, itemInformation: { __typename?: 'ItemInformation', rarity: Array<string | null> | null } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' }> } | null } | null, abilityFields: { __typename?: 'HeroInformationAbilityFields', chainStateTrigger: Array<string | null> | null, chainStateResult: Array<string | null> | null, chainSkillDescription: string | null, chainSkillName: string | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityName: string | null, specialAbilityDescription: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAbilityFieldsPartyBuff', affectsParty: boolean | null, value: number | null, stat: Array<string | null> | null } | null> | null } | null, portrait: Array<{ __typename?: 'HeroInformationPortrait', title: string | null, art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null> | null, illustration: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, illustration2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, background: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, mlbAwakeningFields: { __typename?: 'HeroInformationMlbAwakeningFields', midGradeHpMlb: number | null, midGradeDreamMlb: number | null, midGradeDefMlb: number | null, midGradeAtkMlb: number | null, lowGradeHpMlb: number | null, lowGradeDreamMlb: number | null, lowGradeDefMlb: number | null, lowGradeAtkMlb: number | null, legendaryAwakeningMlb: number | null, highGradeHpMlb: number | null, highGradeDreamMlb: number | null, highGradeDefMlb: number | null, highGradeAtkMlb: number | null, gold: number | null } | null, statFields: { __typename?: 'HeroInformationStatFields', atk: number | null, basicResistance: number | null, cardSlot: number | null, crit: number | null, damageReduction: number | null, darkResistance: number | null, def: number | null, earthResistance: number | null, fieldGroupName: string | null, heal: number | null, hp: number | null, lightResistance: number | null, waterResistance: number | null, fireResistance: number | null, atkRank: number | null, defRank: number | null, hpRank: number | null, critRank: number | null, healRank: number | null, drRank: number | null, heroCount: number | null } | null, statPriorities: Array<{ __typename?: 'HeroInformationStatPriorities', buildName: string | null, explanation: string | null, statPriority: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item' } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post', id: string, title: string | null } }> } | null } | null> | null, portrait2: Array<{ __typename?: 'HeroInformationPortrait2', art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null, title: string | null } } | null } | null> | null, costumes: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } }> } | null, evolutionFields2: { __typename?: 'HeroInformationEvolutionFields2', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evolutionFields: { __typename?: 'HeroInformationEvolutionFields', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evaluationFields: { __typename?: 'HeroInformationEvaluationFields', pros: string | null, cons: string | null, tags: Array<string | null> | null } | null, buildGuideFields: { __typename?: 'HeroInformationBuildGuideFields', suggestedWeapons: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedWeapons', weaponExplanation: string | null, suggestedWeapon: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } }> } | null } | null> | null, suggestedShield: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedShield', shieldExplanation: string | null, suggestedShield: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } }> } | null } | null> | null, suggestedMerch: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedMerch', merchExplanation: string | null, suggestedMerch: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } }> } | null } | null> | null, suggestedCards: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedCards', cardExplanation: string | null, suggestedCard: string | null } | null> | null, suggestedAccessories: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedAccessories', accessoryExplanation: string | null, suggestedAccessory: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } }> } | null } | null> | null } | null, bioFields2: { __typename?: 'HeroInformationBioFields2', weight: string | null, story: string | null, name: string | null, height: string | null, age: string | null } | null, analysisFields: { __typename?: 'HeroInformationAnalysisFields', detailedReview: string | null } | null, ascentAbilities: { __typename?: 'HeroInformationAscentAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, ascentExAbilities: { __typename?: 'HeroInformationAscentExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, exAbilities: { __typename?: 'HeroInformationExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, illustrations: Array<{ __typename?: 'HeroInformationIllustrations', name: string | null, image: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', title: string | null, sourceUrl: string | null } } | null } | null> | null } | null } | null };
+export type DownvoteTeamMutation = { __typename?: 'RootMutation', downvoteTeam: { __typename?: 'DownvoteTeamPayload', success: boolean | null, currentVote: string | null } | null };
 
-export type GetItemsLikesAndDislikesWithUserVoteQueryVariables = Exact<{
+export type UpvoteTeamMutationVariables = Exact<{
+  heroId: Scalars['Int']['input'];
+  teamId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
+  ipAddress: Scalars['String']['input'];
+}>;
+
+
+export type UpvoteTeamMutation = { __typename?: 'RootMutation', upvoteTeam: { __typename?: 'UpvoteTeamPayload', success: boolean | null, currentVote: string | null } | null };
+
+export type GetAllHeroesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllHeroesQuery = { __typename?: 'RootQuery', heroes: { __typename?: 'RootQueryToHeroConnection', nodes: Array<{ __typename?: 'Hero', id: string, uri: string | null, slug: string | null, heroId: number, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaDetails: { __typename?: 'MediaDetails', sizes: Array<{ __typename?: 'MediaSize', sourceUrl: string | null, name: string | null } | null> | null } | null } } | null, heroInformation: { __typename?: 'HeroInformation', variations: Array<string | null> | null, portrait: Array<{ __typename?: 'HeroInformationPortrait', title: string | null, art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null> | null, bioFields: { __typename?: 'HeroInformationBioFields', rarity: Array<string | null> | null, element: string | null, role: string | null, name: string | null, age: string | null, compatibleEquipment: Array<string | null> | null, weight: string | null, story: string | null, species: string | null, naReleaseDate: string | null, krReleaseDate: string | null, jpReleaseDate: string | null, height: string | null, exclusiveWeapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, title: string | null, weapons: { __typename?: 'Weapons', maxDps: number | null, element: Array<string | null> | null, exclusiveEffects: string | null, exclusive: boolean | null, magazine: number | null, maxAtk: number | null, minAtk: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl: string | null } } | null, engraving: Array<{ __typename?: 'WeaponsEngraving', value: number | null, stat: Array<string | null> | null } | null> | null } | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, equipmentSubOptions: { __typename?: 'EquipmentSubOptions', subOptions: Array<string | null> | null, fieldGroupName: string | null, maxLines: number | null, subAtk: number | null, subAtkOnKill: number | null, subBasicTypeAtk: number | null, subCritChance: number | null, subDamageReduction: number | null, subDarkTypeAtk: number | null, subDef: number | null, subDefFlat: number | null, subEarthTypeAtk: number | null, subFireTypeAtk: number | null, subHealFlat: number | null, subHealPercent: number | null, subHp: number | null, subHpOnKill: number | null, subLightTypeAtk: number | null, subShieldOnKill: number | null, subShieldOnStart: number | null, subSkillDamage: number | null, subSkillRegenOnKill: number | null, subSkillRegenSpeed: number | null, subWaterTypeAtk: number | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', options: Array<string | null> | null, atk: number | null, atkOnKill: number | null, basicTypeAtk: number | null, critChance: number | null, critHitMultiplier: number | null, damageReduction: number | null, darkTypeAtk: number | null, decreaseDamageTakenBySkill: number | null, def: number | null, defFlat: number | null, earthTypeAtk: number | null, extraDamageType: boolean | null, fieldGroupName: string | null, fireTypeAtk: number | null, healFlat: number | null, healPercent: number | null, hp: number | null, hpOnKill: number | null, increaseDamageAmount: number | null, increaseDamageCondition: boolean | null, increaseDamageThreshold: number | null, increaseDamageToTanks: number | null, lb5Option: Array<string | null> | null, lb5Value: number | null, lightTypeAtk: number | null, minDamageReduction: number | null, minDefFlat: number | null, onHitDamage: number | null, onHitDamageSeconds: number | null, onHitHealAllies: number | null, onHitHealSeconds: number | null, shieldOnKill: number | null, shieldOnStart: number | null, skillDamage: number | null, skillRegenOnKill: number | null, skillRegenSpeed: number | null, waterTypeAtk: number | null } | null, itemInformation: { __typename?: 'ItemInformation', rarity: Array<string | null> | null } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' }> } | null } | null, abilityFields: { __typename?: 'HeroInformationAbilityFields', chainStateTrigger: Array<string | null> | null, chainStateResult: Array<string | null> | null, chainSkillDescription: string | null, chainSkillName: string | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityName: string | null, specialAbilityDescription: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAbilityFieldsPartyBuff', affectsParty: boolean | null, value: number | null, stat: Array<string | null> | null } | null> | null } | null, thumbnail: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, background: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, mlbAwakeningFields: { __typename?: 'HeroInformationMlbAwakeningFields', midGradeHpMlb: number | null, midGradeDreamMlb: number | null, midGradeDefMlb: number | null, midGradeAtkMlb: number | null, lowGradeHpMlb: number | null, lowGradeDreamMlb: number | null, lowGradeDefMlb: number | null, lowGradeAtkMlb: number | null, legendaryAwakeningMlb: number | null, highGradeHpMlb: number | null, highGradeDreamMlb: number | null, highGradeDefMlb: number | null, highGradeAtkMlb: number | null, gold: number | null } | null, statFields: { __typename?: 'HeroInformationStatFields', atk: number | null, basicResistance: number | null, cardSlot: number | null, crit: number | null, damageReduction: number | null, darkResistance: number | null, def: number | null, earthResistance: number | null, fieldGroupName: string | null, heal: number | null, hp: number | null, lightResistance: number | null, waterResistance: number | null, fireResistance: number | null, atkRank: number | null, defRank: number | null, hpRank: number | null, critRank: number | null, healRank: number | null, drRank: number | null, heroCount: number | null } | null, statPriorities: Array<{ __typename?: 'HeroInformationStatPriorities', buildName: string | null, explanation: string | null, statPriority: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item' } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post', id: string, title: string | null } | { __typename?: 'Team' } }> } | null } | null> | null, portrait2: Array<{ __typename?: 'HeroInformationPortrait2', art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null, title: string | null } } | null } | null> | null, costumes: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null, evolutionFields2: { __typename?: 'HeroInformationEvolutionFields2', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evolutionFields: { __typename?: 'HeroInformationEvolutionFields', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evaluationFields: { __typename?: 'HeroInformationEvaluationFields', pros: string | null, cons: string | null, tags: Array<string | null> | null } | null, buildGuideFields: { __typename?: 'HeroInformationBuildGuideFields', suggestedWeapons: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedWeapons', weaponExplanation: string | null, suggestedWeapon: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedShield: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedShield', shieldExplanation: string | null, suggestedShield: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedMerch: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedMerch', merchExplanation: string | null, suggestedMerch: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedCards: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedCards', cardExplanation: string | null, suggestedCard: string | null } | null> | null, suggestedAccessories: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedAccessories', accessoryExplanation: string | null, suggestedAccessory: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null } | null, bioFields2: { __typename?: 'HeroInformationBioFields2', weight: string | null, story: string | null, name: string | null, height: string | null, age: string | null } | null, analysisFields: { __typename?: 'HeroInformationAnalysisFields', detailedReview: string | null } | null, ascentAbilities: { __typename?: 'HeroInformationAscentAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, ascentExAbilities: { __typename?: 'HeroInformationAscentExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, exAbilities: { __typename?: 'HeroInformationExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, illustrations: Array<{ __typename?: 'HeroInformationIllustrations', name: string | null, image: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', title: string | null, sourceUrl: string | null } } | null } | null> | null } | null }> } | null };
+
+export type GetAllItemsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllItemsQuery = { __typename?: 'RootQuery', items: { __typename?: 'RootQueryToItemConnection', nodes: Array<{ __typename?: 'Item', id: string, title: string | null, slug: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, weapons: { __typename?: 'Weapons', element: Array<string | null> | null, exclusive: boolean | null, exclusiveEffects: string | null, isFirstEx: boolean | null, magazine: number | null, maxAtk: number | null, maxDps: number | null, minAtk: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, engraving: Array<{ __typename?: 'WeaponsEngraving', stat: Array<string | null> | null, value: number | null } | null> | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, toughness: { __typename?: 'Toughness', toughness: number | null } | null, equipmentSubOptions: { __typename?: 'EquipmentSubOptions', subWaterTypeAtk: number | null, subSkillRegenSpeed: number | null, subSkillRegenOnKill: number | null, subSkillDamage: number | null, subShieldOnStart: number | null, subShieldOnKill: number | null, subOptions: Array<string | null> | null, subLightTypeAtk: number | null, subHpOnKill: number | null, subHp: number | null, subHealPercent: number | null, subHealFlat: number | null, subFireTypeAtk: number | null, subEarthTypeAtk: number | null, subDefFlat: number | null, subDef: number | null, subDarkTypeAtk: number | null, subDamageReduction: number | null, subCritChance: number | null, subBasicTypeAtk: number | null, subAtkOnKill: number | null, subAtk: number | null, maxLines: number | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', waterTypeAtk: number | null, skillRegenSpeed: number | null, skillRegenOnKill: number | null, skillDamage: number | null, shieldOnStart: number | null, shieldOnKill: number | null, options: Array<string | null> | null, onHitHealSeconds: number | null, onHitHealAllies: number | null, onHitDamageSeconds: number | null, onHitDamage: number | null, minDefFlat: number | null, minDamageReduction: number | null, lightTypeAtk: number | null, lb5Value: number | null, lb5Option: Array<string | null> | null, increaseDamageToTanks: number | null, increaseDamageThreshold: number | null, increaseDamageCondition: boolean | null, increaseDamageAmount: number | null, hpOnKill: number | null, hp: number | null, healPercent: number | null, healFlat: number | null, fireTypeAtk: number | null, fieldGroupName: string | null, extraDamageType: boolean | null, earthTypeAtk: number | null, defFlat: number | null, def: number | null, decreaseDamageTakenBySkill: number | null, darkTypeAtk: number | null, damageReduction: number | null, critHitMultiplier: number | null, critChance: number | null, basicTypeAtk: number | null, atkOnKill: number | null, atk: number | null } | null, costume: { __typename?: 'Costume', illustration: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null, itemInformation: { __typename?: 'ItemInformation', achievement: string | null, artifactDescription: string | null, artifactPassives: string | null, artifactRarity: string | null, battleMedalShopCost: number | null, bottleCapCost: number | null, cost: number | null, costumeWeaponType: string | null, equipmentShopCost: number | null, howToObtain: Array<string | null> | null, maxLevel: number | null, mileageShopCost: number | null, mirrorShardCost: number | null, mysticThreadCost: number | null, rarity: Array<string | null> | null, unreleased: boolean | null, collections: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, itemType: { __typename?: 'AcfTermNodeConnection', nodes: Array<{ __typename?: 'Category', name: string | null } | { __typename?: 'GraphqlDocumentGroup', name: string | null } | { __typename?: 'ItemType', name: string | null } | { __typename?: 'PostFormat', name: string | null } | { __typename?: 'Tag', name: string | null }> } | null } | null }> } | null };
+
+export type GetAllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllTeamsQuery = { __typename?: 'RootQuery', teams: { __typename?: 'RootQueryToTeamConnection', nodes: Array<{ __typename?: 'Team', id: string, databaseId: number, title: string | null, teamFields: { __typename?: 'TeamFields', teamType: string | null, notes: string | null, teamDamage: number | null, composition: Array<{ __typename?: 'TeamFieldsComposition', hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shield: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessory: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cards: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merch: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relic: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, heroSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shieldSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessorySubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merchSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cardsSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relicSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null> | null } | null }> } | null };
+
+export type GetTeamVotesWithUserVoteQueryVariables = Exact<{
   heroId: Scalars['Int']['input'];
   userId: Scalars['Int']['input'];
 }>;
 
 
-export type GetItemsLikesAndDislikesWithUserVoteQuery = { __typename?: 'RootQuery', itemsLikesByHero: Array<{ __typename?: 'ItemLikeDislikeCount', dislikeCount: number | null, likeCount: number | null, itemId: number | null, userId: number | null, userVote: string | null, item: { __typename?: 'Item', id: string, title: string | null, itemTypes: { __typename?: 'ItemToItemTypeConnection', nodes: Array<{ __typename?: 'ItemType', name: string | null }> } | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null } | null> | null };
+export type GetTeamVotesWithUserVoteQuery = { __typename?: 'RootQuery', teamsVotesByHero: Array<{ __typename?: 'TeamVoteCount', downvoteCount: number | null, teamId: number | null, userId: number | null, userVote: string | null, upvoteCount: number | null, team: { __typename?: 'Team', id: string } | null } | null> | null };
 
 
+export const DownvoteTeamDocument = gql`
+    mutation DownvoteTeam($heroId: Int!, $teamId: Int!, $userId: Int!, $ipAddress: String!) {
+  downvoteTeam(
+    input: {heroId: $heroId, teamId: $teamId, userId: $userId, ipAddress: $ipAddress}
+  ) {
+    success
+    currentVote
+  }
+}
+    `;
+export type DownvoteTeamMutationFn = Apollo.MutationFunction<DownvoteTeamMutation, DownvoteTeamMutationVariables>;
+
+/**
+ * __useDownvoteTeamMutation__
+ *
+ * To run a mutation, you first call `useDownvoteTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDownvoteTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [downvoteTeamMutation, { data, loading, error }] = useDownvoteTeamMutation({
+ *   variables: {
+ *      heroId: // value for 'heroId'
+ *      teamId: // value for 'teamId'
+ *      userId: // value for 'userId'
+ *      ipAddress: // value for 'ipAddress'
+ *   },
+ * });
+ */
+export function useDownvoteTeamMutation(baseOptions?: Apollo.MutationHookOptions<DownvoteTeamMutation, DownvoteTeamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DownvoteTeamMutation, DownvoteTeamMutationVariables>(DownvoteTeamDocument, options);
+      }
+export type DownvoteTeamMutationHookResult = ReturnType<typeof useDownvoteTeamMutation>;
+export type DownvoteTeamMutationResult = Apollo.MutationResult<DownvoteTeamMutation>;
+export type DownvoteTeamMutationOptions = Apollo.BaseMutationOptions<DownvoteTeamMutation, DownvoteTeamMutationVariables>;
+export const UpvoteTeamDocument = gql`
+    mutation UpvoteTeam($heroId: Int!, $teamId: Int!, $userId: Int!, $ipAddress: String!) {
+  upvoteTeam(
+    input: {heroId: $heroId, teamId: $teamId, userId: $userId, ipAddress: $ipAddress}
+  ) {
+    success
+    currentVote
+  }
+}
+    `;
+export type UpvoteTeamMutationFn = Apollo.MutationFunction<UpvoteTeamMutation, UpvoteTeamMutationVariables>;
+
+/**
+ * __useUpvoteTeamMutation__
+ *
+ * To run a mutation, you first call `useUpvoteTeamMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpvoteTeamMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [upvoteTeamMutation, { data, loading, error }] = useUpvoteTeamMutation({
+ *   variables: {
+ *      heroId: // value for 'heroId'
+ *      teamId: // value for 'teamId'
+ *      userId: // value for 'userId'
+ *      ipAddress: // value for 'ipAddress'
+ *   },
+ * });
+ */
+export function useUpvoteTeamMutation(baseOptions?: Apollo.MutationHookOptions<UpvoteTeamMutation, UpvoteTeamMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpvoteTeamMutation, UpvoteTeamMutationVariables>(UpvoteTeamDocument, options);
+      }
+export type UpvoteTeamMutationHookResult = ReturnType<typeof useUpvoteTeamMutation>;
+export type UpvoteTeamMutationResult = Apollo.MutationResult<UpvoteTeamMutation>;
+export type UpvoteTeamMutationOptions = Apollo.BaseMutationOptions<UpvoteTeamMutation, UpvoteTeamMutationVariables>;
 export const GetAllHeroesDocument = gql`
     query GetAllHeroes {
   heroes(first: 200) {
     nodes {
+      id
       uri
       slug
       featuredImage {
@@ -17131,12 +17515,7 @@ export const GetAllHeroesDocument = gql`
           }
           title
         }
-        illustration {
-          node {
-            sourceUrl
-          }
-        }
-        illustration2 {
+        thumbnail {
           node {
             sourceUrl
           }
@@ -17466,549 +17845,359 @@ export type GetAllHeroesQueryHookResult = ReturnType<typeof useGetAllHeroesQuery
 export type GetAllHeroesLazyQueryHookResult = ReturnType<typeof useGetAllHeroesLazyQuery>;
 export type GetAllHeroesSuspenseQueryHookResult = ReturnType<typeof useGetAllHeroesSuspenseQuery>;
 export type GetAllHeroesQueryResult = Apollo.QueryResult<GetAllHeroesQuery, GetAllHeroesQueryVariables>;
-export const GetHeroByUriDocument = gql`
-    query GetHeroByUri($uri: ID!) {
-  hero(id: $uri, idType: URI) {
-    heroId
-    title
-    heroInformation {
-      bioFields {
-        rarity
-        element
-        role
-        name
-        age
-        compatibleEquipment
-        exclusiveWeapon {
-          nodes {
-            ... on Item {
-              id
-              title
-              weapons {
-                maxDps
-                element
-                exclusiveEffects
-                exclusive
-                magazine
-                maxAtk
-                minAtk
-                minDps
-                weaponSkill
-                weaponSkillAtk
-                weaponSkillChain
-                weaponSkillDescription
-                weaponSkillName
-                weaponSkillRegenTime
-                weaponSkillVideo {
-                  node {
-                    mediaItemUrl
-                  }
-                }
-                weaponType
-                engraving {
-                  value
-                  stat
-                }
-              }
-              featuredImage {
-                node {
-                  sourceUrl
-                }
-              }
-              equipmentSubOptions {
-                subOptions
-                fieldGroupName
-                maxLines
-                subAtk
-                subAtkOnKill
-                subBasicTypeAtk
-                subCritChance
-                subDamageReduction
-                subDarkTypeAtk
-                subDef
-                subDefFlat
-                subEarthTypeAtk
-                subFireTypeAtk
-                subHealFlat
-                subHealPercent
-                subHp
-                subHpOnKill
-                subLightTypeAtk
-                subShieldOnKill
-                subShieldOnStart
-                subSkillDamage
-                subSkillRegenOnKill
-                subSkillRegenSpeed
-                subWaterTypeAtk
-              }
-              equipmentOptions {
-                options
-                atk
-                atkOnKill
-                basicTypeAtk
-                critChance
-                critHitMultiplier
-                damageReduction
-                darkTypeAtk
-                decreaseDamageTakenBySkill
-                def
-                defFlat
-                earthTypeAtk
-                extraDamageType
-                fieldGroupName
-                fireTypeAtk
-                healFlat
-                healPercent
-                hp
-                hpOnKill
-                increaseDamageAmount
-                increaseDamageCondition
-                increaseDamageThreshold
-                increaseDamageToTanks
-                lb5Option
-                lb5Value
-                lightTypeAtk
-                minDamageReduction
-                minDefFlat
-                onHitDamage
-                onHitDamageSeconds
-                onHitHealAllies
-                onHitHealSeconds
-                shieldOnKill
-                shieldOnStart
-                skillDamage
-                skillRegenOnKill
-                skillRegenSpeed
-                waterTypeAtk
-              }
-              itemInformation {
-                rarity
-              }
-            }
-          }
-        }
-        weight
-        story
-        species
-        naReleaseDate
-        krReleaseDate
-        jpReleaseDate
-        height
-      }
-      abilityFields {
-        chainStateTrigger
-        chainStateResult
-        partyBuff {
-          affectsParty
-          value
-          stat
-        }
-        chainSkillDescription
-        chainSkillName
-        normalAtkDescription
-        normalAtkName
-        specialAbilityName
-        specialAbilityDescription
-      }
-      portrait {
-        art {
-          node {
-            sourceUrl
-          }
-        }
-        title
-      }
-      illustration {
-        node {
-          sourceUrl
-        }
-      }
-      illustration2 {
-        node {
-          sourceUrl
-        }
-      }
-      background {
-        node {
-          sourceUrl
-        }
-      }
-      mlbAwakeningFields {
-        midGradeHpMlb
-        midGradeDreamMlb
-        midGradeDefMlb
-        midGradeAtkMlb
-        lowGradeHpMlb
-        lowGradeDreamMlb
-        lowGradeDefMlb
-        lowGradeAtkMlb
-        legendaryAwakeningMlb
-        highGradeHpMlb
-        highGradeDreamMlb
-        highGradeDefMlb
-        highGradeAtkMlb
-        gold
-      }
-      statFields {
-        atk
-        basicResistance
-        cardSlot
-        crit
-        damageReduction
-        darkResistance
-        def
-        earthResistance
-        fieldGroupName
-        heal
-        hp
-        lightResistance
-        waterResistance
-        fireResistance
-        atkRank
-        defRank
-        hpRank
-        critRank
-        healRank
-        drRank
-        heroCount
-      }
-      statPriorities {
-        statPriority {
-          edges {
-            node {
-              ... on Post {
-                id
-                title
-              }
-            }
-          }
-        }
-        buildName
-        explanation
-      }
-      portrait2 {
-        art {
-          node {
-            sourceUrl
-            title
-          }
-        }
-      }
-      costumes {
-        edges {
-          node {
-            ... on Item {
-              id
-              uri
-              featuredImage {
-                node {
-                  sourceUrl
-                }
-              }
-              title
-            }
-          }
-        }
-      }
-      evolutionFields2 {
-        evolution1 {
-          node {
-            sourceUrl
-          }
-        }
-        evolution2 {
-          node {
-            sourceUrl
-          }
-        }
-        evolution3 {
-          node {
-            sourceUrl
-          }
-        }
-        evolution4 {
-          node {
-            sourceUrl
-          }
-        }
-        evolution5 {
-          node {
-            sourceUrl
-          }
-        }
-      }
-      evolutionFields {
-        evolution1 {
-          node {
-            sourceUrl
-          }
-        }
-        evolution2 {
-          node {
-            sourceUrl
-          }
-        }
-        evolution3 {
-          node {
-            sourceUrl
-          }
-        }
-        evolution5 {
-          node {
-            sourceUrl
-          }
-        }
-        evolution4 {
-          node {
-            sourceUrl
-          }
-        }
-      }
-      evaluationFields {
-        pros
-        cons
-        tags
-      }
-      buildGuideFields {
-        suggestedWeapons {
-          suggestedWeapon {
-            edges {
-              node {
-                ... on Item {
-                  id
-                  uri
-                  title
-                  featuredImage {
-                    node {
-                      sourceUrl
-                    }
-                  }
-                }
-              }
-            }
-          }
-          weaponExplanation
-        }
-        suggestedShield {
-          suggestedShield {
-            edges {
-              node {
-                ... on Item {
-                  id
-                  uri
-                  title
-                  featuredImage {
-                    node {
-                      sourceUrl
-                    }
-                  }
-                }
-              }
-            }
-          }
-          shieldExplanation
-        }
-        suggestedMerch {
-          merchExplanation
-          suggestedMerch {
-            edges {
-              node {
-                ... on Item {
-                  id
-                  uri
-                  title
-                  featuredImage {
-                    node {
-                      sourceUrl
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        suggestedCards {
-          cardExplanation
-          suggestedCard
-        }
-        suggestedAccessories {
-          accessoryExplanation
-          suggestedAccessory {
-            edges {
-              node {
-                ... on Item {
-                  id
-                  uri
-                  title
-                  featuredImage {
-                    node {
-                      sourceUrl
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      bioFields2 {
-        weight
-        story
-        name
-        height
-        age
-      }
-      analysisFields {
-        detailedReview
-      }
-      ascentAbilities {
-        chainSkillDescription
-        chainSkillName
-        chainStateResult
-        chainStateTrigger
-        normalAtkDescription
-        normalAtkName
-        partyBuff {
-          affectsParty
-          stat
-          value
-        }
-        specialAbilityDescription
-        specialAbilityName
-      }
-      ascentExAbilities {
-        chainSkillDescription
-        chainSkillName
-        chainStateResult
-        chainStateTrigger
-        normalAtkDescription
-        normalAtkName
-        partyBuff {
-          affectsParty
-          stat
-          value
-        }
-        specialAbilityDescription
-        specialAbilityName
-      }
-      exAbilities {
-        chainSkillDescription
-        chainSkillName
-        chainStateResult
-        chainStateTrigger
-        normalAtkDescription
-        normalAtkName
-        partyBuff {
-          affectsParty
-          stat
-          value
-        }
-        specialAbilityDescription
-        specialAbilityName
-      }
-      variations
-      illustrations {
-        name
-        image {
-          node {
-            title
-            sourceUrl
-          }
-        }
-      }
-    }
-  }
-}
-    `;
-
-/**
- * __useGetHeroByUriQuery__
- *
- * To run a query within a React component, call `useGetHeroByUriQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetHeroByUriQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetHeroByUriQuery({
- *   variables: {
- *      uri: // value for 'uri'
- *   },
- * });
- */
-export function useGetHeroByUriQuery(baseOptions: Apollo.QueryHookOptions<GetHeroByUriQuery, GetHeroByUriQueryVariables> & ({ variables: GetHeroByUriQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetHeroByUriQuery, GetHeroByUriQueryVariables>(GetHeroByUriDocument, options);
-      }
-export function useGetHeroByUriLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetHeroByUriQuery, GetHeroByUriQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetHeroByUriQuery, GetHeroByUriQueryVariables>(GetHeroByUriDocument, options);
-        }
-export function useGetHeroByUriSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetHeroByUriQuery, GetHeroByUriQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetHeroByUriQuery, GetHeroByUriQueryVariables>(GetHeroByUriDocument, options);
-        }
-export type GetHeroByUriQueryHookResult = ReturnType<typeof useGetHeroByUriQuery>;
-export type GetHeroByUriLazyQueryHookResult = ReturnType<typeof useGetHeroByUriLazyQuery>;
-export type GetHeroByUriSuspenseQueryHookResult = ReturnType<typeof useGetHeroByUriSuspenseQuery>;
-export type GetHeroByUriQueryResult = Apollo.QueryResult<GetHeroByUriQuery, GetHeroByUriQueryVariables>;
-export const GetItemsLikesAndDislikesWithUserVoteDocument = gql`
-    query GetItemsLikesAndDislikesWithUserVote($heroId: Int!, $userId: Int!) {
-  itemsLikesByHero(heroId: $heroId, userId: $userId) {
-    dislikeCount
-    likeCount
-    itemId
-    userId
-    userVote
-    item {
+export const GetAllItemsDocument = gql`
+    query GetAllItems {
+  items(first: 2000) {
+    nodes {
       id
-      title
-      itemTypes {
-        nodes {
-          name
-        }
-      }
       featuredImage {
         node {
           sourceUrl
         }
       }
+      title
+      slug
+      weapons {
+        element
+        engraving {
+          stat
+          value
+        }
+        exclusive
+        exclusiveEffects
+        hero {
+          nodes {
+            id
+          }
+        }
+        isFirstEx
+        magazine
+        maxAtk
+        maxDps
+        minAtk
+        minDps
+        weaponSkill
+        weaponSkillAtk
+        weaponSkillChain
+        weaponSkillDescription
+        weaponSkillName
+        weaponSkillRegenTime
+        weaponSkillVideo {
+          node {
+            sourceUrl
+          }
+        }
+        weaponType
+      }
+      toughness {
+        toughness
+      }
+      equipmentSubOptions {
+        subWaterTypeAtk
+        subSkillRegenSpeed
+        subSkillRegenOnKill
+        subSkillDamage
+        subShieldOnStart
+        subShieldOnKill
+        subOptions
+        subLightTypeAtk
+        subHpOnKill
+        subHp
+        subHealPercent
+        subHealFlat
+        subFireTypeAtk
+        subEarthTypeAtk
+        subDefFlat
+        subDef
+        subDarkTypeAtk
+        subDamageReduction
+        subCritChance
+        subBasicTypeAtk
+        subAtkOnKill
+        subAtk
+        maxLines
+      }
+      equipmentOptions {
+        waterTypeAtk
+        skillRegenSpeed
+        skillRegenOnKill
+        skillDamage
+        shieldOnStart
+        shieldOnKill
+        options
+        onHitHealSeconds
+        onHitHealAllies
+        onHitDamageSeconds
+        onHitDamage
+        minDefFlat
+        minDamageReduction
+        lightTypeAtk
+        lb5Value
+        lb5Option
+        increaseDamageToTanks
+        increaseDamageThreshold
+        increaseDamageCondition
+        increaseDamageAmount
+        hpOnKill
+        hp
+        healPercent
+        healFlat
+        fireTypeAtk
+        fieldGroupName
+        extraDamageType
+        earthTypeAtk
+        defFlat
+        def
+        decreaseDamageTakenBySkill
+        darkTypeAtk
+        damageReduction
+        critHitMultiplier
+        critChance
+        basicTypeAtk
+        atkOnKill
+        atk
+      }
+      costume {
+        illustration {
+          node {
+            sourceUrl
+          }
+        }
+        hero {
+          nodes {
+            id
+          }
+        }
+      }
+      itemInformation {
+        achievement
+        artifactDescription
+        artifactPassives
+        artifactRarity
+        battleMedalShopCost
+        bottleCapCost
+        collections {
+          nodes {
+            id
+          }
+        }
+        cost
+        costumeWeaponType
+        equipmentShopCost
+        howToObtain
+        itemType {
+          nodes {
+            name
+          }
+        }
+        maxLevel
+        mileageShopCost
+        mirrorShardCost
+        mysticThreadCost
+        rarity
+        unreleased
+      }
     }
   }
 }
     `;
 
 /**
- * __useGetItemsLikesAndDislikesWithUserVoteQuery__
+ * __useGetAllItemsQuery__
  *
- * To run a query within a React component, call `useGetItemsLikesAndDislikesWithUserVoteQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetItemsLikesAndDislikesWithUserVoteQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetAllItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetItemsLikesAndDislikesWithUserVoteQuery({
+ * const { data, loading, error } = useGetAllItemsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllItemsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllItemsQuery, GetAllItemsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllItemsQuery, GetAllItemsQueryVariables>(GetAllItemsDocument, options);
+      }
+export function useGetAllItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllItemsQuery, GetAllItemsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllItemsQuery, GetAllItemsQueryVariables>(GetAllItemsDocument, options);
+        }
+export function useGetAllItemsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllItemsQuery, GetAllItemsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllItemsQuery, GetAllItemsQueryVariables>(GetAllItemsDocument, options);
+        }
+export type GetAllItemsQueryHookResult = ReturnType<typeof useGetAllItemsQuery>;
+export type GetAllItemsLazyQueryHookResult = ReturnType<typeof useGetAllItemsLazyQuery>;
+export type GetAllItemsSuspenseQueryHookResult = ReturnType<typeof useGetAllItemsSuspenseQuery>;
+export type GetAllItemsQueryResult = Apollo.QueryResult<GetAllItemsQuery, GetAllItemsQueryVariables>;
+export const GetAllTeamsDocument = gql`
+    query GetAllTeams {
+  teams(first: 200) {
+    nodes {
+      id
+      databaseId
+      title
+      teamFields {
+        teamType
+        notes
+        teamDamage
+        composition {
+          hero {
+            nodes {
+              id
+            }
+          }
+          weapon {
+            nodes {
+              id
+            }
+          }
+          shield {
+            nodes {
+              id
+            }
+          }
+          accessory {
+            nodes {
+              id
+            }
+          }
+          cards {
+            nodes {
+              id
+            }
+          }
+          merch {
+            nodes {
+              id
+            }
+          }
+          relic {
+            nodes {
+              id
+            }
+          }
+          heroSubstitutions {
+            nodes {
+              id
+            }
+          }
+          weaponSubstitutions {
+            nodes {
+              id
+            }
+          }
+          shieldSubstitutions {
+            nodes {
+              id
+            }
+          }
+          accessorySubstitutions {
+            nodes {
+              id
+            }
+          }
+          merchSubstitutions {
+            nodes {
+              id
+            }
+          }
+          cardsSubstitutions {
+            nodes {
+              id
+            }
+          }
+          relicSubstitutions {
+            nodes {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllTeamsQuery__
+ *
+ * To run a query within a React component, call `useGetAllTeamsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllTeamsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllTeamsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllTeamsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllTeamsQuery, GetAllTeamsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllTeamsQuery, GetAllTeamsQueryVariables>(GetAllTeamsDocument, options);
+      }
+export function useGetAllTeamsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllTeamsQuery, GetAllTeamsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllTeamsQuery, GetAllTeamsQueryVariables>(GetAllTeamsDocument, options);
+        }
+export function useGetAllTeamsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllTeamsQuery, GetAllTeamsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAllTeamsQuery, GetAllTeamsQueryVariables>(GetAllTeamsDocument, options);
+        }
+export type GetAllTeamsQueryHookResult = ReturnType<typeof useGetAllTeamsQuery>;
+export type GetAllTeamsLazyQueryHookResult = ReturnType<typeof useGetAllTeamsLazyQuery>;
+export type GetAllTeamsSuspenseQueryHookResult = ReturnType<typeof useGetAllTeamsSuspenseQuery>;
+export type GetAllTeamsQueryResult = Apollo.QueryResult<GetAllTeamsQuery, GetAllTeamsQueryVariables>;
+export const GetTeamVotesWithUserVoteDocument = gql`
+    query GetTeamVotesWithUserVote($heroId: Int!, $userId: Int!) {
+  teamsVotesByHero(heroId: $heroId, userId: $userId) {
+    downvoteCount
+    teamId
+    userId
+    userVote
+    team {
+      id
+    }
+    upvoteCount
+  }
+}
+    `;
+
+/**
+ * __useGetTeamVotesWithUserVoteQuery__
+ *
+ * To run a query within a React component, call `useGetTeamVotesWithUserVoteQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamVotesWithUserVoteQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTeamVotesWithUserVoteQuery({
  *   variables: {
  *      heroId: // value for 'heroId'
  *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useGetItemsLikesAndDislikesWithUserVoteQuery(baseOptions: Apollo.QueryHookOptions<GetItemsLikesAndDislikesWithUserVoteQuery, GetItemsLikesAndDislikesWithUserVoteQueryVariables> & ({ variables: GetItemsLikesAndDislikesWithUserVoteQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetTeamVotesWithUserVoteQuery(baseOptions: Apollo.QueryHookOptions<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables> & ({ variables: GetTeamVotesWithUserVoteQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetItemsLikesAndDislikesWithUserVoteQuery, GetItemsLikesAndDislikesWithUserVoteQueryVariables>(GetItemsLikesAndDislikesWithUserVoteDocument, options);
+        return Apollo.useQuery<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>(GetTeamVotesWithUserVoteDocument, options);
       }
-export function useGetItemsLikesAndDislikesWithUserVoteLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetItemsLikesAndDislikesWithUserVoteQuery, GetItemsLikesAndDislikesWithUserVoteQueryVariables>) {
+export function useGetTeamVotesWithUserVoteLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetItemsLikesAndDislikesWithUserVoteQuery, GetItemsLikesAndDislikesWithUserVoteQueryVariables>(GetItemsLikesAndDislikesWithUserVoteDocument, options);
+          return Apollo.useLazyQuery<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>(GetTeamVotesWithUserVoteDocument, options);
         }
-export function useGetItemsLikesAndDislikesWithUserVoteSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetItemsLikesAndDislikesWithUserVoteQuery, GetItemsLikesAndDislikesWithUserVoteQueryVariables>) {
+export function useGetTeamVotesWithUserVoteSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetItemsLikesAndDislikesWithUserVoteQuery, GetItemsLikesAndDislikesWithUserVoteQueryVariables>(GetItemsLikesAndDislikesWithUserVoteDocument, options);
+          return Apollo.useSuspenseQuery<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>(GetTeamVotesWithUserVoteDocument, options);
         }
-export type GetItemsLikesAndDislikesWithUserVoteQueryHookResult = ReturnType<typeof useGetItemsLikesAndDislikesWithUserVoteQuery>;
-export type GetItemsLikesAndDislikesWithUserVoteLazyQueryHookResult = ReturnType<typeof useGetItemsLikesAndDislikesWithUserVoteLazyQuery>;
-export type GetItemsLikesAndDislikesWithUserVoteSuspenseQueryHookResult = ReturnType<typeof useGetItemsLikesAndDislikesWithUserVoteSuspenseQuery>;
-export type GetItemsLikesAndDislikesWithUserVoteQueryResult = Apollo.QueryResult<GetItemsLikesAndDislikesWithUserVoteQuery, GetItemsLikesAndDislikesWithUserVoteQueryVariables>;
+export type GetTeamVotesWithUserVoteQueryHookResult = ReturnType<typeof useGetTeamVotesWithUserVoteQuery>;
+export type GetTeamVotesWithUserVoteLazyQueryHookResult = ReturnType<typeof useGetTeamVotesWithUserVoteLazyQuery>;
+export type GetTeamVotesWithUserVoteSuspenseQueryHookResult = ReturnType<typeof useGetTeamVotesWithUserVoteSuspenseQuery>;
+export type GetTeamVotesWithUserVoteQueryResult = Apollo.QueryResult<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>;

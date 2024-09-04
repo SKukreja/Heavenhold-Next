@@ -1,0 +1,12 @@
+query GetTeamVotesWithUserVote($heroId: Int!, $userId: Int!) {
+  teamsVotesByHero(heroId: $heroId, userId: $userId) {
+    downvoteCount
+    teamId
+    userId
+    userVote
+    team {
+      id
+    }
+    upvoteCount
+  }
+}

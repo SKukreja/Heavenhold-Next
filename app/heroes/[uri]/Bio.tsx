@@ -15,9 +15,7 @@ function Bio({ hero }: BioProps) {
   return (
     <div id="Bio" className="relative overflow-visible z-10 w-full h-[calc(100vh-12rem)] items-start flex px-4 3xl:px-8">
       <div className="px-4 3xl:px-8 w-1/4 flex-col justify-start h-[calc(100%-8rem)] flex">
-        <div className="w-full h-auto whitespace-nowrap">
-          <h2 className="text-xl 3xl:text-2xl font-medium uppercase tracking-widest mb-3">{hero.title && hero.heroInformation?.bioFields?.name ? hero.title.replace(hero.heroInformation.bioFields.name, '').trim() : ''}</h2>
-          <h1 className="text-6xl 3xl:text-8xl font-extrabold font-oswald -ml-1 tracking-wide mb-6">{hero.heroInformation?.bioFields?.name}</h1>
+        <div className="w-full h-auto whitespace-nowrap">          
           <div className={`flex gap-4 align-middle `}>
             {hero.heroInformation?.bioFields?.element && (
               <FadeInImage src={`/icons/${hero.heroInformation.bioFields.element.toLowerCase()}.webp`} className="flex flex-col justify-center h-full object-contain" width={30} height={30} alt={hero.heroInformation.bioFields.element} />
@@ -125,7 +123,19 @@ function Bio({ hero }: BioProps) {
         </div>
       </div>
       <div className={"w-2/4 h-full flex items-center relative justify-center"}>
-        {hero.heroInformation?.illustration?.node.sourceUrl && (<FadeInImage src={hero.heroInformation.illustration?.node.sourceUrl} width={1000} height={800} maxHeight={true} priority={true} className="object-contain w-full h-full -mt-12" quality={100} alt={hero.heroInformation.illustration?.node.title ?? ""} />)}
+        {hero.heroInformation?.illustrations?.map((illustration, index) => (
+          <FadeInImage
+            key={illustration?.name || index}
+            src={illustration?.image?.node.sourceUrl ?? ""}
+            width={1000}
+            height={800}
+            maxHeight={true}
+            priority={true}
+            className="object-contain w-full h-full z-30"
+            quality={100}
+            alt={illustration?.name ?? ""}
+          />
+        ))}
       </div>
       <div className="w-1/4 h-full px-8">
         <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Evolutions</h2>

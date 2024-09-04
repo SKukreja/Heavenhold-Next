@@ -1,0 +1,154 @@
+query GetAllItems {
+  items(first: 2000) {
+    nodes {
+      id
+      featuredImage {
+        node {
+          sourceUrl
+        }
+      }
+      title
+      slug
+      weapons {
+        element
+        engraving {
+          stat
+          value
+        }
+        exclusive
+        exclusiveEffects
+        hero {
+          nodes {
+            id
+          }
+        }
+        isFirstEx
+        magazine
+        maxAtk
+        maxDps
+        minAtk
+        minDps
+        weaponSkill
+        weaponSkillAtk
+        weaponSkillChain
+        weaponSkillDescription
+        weaponSkillName
+        weaponSkillRegenTime
+        weaponSkillVideo {
+          node {
+            sourceUrl
+          }
+        }
+        weaponType
+      }
+      toughness {
+        toughness
+      }
+      equipmentSubOptions {
+        subWaterTypeAtk
+        subSkillRegenSpeed
+        subSkillRegenOnKill
+        subSkillDamage
+        subShieldOnStart
+        subShieldOnKill
+        subOptions
+        subLightTypeAtk
+        subHpOnKill
+        subHp
+        subHealPercent
+        subHealFlat
+        subFireTypeAtk
+        subEarthTypeAtk
+        subDefFlat
+        subDef
+        subDarkTypeAtk
+        subDamageReduction
+        subCritChance
+        subBasicTypeAtk
+        subAtkOnKill
+        subAtk
+        maxLines
+      }
+      equipmentOptions {
+        waterTypeAtk
+        skillRegenSpeed
+        skillRegenOnKill
+        skillDamage
+        shieldOnStart
+        shieldOnKill
+        options
+        onHitHealSeconds
+        onHitHealAllies
+        onHitDamageSeconds
+        onHitDamage
+        minDefFlat
+        minDamageReduction
+        lightTypeAtk
+        lb5Value
+        lb5Option
+        increaseDamageToTanks
+        increaseDamageThreshold
+        increaseDamageCondition
+        increaseDamageAmount
+        hpOnKill
+        hp
+        healPercent
+        healFlat
+        fireTypeAtk
+        fieldGroupName
+        extraDamageType
+        earthTypeAtk
+        defFlat
+        def
+        decreaseDamageTakenBySkill
+        darkTypeAtk
+        damageReduction
+        critHitMultiplier
+        critChance
+        basicTypeAtk
+        atkOnKill
+        atk
+      }
+      costume {
+        illustration {
+          node {
+            sourceUrl
+          }
+        }
+        hero {
+          nodes {
+            id
+          }
+        }
+      }
+      itemInformation {
+        achievement
+        artifactDescription
+        artifactPassives
+        artifactRarity
+        battleMedalShopCost
+        bottleCapCost
+        collections {
+          nodes {
+            id
+          }
+        }
+        cost
+        costumeWeaponType
+        equipmentShopCost
+        howToObtain
+        itemType {
+          nodes {
+            name
+          }
+        }
+        maxLevel
+        mileageShopCost
+        mirrorShardCost
+        mysticThreadCost
+        rarity
+        unreleased
+      }
+    }
+  }
+}

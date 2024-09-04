@@ -1,0 +1,86 @@
+query GetAllTeams {
+  teams(first: 200) {
+    nodes {
+      id
+      databaseId
+      title
+      teamFields {
+        teamType
+        notes
+        teamDamage
+        composition {
+          hero {
+            nodes {
+              id
+            }
+          }
+          weapon {
+            nodes {
+              id
+            }
+          }
+          shield {
+            nodes {
+              id
+            }
+          }
+          accessory {
+            nodes {
+              id
+            }
+          }
+          cards {
+            nodes {
+              id
+            }
+          }
+          merch {
+            nodes {
+              id
+            }
+          }
+          relic {
+            nodes {
+              id
+            }
+          }
+          heroSubstitutions {
+            nodes {
+              id
+            }
+          }
+          weaponSubstitutions {
+            nodes {
+              id
+            }
+          }
+          shieldSubstitutions {
+            nodes {
+              id
+            }
+          }
+          accessorySubstitutions {
+            nodes {
+              id
+            }
+          }
+          merchSubstitutions {
+            nodes {
+              id
+            }
+          }
+          cardsSubstitutions {
+            nodes {
+              id
+            }
+          }
+          relicSubstitutions {
+            nodes {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -31,6 +31,7 @@ export default {
         gray: colors.zinc,
         'gray-1000': 'rgb(17,17,19)',
         'gray-1100': 'rgb(10,10,11)',
+        'gray-transparent': 'rgba(0,0,0,0.5)',
         fire: 'var(--color-fire)',
         water: 'var(--color-water)',
         dark: 'var(--color-dark)',
@@ -98,5 +99,5 @@ export default {
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms'), require('tailwind-scrollbar'), require("tailwindcss-animation-delay")],
+  plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms'), require('tailwind-scrollbar')({ nocompatible: true }), require("tailwindcss-animation-delay")],
 } satisfies Config;

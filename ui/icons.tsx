@@ -55,6 +55,10 @@
     <svg xmlns="http://www.w3.org/2000/svg" fill={color} viewBox="0 0 384 512"><path d="M64 416l-32 0 0-32 0-224 0-32 64 0 0 32 0 146.7L297.4 105.4 320 82.7 365.3 128l-22.6 22.6L141.3 352 288 352l32 0 0 64-32 0L64 416z"/></svg>
   );
 
+  export const crown = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M309 106c11.4-7 19-19.7 19-34c0-22.1-17.9-40-40-40s-40 17.9-40 40c0 14.4 7.6 27 19 34L192 256 72 160c5-6.7 8-15 8-24c0-22.1-17.9-40-40-40S0 113.9 0 136s17.9 40 40 40c.2 0 .5 0 .7 0L96 480l384 0 55.3-304c.2 0 .5 0 .7 0c22.1 0 40-17.9 40-40s-17.9-40-40-40s-40 17.9-40 40c0 9 3 17.3 8 24L384 256 309 106z"/></svg>
+  );
+
   export const equipmentIcons = {
     'One-Handed Sword': '/icons/equipment/1hsword.webp',
     'Two-Handed Sword': '/icons/equipment/2hsword.webp',

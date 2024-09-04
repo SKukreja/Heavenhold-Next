@@ -49,7 +49,6 @@ async function fetchBuildData(heroId: number, userId: number): Promise<Item[]> {
   });
 
   const responseBody = await res.json();
-  console.log(responseBody);
   if (responseBody && responseBody.data && responseBody.data.itemsLikesByHero) {
     return responseBody.data.itemsLikesByHero;
   } else {

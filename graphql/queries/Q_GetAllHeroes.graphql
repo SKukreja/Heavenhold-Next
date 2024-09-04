@@ -1,6 +1,7 @@
 query GetAllHeroes {
   heroes(first: 200) {
     nodes {
+      id
       uri
       slug
       featuredImage {
@@ -170,12 +171,7 @@ query GetAllHeroes {
           }
           title
         }
-        illustration {
-          node {
-            sourceUrl
-          }
-        }
-        illustration2 {
+        thumbnail {
           node {
             sourceUrl
           }

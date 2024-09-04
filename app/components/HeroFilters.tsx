@@ -78,8 +78,6 @@ export default function HeroFilters() {
 
   const applyFilters = (filters: { [key: string]: boolean }) => {
     const elements = document.querySelectorAll('[data-filter]');
-    console.log("Applying filters:", filters);
-
     const elementFilters = Object.keys(filters).filter(filter => filters[filter] && elementOptions.some(option => option.value === filter));
     const roleFilters = Object.keys(filters).filter(filter => filters[filter] && roleOptions.some(option => option.value === filter));
     const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && ['r-1-star', 'r-2-star', 'r-3-star'].includes(filter));

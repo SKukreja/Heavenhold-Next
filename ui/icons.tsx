@@ -81,4 +81,5 @@ export const upvote = () => (
 );
 
 export const downvote = () => (
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M320 240L160 384 0 240l0-48 320 0 0 48z"/></svg>);
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M320 240L160 384 0 240l0-48 320 0 0 48z"/></svg>
+);

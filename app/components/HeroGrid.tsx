@@ -26,7 +26,7 @@ export default function HeroGrid() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <div id="HeroList" className="flex flex-wrap justify-center gap-8 p-4">
+      <div id="HeroList" className="flex flex-wrap justify-center gap-4 lg:gap-8 lg:p-4">
         {heroes.map((hero: Hero) => (
           <HeroLink key={hero.uri} hero={hero} />
         ))}
@@ -43,7 +43,7 @@ const HeroLink = ({ hero }: { hero: Hero }) => {
     <Link
       href={hero.uri ?? '/'}
       data-filter={`${bioFields?.element?.toLowerCase()} ${bioFields?.role?.toLowerCase()} r-${bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()}`}
-      className={`${"e-" + bioFields?.element?.toLowerCase()} ${bioFields?.element?.toLowerCase()} r-${bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()} ${bioFields?.role?.toLowerCase()} relative w-64 h-96 flex m-[10px] cursor-pointer align-middle transition-all duration-200 after:transition-all after:linear after:duration-200 hover:after:outline-offset-[-5px] ease grayscale-[30%] hover:grayscale-0 after:w-full after:h-full after:absolute after:inset-0 after:z-20 after:pointer-events-none after:border after:border-gray-700 after:outline after:outline-2 after:outline-offset-[-10px]`}
+      className={`${"e-" + bioFields?.element?.toLowerCase()} ${bioFields?.element?.toLowerCase()} r-${bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()} ${bioFields?.role?.toLowerCase()} relative w-[calc(50vw-2rem)] h-[calc((50vw-2rem)*3/2)] lg:w-64 lg:h-96 flex m-0 lg:m-[10px] cursor-pointer align-middle transition-all duration-200 after:transition-all after:linear after:duration-200 hover:after:outline-offset-[-5px] ease grayscale-[30%] hover:grayscale-0 after:w-full after:h-full after:absolute after:inset-0 after:z-20 after:pointer-events-none after:border after:border-gray-700 after:outline after:outline-2 after:outline-offset-[-10px]`}
     >
       <div className="absolute inset-0 z-0 w-full h-full">
         <FadeInImage

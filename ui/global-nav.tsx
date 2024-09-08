@@ -5,6 +5,7 @@ import { useSelectedLayoutSegment } from 'next/navigation';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { home, item, hero, book, rank, login, contribute, discord } from './icons';
+import FadeInImage from '#/app/components/FadeInImage';
 
 type Item = {
     id: number;
@@ -90,21 +91,21 @@ export function GlobalNav() {
   ];
 
   return (
-    <div className="fixed top-0 z-10 flex flex-col bg-black border-b border-gray-800 w-72 lg:bottom-0 lg:z-auto lg:border-b-0 lg:border-r lg:border-gray-800">
-      <div className="flex items-center px-4 py-4 h-14 lg:h-auto">
+    <div className="fixed top-0 z-10 flex flex-col bg-black border-b border-gray-800 w-full h-16 lg:h-auto lg:w-72 lg:bottom-0 lg:z-auto lg:border-b-0 lg:border-r lg:border-gray-800">
+      <div className="flex items-center px-4 py-4 h-full lg:h-auto">
         <Link
           href="/"
-          className="group flex w-full items-center gap-x-2.5"
+          className="group flex w-auto lg:w-full items-center gap-x-2.5"
           onClick={close}
         >
-          <div className="p-4 rounded-full h-7 w-100">
-            <img src={'/logo.png'} />
+          <div className="p-4 rounded-full h-full w-fit lg:h-7 lg:w-100">
+            <FadeInImage src={'/logo.png'} className={'object-contain h-full w-auto'} alt={'logo'} width={128} height={128} />
           </div>
         </Link>
       </div>
       <button
         type="button"
-        className="absolute top-0 right-0 flex items-center px-4 group h-14 gap-x-2 lg:hidden"
+        className="absolute top-0 right-0 flex items-center px-4 group h-full gap-x-2 lg:hidden"
         onClick={() => setIsOpen(!isOpen)}
       >
         <div className="font-medium text-gray-100 group-hover:text-gray-400">
@@ -123,7 +124,7 @@ export function GlobalNav() {
           hidden: !isOpen,
         })}
       >
-        <nav className="pt-8 space-y-6 pb-28">
+        <nav className="pt-2 space-y-6 pb-28">
           {menu.map((section) => {
             return (
               <div key={section.items[0].id}>

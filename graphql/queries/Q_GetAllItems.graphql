@@ -2,6 +2,7 @@ query GetAllItems {
   items(first: 2000) {
     nodes {
       id
+      databaseId
       featuredImage {
         node {
           sourceUrl

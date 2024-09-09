@@ -1,7 +1,8 @@
 query GetAllHeroes {
-  heroes(first: 200) {
+  heroes(first: 1000) {
     nodes {
       id
+      databaseId
       uri
       slug
       featuredImage {

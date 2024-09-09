@@ -1,5 +1,6 @@
 mutation DownvoteTeam($heroId: Int!, $teamId: Int!, $userId: Int!, $ipAddress: String!) {
       downvoteTeam(input: { heroId: $heroId, teamId: $teamId, userId: $userId, ipAddress: $ipAddress }) {
+        teamId
         success
         currentVote
       }

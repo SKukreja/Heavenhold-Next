@@ -1,11 +1,12 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Hero, Team, Item } from "#/graphql/generated/types";
 import FadeInImage from "#/app/components/FadeInImage";
 import { upvote, downvote } from "#/ui/icons";
 import Link from 'next/link';
 import { useGetTeamVotesWithUserVoteQuery, useDownvoteTeamMutation, useUpvoteTeamMutation } from "#/graphql/generated/types";
+import Loading from '#/app/components/loading';
 
 
 interface TeamsProps {
@@ -30,68 +31,130 @@ async function getIpAddress(): Promise<string> {
 }
 
 function Teams({ hero, teams, heroes, items }: TeamsProps) {
+  const userId = 1;
   const { data: votesData, loading: votesLoading } = useGetTeamVotesWithUserVoteQuery({
-    variables: { heroId: hero.databaseId, userId: 1 } // Assuming userId is 1 for example
+    variables: { heroId: hero.databaseId, userId: userId } 
   });
+
   const [upvoteTeam] = useUpvoteTeamMutation();
   const [downvoteTeam] = useDownvoteTeamMutation();
 
   const heroTeams = teams.filter((team) => team.teamFields?.composition?.some((slot) => slot?.hero?.nodes[0].id === hero.id));
   
-  const handleUpvote = async (teamId: number) => {
-    const userIpAddress = await getIpAddress();
-    const { data } = await upvoteTeam({ variables: { heroId: hero.databaseId, teamId, userId: 1, ipAddress: userIpAddress } });
-    if (data?.upvoteTeam?.success) {
-      console.log("Upvote successful");
-    }
-  };
-
-  const handleDownvote = async (teamId: number) => {
-    const userIpAddress = await getIpAddress();
-    const { data } = await downvoteTeam({ variables: { heroId: hero.databaseId, teamId, userId: 1, ipAddress: userIpAddress } });
-    if (data?.downvoteTeam?.success) {
-      console.log("Downvote successful");
-    }
-  };
-
-  // Combine teams with votes data
   const teamsWithVotes = votesData?.teamsVotesByHero?.map(vote => ({
-    ...teams.find(team => team.databaseId === vote?.teamId),
-    votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0)
-  }));
+    ...heroTeams.find(team => team.databaseId === vote?.teamId),
+    votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
+    userVote: vote?.userVote,
+  })).sort((a, b) => b.votes - a.votes);
+
+  const teamsWithoutVotes = heroTeams.filter(team => !votesData?.teamsVotesByHero?.some(vote => vote?.teamId === team.databaseId)).map(team => ({ ...team, votes: 0, userVote: null }));
+
+  const [combinedTeams, setCombinedTeams] = useState<(Team & { votes: number; userVote: string | null })[]>([...(teamsWithVotes ?? []) as (Team & { votes: number; userVote: string | null })[], ...(teamsWithoutVotes ?? []) as (Team & { votes: number; userVote: string | null })[]]);
+
+  useEffect(() => {
+    if (!votesLoading && votesData) {
+      const heroTeams = teams.filter((team) => team.teamFields?.composition?.some((slot) => slot?.hero?.nodes[0].id === hero.id));
+  
+      const teamsWithVotes = votesData?.teamsVotesByHero?.map(vote => ({
+        ...heroTeams.find(team => team.databaseId === vote?.teamId),
+        votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
+        userVote: vote?.userVote,
+      })).sort((a, b) => b.votes - a.votes);
+  
+      const teamsWithoutVotes = heroTeams.filter(team => !votesData?.teamsVotesByHero?.some(vote => vote?.teamId === team.databaseId)).map(team => ({ ...team, votes: 0, userVote: null }));
+  
+      setCombinedTeams([...(teamsWithVotes ?? []) as (Team & { votes: number; userVote: string | null })[], ...(teamsWithoutVotes ?? []) as (Team & { votes: number; userVote: string | null })[]]);
+    }
+  }, [votesLoading, votesData, teams, hero]);
+
+  const handleUpvote = async (heroId: number, teamId: number) => {
+    try {
+      const userIpAddress = await getIpAddress();
+      const { data } = await upvoteTeam({ variables: { heroId: heroId, teamId, userId: userId, ipAddress: userIpAddress } });
+      if (data?.upvoteTeam?.success) {
+        setCombinedTeams((prevTeams) =>
+          prevTeams.map((team) => {
+            if (team.databaseId === teamId) {
+              // Calculate the adjustment based on the previous vote
+              let likeAdjustment = 1;
+              if ('userVote' in team && team.userVote === "downvote") {
+                likeAdjustment = 2;
+              }
+              return {
+                ...team,
+                userVote: "upvote",
+                votes: team.votes + likeAdjustment,
+              };
+            }
+            return team;
+          }).sort((a, b) => b.votes - a.votes)
+        );
+      }
+    } catch (error) {
+      console.error("Error handling upvote:", error);
+    }
+  };
+  
+  const handleDownvote = async (heroId: number, teamId: number) => {
+    try {
+      const userIpAddress = await getIpAddress();
+      const { data } = await downvoteTeam({ variables: { heroId: heroId, teamId, userId: userId, ipAddress: userIpAddress } });
+      if (data?.downvoteTeam?.success) {
+        setCombinedTeams((prevTeams) =>
+          prevTeams.map((team) => {
+            if (team.databaseId === teamId) {
+              // Calculate the adjustment based on the previous vote
+              let dislikeAdjustment = 1;
+              if ('userVote' in team && team.userVote === "upvote") {
+                dislikeAdjustment = 2;
+              }
+              return {
+                ...team,
+                userVote: "downvote",
+                votes: team.votes - dislikeAdjustment,
+              };
+            }
+            return team;
+          }).sort((a, b) => b.votes - a.votes)
+        );
+      }
+    } catch (error) {
+      console.error("Error handling downvote:", error);
+    }
+  };  
 
   return (
     <div id="Teams" className="relative overflow-visible z-10 w-full h-[calc(100vh-12rem)] items-start flex px-4 3xl:px-8">
       <div className="px-4 3xl:px-8 w-full flex-col justify-start h-full flex">
         <div className="w-full h-full">
-          {heroTeams.map((team) => {
-            const teamSlug = team.slug || team.id;
+          {combinedTeams && combinedTeams.map((team) => {
+            const teamSlug = team?.slug ?? "";
             return (
               <div key={teamSlug} className="team-box text-white bg-gray-transparent w-full mb-4">
                 <div className="team-header">
                   <div className="team-heroes flex justify-between items-center p-4 gap-4">
                   <div className="votes flex flex-col justify-between items-center gap-2">
                     <button
-                      className="w-4 h-4 flex flex-col justift-center items-center fill-white"
-                      onClick={() => handleUpvote(team.databaseId)}
-                      disabled={/*suggestion.userVote === "like"*/false}
+                      className="w-4 h-4 flex flex-col justify-center items-center fill-white disabled:fill-orange-300"
+                      onClick={() => team && typeof team !== 'number' && handleUpvote(hero.databaseId, team?.databaseId ?? 0)}
+                      disabled={team && 'userVote' in team && team.userVote === "upvote"}
                     >
                       {upvote()}
                     </button>
-                    <div className="text-lg flex flex-col justift-center items-center font-oswald">
-                      {/*suggestion.likeCount - suggestion.dislikeCount*/}
+                    <div className="text-lg flex flex-col justify-center items-center font-oswald">
+                      {team.votes}
                     </div>
                     <button
-                      className="w-4 h-4 flex flex-col justift-center items-center fill-white"
-                      onClick={() => handleDownvote(team.databaseId)}
-                      disabled={/*suggestion.userVote === "dislike"*/false}
+                      className="w-4 h-4 flex flex-col justify-center items-center fill-white disabled:fill-blue-300"
+                      onClick={() => typeof team !== 'number' && handleDownvote(hero.databaseId, team?.databaseId ?? 0)}
+                      disabled={team && 'userVote' in team && team.userVote === "downvote"}
                     >
                       {downvote()}
                     </button>
                   </div>
-                    <div>{team.title}</div>
+                    <div className="text-lg font-bold">{typeof team !== 'number' && (team?.title ?? "")}</div>
                     <div className="flex justify-center items-center gap-4">
-                    {team.teamFields?.composition?.map((slot, index) => {
+                    {team && typeof team !== 'number' && team.teamFields?.composition?.map((slot, index) => {
                       const heroId = slot?.hero?.nodes[0].id;
                       const heroData = heroes.find((h) => h.id === heroId);
                       const element = heroData?.heroInformation?.bioFields?.element?.toLowerCase();
@@ -137,7 +200,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                 </div>
                 <div className="team-details hidden" id={`${teamSlug}-details`}>
                   <div className="team-build">
-                    {team.teamFields?.composition?.map((slot, index) => {
+                    {typeof team !== 'number' && team?.teamFields?.composition?.map((slot: any, index: number) => {
                       const heroId = slot?.hero?.nodes[0].id;
                       const heroData = heroes.find((h) => h.id === heroId);
                       const element = heroData?.heroInformation?.bioFields?.element?.toLowerCase();
@@ -156,7 +219,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                                 <div className="hero-image" style={{ backgroundImage: `url(${heroImage})` }}>
                                   {/*equipmentIcons[role]*/}
                                   {/*equipmentIcons[element]*/}
-                                  {index === 0 && team.teamFields?.teamType !== "Arena" && (
+                                  {typeof team !== 'number' && index === 0 && team?.teamFields?.teamType !== "Arena" && (
                                     <img
                                       className="lead-icon absolute top-0 left-0"
                                       src="/assets/img/icons/lead.png"
@@ -202,7 +265,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                     })}
                   </div>
                   <div className="team-explanation">
-                    {team.teamFields?.notes}
+                    {typeof team !== 'number' && (team?.teamFields?.notes ?? '')}
                   </div>
                 </div>
               </div>

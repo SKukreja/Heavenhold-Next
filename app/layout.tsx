@@ -30,7 +30,7 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
             <ItemsProvider>
               <TeamsProvider>
                 <Sidebar />
-                <div className="absolute right-0 w-full lg:w-[calc(100%-36rem)] min-h-screen">
+                <div className="absolute right-0 w-full lg:w-[calc(70%)] min-h-screen">
                   <div>
                     <div className="rounded-lg shadow-lg shadow-black/20">
                       <div className="bg-black min-h-screen ">

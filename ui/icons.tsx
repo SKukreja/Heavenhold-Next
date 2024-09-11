@@ -75,6 +75,9 @@
 export const normal = '/icons/normal.webp';
 export const special = '/icons/special.webp';
 export const chain = '/icons/chain.webp';
+export const chevron = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M2.7 256l22.6 22.6 192 192L240 493.3 285.3 448l-22.6-22.6L93.3 256 262.6 86.6 285.3 64 240 18.7 217.4 41.4l-192 192L2.7 256z"/></svg>
+);
 
 export const upvote = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M0 272L160 128 320 272v48H0V272z"/></svg>

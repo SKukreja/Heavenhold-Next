@@ -27,127 +27,15 @@ function Abilities({ hero }: AbilitiesProps) {
     return (
       <div id="Abilities" className="relative overflow-visible z-10 w-full h-auto items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-4 3xl:px-8">
         <div className="px-4 3xl:px-8 w-full justify-start h-auto flex">
-          <div className="w-1/2 h-full">
-            {hero.heroInformation?.variations?.find(x => x === "Ascent") && <div className="w-full flex gap-8 mb-16 cursor-pointer text-4xl font-bold uppercase" onClick={() => handleAscendClick()}>
-              <h2 className="text-white flex items-center justify-center">                
-                <span>{ascended ? "Descent" : "Ascent"}</span>
-                <span className="w-7 h-7 ml-4 -mt-3">{ascended ? arrowDownLeft("white") : arrowUpRight("white")}</span>
-              </h2>
-            </div>}
-            <div className="w-full flex gap-8 flex-wrap">
-              <div className="w-[calc(100%-1.5rem)] mb-16 flex items-center">
-                <div className="w-32 h-32 flex justify-center items-center p-4">
-                <FadeInImage src={normal} alt={'Normal Attack Icon'} width={40} height={40} />
-                </div>
-                <div>
-                  <h2 className="uppercase tracking-widest text-green-500 text-xs flex">Normal Attack</h2>
-                  <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">
-                  {
-                    selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.normalAtkName : hero.heroInformation?.abilityFields?.normalAtkName) : 
-                    selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.normalAtkName : hero.heroInformation?.exAbilities?.normalAtkName) : ""
-                  }
-                  </h2>
-                  <div className="w-full h-auto">
-                    <span className="w-full" dangerouslySetInnerHTML={{ __html: 
-                      selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.normalAtkDescription : hero.heroInformation?.abilityFields?.normalAtkDescription) + "" : 
-                      selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.normalAtkDescription : hero.heroInformation?.exAbilities?.normalAtkDescription) + "" : ""
-                    ?? "" }}></span>
-                  </div>
-                </div>
-              </div>
-              {hero.heroInformation?.bioFields?.exclusiveWeapon &&
-              <div className="w-[calc(100%-1.5rem)] mb-16 flex items-center">
-                <div className="w-32 h-32 flex justify-center items-center p-4">
-                  <FadeInImage src={'/icons/' + (hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item).weapons?.weaponSkillChain?.toString().toLowerCase() + '.webp'} alt={'Chain Trigger ' + hero.heroInformation?.abilityFields?.chainStateTrigger} width={40} height={40} />
-                </div>
-                <div>
-                  <h2 className="uppercase tracking-widest text-green-500 text-xs">Weapon Skill</h2>
-                  <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">{(hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item)?.weapons?.weaponSkillName}</h2>
-                  <div className="w-full h-auto">
-                    <span className="w-full" dangerouslySetInnerHTML={{ __html: (hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item)?.weapons?.weaponSkillDescription ?? "" }}></span>
-                  </div>
-                </div>
-              </div>}
-              <div className="w-[calc(100%-1.5rem)] mb-16 flex items-center">
-                <div className="w-32 h-32 flex justify-center items-center p-4">
-                  <FadeInImage src={special} alt={'Special Ability Icon'} width={40} height={40} />
-                </div>
-                <div>
-                <h2 className="uppercase tracking-widest text-green-500 text-xs">Special Ability</h2>
-                <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">
-                  {
-                    selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.specialAbilityName : hero.heroInformation?.abilityFields?.specialAbilityName) + "" : 
-                    selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.specialAbilityName : hero.heroInformation?.exAbilities?.specialAbilityName) + "" : ""
-                  }
-                </h2>
-                <div className="w-full h-auto">
-                  <span className="w-full" dangerouslySetInnerHTML={{ __html: 
-                  selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.specialAbilityDescription : hero.heroInformation?.abilityFields?.specialAbilityDescription) + "" : 
-                  selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.specialAbilityDescription : hero.heroInformation?.exAbilities?.specialAbilityDescription) + "" : ""
-                  }}></span>
-                </div>
-                </div>
-              </div>
-              <div className="w-[calc(100%-1.5rem)] mb-16 flex items-center">
-                <div className="w-32 h-32 flex justify-center items-center p-4 relative -gap-2">
-                  <FadeInImage className="w-full" src={'/icons/' + (hero.heroInformation?.abilityFields?.chainStateTrigger?.toString().toLowerCase() || '') + '.webp'} alt={'Chain Trigger ' + (hero.heroInformation?.abilityFields?.chainStateTrigger || '')} width={40} height={40} />
-                  <FadeInImage className="w-full" src={'/icons/' + (hero.heroInformation?.abilityFields?.chainStateResult?.toString().toLowerCase() || '') + '.webp'} alt={'Chain Result ' + (hero.heroInformation?.abilityFields?.chainStateResult || '')} width={40} height={40} />
-                </div>
-                <div>
-                  <h2 className="uppercase tracking-widest text-green-500 text-xs">Chain Ability</h2>
-                  <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">
-                  {
-                    selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.chainSkillName : hero.heroInformation?.abilityFields?.chainSkillName) + "" : 
-                    selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.chainSkillName : hero.heroInformation?.exAbilities?.chainSkillName) + "" : ""
-                  }
-                  </h2>
-                  <div className="w-full h-auto">
-                    <span className="w-full" dangerouslySetInnerHTML={{ __html: 
-                    selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.chainSkillDescription : hero.heroInformation?.abilityFields?.chainSkillDescription) + "" : 
-                    selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.chainSkillDescription : hero.heroInformation?.exAbilities?.chainSkillDescription) + "" : ""
-                    }}></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="w-full flex gap-8 mb-16">
-              {hero.heroInformation?.abilityFields?.partyBuff && (<div className="w-[calc(50%-1.5rem)] mb-16">
-                <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Passives</h2>
-                  <div className="w-full h-auto">
-                    {
-                      selectedWeapon === 0 ? (
-                        ascended ? 
-                          hero.heroInformation?.ascentAbilities?.partyBuff?.map((passive: any) => (
-                            <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
-                          ))
-                        : hero.heroInformation?.abilityFields?.partyBuff?.map((passive: any) => (
-                            <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
-                          ))
-                      ) 
-                      : selectedWeapon === 1 ? (
-                        ascended ? 
-                          hero.heroInformation?.ascentExAbilities?.partyBuff?.map((passive: any) => (
-                            <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
-                          ))
-                        : hero.heroInformation?.exAbilities?.partyBuff?.map((passive: any) => (
-                            <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
-                          ))
-                      ) 
-                      : ""
-                    }
-                  </div>
-              </div>)}
-            </div>
-          </div>
-          {hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes && (
-            <div className="w-1/2 h-full flex flex-col px-4">              
+        {hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes && (
+            <div className="w-1/4 h-auto flex flex-col pr-8">              
               <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Exclusive Weapons</h2>
-              <div className="flex gap-8 justify-between items-start w-full">
+              <div className="flex flex-col gap-8 justify-between items-start w-full">
                 {hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes.map((weapon, index) =>
                 { 
                   const weaponNode = weapon as Item;
                   return (
-                  <div key={weaponNode.id} className={`mb-8 w-[calc(50%-1rem)] relative ${hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes?.length ?? 0 > 1 ? 'cursor-pointer' : ''} bg-gray-800 p-4 3xl:p-8`} onClick={() => handleWeaponClick(index)}>
+                  <div key={weaponNode.id} className={`w-full relative ${hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes?.length ?? 0 > 1 ? 'cursor-pointer' : ''} bg-gray-800 p-4 3xl:p-8`} onClick={() => handleWeaponClick(index)}>
                     <div className={`absolute top-4 right-4 text-${hero.heroInformation?.bioFields?.element?.toLowerCase()} ${selectedWeapon === index && (hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes?.length ?? 0) > 1 ? 'block' : 'hidden'}`}>Selected</div>
                     <div className="flex">
                       <div className="w-16 3xl:w-20">
@@ -260,14 +148,130 @@ function Abilities({ hero }: AbilitiesProps) {
                   )
                 })}              
               </div>
-            
-              <div className="w-full mb-16">
-                {(hero.heroInformation.bioFields.exclusiveWeapon.nodes[selectedWeapon] as Item).weapons?.weaponSkillVideo?.node?.mediaItemUrl && (
-                  <LoopVideo videoSrc={(hero.heroInformation.bioFields.exclusiveWeapon.nodes[selectedWeapon] as Item).weapons?.weaponSkillVideo?.node?.mediaItemUrl + ""} />
-                )}   
-              </div>
             </div>
-          )}
+          )}          
+          <div className="w-1/2 pr-8 h-full">
+            {hero.heroInformation?.variations?.find(x => x === "Ascent") ? (
+            <div className="w-full flex gap-8 cursor-pointer mb-6 text-2xl 3xl:text-4xl font-medium font-oswald uppercase" onClick={() => handleAscendClick()}>
+              <h2 className="text-white flex items-center justify-center">                
+                <span>{ascended ? "Descent" : "Ascent"}</span>
+                <span className="w-5 h-5 ml-2 -mt-2">{ascended ? arrowDownLeft("white") : arrowUpRight("white")}</span>
+              </h2>
+            </div>) : (<div className="w-full flex gap-8 cursor-pointer mb-6 text-2xl 3xl:text-4xl font-medium font-oswald uppercase">
+              <h2 className="text-white flex items-center justify-center">&nbsp;</h2>
+            </div>)}
+            <div className="w-full flex gap-8 flex-wrap">
+              <div className="w-[calc(100%)] py-8 pl-4 pr-8 bg-gray-transparent mb-2 flex items-center">
+                <div className="w-1/5 h-32 flex justify-center items-center pr-4">
+                <FadeInImage src={normal} alt={'Normal Attack Icon'} width={40} height={40} />
+                </div>
+                <div className="w-4/5">
+                  <h2 className="uppercase tracking-widest text-green-500 text-xs flex">Normal Attack</h2>
+                  <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">
+                  {
+                    selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.normalAtkName : hero.heroInformation?.abilityFields?.normalAtkName) : 
+                    selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.normalAtkName : hero.heroInformation?.exAbilities?.normalAtkName) : ""
+                  }
+                  </h2>
+                  <div className="w-full h-auto">
+                    <span className="w-full" dangerouslySetInnerHTML={{ __html: 
+                      selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.normalAtkDescription : hero.heroInformation?.abilityFields?.normalAtkDescription) + "" : 
+                      selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.normalAtkDescription : hero.heroInformation?.exAbilities?.normalAtkDescription) + "" : ""
+                    ?? "" }}></span>
+                  </div>
+                </div>
+              </div>              
+              <div className="w-[calc(100%)] py-8 pl-4 pr-8 bg-gray-transparent mb-2 flex items-center">
+                <div className="w-1/5 h-32 flex justify-center items-center pr-4">
+                  <FadeInImage src={special} alt={'Special Ability Icon'} width={40} height={40} />
+                </div>
+                <div className="w-4/5">
+                <h2 className="uppercase tracking-widest text-green-500 text-xs">Special Ability</h2>
+                <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">
+                  {
+                    selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.specialAbilityName : hero.heroInformation?.abilityFields?.specialAbilityName) + "" : 
+                    selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.specialAbilityName : hero.heroInformation?.exAbilities?.specialAbilityName) + "" : ""
+                  }
+                </h2>
+                <div className="w-full h-auto">
+                  <span className="w-full" dangerouslySetInnerHTML={{ __html: 
+                  selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.specialAbilityDescription : hero.heroInformation?.abilityFields?.specialAbilityDescription) + "" : 
+                  selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.specialAbilityDescription : hero.heroInformation?.exAbilities?.specialAbilityDescription) + "" : ""
+                  }}></span>
+                </div>
+                </div>
+              </div>
+              <div className="w-[calc(100%)] py-8 pl-4 pr-8 bg-gray-transparent mb-2 flex items-center">
+                <div className="w-1/5 h-32 flex justify-center items-center pr-4 relative -gap-2">
+                  <FadeInImage className="w-full mt-8" src={'/icons/' + (hero.heroInformation?.abilityFields?.chainStateTrigger?.toString().toLowerCase() || '') + '.webp'} alt={'Chain Trigger ' + (hero.heroInformation?.abilityFields?.chainStateTrigger || '')} width={30} height={30} />
+                  <FadeInImage className="w-full -mt-8" src={'/icons/' + (hero.heroInformation?.abilityFields?.chainStateResult?.toString().toLowerCase() || '') + '.webp'} alt={'Chain Result ' + (hero.heroInformation?.abilityFields?.chainStateResult || '')} width={30} height={30} />
+                </div>
+                <div className="w-4/5">
+                  <h2 className="uppercase tracking-widest text-green-500 text-xs">Chain Ability</h2>
+                  <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">
+                  {
+                    selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.chainSkillName : hero.heroInformation?.abilityFields?.chainSkillName) + "" : 
+                    selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.chainSkillName : hero.heroInformation?.exAbilities?.chainSkillName) + "" : ""
+                  }
+                  </h2>
+                  <div className="w-full h-auto">
+                    <span className="w-full" dangerouslySetInnerHTML={{ __html: 
+                    selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.chainSkillDescription : hero.heroInformation?.abilityFields?.chainSkillDescription) + "" : 
+                    selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.chainSkillDescription : hero.heroInformation?.exAbilities?.chainSkillDescription) + "" : ""
+                    }}></span>
+                  </div>
+                </div>
+              </div>
+              {hero.heroInformation?.bioFields?.exclusiveWeapon &&
+              <div className="w-[calc(100%)] py-8 pl-4 pr-8 bg-gray-transparent mb-8 flex items-center">
+                <div className="w-1/5 h-32 flex justify-center items-center pr-4">
+                  <FadeInImage src={'/icons/' + (hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item).weapons?.weaponSkillChain?.toString().toLowerCase() + '.webp'} alt={'Chain Trigger ' + hero.heroInformation?.abilityFields?.chainStateTrigger} width={40} height={40} />
+                </div>
+                <div>
+                  <h2 className="uppercase tracking-widest text-green-500 text-xs">Weapon Skill</h2>
+                  <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">{(hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item)?.weapons?.weaponSkillName}</h2>
+                  <div className="w-4/5 h-auto">
+                    <span className="w-full" dangerouslySetInnerHTML={{ __html: (hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item)?.weapons?.weaponSkillDescription ?? "" }}></span>
+                  </div>
+                </div>
+              </div>}
+            </div>
+            <div className="w-full mb-8">
+              {(hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item).weapons?.weaponSkillVideo?.node?.mediaItemUrl && (
+                <LoopVideo videoSrc={(hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item).weapons?.weaponSkillVideo?.node?.mediaItemUrl + ""} />
+              )}   
+            </div>
+          </div>
+          <div className="w-1/4 mb-2">
+          {hero.heroInformation?.abilityFields?.partyBuff && (
+            <>
+              <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Passives</h2>
+                <div className="w-4/5 h-auto">
+                  {
+                    selectedWeapon === 0 ? (
+                      ascended ? 
+                        hero.heroInformation?.ascentAbilities?.partyBuff?.map((passive: any) => (
+                          <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
+                        ))
+                      : hero.heroInformation?.abilityFields?.partyBuff?.map((passive: any) => (
+                          <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
+                        ))
+                    ) 
+                    : selectedWeapon === 1 ? (
+                      ascended ? 
+                        hero.heroInformation?.ascentExAbilities?.partyBuff?.map((passive: any) => (
+                          <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
+                        ))
+                      : hero.heroInformation?.exAbilities?.partyBuff?.map((passive: any) => (
+                          <StatFormatter key={passive.stat} statName={passive.stat} statValue={passive.value.toString()} isPassive={true} affectsParty={passive.affectsParty} />
+                        ))
+                    ) 
+                    : ""
+                  }
+                </div>
+              </>
+            )}
+            </div>
         </div>        
       </div>
     )

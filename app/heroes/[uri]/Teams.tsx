@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Hero, Team, Item } from "#/graphql/generated/types";
 import FadeInImage from "#/app/components/FadeInImage";
-import { upvote, downvote, chevron } from "#/ui/icons";
+import { upvote, downvote, chevron, crown } from "#/ui/icons";
 import Link from "next/link";
 import {
   useGetTeamVotesWithUserVoteQuery,
@@ -365,7 +365,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                               <div className="team-selected-hero-info">
                                 <Link href={`${heroData?.uri}`}>
                                   <div
-                                    className="hero-image"
+                                    className="hero-image relative"
                                     style={{
                                       backgroundImage: `url(${
                                         heroData?.featuredImage?.node?.mediaDetails?.sizes?.find(
@@ -377,11 +377,9 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                                     {index === 0 &&
                                       team?.teamFields?.teamType !==
                                         "Arena" && (
-                                        <img
-                                          className="lead-icon absolute top-0 left-0"
-                                          src="/assets/img/icons/lead.png"
-                                          alt="Lead Icon"
-                                        />
+                                        <span className="absolute top-0 right-0 w-32 h-32 lead fill-white">
+                                          {crown()}
+                                        </span>
                                       )}
                                   </div>
                                   {heroData?.title}

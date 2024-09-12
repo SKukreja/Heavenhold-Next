@@ -14,6 +14,7 @@ export default function Sidebar() {
   return (
     <div className="hidden fixed top-0 z-10 lg:flex lg:flex-col overflow-y-scroll bg-black border-b border-gray-800 scrollbar-none w-[calc(15%)] left-[calc(15%)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800">
       <Suspense>
+        <div></div>
         {pathname === '/heroes' && <HeroFilters />}
         {heroPathValue && <HeroList />}
       </Suspense>

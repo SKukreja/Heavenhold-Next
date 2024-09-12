@@ -86,3 +86,7 @@ export const upvote = () => (
 export const downvote = () => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M320 240L160 384 0 240l0-48 320 0 0 48z"/></svg>
 );
+
+export const collapse = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M256 416L96 256 256 96l32 0 0 96 160 0 0 128-160 0 0 96-32 0zM64 96l0 320 0 32L0 448l0-32L0 96 0 64l64 0 0 32z"/></svg>
+);

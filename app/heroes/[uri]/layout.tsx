@@ -5,7 +5,7 @@ import Loading from "#/app/components/loading";
 import { Hero } from "#/graphql/generated/types";
 import Link from "next/link";
 import { useHeroes } from "#/app/components/GetHeroesProvider";
-import { useSelectedLayoutSegment } from "next/navigation";
+import { useSelectedLayoutSegment } from "next/navigation"; // Import the hook
 import HeroContext from "./HeroContext"; // Import HeroContext
 
 interface LayoutProps {
@@ -15,6 +15,8 @@ interface LayoutProps {
 }
 
 export default function Layout({ children, params }: PropsWithChildren<LayoutProps>) {
+  // Call hooks at the top level before any conditional logic
+  const segment = useSelectedLayoutSegment(); // Move this to the top
   const { data: heroesData } = useHeroes();
 
   const heroes = useMemo(() => {
@@ -30,6 +32,7 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
     setLoading(false);
   }, [params.uri, heroes]);
 
+  // Early returns after hooks are called
   if (loading) {
     return <Loading />;
   }
@@ -38,8 +41,6 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
     return <div>Error: Hero not found</div>;
   }
 
-  // Get the active tab from the child segment
-  const segment = useSelectedLayoutSegment();
   const activeTab = segment
     ? segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase()
     : "Bio";

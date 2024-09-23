@@ -91,7 +91,7 @@ export function GlobalNav() {
   ];
 
   return (
-    <div className="fixed top-0 z-10 flex flex-col bg-black border-b border-gray-800 w-full h-16 lg:h-auto lg:w-[calc(15%)] lg:bottom-0 lg:z-auto lg:border-b-0 lg:border-r lg:border-gray-800">
+    <div className="fixed top-0 z-30 flex flex-col bg-black border-b border-gray-800 w-full h-16 lg:h-auto lg:w-[calc(15%)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800">
       <div className="flex items-center px-4 py-4 h-full lg:h-auto">
         <Link
           href="/"

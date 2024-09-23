@@ -224,7 +224,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
   return (
     <div
       id="Teams"
-      className="relative overflow-visible z-10 w-full h-[calc(100vh-12rem)] items-start flex px-4 3xl:px-8"
+      className="relative overflow-visible z-20 w-full h-[calc(100vh-12rem)] items-start flex px-4 3xl:px-8"
     >
       <div className="px-4 3xl:px-8 w-full flex-col justify-start h-full flex">
         <div className="w-full h-full">
@@ -243,7 +243,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                     <div className="flex justify-between items-center gap-4 flex-1">
                       <div className="votes flex flex-col justify-between items-center gap-2">
                         <button
-                          className="w-4 h-4 flex justify-center items-center fill-white z-10 disabled:fill-orange-300"
+                          className="w-4 h-4 flex justify-center items-center fill-white z-20 disabled:fill-orange-300"
                           onClick={(e) =>
                             handleUpvote(
                               hero.databaseId,
@@ -263,7 +263,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                           {team.votes}
                         </div>
                         <button
-                          className="w-4 h-4 flex justify-center items-center fill-white z-10 disabled:fill-blue-300"
+                          className="w-4 h-4 flex justify-center items-center fill-white z-20 disabled:fill-blue-300"
                           onClick={(e) =>
                             handleDownvote(
                               hero.databaseId,

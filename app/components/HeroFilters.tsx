@@ -169,8 +169,8 @@ function FilterToggle({ id, value, label, icon, onChange, isActive }: { id: stri
   return (
     <div
         className={`flex items-center p-4 cursor-pointer 
-            ${isActive ? 'bg-gray-700' : 'bg-gray-800'} 
-            ${!isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'hover:bg-gray-700 hover:text-white' : ''} 
+            ${isActive ? 'bg-gray-800' : 'bg-gray-900'} 
+            ${!isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'hover:bg-gray-800 hover:text-white' : ''} 
             ${isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'text-white' : ''} 
             ${!isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'text-gray-400' : ''} 
             ${value === 'r-3-star' ? 'text-yellow-500' : ''} 

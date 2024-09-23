@@ -46,7 +46,7 @@ export default function HeroList() {
             key={hero.uri}
             ref={(el) => { heroesRef.current[hero.uri ?? ""] = el; }}
             className={`pt-4 pb-4 pl-8 pr-8 card ${
-              activeHero === hero.uri ? 'bg-gray-700 text-gray-300' : 'text-gray-400 hover:bg-gray-800'
+              activeHero === hero.uri ? 'bg-gray-800 text-gray-300' : 'text-gray-400 hover:bg-gray-900'
             }`}
           >
             <Link href={`${hero.uri}`} className={"w-full"}>

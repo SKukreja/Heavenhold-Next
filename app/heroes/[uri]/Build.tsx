@@ -242,7 +242,7 @@ export default function Build({ hero, userId }: BuildProps) {
   return (
     <div
       id="Build"
-      className="relative overflow-visible z-10 w-full h-[calc(100vhrem)] items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-4 3xl:px-8"
+      className="relative overflow-visible z-20 w-full h-[calc(100vhrem)] items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-4 3xl:px-8"
     >
       <div className="px-4 3xl:px-8 w-full justify-start h-[calc(100%-8rem)] flex">
         <div className="w-full h-full">

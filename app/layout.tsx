@@ -24,7 +24,7 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
         lang="en"
         className={`[color-scheme:dark] ${montserrat.variable} ${oswald.variable} font-montserrat tracking-wide font-medium text-xs 2xl:text-sm 3xl:text-sm 4xl:text-sm`}
       >
-        <body className="h-screen overflow-y-auto flex flex-col scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 bg-gray-1100 pb-36">
+        <body className="h-screen overflow-y-auto flex flex-col scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 bg-gray-1100">
           <GlobalNav />
           <HeroesProvider>
             <ItemsProvider>
@@ -33,7 +33,7 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
                 <div className="absolute right-0 w-full lg:w-[calc(70%)] min-h-screen">
                   <div>
                     <div className="rounded-lg shadow-lg shadow-black/20">
-                      <div className="bg-black min-h-screen ">
+                      <div className="min-h-screen ">
                         {children}
                       </div>
                     </div>

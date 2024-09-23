@@ -13,7 +13,7 @@ interface CostumeProps {
 
 function Costumes({ hero }: CostumeProps) {
     return (
-      <div id="Costumes" className="relative overflow-visible z-10 w-full h-[calc(100vhrem)] items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-8">
+      <div id="Costumes" className="relative overflow-visible z-20 w-full h-[calc(100vhrem)] items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-8">
         <div className="w-full justify-start h-[calc(100%-8rem)]">
           <div className="w-full h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 scrollbar-w-2">
             <div className="w-full h-full overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 scrollbar-w-2 flex gap-8 flex-wrap">                          

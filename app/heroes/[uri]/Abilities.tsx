@@ -25,7 +25,7 @@ function Abilities({ hero }: AbilitiesProps) {
     };
 
     return (
-      <div id="Abilities" className="relative overflow-visible z-10 w-full h-auto items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-4 3xl:px-8">
+      <div id="Abilities" className="relative overflow-visible z-20 w-full h-auto items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-4 3xl:px-8">
         <div className="px-4 3xl:px-8 w-full justify-start h-auto flex">
         {hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes && (
             <div className="w-1/4 h-auto flex flex-col pr-8">              
@@ -35,7 +35,7 @@ function Abilities({ hero }: AbilitiesProps) {
                 { 
                   const weaponNode = weapon as Item;
                   return (
-                  <div key={weaponNode.id} className={`w-full relative ${hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes?.length ?? 0 > 1 ? 'cursor-pointer' : ''} bg-gray-800 p-4 3xl:p-8`} onClick={() => handleWeaponClick(index)}>
+                  <div key={weaponNode.id} className={`w-full relative ${hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes?.length ?? 0 > 1 ? 'cursor-pointer' : ''} ${selectedWeapon === index ? 'bg-gray-800' : 'bg-gray-900'} p-4 3xl:p-8`} onClick={() => handleWeaponClick(index)}>
                     <div className={`absolute top-4 right-4 text-${hero.heroInformation?.bioFields?.element?.toLowerCase()} ${selectedWeapon === index && (hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes?.length ?? 0) > 1 ? 'block' : 'hidden'}`}>Selected</div>
                     <div className="flex">
                       <div className="w-16 3xl:w-20">
@@ -46,12 +46,12 @@ function Abilities({ hero }: AbilitiesProps) {
                         <h2 className="tracking-wide text-green-500">
                           {weaponNode.weapons?.weaponType ?? ""}
                         </h2>  
-                        <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">
+                        <h2 className={`${selectedWeapon === index ? 'mb-6' : 'mb-0'} text-2xl 3xl:text-4xl font-medium font-oswald`}>
                           {weaponNode.weapons?.minDps + ""}-{weaponNode.weapons?.maxDps + ""} <span className="text-lg">DPS</span>
                         </h2>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-1 h-auto text-xs 3xl:text-sm 4xl:text-base">            
+                    <div className={`flex flex-col gap-1 overflow-hidden ${selectedWeapon === index ? 'h-auto' : 'h-0'} text-xs 3xl:text-sm 4xl:text-base`}>
                       {weaponNode.weapons?.element && (<StatFormatter statName={weaponNode.weapons?.element + " Atk"} element={weaponNode.weapons?.element + ""} statValue={`${weaponNode.weapons?.minAtk + ""}-${weaponNode.weapons?.maxAtk + ""}`} isPassive={false} />)}
                       {weaponNode.equipmentOptions?.options?.find(x => x == "Atk (%)") && (<StatFormatter statName={"Atk"} element={weaponNode.weapons?.element + ""} statValue={`${weaponNode.equipmentOptions?.atk + ""}-${weaponNode.weapons?.maxAtk + ""}`} isPassive={false} />)}
                       {weaponNode.equipmentOptions?.options?.find(x => x == "Heal (Flat)") && (<StatFormatter statName={"Heal (Flat)"} element={weaponNode.weapons?.element + ""} statValue={`${weaponNode.equipmentOptions?.healFlat + ""}`} isPassive={false} />)}

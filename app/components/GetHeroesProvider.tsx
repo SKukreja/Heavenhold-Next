@@ -1,8 +1,9 @@
 // components/GetHeroesProvider.tsx
 "use client";
 
-import React, { createContext, useContext } from 'react';
-import { useGetAllHeroesSuspenseQuery, GetAllHeroesQuery } from '#/graphql/generated/types';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useGetAllHeroesSuspenseQuery, GetAllHeroesQuery, Hero } from '#/graphql/generated/types';
+import { usePathname } from 'next/navigation';
 
 interface HeroesContextType {
   data: GetAllHeroesQuery | null;
@@ -12,6 +13,15 @@ const HeroesContext = createContext<HeroesContextType | undefined>(undefined);
 
 export function HeroesProvider({ children }: React.PropsWithChildren<{}>) {
   const { data } = useGetAllHeroesSuspenseQuery();
+  const pathname = usePathname();
+  const [heroBG, setHeroBG] = useState<string>("");
+
+  useEffect(() => {
+    const pathSegments = pathname.split('/');
+    const slug = pathSegments[pathSegments.length - 1]; 
+    const fetchedHero = data.heroes?.nodes.find((h) => h.slug === slug) ?? null;
+    setHeroBG(fetchedHero?.heroInformation?.background?.node?.sourceUrl ?? "");
+  }, [pathname, data]);  
 
   // Manage data loading state
   if (!data) {
@@ -19,8 +29,11 @@ export function HeroesProvider({ children }: React.PropsWithChildren<{}>) {
   }
 
   return (
-    <HeroesContext.Provider value={{ data }}>
-      {children}
+    <HeroesContext.Provider  value={{ data }}>
+      <div className="fixed z-0 w-full lg:left-[30%] lg:w-[calc(100vw-30%)] h-[calc(110vh)] pointer-events-none after:pointer-events-none bg-cover bg-no-repeat bg-center after:bg-black after:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] after:[background-size:12px_12px] after:opacity-90 after:absolute after:inset-0 after:z-10" style={{
+        backgroundImage: `url(${heroBG ?? ""})`,
+      }}></div>
+      {children}      
     </HeroesContext.Provider>
   );
 }

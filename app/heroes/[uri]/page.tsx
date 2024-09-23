@@ -76,13 +76,13 @@ export default function HeroDetails({ params }: HeroDetailsProps) {
   }
 
   return (
-    <main className="h-screen overflow-hidden bg-cover bg-no-repeat bg-center after:bg-black after:opacity-90 after:absolute after:inset-0" style={{ backgroundImage: `url(${hero.heroInformation?.background?.node?.sourceUrl ?? ""})` }}>
-      <div className="p-8 hero-buttons w-full h-24 3xl:h-48 text-xl relative overflow-hidden flex gap-8 mb-8 z-20">
-        <span onClick={() => setActiveTab("Bio")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Bio" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Bio</span>
-        <span onClick={() => setActiveTab("Abilities")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Abilities" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Abilities</span>
-        <span onClick={() => setActiveTab("Teams")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Teams" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Teams</span>
-        <span onClick={() => setActiveTab("Review")} className={`p-8 text-center cursor-pointer hover:bg-gray-700 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Review" ? "bg-gray-700 text-white" : "bg-gray-800 text-gray-400"}`}>Review</span>
-        <span onClick={() => hero.heroInformation?.costumes && setActiveTab("Costumes")} className={`p-8 text-center font-bold w-full h-full flex items-center justify-center card ${activeTab === "Costumes" ? "bg-gray-700 text-white" : hero.heroInformation?.costumes ? "bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white cursor-pointer" : "bg-gray-900 text-gray-500 cursor-not-allowed"}`}>Costumes</span>
+    <main className="pt-32 lg:pt-0 h-auto lg:h-screen overflow-y-auto lg:overflow-hidden">
+      <div className="p-8 hidden lg:flex hero-buttons w-full h-24 3xl:h-48 text-xl relative overflow-hidden gap-8 mb-8 z-20">
+        <span onClick={() => setActiveTab("Bio")} className={`p-8 text-center cursor-pointer hover:bg-gray-800 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Bio" ? "bg-gray-800 text-white" : "bg-gray-900 text-gray-400"}`}>Bio</span>
+        <span onClick={() => setActiveTab("Abilities")} className={`p-8 text-center cursor-pointer hover:bg-gray-800 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Abilities" ? "bg-gray-800 text-white" : "bg-gray-900 text-gray-400"}`}>Abilities</span>
+        <span onClick={() => setActiveTab("Teams")} className={`p-8 text-center cursor-pointer hover:bg-gray-800 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Teams" ? "bg-gray-800 text-white" : "bg-gray-900 text-gray-400"}`}>Teams</span>
+        <span onClick={() => setActiveTab("Review")} className={`p-8 text-center cursor-pointer hover:bg-gray-800 hover:text-white font-bold w-full h-full flex items-center justify-center card ${activeTab === "Review" ? "bg-gray-800 text-white" : "bg-gray-900 text-gray-400"}`}>Review</span>
+        <span onClick={() => hero.heroInformation?.costumes && setActiveTab("Costumes")} className={`p-8 text-center font-bold w-full h-full flex items-center justify-center card ${activeTab === "Costumes" ? "bg-gray-800 text-white" : hero.heroInformation?.costumes ? "bg-gray-900 text-gray-400 hover:bg-gray-800 hover:text-white cursor-pointer" : "bg-gray-900 text-gray-500 cursor-not-allowed"}`}>Costumes</span>
       </div>
       {activeTab == "Bio" ? (
         <>
@@ -92,7 +92,7 @@ export default function HeroDetails({ params }: HeroDetailsProps) {
       ) : (
         <h2 className="text-xl px-8 h-[calc(2rem)] 3xl:text-2xl font-medium uppercase tracking-widest mb-8 relative z-20">{hero.title?.replace(hero.heroInformation?.bioFields?.name || '', '').trim()} {hero.heroInformation?.bioFields?.name} / {activeTab}</h2>
       )}
-      <div className="w-full h-[calc(100vh-12rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-1100 scrollbar-w-0">
+      <div className={`w-full h-auto lg:h-[calc(100vh-12rem)] ${activeTab == "Bio" ? 'lg:overflow-visible' : 'overflow-y-auto'} scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-1100 scrollbar-w-0`}>
         <div className="w-full h-auto">
           {renderTabContent()}
         </div>

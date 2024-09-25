@@ -237,7 +237,7 @@ function Abilities({ hero }: AbilitiesProps) {
               </div>}
             </div>
             <div className="w-full mb-8">
-              {(hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item).weapons?.weaponSkillVideo?.node?.mediaItemUrl && (
+              {hero.heroInformation?.bioFields?.exclusiveWeapon && hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item && (hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item).weapons?.weaponSkillVideo?.node?.mediaItemUrl && (
                 <LoopVideo videoSrc={(hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item).weapons?.weaponSkillVideo?.node?.mediaItemUrl + ""} />
               )}   
             </div>

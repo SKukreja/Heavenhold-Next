@@ -77,6 +77,8 @@ export default function Page({ params }: PageProps) {
         return <Costumes hero={hero} />;
       case "Review":
         return <div></div>;
+      case "Gallery":
+        return <div></div>;
       default:
         return <Bio hero={hero} />;
     }

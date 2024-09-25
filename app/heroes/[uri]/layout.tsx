@@ -6,6 +6,7 @@ import { Hero } from "#/graphql/generated/types";
 import Link from "next/link";
 import { useHeroes } from "#/app/components/GetHeroesProvider";
 import { useSelectedLayoutSegment } from "next/navigation"; // Import the hook
+import { bio, abilities, teams, review, costumes, gallery } from "#/ui/icons";
 import HeroContext from "./HeroContext"; // Import HeroContext
 
 interface LayoutProps {
@@ -49,17 +50,25 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
     <HeroContext.Provider value={hero}>
       <main className="pt-32 lg:pt-0 h-auto lg:h-screen overflow-y-auto lg:overflow-hidden">
         {/* Tab Navigation */}
-        <div className="p-8 hidden lg:flex hero-buttons w-full h-24 3xl:h-48 text-xl relative overflow-hidden gap-8 mb-8 z-20">
-          {["Bio", "Abilities", "Teams", "Review", "Costumes"].map((tab: string) => (
-            <Link
-              key={tab}
-              href={`/heroes/${params.uri}${tab !== "Bio" ? `/${tab.toLowerCase()}` : ""}`}
-              className={`p-8 text-center cursor-pointer hover:bg-gray-800 hover:text-white font-bold w-full h-full flex items-center justify-center card ${
+        <div className="p-0 lg:p-8 fixed bottom-0 left-0 right-0 lg:relative flex hero-buttons w-full h-24 3xl:h-48 text-xs lg:text-xl overflow-hidden gap-0 lg:gap-8 mb-0 lg:mb-8 z-40">
+          {["Bio", "Abilities", "Teams", "Review", "Costumes", "Gallery"].map((tab: string) => (
+                <Link
+                key={tab}
+                href={`/heroes/${params.uri}${tab !== "Bio" ? `/${tab.toLowerCase()}` : ""}`}
+                className={`p-4 lg:p-8 text-center cursor-pointer hover:bg-gray-800 hover:text-white font-bold w-1/6 lg:w-full h-full gap-2 flex flex-col lg:flex-row items-center justify-center card ${
                 activeTab === tab ? "bg-gray-800 text-white" : "bg-gray-900 text-gray-400"
-              }`}
-            >
-              {tab}
-            </Link>
+                }`}
+                >
+                    <span className={`icon w-4 h-4 ${activeTab === tab ? "fill-white" : "fill-gray-400"}`}>
+                        {tab === "Bio" && bio()}
+                        {tab === "Abilities" && abilities()}
+                        {tab === "Teams" && teams()}
+                        {tab === "Review" && review()}
+                        {tab === "Costumes" && costumes()}
+                        {tab === "Gallery" && gallery()}
+                    </span>
+                    <span className="buttonText">{tab}</span>
+                </Link>
           ))}
         </div>
         {/* Hero Title */}
@@ -86,7 +95,7 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
             activeTab === "Bio" ? "lg:overflow-visible" : "overflow-y-auto"
           } scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-1100 scrollbar-w-0`}
         >
-          <div className="w-full h-auto">{children}</div>
+          <div className="w-full h-auto pb-16 lg:pb-0">{children}</div>
         </div>
       </main>
     </HeroContext.Provider>

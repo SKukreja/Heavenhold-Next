@@ -25,7 +25,7 @@ function Abilities({ hero }: AbilitiesProps) {
     };
 
     return (
-      <div id="Abilities" className="relative overflow-visible z-20 w-full h-auto items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-4 3xl:px-8">
+      <div id="Abilities" className="relative overflow-visible z-20 pt-8 lg:pt-0 w-full h-auto items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-4 3xl:px-8">
         <div className="px-4 3xl:px-8 w-full justify-start h-auto flex flex-col lg:flex-row">
         {hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes && (
             <div className="w-full lg:w-1/4 h-auto flex flex-col pr-0 lg:pr-8">              
@@ -152,7 +152,7 @@ function Abilities({ hero }: AbilitiesProps) {
           )}          
           <div className="w-full lg:w-1/2 pr-0 lg:pr-8 h-full">
             {hero.heroInformation?.variations?.find(x => x === "Ascent") ? (
-            <div className="w-full flex gap-8 cursor-pointer mb-6 text-2xl 3xl:text-4xl font-medium font-oswald uppercase" onClick={() => handleAscendClick()}>
+            <div className="w-full flex gap-8 cursor-pointer mt-8 lg:mt-0 mb-8 lg:mb-6 text-2xl 3xl:text-4xl font-medium font-oswald uppercase" onClick={() => handleAscendClick()}>
               <h2 className="text-white flex items-center justify-center">                
                 <span>{ascended ? "Descent" : "Ascent"}</span>
                 <span className="w-5 h-5 ml-2 -mt-2">{ascended ? arrowDownLeft("white") : arrowUpRight("white")}</span>
@@ -242,7 +242,7 @@ function Abilities({ hero }: AbilitiesProps) {
               )}   
             </div>
           </div>
-          <div className="w-full lg:w-1/4 mb-2">
+          <div className="w-full lg:w-1/4 mb-8">
           {hero.heroInformation?.abilityFields?.partyBuff && (
             <>
               <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Passives</h2>

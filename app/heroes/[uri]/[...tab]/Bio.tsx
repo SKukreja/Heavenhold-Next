@@ -28,7 +28,7 @@ function Bio({ hero }: BioProps) {
       <div id="Bio" className="relative lg:overflow-visible z-20 w-full h-auto lg:h-[calc(100vh-12rem)] items-start flex px-4 3xl:px-8 flex-col lg:flex-row">
         <div className="flex flex-col-reverse w-full lg:h-full lg:w-3/4 lg:flex-row">        
           <div className="px-4 3xl:px-8 w-full lg:w-1/3 flex-col justify-start h-[calc(100%-8rem)] flex mb-16 lg:mb-0">
-            <div className="pt-16 flex flex-col gap-4 3xl:gap-6 justify-between w-full text-xs 3xl:text-sm">
+            <div className="pt-8 lg:pt-16 flex flex-col gap-4 3xl:gap-6 justify-between w-full text-xs 3xl:text-sm">
               <div className="w-full"><span className="w-1/2 inline-block font-bold">Name</span><span className="w-1/2 inline-block text-right">{hero.heroInformation?.bioFields?.name}</span></div>
                 <div className="w-full"><span className="w-1/2 inline-block font-bold">Released</span><span className="w-1/2 inline-block text-right">{formatDate(hero.heroInformation?.bioFields?.naReleaseDate ?? "")}</span></div>
               <div className="w-full"><span className="w-1/2 inline-block font-bold">Age</span><span className="w-1/2 inline-block text-right">{hero.heroInformation?.bioFields?.age}</span></div>
@@ -124,7 +124,7 @@ function Bio({ hero }: BioProps) {
                 </div>
             </div>
           </div>
-          <div className={"w-full h-auto mt-16 lg:mt-0 lg:w-2/3 lg:h-full flex items-center relative justify-center overflow-visible"}>
+          <div className={"w-full h-auto mt-8 lg:mt-0 lg:w-2/3 lg:h-full flex items-center relative justify-center overflow-visible"}>
             {hero.heroInformation?.illustrations?.map((illustration, index) => (
               <FadeInImage
                 key={illustration?.name || index}

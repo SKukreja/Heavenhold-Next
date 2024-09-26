@@ -53,21 +53,21 @@ const HeroLink = ({ hero }: { hero: Hero }) => {
           alt={hero.title ?? ''}
         />
       </div>
-      <div className="absolute top-0 left-0 right-0 flex justify-between p-4 pointer-events-none h-36 align-center before:bg-gradient-to-b before:from-black before:to-transparent before:w-full before:h-full before:z-20 before:absolute before:opacity-50 before:inset-0">
+      <div className="absolute top-0 left-0 right-0 flex justify-between p-5 lg:p-4 pointer-events-none h-36 align-center before:bg-gradient-to-b before:from-black before:to-transparent before:w-full before:h-full before:z-20 before:absolute before:opacity-50 before:inset-0">
         <span className="relative z-20 text-xs tracking-widest text-center uppercase w-100 drop-shadow-2xl">
           {bioFields?.element && (
-            <FadeInImage src={`/icons/${bioFields.element.toLowerCase()}.webp`} className="mb-2" width={25} height={25} alt={bioFields.element} />
+            <FadeInImage src={`/icons/${bioFields.element.toLowerCase()}.webp`} className="w-6 h-6 lg:w-8 lg:h-8 mb-2" width={25} height={25} alt={bioFields.element} />
           )}
           {bioFields?.role && (
-            <FadeInImage src={`/icons/${bioFields.role.toLowerCase()}.webp`} width={25} height={25} alt={bioFields.role} />
+            <FadeInImage src={`/icons/${bioFields.role.toLowerCase()}.webp`} className="w-6 h-6 lg:w-8 lg:h-8" width={25} height={25} alt={bioFields.role} />
           )}
         </span>
         <span className="relative z-20 text-lg font-bold text-center w-100 drop-shadow-2xl">
           {abilityFields?.chainStateTrigger && abilityFields.chainStateTrigger.toString().toLowerCase() !== "none" && (
-            <FadeInImage src={`/icons/${abilityFields.chainStateTrigger.toString().toLowerCase()}.webp`} className="mb-2" width={25} height={25} alt={abilityFields.chainStateTrigger + ""} />
+            <FadeInImage src={`/icons/${abilityFields.chainStateTrigger.toString().toLowerCase()}.webp`} className="w-6 h-6 lg:w-8 lg:h-8 mb-2" width={25} height={25} alt={abilityFields.chainStateTrigger + ""} />
           )}
           {abilityFields?.chainStateResult && abilityFields.chainStateResult.toString().toLowerCase() !== "none" && (
-            <FadeInImage src={`/icons/${abilityFields.chainStateResult.toString().toLowerCase()}.webp`} className="mb-2" width={25} height={25} alt={abilityFields.chainStateResult + ""} />
+            <FadeInImage src={`/icons/${abilityFields.chainStateResult.toString().toLowerCase()}.webp`} className="w-6 h-6 lg:w-8 lg:h-8 mb-2" width={25} height={25} alt={abilityFields.chainStateResult + ""} />
           )}
         </span>
       </div>
@@ -78,7 +78,7 @@ const HeroLink = ({ hero }: { hero: Hero }) => {
         <span className="relative z-20 text-2xl font-bold text-center w-100 drop-shadow-2xl">
           {bioFields?.name}
         </span>
-        <span className="relative z-20 flex flex-col gap-1 m-2 text-xs font-bold text-center w-100 drop-shadow-2xl">
+        <span className="relative z-20 flex flex-col gap-1 m-2 leading-4 text-[0.52rem] lg:text-[0.55rem] font-bold text-center w-100 drop-shadow-2xl">
           {abilityFields?.partyBuff && abilityFields.partyBuff.map((buff, index) => (
             <span key={index}>
               {buff?.affectsParty && (

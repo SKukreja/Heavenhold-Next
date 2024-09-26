@@ -95,7 +95,7 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
             activeTab === "Bio" ? "lg:overflow-visible" : "overflow-y-auto"
           } scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-1100 scrollbar-w-0`}
         >
-          <div className="w-full h-auto pb-16 lg:pb-0">{children}</div>
+          <div className="w-full h-auto pb-32 lg:pb-0">{children}</div>
         </div>
       </main>
     </HeroContext.Provider>

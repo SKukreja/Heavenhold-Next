@@ -285,7 +285,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                   <div className="text-lg font-bold flex-1 w-1/3">
                     {team?.title ?? ""}
                   </div>
-                  <div className="flex justify-center items-center gap-4">
+                  <div className="flex justify-center items-center w-1/3 gap-4">
                     {team.teamFields?.composition?.map((slot, index) => {
                       const heroId = slot?.hero?.nodes[0].id;
                       const heroData = heroes.find((h) => h.id === heroId);
@@ -331,14 +331,13 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                   </span>
                 </div>
                 <div
-                  className="team-details hidden p-8 w-full" 
-                  id={`${teamSlug}-details`}
+                  className="team-details flex p-8 w-full" 
                 >
                   <div className="h-24 flex w-24 mr-16"></div>
-                  <div className="team-explanation w-1/3">
+                  <div className="team-explanation flex-1 w-full lg:w-1/3 pr-0 lg:pr-32">
                     {team?.teamFields?.notes ?? ""}
                   </div>
-                  <div className="team-build">
+                  <div className="team-build w-1/3 flex gap-4">
                     {team.teamFields?.composition?.map(
                       (slot: any, index: number) => {
                         const heroId = slot?.hero?.nodes[0].id;
@@ -359,7 +358,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                         return (
                           <div
                             key={`${teamSlug}-build-${index + 1}`}
-                            className="hero-build-section"
+                            className="hero-build-section w-32"
                           >
                             <div className={`team-hero-build e-${element}`}>
                               <div className="team-selected-hero-info">
@@ -377,7 +376,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                                     {index === 0 &&
                                       team?.teamFields?.teamType !==
                                         "Arena" && (
-                                        <span className="absolute top-0 right-0 w-32 h-32 lead fill-white">
+                                        <span className="absolute top-0 right-0 w-4 h-4 lead fill-white">
                                           {crown()}
                                         </span>
                                       )}
@@ -423,6 +422,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                       }
                     )}
                   </div>
+                  <span className="ml-14 h-4 w-4"></span>
                 </div>
               </div>
             );

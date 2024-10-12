@@ -331,7 +331,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                   </span>
                 </div>
                 <div
-                  className="team-details flex p-8 w-full" 
+                  className="team-details hidden p-8 w-full" 
                 >
                   <div className="h-24 flex w-24 mr-16"></div>
                   <div className="team-explanation flex-1 w-full lg:w-1/3 pr-0 lg:pr-32">

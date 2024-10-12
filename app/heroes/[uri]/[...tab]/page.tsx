@@ -70,7 +70,7 @@ export default function Page({ params }: PageProps) {
       case "Bio":
         return <Bio hero={hero} />;
       case "Abilities":
-        return <Abilities hero={hero} />;
+        return <Abilities hero={hero} items={items} />;
       case "Teams":
         return <Teams hero={hero} teams={teams} heroes={heroes} items={items} />;
       case "Costumes":

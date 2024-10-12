@@ -15,7 +15,6 @@
     "@tailwindcss/forms": "0.5.7",
     "@tailwindcss/typography": "0.5.13",
     "@tanstack/react-query": "5.51.23",
-    "@wpengine/atlas-next": "^1.1.0",
     "@wry/trie": "0.5.0",
     "autoprefixer": "10.4.14",
     "clsx": "2.1.1",
@@ -37,11 +36,11 @@
     "inquirer": "^10.1.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "5.0.2",
+    "@graphql-codegen/cli": "5.0.3",
     "@graphql-codegen/introspection": "4.0.3",
-    "@graphql-codegen/typescript": "4.0.9",
-    "@graphql-codegen/typescript-operations": "4.2.3",
-    "@graphql-codegen/typescript-react-apollo": "4.3.0",
+    "@graphql-codegen/typescript": "4.1.0",
+    "@graphql-codegen/typescript-operations": "4.3.0",
+    "@graphql-codegen/typescript-react-apollo": "4.3.2",
     "@parcel/watcher": "2.4.1",
     "@types/node": "20.14.10",
     "@types/react": "18.3.3",

@@ -11,7 +11,6 @@ query GetAllItems {
       title
       slug
       weapons {
-        element
         engraving {
           stat
           value
@@ -25,9 +24,7 @@ query GetAllItems {
         }
         isFirstEx
         magazine
-        maxAtk
-        maxDps
-        minAtk
+        maxDps        
         minDps
         weaponSkill
         weaponSkillAtk
@@ -42,73 +39,24 @@ query GetAllItems {
         }
         weaponType
       }
-      toughness {
-        toughness
-      }
-      equipmentSubOptions {
-        subWaterTypeAtk
-        subSkillRegenSpeed
-        subSkillRegenOnKill
-        subSkillDamage
-        subShieldOnStart
-        subShieldOnKill
-        subOptions
-        subLightTypeAtk
-        subHpOnKill
-        subHp
-        subHealPercent
-        subHealFlat
-        subFireTypeAtk
-        subEarthTypeAtk
-        subDefFlat
-        subDef
-        subDarkTypeAtk
-        subDamageReduction
-        subCritChance
-        subBasicTypeAtk
-        subAtkOnKill
-        subAtk
-        maxLines
-      }
       equipmentOptions {
-        waterTypeAtk
-        skillRegenSpeed
-        skillRegenOnKill
-        skillDamage
-        shieldOnStart
-        shieldOnKill
-        options
-        onHitHealSeconds
-        onHitHealAllies
-        onHitDamageSeconds
-        onHitDamage
-        minDefFlat
-        minDamageReduction
-        lightTypeAtk
-        lb5Value
+        mainStats {
+          stat
+          isRange
+          value
+          minValue
+          maxValue
+        }
+        subStats {
+          stat
+          isRange
+          value
+          minValue
+          maxValue
+        }
         lb5Option
-        increaseDamageToTanks
-        increaseDamageThreshold
-        increaseDamageCondition
-        increaseDamageAmount
-        hpOnKill
-        hp
-        healPercent
-        healFlat
-        fireTypeAtk
-        fieldGroupName
-        extraDamageType
-        earthTypeAtk
-        defFlat
-        def
-        decreaseDamageTakenBySkill
-        darkTypeAtk
-        damageReduction
-        critHitMultiplier
-        critChance
-        basicTypeAtk
-        atkOnKill
-        atk
+        lb5Value
+        maxSubOptionLines                  
       }
       costume {
         illustration {

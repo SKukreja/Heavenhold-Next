@@ -1,5 +1,3 @@
-const { withAtlasConfig } = require("@wpengine/atlas-next");
-
 const { protocol, hostname, port, pathname } = new URL(
   process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
 );
@@ -24,4 +22,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withAtlasConfig(nextConfig);
+module.exports = nextConfig;

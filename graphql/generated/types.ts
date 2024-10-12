@@ -3123,180 +3123,118 @@ export type EnqueuedStylesheetConnectionPageInfo = {
 /** The &quot;EquipmentOptions&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
 export type EquipmentOptions = AcfFieldGroup & AcfFieldGroupFields & EquipmentOptions_Fields & {
   __typename?: 'EquipmentOptions';
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  atk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  atkOnKill: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  basicTypeAtk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  critChance: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  critHitMultiplier: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  damageReduction: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  darkTypeAtk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  decreaseDamageTakenBySkill: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  def: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  defFlat: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  earthTypeAtk: Maybe<Scalars['Float']['output']>;
-  /**
-   * Melee = Checked
-   * Ranged = Unchecked
-   */
-  extraDamageType: Maybe<Scalars['Boolean']['output']>;
   /**
    * The name of the field group
    * @deprecated Use __typename instead
    */
   fieldGroupName: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  fireTypeAtk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  healFlat: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  healPercent: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  hp: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  hpOnKill: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  increaseDamageAmount: Maybe<Scalars['Float']['output']>;
-  /**
-   * Higher = Checked
-   * Lower = Unchecked
-   */
-  increaseDamageCondition: Maybe<Scalars['Boolean']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  increaseDamageThreshold: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  increaseDamageToTanks: Maybe<Scalars['Float']['output']>;
   /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
   lb5Option: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
   lb5Value: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
+  mainStats: Maybe<Array<Maybe<EquipmentOptionsMainStats>>>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  lightTypeAtk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  minDamageReduction: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  minDefFlat: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  onHitDamage: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  onHitDamageSeconds: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  onHitHealAllies: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  onHitHealSeconds: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;checkbox&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  options: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  shieldOnKill: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  shieldOnStart: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  skillDamage: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  skillRegenOnKill: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  skillRegenSpeed: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  waterTypeAtk: Maybe<Scalars['Float']['output']>;
+  maxSubOptionLines: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
+  subStats: Maybe<Array<Maybe<EquipmentOptionsSubStats>>>;
+};
+
+/** The &quot;EquipmentOptionsMainStats&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EquipmentOptionsMainStats = AcfFieldGroup & AcfFieldGroupFields & EquipmentOptionsMainStats_Fields & {
+  __typename?: 'EquipmentOptionsMainStats';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsMainStats&quot; Field Group */
+  isRange: Maybe<Scalars['Boolean']['output']>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsMainStats&quot; Field Group */
+  maxValue: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsMainStats&quot; Field Group */
+  minValue: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsMainStats&quot; Field Group */
+  stat: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsMainStats&quot; Field Group */
+  value: Maybe<Scalars['Float']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;EquipmentOptionsMainStats&quot; Field Group */
+export type EquipmentOptionsMainStats_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsMainStats&quot; Field Group */
+  isRange: Maybe<Scalars['Boolean']['output']>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsMainStats&quot; Field Group */
+  maxValue: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsMainStats&quot; Field Group */
+  minValue: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsMainStats&quot; Field Group */
+  stat: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsMainStats&quot; Field Group */
+  value: Maybe<Scalars['Float']['output']>;
+};
+
+/** The &quot;EquipmentOptionsSubStats&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
+export type EquipmentOptionsSubStats = AcfFieldGroup & AcfFieldGroupFields & EquipmentOptionsSubStats_Fields & {
+  __typename?: 'EquipmentOptionsSubStats';
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsSubStats&quot; Field Group */
+  isRange: Maybe<Scalars['Boolean']['output']>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsSubStats&quot; Field Group */
+  maxValue: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsSubStats&quot; Field Group */
+  minValue: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsSubStats&quot; Field Group */
+  stat: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsSubStats&quot; Field Group */
+  value: Maybe<Scalars['Float']['output']>;
+};
+
+/** Interface representing fields of the ACF &quot;EquipmentOptionsSubStats&quot; Field Group */
+export type EquipmentOptionsSubStats_Fields = {
+  /**
+   * The name of the field group
+   * @deprecated Use __typename instead
+   */
+  fieldGroupName: Maybe<Scalars['String']['output']>;
+  /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsSubStats&quot; Field Group */
+  isRange: Maybe<Scalars['Boolean']['output']>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsSubStats&quot; Field Group */
+  maxValue: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsSubStats&quot; Field Group */
+  minValue: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsSubStats&quot; Field Group */
+  stat: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptionsSubStats&quot; Field Group */
+  value: Maybe<Scalars['Float']['output']>;
 };
 
 /** Interface representing fields of the ACF &quot;EquipmentOptions&quot; Field Group */
 export type EquipmentOptions_Fields = {
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  atk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  atkOnKill: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  basicTypeAtk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  critChance: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  critHitMultiplier: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  damageReduction: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  darkTypeAtk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  decreaseDamageTakenBySkill: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  def: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  defFlat: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  earthTypeAtk: Maybe<Scalars['Float']['output']>;
-  /**
-   * Melee = Checked
-   * Ranged = Unchecked
-   */
-  extraDamageType: Maybe<Scalars['Boolean']['output']>;
   /**
    * The name of the field group
    * @deprecated Use __typename instead
    */
   fieldGroupName: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  fireTypeAtk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  healFlat: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  healPercent: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  hp: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  hpOnKill: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  increaseDamageAmount: Maybe<Scalars['Float']['output']>;
-  /**
-   * Higher = Checked
-   * Lower = Unchecked
-   */
-  increaseDamageCondition: Maybe<Scalars['Boolean']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  increaseDamageThreshold: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  increaseDamageToTanks: Maybe<Scalars['Float']['output']>;
   /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
   lb5Option: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
   lb5Value: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
+  mainStats: Maybe<Array<Maybe<EquipmentOptionsMainStats>>>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  lightTypeAtk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  minDamageReduction: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  minDefFlat: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  onHitDamage: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  onHitDamageSeconds: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  onHitHealAllies: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  onHitHealSeconds: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;checkbox&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  options: Maybe<Array<Maybe<Scalars['String']['output']>>>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  shieldOnKill: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  shieldOnStart: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  skillDamage: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  skillRegenOnKill: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  skillRegenSpeed: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
-  waterTypeAtk: Maybe<Scalars['Float']['output']>;
+  maxSubOptionLines: Maybe<Scalars['Float']['output']>;
+  /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;EquipmentOptions&quot; Field Group */
+  subStats: Maybe<Array<Maybe<EquipmentOptionsSubStats>>>;
 };
 
 /** The &quot;EquipmentSubOptions&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
@@ -4624,8 +4562,6 @@ export type HeroInformationAbilityFields = AcfFieldGroup & AcfFieldGroupFields &
   /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;HeroInformationAbilityFields&quot; Field Group */
   partyBuff: Maybe<Array<Maybe<HeroInformationAbilityFieldsPartyBuff>>>;
   /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;HeroInformationAbilityFields&quot; Field Group */
-  passives: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;HeroInformationAbilityFields&quot; Field Group */
   specialAbilityDescription: Maybe<Scalars['String']['output']>;
   /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;HeroInformationAbilityFields&quot; Field Group */
   specialAbilityName: Maybe<Scalars['String']['output']>;
@@ -4683,8 +4619,6 @@ export type HeroInformationAbilityFields_Fields = {
   normalAtkName: Maybe<Scalars['String']['output']>;
   /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;HeroInformationAbilityFields&quot; Field Group */
   partyBuff: Maybe<Array<Maybe<HeroInformationAbilityFieldsPartyBuff>>>;
-  /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;HeroInformationAbilityFields&quot; Field Group */
-  passives: Maybe<Scalars['String']['output']>;
   /** Field of the &quot;textarea&quot; Field Type added to the schema as part of the &quot;HeroInformationAbilityFields&quot; Field Group */
   specialAbilityDescription: Maybe<Scalars['String']['output']>;
   /** Field of the &quot;text&quot; Field Type added to the schema as part of the &quot;HeroInformationAbilityFields&quot; Field Group */
@@ -6488,7 +6422,7 @@ export type HierarchicalTermNodeEnqueuedStylesheetsArgs = {
 };
 
 /** The item type */
-export type Item = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithComments & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfCostume & WithAcfEquipmentOptions & WithAcfEquipmentSubOptions & WithAcfGuideFields & WithAcfItemInformation & WithAcfToughness & WithAcfWeapons & {
+export type Item = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithComments & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfCostume & WithAcfEquipmentOptions & WithAcfGuideFields & WithAcfItemInformation & WithAcfWeapons & {
   __typename?: 'Item';
   /**
    * The ancestors of the content node.
@@ -6525,8 +6459,6 @@ export type Item = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & 
   enqueuedStylesheets: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
   /** Fields of the EquipmentOptions ACF Field Group */
   equipmentOptions: Maybe<EquipmentOptions>;
-  /** Fields of the EquipmentSubOptions ACF Field Group */
-  equipmentSubOptions: Maybe<EquipmentSubOptions>;
   /** The excerpt of the post. */
   excerpt: Maybe<Scalars['String']['output']>;
   /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
@@ -6603,8 +6535,6 @@ export type Item = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & 
   terms: Maybe<ItemToTermNodeConnection>;
   /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
   title: Maybe<Scalars['String']['output']>;
-  /** Fields of the Toughness ACF Field Group */
-  toughness: Maybe<Toughness>;
   /** The unique resource identifier path */
   uri: Maybe<Scalars['String']['output']>;
   /** Fields of the Weapons ACF Field Group */
@@ -6841,8 +6771,6 @@ export type ItemInformation = AcfFieldGroup & AcfFieldGroupFields & ItemInformat
   cost: Maybe<Scalars['Float']['output']>;
   /** Field of the &quot;radio&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
   costumeWeaponType: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
-  equipmentBanners: Maybe<AcfContentNodeConnection>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
   equipmentShopCost: Maybe<Scalars['Float']['output']>;
   /**
@@ -6852,6 +6780,8 @@ export type ItemInformation = AcfFieldGroup & AcfFieldGroupFields & ItemInformat
   fieldGroupName: Maybe<Scalars['String']['output']>;
   /** Field of the &quot;checkbox&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
   howToObtain: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
+  image: Maybe<AcfMediaItemConnectionEdge>;
   /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
   itemType: Maybe<AcfTermNodeConnection>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
@@ -6877,15 +6807,6 @@ export type ItemInformation = AcfFieldGroup & AcfFieldGroupFields & ItemInformat
 
 /** The &quot;ItemInformation&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
 export type ItemInformationCollectionsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The &quot;ItemInformation&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type ItemInformationEquipmentBannersArgs = {
   after: InputMaybe<Scalars['String']['input']>;
   before: InputMaybe<Scalars['String']['input']>;
   first: InputMaybe<Scalars['Int']['input']>;
@@ -6939,8 +6860,6 @@ export type ItemInformation_Fields = {
   cost: Maybe<Scalars['Float']['output']>;
   /** Field of the &quot;radio&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
   costumeWeaponType: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;relationship&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
-  equipmentBanners: Maybe<AcfContentNodeConnection>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
   equipmentShopCost: Maybe<Scalars['Float']['output']>;
   /**
@@ -6950,6 +6869,8 @@ export type ItemInformation_Fields = {
   fieldGroupName: Maybe<Scalars['String']['output']>;
   /** Field of the &quot;checkbox&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
   howToObtain: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  /** Field of the &quot;image&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
+  image: Maybe<AcfMediaItemConnectionEdge>;
   /** Field of the &quot;taxonomy&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
   itemType: Maybe<AcfTermNodeConnection>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;ItemInformation&quot; Field Group */
@@ -6975,15 +6896,6 @@ export type ItemInformation_Fields = {
 
 /** Interface representing fields of the ACF &quot;ItemInformation&quot; Field Group */
 export type ItemInformation_FieldsCollectionsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** Interface representing fields of the ACF &quot;ItemInformation&quot; Field Group */
-export type ItemInformation_FieldsEquipmentBannersArgs = {
   after: InputMaybe<Scalars['String']['input']>;
   before: InputMaybe<Scalars['String']['input']>;
   first: InputMaybe<Scalars['Int']['input']>;
@@ -15452,29 +15364,6 @@ export type ThemeConnectionPageInfo = {
   startCursor: Maybe<Scalars['String']['output']>;
 };
 
-/** The &quot;Toughness&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
-export type Toughness = AcfFieldGroup & AcfFieldGroupFields & Toughness_Fields & {
-  __typename?: 'Toughness';
-  /**
-   * The name of the field group
-   * @deprecated Use __typename instead
-   */
-  fieldGroupName: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Toughness&quot; Field Group */
-  toughness: Maybe<Scalars['Float']['output']>;
-};
-
-/** Interface representing fields of the ACF &quot;Toughness&quot; Field Group */
-export type Toughness_Fields = {
-  /**
-   * The name of the field group
-   * @deprecated Use __typename instead
-   */
-  fieldGroupName: Maybe<Scalars['String']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Toughness&quot; Field Group */
-  toughness: Maybe<Scalars['Float']['output']>;
-};
-
 /** Any node that has a URI */
 export type UniformResourceIdentifiable = {
   /** The globally unique ID for the object */
@@ -17015,8 +16904,6 @@ export type WpPageInfo = {
 /** The &quot;Weapons&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
 export type Weapons = AcfFieldGroup & AcfFieldGroupFields & Weapons_Fields & {
   __typename?: 'Weapons';
-  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
-  element: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
   engraving: Maybe<Array<Maybe<WeaponsEngraving>>>;
   /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
@@ -17035,11 +16922,7 @@ export type Weapons = AcfFieldGroup & AcfFieldGroupFields & Weapons_Fields & {
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
   magazine: Maybe<Scalars['Float']['output']>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
-  maxAtk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
   maxDps: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
-  minAtk: Maybe<Scalars['Float']['output']>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
   minDps: Maybe<Scalars['Float']['output']>;
   /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
@@ -17098,8 +16981,6 @@ export type WeaponsEngraving_Fields = {
 
 /** Interface representing fields of the ACF &quot;Weapons&quot; Field Group */
 export type Weapons_Fields = {
-  /** Field of the &quot;select&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
-  element: Maybe<Array<Maybe<Scalars['String']['output']>>>;
   /** Field of the &quot;repeater&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
   engraving: Maybe<Array<Maybe<WeaponsEngraving>>>;
   /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
@@ -17118,11 +16999,7 @@ export type Weapons_Fields = {
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
   magazine: Maybe<Scalars['Float']['output']>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
-  maxAtk: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
   maxDps: Maybe<Scalars['Float']['output']>;
-  /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
-  minAtk: Maybe<Scalars['Float']['output']>;
   /** Field of the &quot;number&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
   minDps: Maybe<Scalars['Float']['output']>;
   /** Field of the &quot;true_false&quot; Field Type added to the schema as part of the &quot;Weapons&quot; Field Group */
@@ -17170,12 +17047,6 @@ export type WithAcfEquipmentOptions = {
   equipmentOptions: Maybe<EquipmentOptions>;
 };
 
-/** Provides access to fields of the &quot;EquipmentSubOptions&quot; ACF Field Group via the &quot;equipmentSubOptions&quot; field */
-export type WithAcfEquipmentSubOptions = {
-  /** Fields of the EquipmentSubOptions ACF Field Group */
-  equipmentSubOptions: Maybe<EquipmentSubOptions>;
-};
-
 /** Provides access to fields of the &quot;GuideFields&quot; ACF Field Group via the &quot;guideFields&quot; field */
 export type WithAcfGuideFields = {
   /** Fields of the GuideFields ACF Field Group */
@@ -17198,12 +17069,6 @@ export type WithAcfItemInformation = {
 export type WithAcfTeamFields = {
   /** Fields of the TeamFields ACF Field Group */
   teamFields: Maybe<TeamFields>;
-};
-
-/** Provides access to fields of the &quot;Toughness&quot; ACF Field Group via the &quot;toughness&quot; field */
-export type WithAcfToughness = {
-  /** Fields of the Toughness ACF Field Group */
-  toughness: Maybe<Toughness>;
 };
 
 /** Provides access to fields of the &quot;Weapons&quot; ACF Field Group via the &quot;weapons&quot; field */
@@ -17246,12 +17111,12 @@ export type UpvoteTeamMutation = { __typename?: 'RootMutation', upvoteTeam: { __
 export type GetAllHeroesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllHeroesQuery = { __typename?: 'RootQuery', heroes: { __typename?: 'RootQueryToHeroConnection', nodes: Array<{ __typename?: 'Hero', id: string, databaseId: number, uri: string | null, slug: string | null, heroId: number, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaDetails: { __typename?: 'MediaDetails', sizes: Array<{ __typename?: 'MediaSize', sourceUrl: string | null, name: string | null } | null> | null } | null } } | null, heroInformation: { __typename?: 'HeroInformation', variations: Array<string | null> | null, portrait: Array<{ __typename?: 'HeroInformationPortrait', title: string | null, art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null> | null, bioFields: { __typename?: 'HeroInformationBioFields', rarity: Array<string | null> | null, element: string | null, role: string | null, name: string | null, age: string | null, compatibleEquipment: Array<string | null> | null, weight: string | null, story: string | null, species: string | null, naReleaseDate: string | null, krReleaseDate: string | null, jpReleaseDate: string | null, height: string | null, exclusiveWeapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, title: string | null, weapons: { __typename?: 'Weapons', maxDps: number | null, element: Array<string | null> | null, exclusiveEffects: string | null, exclusive: boolean | null, magazine: number | null, maxAtk: number | null, minAtk: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl: string | null } } | null, engraving: Array<{ __typename?: 'WeaponsEngraving', value: number | null, stat: Array<string | null> | null } | null> | null } | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, equipmentSubOptions: { __typename?: 'EquipmentSubOptions', subOptions: Array<string | null> | null, fieldGroupName: string | null, maxLines: number | null, subAtk: number | null, subAtkOnKill: number | null, subBasicTypeAtk: number | null, subCritChance: number | null, subDamageReduction: number | null, subDarkTypeAtk: number | null, subDef: number | null, subDefFlat: number | null, subEarthTypeAtk: number | null, subFireTypeAtk: number | null, subHealFlat: number | null, subHealPercent: number | null, subHp: number | null, subHpOnKill: number | null, subLightTypeAtk: number | null, subShieldOnKill: number | null, subShieldOnStart: number | null, subSkillDamage: number | null, subSkillRegenOnKill: number | null, subSkillRegenSpeed: number | null, subWaterTypeAtk: number | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', options: Array<string | null> | null, atk: number | null, atkOnKill: number | null, basicTypeAtk: number | null, critChance: number | null, critHitMultiplier: number | null, damageReduction: number | null, darkTypeAtk: number | null, decreaseDamageTakenBySkill: number | null, def: number | null, defFlat: number | null, earthTypeAtk: number | null, extraDamageType: boolean | null, fieldGroupName: string | null, fireTypeAtk: number | null, healFlat: number | null, healPercent: number | null, hp: number | null, hpOnKill: number | null, increaseDamageAmount: number | null, increaseDamageCondition: boolean | null, increaseDamageThreshold: number | null, increaseDamageToTanks: number | null, lb5Option: Array<string | null> | null, lb5Value: number | null, lightTypeAtk: number | null, minDamageReduction: number | null, minDefFlat: number | null, onHitDamage: number | null, onHitDamageSeconds: number | null, onHitHealAllies: number | null, onHitHealSeconds: number | null, shieldOnKill: number | null, shieldOnStart: number | null, skillDamage: number | null, skillRegenOnKill: number | null, skillRegenSpeed: number | null, waterTypeAtk: number | null } | null, itemInformation: { __typename?: 'ItemInformation', rarity: Array<string | null> | null } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' }> } | null } | null, abilityFields: { __typename?: 'HeroInformationAbilityFields', chainStateTrigger: Array<string | null> | null, chainStateResult: Array<string | null> | null, chainSkillDescription: string | null, chainSkillName: string | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityName: string | null, specialAbilityDescription: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAbilityFieldsPartyBuff', affectsParty: boolean | null, value: number | null, stat: Array<string | null> | null } | null> | null } | null, thumbnail: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, background: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, mlbAwakeningFields: { __typename?: 'HeroInformationMlbAwakeningFields', midGradeHpMlb: number | null, midGradeDreamMlb: number | null, midGradeDefMlb: number | null, midGradeAtkMlb: number | null, lowGradeHpMlb: number | null, lowGradeDreamMlb: number | null, lowGradeDefMlb: number | null, lowGradeAtkMlb: number | null, legendaryAwakeningMlb: number | null, highGradeHpMlb: number | null, highGradeDreamMlb: number | null, highGradeDefMlb: number | null, highGradeAtkMlb: number | null, gold: number | null } | null, statFields: { __typename?: 'HeroInformationStatFields', atk: number | null, basicResistance: number | null, cardSlot: number | null, crit: number | null, damageReduction: number | null, darkResistance: number | null, def: number | null, earthResistance: number | null, fieldGroupName: string | null, heal: number | null, hp: number | null, lightResistance: number | null, waterResistance: number | null, fireResistance: number | null, atkRank: number | null, defRank: number | null, hpRank: number | null, critRank: number | null, healRank: number | null, drRank: number | null, heroCount: number | null } | null, statPriorities: Array<{ __typename?: 'HeroInformationStatPriorities', buildName: string | null, explanation: string | null, statPriority: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item' } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post', id: string, title: string | null } | { __typename?: 'Team' } }> } | null } | null> | null, portrait2: Array<{ __typename?: 'HeroInformationPortrait2', art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null, title: string | null } } | null } | null> | null, costumes: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null, evolutionFields2: { __typename?: 'HeroInformationEvolutionFields2', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evolutionFields: { __typename?: 'HeroInformationEvolutionFields', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evaluationFields: { __typename?: 'HeroInformationEvaluationFields', pros: string | null, cons: string | null, tags: Array<string | null> | null } | null, buildGuideFields: { __typename?: 'HeroInformationBuildGuideFields', suggestedWeapons: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedWeapons', weaponExplanation: string | null, suggestedWeapon: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedShield: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedShield', shieldExplanation: string | null, suggestedShield: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedMerch: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedMerch', merchExplanation: string | null, suggestedMerch: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedCards: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedCards', cardExplanation: string | null, suggestedCard: string | null } | null> | null, suggestedAccessories: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedAccessories', accessoryExplanation: string | null, suggestedAccessory: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null } | null, bioFields2: { __typename?: 'HeroInformationBioFields2', weight: string | null, story: string | null, name: string | null, height: string | null, age: string | null } | null, analysisFields: { __typename?: 'HeroInformationAnalysisFields', detailedReview: string | null } | null, ascentAbilities: { __typename?: 'HeroInformationAscentAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, ascentExAbilities: { __typename?: 'HeroInformationAscentExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, exAbilities: { __typename?: 'HeroInformationExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, illustrations: Array<{ __typename?: 'HeroInformationIllustrations', name: string | null, image: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', title: string | null, sourceUrl: string | null } } | null } | null> | null } | null }> } | null };
+export type GetAllHeroesQuery = { __typename?: 'RootQuery', heroes: { __typename?: 'RootQueryToHeroConnection', nodes: Array<{ __typename?: 'Hero', id: string, databaseId: number, uri: string | null, slug: string | null, heroId: number, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaDetails: { __typename?: 'MediaDetails', sizes: Array<{ __typename?: 'MediaSize', sourceUrl: string | null, name: string | null } | null> | null } | null } } | null, heroInformation: { __typename?: 'HeroInformation', variations: Array<string | null> | null, portrait: Array<{ __typename?: 'HeroInformationPortrait', title: string | null, art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null> | null, bioFields: { __typename?: 'HeroInformationBioFields', rarity: Array<string | null> | null, element: string | null, role: string | null, name: string | null, age: string | null, compatibleEquipment: Array<string | null> | null, weight: string | null, story: string | null, species: string | null, naReleaseDate: string | null, krReleaseDate: string | null, jpReleaseDate: string | null, height: string | null, exclusiveWeapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, title: string | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' }> } | null } | null, abilityFields: { __typename?: 'HeroInformationAbilityFields', chainStateTrigger: Array<string | null> | null, chainStateResult: Array<string | null> | null, chainSkillDescription: string | null, chainSkillName: string | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityName: string | null, specialAbilityDescription: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAbilityFieldsPartyBuff', affectsParty: boolean | null, value: number | null, stat: Array<string | null> | null } | null> | null } | null, thumbnail: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, background: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, mlbAwakeningFields: { __typename?: 'HeroInformationMlbAwakeningFields', midGradeHpMlb: number | null, midGradeDreamMlb: number | null, midGradeDefMlb: number | null, midGradeAtkMlb: number | null, lowGradeHpMlb: number | null, lowGradeDreamMlb: number | null, lowGradeDefMlb: number | null, lowGradeAtkMlb: number | null, legendaryAwakeningMlb: number | null, highGradeHpMlb: number | null, highGradeDreamMlb: number | null, highGradeDefMlb: number | null, highGradeAtkMlb: number | null, gold: number | null } | null, statFields: { __typename?: 'HeroInformationStatFields', atk: number | null, basicResistance: number | null, cardSlot: number | null, crit: number | null, damageReduction: number | null, darkResistance: number | null, def: number | null, earthResistance: number | null, fieldGroupName: string | null, heal: number | null, hp: number | null, lightResistance: number | null, waterResistance: number | null, fireResistance: number | null, atkRank: number | null, defRank: number | null, hpRank: number | null, critRank: number | null, healRank: number | null, drRank: number | null, heroCount: number | null } | null, statPriorities: Array<{ __typename?: 'HeroInformationStatPriorities', buildName: string | null, explanation: string | null, statPriority: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item' } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post', id: string, title: string | null } | { __typename?: 'Team' } }> } | null } | null> | null, portrait2: Array<{ __typename?: 'HeroInformationPortrait2', art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null, title: string | null } } | null } | null> | null, costumes: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null, evolutionFields2: { __typename?: 'HeroInformationEvolutionFields2', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evolutionFields: { __typename?: 'HeroInformationEvolutionFields', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evaluationFields: { __typename?: 'HeroInformationEvaluationFields', pros: string | null, cons: string | null, tags: Array<string | null> | null } | null, buildGuideFields: { __typename?: 'HeroInformationBuildGuideFields', suggestedWeapons: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedWeapons', weaponExplanation: string | null, suggestedWeapon: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedShield: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedShield', shieldExplanation: string | null, suggestedShield: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedMerch: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedMerch', merchExplanation: string | null, suggestedMerch: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedCards: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedCards', cardExplanation: string | null, suggestedCard: string | null } | null> | null, suggestedAccessories: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedAccessories', accessoryExplanation: string | null, suggestedAccessory: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null } | null, bioFields2: { __typename?: 'HeroInformationBioFields2', weight: string | null, story: string | null, name: string | null, height: string | null, age: string | null } | null, analysisFields: { __typename?: 'HeroInformationAnalysisFields', detailedReview: string | null } | null, ascentAbilities: { __typename?: 'HeroInformationAscentAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, ascentExAbilities: { __typename?: 'HeroInformationAscentExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, exAbilities: { __typename?: 'HeroInformationExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, illustrations: Array<{ __typename?: 'HeroInformationIllustrations', name: string | null, image: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', title: string | null, sourceUrl: string | null } } | null } | null> | null } | null }> } | null };
 
 export type GetAllItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllItemsQuery = { __typename?: 'RootQuery', items: { __typename?: 'RootQueryToItemConnection', nodes: Array<{ __typename?: 'Item', id: string, databaseId: number, title: string | null, slug: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, weapons: { __typename?: 'Weapons', element: Array<string | null> | null, exclusive: boolean | null, exclusiveEffects: string | null, isFirstEx: boolean | null, magazine: number | null, maxAtk: number | null, maxDps: number | null, minAtk: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, engraving: Array<{ __typename?: 'WeaponsEngraving', stat: Array<string | null> | null, value: number | null } | null> | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, toughness: { __typename?: 'Toughness', toughness: number | null } | null, equipmentSubOptions: { __typename?: 'EquipmentSubOptions', subWaterTypeAtk: number | null, subSkillRegenSpeed: number | null, subSkillRegenOnKill: number | null, subSkillDamage: number | null, subShieldOnStart: number | null, subShieldOnKill: number | null, subOptions: Array<string | null> | null, subLightTypeAtk: number | null, subHpOnKill: number | null, subHp: number | null, subHealPercent: number | null, subHealFlat: number | null, subFireTypeAtk: number | null, subEarthTypeAtk: number | null, subDefFlat: number | null, subDef: number | null, subDarkTypeAtk: number | null, subDamageReduction: number | null, subCritChance: number | null, subBasicTypeAtk: number | null, subAtkOnKill: number | null, subAtk: number | null, maxLines: number | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', waterTypeAtk: number | null, skillRegenSpeed: number | null, skillRegenOnKill: number | null, skillDamage: number | null, shieldOnStart: number | null, shieldOnKill: number | null, options: Array<string | null> | null, onHitHealSeconds: number | null, onHitHealAllies: number | null, onHitDamageSeconds: number | null, onHitDamage: number | null, minDefFlat: number | null, minDamageReduction: number | null, lightTypeAtk: number | null, lb5Value: number | null, lb5Option: Array<string | null> | null, increaseDamageToTanks: number | null, increaseDamageThreshold: number | null, increaseDamageCondition: boolean | null, increaseDamageAmount: number | null, hpOnKill: number | null, hp: number | null, healPercent: number | null, healFlat: number | null, fireTypeAtk: number | null, fieldGroupName: string | null, extraDamageType: boolean | null, earthTypeAtk: number | null, defFlat: number | null, def: number | null, decreaseDamageTakenBySkill: number | null, darkTypeAtk: number | null, damageReduction: number | null, critHitMultiplier: number | null, critChance: number | null, basicTypeAtk: number | null, atkOnKill: number | null, atk: number | null } | null, costume: { __typename?: 'Costume', illustration: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null, itemInformation: { __typename?: 'ItemInformation', achievement: string | null, artifactDescription: string | null, artifactPassives: string | null, artifactRarity: string | null, battleMedalShopCost: number | null, bottleCapCost: number | null, cost: number | null, costumeWeaponType: string | null, equipmentShopCost: number | null, howToObtain: Array<string | null> | null, maxLevel: number | null, mileageShopCost: number | null, mirrorShardCost: number | null, mysticThreadCost: number | null, rarity: Array<string | null> | null, unreleased: boolean | null, collections: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, itemType: { __typename?: 'AcfTermNodeConnection', nodes: Array<{ __typename?: 'Category', name: string | null } | { __typename?: 'GraphqlDocumentGroup', name: string | null } | { __typename?: 'ItemType', name: string | null } | { __typename?: 'PostFormat', name: string | null } | { __typename?: 'Tag', name: string | null }> } | null } | null }> } | null };
+export type GetAllItemsQuery = { __typename?: 'RootQuery', items: { __typename?: 'RootQueryToItemConnection', nodes: Array<{ __typename?: 'Item', id: string, databaseId: number, title: string | null, slug: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, weapons: { __typename?: 'Weapons', exclusive: boolean | null, exclusiveEffects: string | null, isFirstEx: boolean | null, magazine: number | null, maxDps: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, engraving: Array<{ __typename?: 'WeaponsEngraving', stat: Array<string | null> | null, value: number | null } | null> | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null, costume: { __typename?: 'Costume', illustration: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null, itemInformation: { __typename?: 'ItemInformation', achievement: string | null, artifactDescription: string | null, artifactPassives: string | null, artifactRarity: string | null, battleMedalShopCost: number | null, bottleCapCost: number | null, cost: number | null, costumeWeaponType: string | null, equipmentShopCost: number | null, howToObtain: Array<string | null> | null, maxLevel: number | null, mileageShopCost: number | null, mirrorShardCost: number | null, mysticThreadCost: number | null, rarity: Array<string | null> | null, unreleased: boolean | null, collections: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, itemType: { __typename?: 'AcfTermNodeConnection', nodes: Array<{ __typename?: 'Category', name: string | null } | { __typename?: 'GraphqlDocumentGroup', name: string | null } | { __typename?: 'ItemType', name: string | null } | { __typename?: 'PostFormat', name: string | null } | { __typename?: 'Tag', name: string | null }> } | null } | null }> } | null };
 
 export type GetAllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -17388,105 +17253,24 @@ export const GetAllHeroesDocument = gql`
               ... on Item {
                 id
                 title
-                weapons {
-                  maxDps
-                  element
-                  exclusiveEffects
-                  exclusive
-                  magazine
-                  maxAtk
-                  minAtk
-                  minDps
-                  weaponSkill
-                  weaponSkillAtk
-                  weaponSkillChain
-                  weaponSkillDescription
-                  weaponSkillName
-                  weaponSkillRegenTime
-                  weaponSkillVideo {
-                    node {
-                      mediaItemUrl
-                    }
-                  }
-                  weaponType
-                  engraving {
-                    value
-                    stat
-                  }
-                }
-                featuredImage {
-                  node {
-                    sourceUrl
-                  }
-                }
-                equipmentSubOptions {
-                  subOptions
-                  fieldGroupName
-                  maxLines
-                  subAtk
-                  subAtkOnKill
-                  subBasicTypeAtk
-                  subCritChance
-                  subDamageReduction
-                  subDarkTypeAtk
-                  subDef
-                  subDefFlat
-                  subEarthTypeAtk
-                  subFireTypeAtk
-                  subHealFlat
-                  subHealPercent
-                  subHp
-                  subHpOnKill
-                  subLightTypeAtk
-                  subShieldOnKill
-                  subShieldOnStart
-                  subSkillDamage
-                  subSkillRegenOnKill
-                  subSkillRegenSpeed
-                  subWaterTypeAtk
-                }
                 equipmentOptions {
-                  options
-                  atk
-                  atkOnKill
-                  basicTypeAtk
-                  critChance
-                  critHitMultiplier
-                  damageReduction
-                  darkTypeAtk
-                  decreaseDamageTakenBySkill
-                  def
-                  defFlat
-                  earthTypeAtk
-                  extraDamageType
-                  fieldGroupName
-                  fireTypeAtk
-                  healFlat
-                  healPercent
-                  hp
-                  hpOnKill
-                  increaseDamageAmount
-                  increaseDamageCondition
-                  increaseDamageThreshold
-                  increaseDamageToTanks
+                  mainStats {
+                    stat
+                    isRange
+                    value
+                    minValue
+                    maxValue
+                  }
+                  subStats {
+                    stat
+                    isRange
+                    value
+                    minValue
+                    maxValue
+                  }
                   lb5Option
                   lb5Value
-                  lightTypeAtk
-                  minDamageReduction
-                  minDefFlat
-                  onHitDamage
-                  onHitDamageSeconds
-                  onHitHealAllies
-                  onHitHealSeconds
-                  shieldOnKill
-                  shieldOnStart
-                  skillDamage
-                  skillRegenOnKill
-                  skillRegenSpeed
-                  waterTypeAtk
-                }
-                itemInformation {
-                  rarity
+                  maxSubOptionLines
                 }
               }
             }
@@ -17844,8 +17628,8 @@ export function useGetAllHeroesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetAllHeroesQuery, GetAllHeroesQueryVariables>(GetAllHeroesDocument, options);
         }
-export function useGetAllHeroesSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllHeroesQuery, GetAllHeroesQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetAllHeroesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllHeroesQuery, GetAllHeroesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetAllHeroesQuery, GetAllHeroesQueryVariables>(GetAllHeroesDocument, options);
         }
 export type GetAllHeroesQueryHookResult = ReturnType<typeof useGetAllHeroesQuery>;
@@ -17866,7 +17650,6 @@ export const GetAllItemsDocument = gql`
       title
       slug
       weapons {
-        element
         engraving {
           stat
           value
@@ -17880,9 +17663,7 @@ export const GetAllItemsDocument = gql`
         }
         isFirstEx
         magazine
-        maxAtk
         maxDps
-        minAtk
         minDps
         weaponSkill
         weaponSkillAtk
@@ -17897,73 +17678,24 @@ export const GetAllItemsDocument = gql`
         }
         weaponType
       }
-      toughness {
-        toughness
-      }
-      equipmentSubOptions {
-        subWaterTypeAtk
-        subSkillRegenSpeed
-        subSkillRegenOnKill
-        subSkillDamage
-        subShieldOnStart
-        subShieldOnKill
-        subOptions
-        subLightTypeAtk
-        subHpOnKill
-        subHp
-        subHealPercent
-        subHealFlat
-        subFireTypeAtk
-        subEarthTypeAtk
-        subDefFlat
-        subDef
-        subDarkTypeAtk
-        subDamageReduction
-        subCritChance
-        subBasicTypeAtk
-        subAtkOnKill
-        subAtk
-        maxLines
-      }
       equipmentOptions {
-        waterTypeAtk
-        skillRegenSpeed
-        skillRegenOnKill
-        skillDamage
-        shieldOnStart
-        shieldOnKill
-        options
-        onHitHealSeconds
-        onHitHealAllies
-        onHitDamageSeconds
-        onHitDamage
-        minDefFlat
-        minDamageReduction
-        lightTypeAtk
-        lb5Value
+        mainStats {
+          stat
+          isRange
+          value
+          minValue
+          maxValue
+        }
+        subStats {
+          stat
+          isRange
+          value
+          minValue
+          maxValue
+        }
         lb5Option
-        increaseDamageToTanks
-        increaseDamageThreshold
-        increaseDamageCondition
-        increaseDamageAmount
-        hpOnKill
-        hp
-        healPercent
-        healFlat
-        fireTypeAtk
-        fieldGroupName
-        extraDamageType
-        earthTypeAtk
-        defFlat
-        def
-        decreaseDamageTakenBySkill
-        darkTypeAtk
-        damageReduction
-        critHitMultiplier
-        critChance
-        basicTypeAtk
-        atkOnKill
-        atk
+        lb5Value
+        maxSubOptionLines
       }
       costume {
         illustration {
@@ -18033,8 +17765,8 @@ export function useGetAllItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetAllItemsQuery, GetAllItemsQueryVariables>(GetAllItemsDocument, options);
         }
-export function useGetAllItemsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllItemsQuery, GetAllItemsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetAllItemsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllItemsQuery, GetAllItemsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetAllItemsQuery, GetAllItemsQueryVariables>(GetAllItemsDocument, options);
         }
 export type GetAllItemsQueryHookResult = ReturnType<typeof useGetAllItemsQuery>;
@@ -18153,8 +17885,8 @@ export function useGetAllTeamsLazyQuery(baseOptions?: Apollo.LazyQueryHookOption
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetAllTeamsQuery, GetAllTeamsQueryVariables>(GetAllTeamsDocument, options);
         }
-export function useGetAllTeamsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetAllTeamsQuery, GetAllTeamsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetAllTeamsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAllTeamsQuery, GetAllTeamsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetAllTeamsQuery, GetAllTeamsQueryVariables>(GetAllTeamsDocument, options);
         }
 export type GetAllTeamsQueryHookResult = ReturnType<typeof useGetAllTeamsQuery>;
@@ -18201,8 +17933,8 @@ export function useGetTeamVotesWithUserVoteLazyQuery(baseOptions?: Apollo.LazyQu
           const options = {...defaultOptions, ...baseOptions}
           return Apollo.useLazyQuery<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>(GetTeamVotesWithUserVoteDocument, options);
         }
-export function useGetTeamVotesWithUserVoteSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useGetTeamVotesWithUserVoteSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return Apollo.useSuspenseQuery<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>(GetTeamVotesWithUserVoteDocument, options);
         }
 export type GetTeamVotesWithUserVoteQueryHookResult = ReturnType<typeof useGetTeamVotesWithUserVoteQuery>;

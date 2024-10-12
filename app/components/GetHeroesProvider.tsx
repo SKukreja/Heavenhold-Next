@@ -20,7 +20,7 @@ export function HeroesProvider({ children }: React.PropsWithChildren<{}>) {
     const pathSegments = pathname.split('/');
     const heroesIndex = pathSegments.indexOf('heroes');
     const slug = (heroesIndex >= 0 && pathSegments.length > heroesIndex + 1) ? pathSegments[heroesIndex + 1] : '';
-    const fetchedHero = data.heroes?.nodes.find((h) => h.slug === slug) ?? null;
+    const fetchedHero = data?.heroes?.nodes.find((h) => h.slug === slug) ?? null;
     setHeroBG(fetchedHero?.heroInformation?.background?.node?.sourceUrl ?? "");
   }, [pathname, data]);  
 

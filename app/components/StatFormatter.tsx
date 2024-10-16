@@ -2,19 +2,22 @@ import React from 'react';
 
 interface StatFormatterProps {
   statName: string;
+  isRange?: boolean;
   statValue: string;
+  minValue?: string;
+  maxValue?: string;
   isPassive: boolean;
   element?: string;
   affectsParty?: boolean;
 }
 
-const StatFormatter: React.FC<StatFormatterProps> = ({ statName, statValue, isPassive = false, affectsParty = false, element }) => {
+const StatFormatter: React.FC<StatFormatterProps> = ({ statName, isRange, statValue, minValue, maxValue, isPassive = false, affectsParty = false, element }) => {
   const partyBuffFormatting: { [key: string]: (value: string) => string } = {
     "Atk": (value) => `Atk <span class="text-green-500">+${value}%</span>`,
     "Crit Hit Chance": (value) => `Critical Hit Chance <span class="text-green-500">+${value}%</span>`,
     "Damage Reduction": (value) => `Damage Reduction: ${value}%`,
     "Def": (value) => `Defense: ${value}`,
-    "HP": (value) => `Health Points: ${value}`,
+    "HP": (value) => `HP <span class="text-green-500">+${value}%</span>`,
     "Melee Damage": (value) => `Melee Damage <span class="text-green-500">+${value}%</span>`,
     "Range Damage": (value) => `Range Damage <span class="text-green-500">+${value}%</span>`,
     "Skill Damage": (value) => `Skill Damage <span class="text-green-500">+${value}%</span>`,
@@ -46,7 +49,7 @@ const StatFormatter: React.FC<StatFormatterProps> = ({ statName, statValue, isPa
     "When a shield is present, damage dealt increases by x% while damage taken decreases by x%": (value) => `When a shield is present, damage dealt increases by <span class="text-green-500">${value}%</span> while damage taken decreases by <span class="text-green-500">${value}%</span>`,
   };
 
-  const equipmentFormatting: { [key: string]: (value: string, element:string) => string } = {
+  const equipmentFormatting: { [key: string]: (value: string, isRange: boolean, minValue: string, maxValue: string, element:string) => string } = {
     "Atk (%)": (value) => `Atk +${parseFloat(value) > 0 ? parseFloat(value).toFixed(1) : "?"}%`,
     "Crit Hit Chance": (value) => `Crit Hit Chance +${parseFloat(value) > 0 ? parseFloat(value).toFixed(1) : "?"}%`,
     "Damage Reduction": (value) => `Damage Reduction: ${value}%`,
@@ -63,12 +66,12 @@ const StatFormatter: React.FC<StatFormatterProps> = ({ statName, statValue, isPa
     "Shield increase on battle start": (value) => `Shield increase on battle start ${value}%`,
     "Shield increase on enemy kill": (value) => `Shield increase on enemy kill ${value}%`,
     "Weapon Skill Regen Speed": (value) => `Weapon Skill Regen Speed +${parseFloat(value) > 0 ? parseFloat(value).toFixed(1) : "?"}%`,
-    "Fire Atk": (value, element) => `<span class="text-${element ?? "white"} font-bold">Fire Atk</span> ${value}`,
-    "Earth Atk": (value, element) => `<span class="text-${element ?? "white"} font-bold">Earth Atk</span> ${value}`,
-    "Water Atk": (value, element) => `<span class="text-${element ?? "white"} font-bold">Water Atk</span> ${value}`,
-    "Dark Atk": (value, element) => `<span class="text-${element ?? "white"} font-bold">Dark Atk</span> ${value}`,
-    "Light Atk": (value, element) => `<span class="text-${element ?? "white"} font-bold">Light Atk</span> ${value}`,
-    "Basic Atk": (value, element) => `<span class="text-${element ?? "white"} font-bold">Basic Atk</span> ${value}`,
+    "Fire Atk": (value, isRange, minValue, maxValue, element) => `<span class="text-${element ?? "white"} font-bold">Fire Atk</span> ${minValue} - ${maxValue}`,
+    "Earth Atk": (value, isRange, minValue, maxValue, element) => `<span class="text-${element ?? "white"} font-bold">Earth Atk</span> ${minValue} - ${maxValue}`,
+    "Water Atk": (value, isRange, minValue, maxValue, element) => `<span class="text-${element ?? "white"} font-bold">Water Atk</span> ${minValue} - ${maxValue}`,
+    "Dark Atk": (value, isRange, minValue, maxValue, element) => `<span class="text-${element ?? "white"} font-bold">Dark Atk</span> ${minValue} - ${maxValue}`,
+    "Light Atk": (value, isRange, minValue, maxValue, element) => `<span class="text-${element ?? "white"} font-bold">Light Atk</span> ${minValue} - ${maxValue}`,
+    "Basic Atk": (value, isRange, minValue, maxValue, element) => `<span class="text-${element ?? "white"} font-bold">Basic Atk</span> ${minValue} - ${maxValue}`,
     "Heal (Flat)": (value) => `Heal ${value}`,
     "Heal (%)": (value) => `Heal ${value}%`,
     "Atk, Heal [] for injured Chain Skills": (value) => `Attack and Heal for injured Chain Skills ${value}%`,
@@ -90,7 +93,7 @@ const StatFormatter: React.FC<StatFormatterProps> = ({ statName, statValue, isPa
       return (affectsParty ? "[Party] " : "") + partyBuffFormatting[name](parseFloat(value).toFixed(1).toString());
     }
     else {
-      return equipmentFormatting[name](value, element);
+      return equipmentFormatting[name](value, isRange, minValue, maxValue, element);
     }
     return 'Stat not found';
   };

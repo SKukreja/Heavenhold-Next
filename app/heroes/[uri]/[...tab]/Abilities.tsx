@@ -66,6 +66,7 @@ function Abilities({ hero, items }: AbilitiesProps) {
                             minValue={stat?.minValue + ""}
                             maxValue={stat?.maxValue + ""}
                             isPassive={false}
+                            key={weaponNode.id + "-main-stat-" + index}
                           />
                         );
                       })
@@ -95,6 +96,7 @@ function Abilities({ hero, items }: AbilitiesProps) {
                                 minValue={stat?.minValue + ""}
                                 maxValue={stat?.maxValue + ""}
                                 isPassive={false}
+                                key={weaponNode.id + "-sub-stat-" + index}
                               />
                             );
                           })}

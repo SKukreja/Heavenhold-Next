@@ -93,7 +93,7 @@ const StatFormatter: React.FC<StatFormatterProps> = ({ statName, isRange, statVa
       return (affectsParty ? "[Party] " : "") + partyBuffFormatting[name](parseFloat(value).toFixed(1).toString());
     }
     else {
-      return equipmentFormatting[name](value, isRange, minValue, maxValue, element);
+      return equipmentFormatting[name](value, isRange ?? false, minValue ?? "", maxValue ?? "", element);
     }
     return 'Stat not found';
   };

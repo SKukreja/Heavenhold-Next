@@ -11,7 +11,7 @@ import {
 function makeClient() {
   const httpLink = new HttpLink({
     uri: "https://api.heavenhold.com/graphql",
-    // Remove fetchOptions to use default caching behavior
+    fetchOptions: { cache: "no-store" },
   });
 
   return new ApolloClient({

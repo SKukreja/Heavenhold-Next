@@ -116,13 +116,7 @@ function Abilities({ hero, items }: AbilitiesProps) {
                     selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.chainSkillDescription : hero.heroInformation?.abilityFields?.chainSkillDescription) + "" : 
                     selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.chainSkillDescription : hero.heroInformation?.exAbilities?.chainSkillDescription) + "" : ""
                     }}></span>
-                  </div>
-                  <div className="w-full h-auto">
-                    <span className="w-full" dangerouslySetInnerHTML={{ __html: 
-                    selectedWeapon === 0 ? (ascended ? hero.heroInformation?.ascentAbilities?.chainSkillEffect : hero.heroInformation?.abilityFields?.chainSkillEffect) + "" : 
-                    selectedWeapon === 1 ? (ascended ? hero.heroInformation?.ascentExAbilities?.chainSkillEffect : hero.heroInformation?.exAbilities?.chainSkillEffect) + "" : ""
-                    }}></span>
-                  </div>
+                  </div>                  
                 </div>
               </div>
               {hero.heroInformation?.bioFields?.exclusiveWeapon && (() => {

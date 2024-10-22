@@ -130,8 +130,11 @@ function Abilities({ hero, items }: AbilitiesProps) {
                     <div>
                       <h2 className="uppercase tracking-widest text-green-500 text-xs">Weapon Skill</h2>
                       <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">{weaponNode?.weapons?.weaponSkillName}</h2>
-                      <div className="w-4/5 h-auto">
+                      <div className="mb-6 w-4/5 h-auto">
                         <span className="w-full" dangerouslySetInnerHTML={{ __html: weaponNode?.weapons?.weaponSkillDescription ?? "" }}></span>
+                      </div>
+                      <div className="w-4/5 h-auto">
+                        <span className="w-full" dangerouslySetInnerHTML={{ __html: "Regen Time: " + weaponNode?.weapons?.weaponSkillRegenTime + "s" ?? "" }}></span>  
                       </div>
                     </div>
                   </div>

@@ -4,6 +4,7 @@ import { Suspense, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import HeroFilters from '#/app/components/HeroFilters';
 import HeroList from '#/app/components/HeroList';
+import ItemFilters from '#/app/components/ItemFilters';
 import { GetAllHeroesQuery } from '#/graphql/generated/types';
 
 export default function Sidebar() {
@@ -16,6 +17,7 @@ export default function Sidebar() {
       <Suspense>
         <div></div>
         {pathname === '/heroes' && <HeroFilters />}
+        {pathname === '/items' && <ItemFilters />}
         {heroPathValue && <HeroList />}
       </Suspense>
     </div>

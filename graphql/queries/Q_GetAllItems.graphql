@@ -3,6 +3,7 @@ query GetAllItems {
     nodes {
       id
       databaseId
+      uri
       featuredImage {
         node {
           sourceUrl

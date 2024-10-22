@@ -28,9 +28,11 @@ export default function ItemGrid() {
   return (
     <Suspense fallback={<Loading />}>
       <div id="HeroList" className="flex flex-wrap justify-center gap-4 lg:gap-8 lg:p-4">
-        {items.map((item: Item, index: number) => (
-          <ItemLink key={item.uri} item={item} index={index} />
-        ))}
+        {items
+          .filter((item: Item) => item?.itemInformation?.itemType?.nodes[0].name != "Cards")
+          .map((item: Item, index: number) => (
+            <ItemLink key={item.uri} item={item} index={index} />
+          ))}
       </div>
     </Suspense>
   );
@@ -42,7 +44,7 @@ const ItemLink = ({ item, index }: { item: Item, index: number }) => {
     <Link
       href={item.uri ?? '/'}
       data-filter={`${item.title} r-${item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase()}`}
-      className={`${"e-" + element} r-${item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase()} relative w-[calc(50vw-2rem)] lg:w-[calc(30%-2rem)] flex m-0 lg:m-[10px] cursor-pointer align-middle transition-all duration-200 after:transition-all after:linear after:duration-200 hover:after:outline-offset-[-5px] ease grayscale-[30%] hover:grayscale-0 after:w-full after:h-full after:absolute after:inset-0 after:z-20 after:pointer-events-none after:border after:border-gray-800 after:outline after:outline-2 p-8`}
+      className={`${"e-" + element}${item?.itemInformation?.itemType?.nodes[0].name == 'Weapon' ? ' w-' + item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase() : ''} ${"t-" + item?.itemInformation?.itemType?.nodes[0].name?.toLowerCase()} r-${item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase()} relative w-[calc(50vw-2rem)] lg:w-[calc(30%-2rem)] flex m-0 lg:m-[10px] cursor-pointer bg-gray-800 align-middle transition-all duration-200 after:transition-all after:linear after:duration-200 hover:after:outline-offset-[-5px] ease grayscale-[30%] hover:grayscale-0 after:w-full after:h-full after:absolute after:inset-0 after:z-20 after:pointer-events-none after:border after:border-gray-800 after:outline after:outline-2 p-8`}
     >
       <ItemCard item={item} element={element} index={index} />
     </Link>

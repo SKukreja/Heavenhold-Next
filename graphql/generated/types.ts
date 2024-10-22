@@ -7774,6 +7774,42 @@ export type ItemTypeToTaxonomyConnectionEdge = Edge & OneToOneConnection & Taxon
   node: Taxonomy;
 };
 
+/** Input for the loginWithCookies mutation. */
+export type LoginWithCookiesInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** Input your user/e-mail. */
+  login: Scalars['String']['input'];
+  /** Input your password. */
+  password: Scalars['String']['input'];
+  /** Whether to "remember" the user. Increases the time that the cookie will be kept. Default false. */
+  rememberMe: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** The payload for the loginWithCookies mutation. */
+export type LoginWithCookiesPayload = {
+  __typename?: 'LoginWithCookiesPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+  /** Login operation status */
+  status: Maybe<Scalars['String']['output']>;
+};
+
+/** Input for the logout mutation. */
+export type LogoutInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The payload for the logout mutation. */
+export type LogoutPayload = {
+  __typename?: 'LogoutPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+  /** Logout operation status */
+  status: Maybe<Scalars['String']['output']>;
+};
+
 /** File details for a Media Item */
 export type MediaDetails = {
   __typename?: 'MediaDetails';
@@ -10940,6 +10976,10 @@ export type RootMutation = {
   downvoteTeam: Maybe<DownvoteTeamPayload>;
   /** Increase the count. */
   increaseCount: Maybe<Scalars['Int']['output']>;
+  /** The loginWithCookies mutation */
+  loginWithCookies: Maybe<LoginWithCookiesPayload>;
+  /** The logout mutation */
+  logout: Maybe<LogoutPayload>;
   /** The registerUser mutation */
   registerUser: Maybe<RegisterUserPayload>;
   /** The resetUserPassword mutation */
@@ -11174,6 +11214,18 @@ export type RootMutationDownvoteTeamArgs = {
 /** The root mutation */
 export type RootMutationIncreaseCountArgs = {
   count: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The root mutation */
+export type RootMutationLoginWithCookiesArgs = {
+  input: LoginWithCookiesInput;
+};
+
+
+/** The root mutation */
+export type RootMutationLogoutArgs = {
+  input: LogoutInput;
 };
 
 
@@ -17116,7 +17168,7 @@ export type GetAllHeroesQuery = { __typename?: 'RootQuery', heroes: { __typename
 export type GetAllItemsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllItemsQuery = { __typename?: 'RootQuery', items: { __typename?: 'RootQueryToItemConnection', nodes: Array<{ __typename?: 'Item', id: string, databaseId: number, title: string | null, slug: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, weapons: { __typename?: 'Weapons', exclusive: boolean | null, exclusiveEffects: string | null, isFirstEx: boolean | null, magazine: number | null, maxDps: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, engraving: Array<{ __typename?: 'WeaponsEngraving', stat: Array<string | null> | null, value: number | null } | null> | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null, costume: { __typename?: 'Costume', illustration: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null, itemInformation: { __typename?: 'ItemInformation', achievement: string | null, artifactDescription: string | null, artifactPassives: string | null, artifactRarity: string | null, battleMedalShopCost: number | null, bottleCapCost: number | null, cost: number | null, costumeWeaponType: string | null, equipmentShopCost: number | null, howToObtain: Array<string | null> | null, maxLevel: number | null, mileageShopCost: number | null, mirrorShardCost: number | null, mysticThreadCost: number | null, rarity: Array<string | null> | null, unreleased: boolean | null, collections: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, itemType: { __typename?: 'AcfTermNodeConnection', nodes: Array<{ __typename?: 'Category', name: string | null } | { __typename?: 'GraphqlDocumentGroup', name: string | null } | { __typename?: 'ItemType', name: string | null } | { __typename?: 'PostFormat', name: string | null } | { __typename?: 'Tag', name: string | null }> } | null } | null }> } | null };
+export type GetAllItemsQuery = { __typename?: 'RootQuery', items: { __typename?: 'RootQueryToItemConnection', nodes: Array<{ __typename?: 'Item', id: string, databaseId: number, uri: string | null, title: string | null, slug: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, weapons: { __typename?: 'Weapons', exclusive: boolean | null, exclusiveEffects: string | null, isFirstEx: boolean | null, magazine: number | null, maxDps: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, engraving: Array<{ __typename?: 'WeaponsEngraving', stat: Array<string | null> | null, value: number | null } | null> | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null, costume: { __typename?: 'Costume', illustration: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null, itemInformation: { __typename?: 'ItemInformation', achievement: string | null, artifactDescription: string | null, artifactPassives: string | null, artifactRarity: string | null, battleMedalShopCost: number | null, bottleCapCost: number | null, cost: number | null, costumeWeaponType: string | null, equipmentShopCost: number | null, howToObtain: Array<string | null> | null, maxLevel: number | null, mileageShopCost: number | null, mirrorShardCost: number | null, mysticThreadCost: number | null, rarity: Array<string | null> | null, unreleased: boolean | null, collections: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, itemType: { __typename?: 'AcfTermNodeConnection', nodes: Array<{ __typename?: 'Category', name: string | null } | { __typename?: 'GraphqlDocumentGroup', name: string | null } | { __typename?: 'ItemType', name: string | null } | { __typename?: 'PostFormat', name: string | null } | { __typename?: 'Tag', name: string | null }> } | null } | null }> } | null };
 
 export type GetAllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -17642,6 +17694,7 @@ export const GetAllItemsDocument = gql`
     nodes {
       id
       databaseId
+      uri
       featuredImage {
         node {
           sourceUrl

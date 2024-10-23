@@ -35,12 +35,12 @@ function Bio({ hero }: BioProps) {
               <div className="w-full"><span className="w-1/2 inline-block font-bold">Height</span><span className="w-1/2 inline-block text-right">{hero.heroInformation?.bioFields?.height}</span></div>
               <div className="w-full"><span className="w-1/2 inline-block font-bold">Weight</span><span className="w-1/2 inline-block text-right">{hero.heroInformation?.bioFields?.weight}</span></div>
               <div className="w-full"><span className="w-1/2 inline-block font-bold">Species</span><span className="w-1/2 inline-block text-right">{hero.heroInformation?.bioFields?.species}</span></div>
-                <div className="w-full">
+                <div className="w-full flex items-start">
                   <span className="w-1/2 inline-block font-bold">Equipment</span>
-                  <span className="w-1/2 inline-flex items-center justify-end text-right">
+                  <span className="w-1/2 inline-flex items-center justify-end text-right gap-3 flex-wrap -mb-2">
                     {hero.heroInformation?.bioFields?.compatibleEquipment?.map((equipment) => (
                       <span className="" key={"eq-" + equipment}>
-                        <FadeInImage src={equipmentIcons[equipment as keyof typeof equipmentIcons]} className="-mb-2" setWidth={30} width={30} height={30} alt={equipment ?? ""} />
+                        <FadeInImage src={equipmentIcons[equipment as keyof typeof equipmentIcons]} className="w-6 h-auto" width={30} height={30} alt={equipment ?? ""} />
                       </span>
                     ))}
                   </span>

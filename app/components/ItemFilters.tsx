@@ -20,13 +20,14 @@ const itemTypes = [
   { id: 'filter-mobile-category-staff', value: 'staff', label: 'Staff', icon: '/icons/equipment/staff.webp' },
   { id: 'filter-mobile-category-gauntlet', value: 'gauntlet', label: 'Gauntlet', icon: '/icons/equipment/gauntlet.webp' },
   { id: 'filter-mobile-category-claw', value: 'claw', label: 'Claw', icon: '/icons/equipment/claw.webp' },
-  { id: 'filter-mobile-category-accessory', value: 'accessory', label: 'Accessory', icon: '/icons/equipment/accessory.webp' },
-  { id: 'filter-mobile-category-artifact', value: 'artifact', label: 'Artifact', icon: '/icons/equipment/artifact.webp' },
-  { id: 'filter-mobile-category-card', value: 'card', label: 'Card', icon: '/icons/equipment/card.webp' },
   { id: 'filter-mobile-category-shield', value: 'shield', label: 'Shield', icon: '/icons/equipment/shield.webp' },
-  { id: 'filter-mobile-category-merch', value: 'merch', label: 'Merch', icon: '/icons/equipment/merch.webp' },
-  { id: 'filter-mobile-category-costume', value: 'costume', label: 'Costume', icon: '/icons/equipment/costume.webp' },
-  { id: 'filter-mobile-category-blueprint', value: 'blueprint', label: 'Blueprint', icon: '/icons/equipment/blueprint.webp' },
+  { id: 'filter-mobile-category-accessory', value: 'accessory', label: 'Accessory', icon: '/icons/equipment/accessory.webp' },
+  { id: 'filter-mobile-category-costume', value: 'costume', label: 'Hero Costume', icon: '/icons/equipment/herocostume.webp' },
+  { id: 'filter-mobile-category-equipmentcostume', value: 'equipmentcostume', label: 'Equipment Costume', icon: '/icons/equipment/equipmentcostume.webp' },
+  { id: 'filter-mobile-category-illustrationcostume', value: 'illustrationcostume', label: 'Illustration Costume', icon: '/icons/equipment/illustrationcostume.webp' },
+  { id: 'filter-mobile-category-card', value: 'card', label: 'Card', icon: '/icons/equipment/card.webp' },  
+  { id: 'filter-mobile-category-merch', value: 'merch', label: 'Merch', icon: '/icons/equipment/merch.webp' },    
+  { id: 'filter-mobile-category-relic', value: 'relic', label: 'Relic', icon: '/icons/equipment/relic.webp' },  
 ];
 
 const elementOptions = [
@@ -42,7 +43,7 @@ export default function ItemFilters() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
-    "filter-section-mobile-0": false,
+    "filter-section-mobile-0": true,
     "filter-section-mobile-1": false,
     "filter-section-mobile-2": false,
   });
@@ -158,9 +159,11 @@ export default function ItemFilters() {
                 ))}
                 {section === "Rarity" && (
                   <>
-                    <FilterToggle id="filter-mobile-size-0" value="r-1-star" label="★" onChange={handleToggleChange('r-1-star')} isActive={!!activeFilters['r-1-star']} />
-                    <FilterToggle id="filter-mobile-size-1" value="r-2-star" label="★★" onChange={handleToggleChange('r-2-star')} isActive={!!activeFilters['r-2-star']} />
-                    <FilterToggle id="filter-mobile-size-2" value="r-3-star" label="★★★" onChange={handleToggleChange('r-3-star')} isActive={!!activeFilters['r-3-star']} />
+                    <FilterToggle id="filter-mobile-size-0" value="r-epic" label="Epic" onChange={handleToggleChange('r-epic')} isActive={!!activeFilters['r-epic']} />
+                    <FilterToggle id="filter-mobile-size-1" value="r-legend" label="Legend" onChange={handleToggleChange('r-legend')} isActive={!!activeFilters['r-legend']} />
+                    <FilterToggle id="filter-mobile-size-2" value="r-unique" label="Unique" onChange={handleToggleChange('r-unique')} isActive={!!activeFilters['r-unique']} />
+                    <FilterToggle id="filter-mobile-size-3" value="r-rare" label="Rare" onChange={handleToggleChange('r-rare')} isActive={!!activeFilters['r-rare']} />
+                    <FilterToggle id="filter-mobile-size-4" value="r-normal" label="Normal" onChange={handleToggleChange('r-normal')} isActive={!!activeFilters['r-normal']} />
                   </>
                 )}
               </div>
@@ -190,8 +193,8 @@ function FilterToggle({ id, value, label, icon, onChange, isActive }: { id: stri
         onClick={handleClick}
     >
       <input id={id} name="filter" value={value} type="checkbox" className={InputStyles} checked={isActive} readOnly />
-      <label htmlFor={id} className={LabelStyles}>
-        {icon && <Image src={icon} alt={label} width={20} height={20} className="mr-4" />}
+      <label htmlFor={id} className={LabelStyles}> 
+        {icon && <Image src={icon} alt={label} width={16} height={16} className="mr-4 fill-white" />}
         {label}
       </label>
     </div>

@@ -236,7 +236,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                 className="team-box text-white bg-gray-transparent w-full mb-4"
               >
                 <div
-                  className="team-header cursor-pointer flex items-center justify-between px-8 py-2"
+                  className="team-header cursor-pointer flex items-center justify-between px-8 py-4"
                   onClick={toggleTeamDetails}
                 >
                   <div className="w-24 h-full flex mr-16">
@@ -282,22 +282,21 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                       </div>
                     </div>
                   </div>
-                  <div className="text-lg font-bold flex-1 w-1/3">
+                  <div className="text-lg font-bold flex-1 w-1/4">
                     {team?.title ?? ""}
                   </div>
-                  <div className="flex justify-center items-center w-1/3 gap-4">
+                  <div className="flex justify-center items-center w-2/5 gap-4">
                     {team.teamFields?.composition?.map((slot, index) => {
                       const heroId = slot?.hero?.nodes[0].id;
                       const heroData = heroes.find((h) => h.id === heroId);
-                      const element =
-                        heroData?.heroInformation?.bioFields?.element?.toLowerCase();
+                      const element = heroData?.heroInformation?.bioFields?.element?.toLowerCase();
 
                       return (
                         <div
                           key={`${team.id}-${index + 1}`}
                           id={`${team.id}-${index + 1}`}
                           data-build={teamSlug}
-                          className={`team-hero e-${element} relative`}
+                          className={`team-hero w-full e-${element} relative`}
                         >
                           <FadeInImage
                             src={
@@ -307,7 +306,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                                     .sourceUrl
                                 : "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"
                             }
-                            className={`w-32 h-32 aspect-square object-cover bg-gradient-to-b border-b-4 ${
+                            className={`w-full h-auto aspect-square object-cover bg-gradient-to-b border-b-4 ${
                               heroData?.heroInformation?.bioFields?.rarity?.toString() ===
                               "3 Star"
                                 ? `from-yellow-700 to-yellow-500 border-b-4 border-yellow-500`
@@ -320,6 +319,13 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                             height={300}
                             alt={hero.title + ""}
                           />
+                          {index === 0 &&
+                          team?.teamFields?.teamType !==
+                            "Arena" && (
+                            <span className="absolute -top-2 -left-2 w-8 h-8 drop-shadow-md lead fill-white">
+                              {crown()}
+                            </span>
+                          )}
                         </div>
                       );
                     })}
@@ -331,13 +337,13 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                   </span>
                 </div>
                 <div
-                  className="team-details hidden p-8 w-full" 
+                  className="team-details hidden px-8 py-4 w-full text-xs" 
                 >
                   <div className="h-24 flex w-24 mr-16"></div>
-                  <div className="team-explanation flex-1 w-full lg:w-1/3 pr-0 lg:pr-32">
+                  <div className="team-explanation flex-1 w-1/4 lg:w-1/4 pr-0 lg:pr-32">
                     {team?.teamFields?.notes ?? ""}
                   </div>
-                  <div className="team-build w-1/3 flex gap-4">
+                  <div className="team-build w-2/5 flex items-start justify-center gap-4">
                     {team.teamFields?.composition?.map(
                       (slot: any, index: number) => {
                         const heroId = slot?.hero?.nodes[0].id;
@@ -351,36 +357,21 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                         const weapon = items.find(
                           (item) => item.id === slot?.weapon?.nodes[0].id
                         );
-                        const weaponImage =
-                          weapon?.featuredImage?.node?.sourceUrl || "";
-                        const weaponTitle = weapon?.title || "";
+                        const accessory = items.find(
+                          (item) => item.id === slot?.accessory?.nodes[0].id
+                        );
+                        const merch = items.find(
+                          (item) => item.id === slot?.merch?.nodes[0].id
+                        );
 
                         return (
                           <div
                             key={`${teamSlug}-build-${index + 1}`}
-                            className="hero-build-section w-32"
+                            className="hero-build-section w-full"
                           >
                             <div className={`team-hero-build e-${element}`}>
-                              <div className="team-selected-hero-info">
+                              <div className="text-center mb-4 font-bold">
                                 <Link href={`${heroData?.uri}`}>
-                                  <div
-                                    className="hero-image relative"
-                                    style={{
-                                      backgroundImage: `url(${
-                                        heroData?.featuredImage?.node?.mediaDetails?.sizes?.find(
-                                          (size) => size?.name === "THUMBNAIL"
-                                        )?.sourceUrl || ""
-                                      })`,
-                                    }}
-                                  >
-                                    {index === 0 &&
-                                      team?.teamFields?.teamType !==
-                                        "Arena" && (
-                                        <span className="absolute top-0 right-0 w-4 h-4 lead fill-white">
-                                          {crown()}
-                                        </span>
-                                      )}
-                                  </div>
                                   {heroData?.title}
                                 </Link>
                                 <span className="selected-hero-stars">
@@ -403,16 +394,22 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                             </div>
                             <div className="build-items">
                               <div className="build-object build-weapon">
-                                <span className="build-header">Weapon</span>
-                                <div className="build-item-with-image">
-                                  <div
-                                    className="build-item"
-                                    style={{
-                                      backgroundImage: `url(${weaponImage})`,
-                                    }}
-                                  ></div>
-                                  <Link href={`${weapon?.uri}`}>
-                                    {weaponTitle}
+                                <div className="build flex flex-col gap-2">                                  
+                                  <Link href={`${weapon?.uri}`} className="flex items-center gap-2">
+                                    <FadeInImage src={weapon?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} alt={weapon?.title + " Icon"} /> 
+                                    <span className="w-full">{weapon?.title}</span>
+                                  </Link>
+                                  <Link href={`${accessory?.uri}`} className="flex items-center gap-2">
+                                    <FadeInImage src={accessory?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} alt={accessory?.title + " Icon"} />
+                                    <span className="w-full">{accessory?.title}</span>
+                                  </Link>
+                                  <Link href={`${merch?.uri}`} className="flex items-center gap-2">
+                                    <FadeInImage src={merch?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} alt={merch?.title + " Icon"} />
+                                    <span className="w-full">{merch?.title}</span>
+                                  </Link>
+                                  <Link href={`${weapon?.uri}`} className="flex items-center gap-2">
+                                    <FadeInImage src={weapon?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} alt={weapon?.title + " Icon"} />
+                                    <span className="w-full">{weapon?.title}</span>
                                   </Link>
                                 </div>
                               </div>
@@ -422,7 +419,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                       }
                     )}
                   </div>
-                  <span className="ml-14 h-4 w-4"></span>
+                  <span className="ml-16 h-4 w-4"></span>
                 </div>
               </div>
             );

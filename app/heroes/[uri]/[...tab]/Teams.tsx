@@ -342,8 +342,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                   <div className="h-24 flex w-4 lg:w-24 mr-6 lg:mr-16"></div>
                   <div className="flex-col-reverse lg:flex-row flex w-4/5">
                     <div className="team-explanation flex-1 flex flex-col gap-4 pr-0 lg:pr-32 w-full lg:w-[calc(50%-3rem)]">
-                      <span className="w0">{team?.teamFields?.notes ?? ""}
-
+                      {team?.teamFields?.notes ?? ""}
                     </div>
                     <div className="team-build flex items-start justify-start gap-2 lg:gap-4 -ml-[calc(3rem)] w-[calc(100%+3rem)] lg:w-[calc(50%+3rem)]">
                       <div className="w-32 h-full flex flex-col justify-start items-center gap-2">

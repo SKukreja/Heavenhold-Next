@@ -14,6 +14,9 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      fontSize: {
+        '2xs': '1.5vw',
+      },
       fontFamily: {
         oswald: ['var(--font-oswald)'],
         montserrat: ['var(--font-montserrat)'],

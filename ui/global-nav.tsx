@@ -138,7 +138,7 @@ export function GlobalNav() {
 
                 <div>
                   {section.items.map((item) => (
-                    <GlobalNavItem key={item.slug} item={item} close={close} />
+                    <GlobalNavItem key={item.slug} item={item} />
                   ))}
                 </div>
               </div>

@@ -138,7 +138,7 @@ export function GlobalNav() {
 
                 <div>
                   {section.items.map((item) => (
-                    <GlobalNavItem key={item.slug} item={item} />
+                    <GlobalNavItem key={item.slug} item={item} close={close} />
                   ))}
                 </div>
               </div>
@@ -150,7 +150,7 @@ export function GlobalNav() {
   );
 }
 
-function GlobalNavItem({ item }: { item: Item }) {
+function GlobalNavItem({ item, close }: { item: Item, close: () => void }) {
   const segment = useSelectedLayoutSegment();
   const isActive = item.slug === segment;
 

@@ -15,7 +15,7 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        '2xs': '1.5vw',
+        '2xs': '0.55rem',
       },
       fontFamily: {
         oswald: ['var(--font-oswald)'],

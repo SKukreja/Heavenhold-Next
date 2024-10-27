@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Hero, Team, Item } from "#/graphql/generated/types";
+import { Hero, Team, Item, HeroInformationAbilityFieldsPartyBuff_Fields, HeroInformationAbilityFieldsPartyBuff } from "#/graphql/generated/types";
 import FadeInImage from "#/app/components/FadeInImage";
 import { upvote, downvote, chevron, crown } from "#/ui/icons";
 import Link from "next/link";
@@ -13,6 +13,7 @@ import {
 import { equipmentIcons } from "#/ui/icons";
 import Loading from "#/app/components/loading";
 import { access } from "fs";
+import StatFormatter from "#/app/components/StatFormatter";
 
 interface TeamsProps {
   hero: Hero;
@@ -80,6 +81,9 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
       userVote: string | null;
     })[]),
   ]);
+
+  // State to manage active team type filters
+  const [activeTeamTypes, setActiveTeamTypes] = useState<string[]>([]);
 
   useEffect(() => {
     if (!votesLoading && votesData) {
@@ -223,25 +227,128 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
     }
   };
 
+  // Function to toggle team type filters
+  const toggleTeamType = (teamType: string) => {
+    setActiveTeamTypes((prevTypes) => {
+      if (prevTypes.includes(teamType)) {
+        return prevTypes.filter((type) => type !== teamType);
+      } else {
+        return [...prevTypes, teamType];
+      }
+    });
+  };
+
+  // Filter teams based on active team types
+  const filteredTeams = combinedTeams.filter((team) => {
+    if (activeTeamTypes.length === 0) return true;
+    return activeTeamTypes.includes(team.teamFields?.teamType ?? "");
+  });
+
   return (
     <div
       id="Teams"
       className="relative overflow-visible z-20 w-full h-auto items-start flex px-4 3xl:px-8"
     >
       <div className="px-4 3xl:px-8 w-full flex-col justify-start h-full flex">
+        <div className={"w-full h-16 flex justify-between items-end mb-8"}>
+          <div className="flex flex-col justify-start">
+            <span className="font-normal text-xs tracking-widest">Types</span>
+            <div className="text-lg flex items-center gap-4 font-bold">
+              <span
+                className={`cursor-pointer ${
+                  activeTeamTypes.includes("Colosseum")
+                    ? "text-fire"
+                    : "text-gray-500 hover:text-fire"
+                }`}
+                onClick={() => toggleTeamType("Colosseum")}
+              >
+                Colosseum
+              </span>
+              <span
+                className={`cursor-pointer ${
+                  activeTeamTypes.includes("Raid")
+                    ? "text-water"
+                    : "text-gray-500 hover:text-water"
+                }`}
+                onClick={() => toggleTeamType("Raid")}
+              >
+                Raid
+              </span>
+              <span
+                className={`cursor-pointer ${
+                  activeTeamTypes.includes("Arena")
+                    ? "text-earth"
+                    : "text-gray-500 hover:text-earth"
+                }`}
+                onClick={() => toggleTeamType("Arena")}
+              >
+                Arena
+              </span>
+            </div>
+          </div>
+          <Link
+            className="text-xl text-gray-400 font-bold bg-gray-900 hover:bg-gray-800 hover:text-white px-8 py-4 flex justify-center items-center"
+            href={`https://api.heavenhold.com/wp-admin/post-new.php?post_type=teams`}
+          >
+            + Submit Team
+          </Link>
+        </div>
         <div className="w-full h-full mb-4">
-          {combinedTeams.map((team) => {
+          {filteredTeams.length == 0 && (
+            <div className="flex flex-col w-full h-[calc(50vh)] justify-center items-center">
+              <span>No teams found for {hero.title}.</span>
+              <Link
+                className="text-xl text-gray-400 font-bold hover:text-white px-8 py-4 flex justify-center items-center"
+                href={`https://api.heavenhold.com/wp-admin/post-new.php?post_type=teams`}
+              >
+                Add a new team
+              </Link>
+            </div>
+          )}
+          {filteredTeams.length > 0 && filteredTeams.map((team) => {
             const teamSlug = team?.slug ?? "";
+            const combinedPartyBuff: { [statName: string]: number } = {};
+
+            // Iterate over each hero in the team
+            team.teamFields?.composition?.forEach((slot) => {
+              const heroId = slot?.hero?.nodes[0].id;
+              const heroData = heroes.find((h) => h.id === heroId);
+
+              if (!heroData) {
+                return; // Skip if hero data not found
+              }
+
+              const partyBuff = heroData?.heroInformation?.abilityFields?.partyBuff;
+
+              // Extract the party buffs
+              partyBuff?.forEach((buff: any) => {
+                const statName = buff?.stat;
+                const statValue = buff?.value;
+                if (statName && statValue) {
+                  if (combinedPartyBuff[statName]) {
+                    combinedPartyBuff[statName] += statValue;
+                  } else {
+                    combinedPartyBuff[statName] = statValue;
+                  }
+                }
+              });
+            });
+
+            // Convert combinedPartyBuff to an array
+            const combinedPartyBuffArray = Object.entries(combinedPartyBuff).map(
+              ([stat, value]) => ({ stat, value })
+            );
+
             return (
               <div
                 key={teamSlug}
-                className="team-box text-white bg-gray-transparent w-full mb-4"
+                className={`team-box t-${team?.teamFields?.teamType?.toLowerCase()} text-white bg-gray-transparent w-full mb-4`}
               >
                 <div
                   className="team-header cursor-pointer flex items-center justify-between px-4 lg:px-8 py-4"
                   onClick={toggleTeamDetails}
                 >
-                  <div className="w-0 lg:w-24 h-full flex mr-6 lg:mr-16">
+                  <div className="w-0 lg:w-12 h-full flex mr-6 lg:mr-4">
                     <div className="flex justify-between items-center gap-2 lg:gap-4 flex-1">
                       <div className="votes flex flex-col justify-between items-center gap-2">
                         <button
@@ -285,14 +392,26 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                     </div>
                   </div>
                   <div className="flex-col lg:flex-row flex items-center justify-between w-4/5">
-                    <div className="text-sm lg:text-lg font-bold w-full mb-4 lg:w-1/2 lg:mb-0">
-                      {team?.title ?? ""}
+                    <div className="text-sm lg:text-lg flex flex-col font-bold w-full mb-4 lg:w-1/2 lg:mb-0">
+                      <span
+                        className={`text-xs tracking-wide ${
+                          team?.teamFields?.teamType === "Colosseum"
+                            ? "text-fire"
+                            : team?.teamFields?.teamType === "Raid"
+                            ? "text-water"
+                            : "text-earth"
+                        }`}
+                      >
+                        {team?.teamFields?.teamType ?? ""}
+                      </span>
+                      <span>{team?.title ?? ""}</span>
                     </div>
                     <div className="flex justify-center items-center gap-2 lg:gap-4 w-full lg:w-1/2">
                       {team.teamFields?.composition?.map((slot, index) => {
                         const heroId = slot?.hero?.nodes[0].id;
                         const heroData = heroes.find((h) => h.id === heroId);
-                        const element = heroData?.heroInformation?.bioFields?.element?.toLowerCase();
+                        const element =
+                          heroData?.heroInformation?.bioFields?.element?.toLowerCase();
                         return (
                           <div
                             key={`${team.id}-${index + 1}`}
@@ -309,50 +428,66 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                                   : "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"
                               }
                               className={`w-full h-auto aspect-square object-cover bg-gradient-to-b border-b-4 ${
-                                heroData?.heroInformation?.bioFields?.rarity?.toString() === "3 Star"
+                                heroData?.heroInformation?.bioFields?.rarity?.toString() ===
+                                "3 Star"
                                   ? `from-yellow-700 to-yellow-500 border-b-4 border-yellow-500`
-                                  : heroData?.heroInformation?.bioFields?.rarity?.toString() === "2 Star"
-                                    ? `from-gray-600 to-gray-400 border-b-4 border-gray-400`
-                                    : `from-brown-700 to-brown-500 border-b-4 border-brown-500`
+                                  : heroData?.heroInformation?.bioFields?.rarity?.toString() ===
+                                    "2 Star"
+                                  ? `from-gray-600 to-gray-400 border-b-4 border-gray-400`
+                                  : `from-brown-700 to-brown-500 border-b-4 border-brown-500`
                               }`}
                               width={300}
                               height={300}
                               alt={hero.title + ""}
                             />
                             {index === 0 &&
-                            team?.teamFields?.teamType !==
-                              "Arena" && (
-                              <span className="absolute -top-2 -left-2 w-4 h-4 lg:w-8 lg:h-12 lg:h-8 drop-shadow-md lead fill-white">
-                                {crown()}
-                              </span>
-                            )}
+                              team?.teamFields?.teamType !== "Arena" && (
+                                <span className="absolute -top-2 -left-2 w-4 h-4 lg:w-8 lg:h-16 xl:h-12 2xl:h-8 drop-shadow-md lead fill-white">
+                                  {crown()}
+                                </span>
+                              )}
                           </div>
                         );
                       })}
                     </div>
                   </div>
-                  <span className="chevron-icon duration-200 origin-center ease-in-out ml-6 lg:ml-16 flex items-center justify-center fill-white h-2 w-2 lg:h-4 lg:w-4">
-                    {" "}
+                  <span className="chevron-icon duration-200 origin-center ease-in-out ml-6 lg:ml-8 flex items-center justify-center fill-white h-2 w-2 lg:h-4 lg:w-4">
                     {chevron()}
                   </span>
                 </div>
                 <div
-                  className="team-details hidden px-4 lg:px-8 py-4 w-full text-2xs lg:text-xs justify-between" 
+                  className="team-details hidden px-4 lg:px-8 py-4 w-full text-2xs lg:text-xs justify-between"
                 >
-                  <div className="h-24 flex w-4 lg:w-24 mr-6 lg:mr-16"></div>
+                  <div className="h-24 flex w-4 lg:w-12 mr-6 lg:mr-4"></div>
                   <div className="flex-col-reverse lg:flex-row flex w-4/5">
                     <div className="team-explanation flex-1 flex flex-col gap-4 pr-0 lg:pr-32 w-full lg:w-[calc(50%-3rem)]">
                       {team?.teamFields?.notes ?? ""}
+                      {combinedPartyBuffArray.length > 0 && (
+                        <div className="team-party-buffs mt-4">
+                          <h2 className="mb-2 text-lg font-medium font-oswald">Team Passives</h2>
+                          <div className="w-full h-auto">
+                            {combinedPartyBuffArray.map((passive) => (
+                              <StatFormatter
+                                key={passive.stat}
+                                statName={passive.stat}
+                                statValue={passive.value.toString()}
+                                isPassive={true}
+                                affectsParty={true}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="team-build flex items-start justify-start gap-2 lg:gap-4 -ml-[calc(3rem)] w-[calc(100%+3rem)] lg:w-[calc(50%+3rem)]">
                       <div className="w-32 h-full flex flex-col justify-start items-center gap-2">
-                          <div className="w-8 h-12 lg:h-8 mb-2"></div>
-                          <div className="w-8 h-12 lg:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["One-Handed Sword"]} width={12} height={12} alt={"Weapon icon"} /></div>
-                          <div className="w-8 h-12 lg:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Shield"]} width={12} height={12} alt={"Shield icon"} /></div>
-                          <div className="w-8 h-12 lg:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Accessory"]} width={12} height={12} alt={"Accessory icon"} /></div>
-                          <div className="w-8 h-12 lg:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Merch"]} width={12} height={12} alt={"Merch icon"} /></div>
-                          <div className="w-8 h-12 lg:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Relic"]} width={12} height={12} alt={"Relic icon"} /></div>
-                          <div className="w-8 h-12 lg:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto pl-[calc(0.1rem)] pr-[calc(0.1rem)]"} src={equipmentIcons["Cards"]} width={12} height={12} alt={"Card icon"} /></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-8 mb-2"></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["One-Handed Sword"]} width={12} height={12} alt={"Weapon icon"} /></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Shield"]} width={12} height={12} alt={"Shield icon"} /></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Accessory"]} width={12} height={12} alt={"Accessory icon"} /></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Merch"]} width={12} height={12} alt={"Merch icon"} /></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Relic"]} width={12} height={12} alt={"Relic icon"} /></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto pl-[calc(0.1rem)] pr-[calc(0.1rem)]"} src={equipmentIcons["Cards"]} width={12} height={12} alt={"Card icon"} /></div>
                       </div>
                       {team.teamFields?.composition?.map(
                         (slot: any, index: number) => {
@@ -385,7 +520,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                               className="hero-build-section w-full mb-8 lg:mb-0"
                             >
                               <div className={`team-hero-build e-${element}`}>
-                                <div className="text-center mb-4 h-12 lg:h-8 font-bold flex items-center justify-center">
+                                <div className="text-center mb-4 h-16 xl:h-12 2xl:h-8 font-bold flex items-start justify-center">
                                   <Link href={`${heroData?.uri}`} className="ml-auto mr-auto w-full">
                                     {heroData?.title}
                                   </Link>
@@ -394,27 +529,27 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                               <div className="build-items">
                                 <div className="build-object build-weapon">
                                   <div className="build flex flex-col gap-2">                                  
-                                    <Link href={`${weapon?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-12 lg:h-8 ${weapon ? "" : "pointer-events-none text-gray-500"}`}>
-                                      <FadeInImage src={weapon?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${weapon ? "" : "invisible"} hidden lg:flex`} alt={weapon?.title + " Icon"} /> 
+                                    <Link href={`${weapon?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8 ${weapon ? "" : "pointer-events-none text-gray-500"}`}>
+                                      <FadeInImage src={weapon?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${weapon ? "" : "invisible"} hidden xl:flex`} alt={weapon?.title + " Icon"} /> 
                                       <span className="w-full">{weapon ? weapon?.title : "N/A"}</span>
                                     </Link>
-                                    <Link href={`${shield?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-12 lg:h-8 ${shield ? "" : "pointer-events-none text-gray-500"}`}>
-                                      <FadeInImage src={shield?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${shield ? "" : "invisible"} hidden lg:flex`} alt={shield?.title + " Icon"} />
+                                    <Link href={`${shield?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8 ${shield ? "" : "pointer-events-none text-gray-500"}`}>
+                                      <FadeInImage src={shield?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${shield ? "" : "invisible"} hidden xl:flex`} alt={shield?.title + " Icon"} />
                                       <span className="w-full">{shield ? shield?.title : "N/A"}</span>
                                     </Link>
-                                    <Link href={`${accessory?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-12 lg:h-8 ${accessory ? "" : "pointer-events-none text-gray-500"}`}>
-                                      <FadeInImage src={accessory?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${accessory ? "" : "invisible"} hidden lg:flex`} alt={accessory?.title + " Icon"} />
+                                    <Link href={`${accessory?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8 ${accessory ? "" : "pointer-events-none text-gray-500"}`}>
+                                      <FadeInImage src={accessory?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${accessory ? "" : "invisible"} hidden xl:flex`} alt={accessory?.title + " Icon"} />
                                       <span className="w-full">{accessory ? accessory?.title : "N/A"}</span>
                                     </Link>
-                                    <Link href={`${merch?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-12 lg:h-8 ${merch ? "" : "pointer-events-none text-gray-500"}`}>
-                                      <FadeInImage src={merch?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`h-full aspect-square justify-center items-center hidden lg:flex ${merch ? "" : "invisible"}`} alt={merch?.title + " Icon"} />
+                                    <Link href={`${merch?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8 ${merch ? "" : "pointer-events-none text-gray-500"}`}>
+                                      <FadeInImage src={merch?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`h-full aspect-square justify-center items-center hidden xl:flex ${merch ? "" : "invisible"}`} alt={merch?.title + " Icon"} />
                                       <span className="w-full">{merch ? merch?.title : "N/A"}</span>
                                     </Link>
-                                    <Link href={`${relic?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-12 lg:h-8 ${relic ? "" : "pointer-events-none text-gray-500"}`}>
-                                      <FadeInImage src={relic?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${relic ? "" : "invisible"} hidden lg:flex`} alt={relic?.title + " Icon"} />
+                                    <Link href={`${relic?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8 ${relic ? "" : "pointer-events-none text-gray-500"}`}>
+                                      <FadeInImage src={relic?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${relic ? "" : "invisible"} hidden xl:flex`} alt={relic?.title + " Icon"} />
                                       <span className="w-full">{relic ? relic?.title : "N/A"}</span>
                                     </Link>
-                                    <Link href={`#`} className="flex items-center gap-1 lg:gap-2 h-12 lg:h-8">
+                                    <Link href={`#`} className="flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8">
                                       <span className="w-0 lg:w-6"></span>
                                       <span className="w-full">{cards?.title}</span>
                                     </Link>
@@ -427,7 +562,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                       )}
                     </div>
                   </div>
-                  <span className="ml-6 lg:ml-16 h-4 w-4"></span>
+                  <span className="ml-6 lg:ml-8 h-4 w-4"></span>
                 </div>
               </div>
             );

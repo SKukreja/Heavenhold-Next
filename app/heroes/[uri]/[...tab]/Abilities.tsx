@@ -127,13 +127,13 @@ function Abilities({ hero, items }: AbilitiesProps) {
                     <div className="w-1/5 h-32 flex justify-center items-center pr-4">
                       <FadeInImage src={'/icons/' + weaponNode?.weapons?.weaponSkillChain?.toString().toLowerCase() + '.webp'} alt={'Chain Trigger ' + hero.heroInformation?.abilityFields?.chainStateTrigger} width={40} height={40} />
                     </div>
-                    <div>
+                    <div className="w-4/5">
                       <h2 className="uppercase tracking-widest text-green-500 text-xs">Weapon Skill</h2>
                       <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">{weaponNode?.weapons?.weaponSkillName}</h2>
                       <div className="mb-6 w-4/5 h-auto">
                         <span className="w-full" dangerouslySetInnerHTML={{ __html: weaponNode?.weapons?.weaponSkillDescription ?? "" }}></span>
                       </div>
-                      <div className="w-4/5 h-auto">
+                      <div className="w-full h-auto">
                         <span className="w-full" dangerouslySetInnerHTML={{ __html: "Regen Time: " + weaponNode?.weapons?.weaponSkillRegenTime + "s" ?? "" }}></span>  
                       </div>
                     </div>

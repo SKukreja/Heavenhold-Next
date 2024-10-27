@@ -17,6 +17,10 @@ export default {
       fontSize: {
         '2xs': '0.55rem',
       },
+      transitionProperty: {
+        'width': 'width',
+        'left-top': 'left, top',
+      },
       fontFamily: {
         oswald: ['var(--font-oswald)'],
         montserrat: ['var(--font-montserrat)'],

@@ -26,7 +26,7 @@ export default function HeroGrid() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <div id="HeroList" className="flex flex-wrap justify-center gap-4 lg:gap-8 lg:p-4">
+      <div id="HeroList" className="flex flex-wrap justify-center gap-4 lg:gap-8 lg:p-4 transform-gpu">
         {heroes.map((hero: Hero) => (
           <HeroLink key={hero.uri} hero={hero} />
         ))}

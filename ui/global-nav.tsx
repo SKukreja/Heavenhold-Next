@@ -8,12 +8,14 @@ import { home, item, hero, book, rank, login, contribute, discord } from './icon
 import FadeInImage from '#/app/components/FadeInImage';
 
 type Item = {
-    id: number;
-    icon: () => JSX.Element;
-    name: string;
-    slug: string;
-    description?: string;
+  id: number;
+  icon: () => JSX.Element;
+  name: string;
+  slug: string;
+  description?: string;
+  external?: boolean; // Optional
 };
+
 
 export function GlobalNav() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +28,7 @@ export function GlobalNav() {
           id: 1,
           icon: home,
           name: 'Home',
-          slug: 'home',
+          slug: '',
           description: 'Create UI that is shared across routes',
         },
         {
@@ -69,16 +71,18 @@ export function GlobalNav() {
             id: 6,
             icon: login,
             name: 'Log In',
-            slug: 'log-in',
-            description: 'See the current meta',
+            slug: 'https://api.heavenhold.com/login/',
+            description: 'Log into the site',
+            external: true,
           },
           {
             id: 7,
             icon: discord,
             name: 'Discord',
-            slug: 'discord',
-            description: 'Organize routes without affecting URL paths',
-          },
+            slug: 'https://discord.gg/heavenhold', // Replace with your actual Discord invite link
+            description: 'Join our Discord server',
+            external: true,
+          },          
           {
             id: 8,
             icon: contribute,
@@ -91,14 +95,14 @@ export function GlobalNav() {
   ];
 
   return (
-    <div className="fixed top-0 z-30 flex flex-col bg-black border-b border-gray-800 w-full h-16 lg:h-auto lg:w-[calc(15%)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800">
+    <div className="fixed top-0 z-50 flex flex-col bg-black border-b border-gray-800 w-full h-16 lg:h-auto lg:w-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800">
       <div className="flex items-center px-4 py-4 h-full lg:h-auto">
         <Link
           href="/"
-          className="group flex w-auto lg:w-full items-center gap-x-2.5"
+          className="group flex w-auto lg:w-full items-center gap-x-2"
           onClick={close}
         >
-          <div className="p-4 rounded-full h-full w-fit lg:h-7 lg:w-100">
+          <div className="p-4 rounded-full flex items-center h-full w-fit lg:h-7 lg:w-100">
             <FadeInImage src={'/logo.png'} className={'object-contain h-full w-auto'} alt={'logo'} width={128} height={128} />
           </div>
         </Link>
@@ -124,7 +128,7 @@ export function GlobalNav() {
           hidden: !isOpen,
         })}
       >
-        <nav className="pt-2 space-y-6 pb-28">
+        <nav className="space-y-6 pb-28">
           {menu.map((section) => {
             return (
               <div key={section.items[0].id}>
@@ -146,28 +150,36 @@ export function GlobalNav() {
   );
 }
 
-function GlobalNavItem({
-  item,
-  close,
-}: {
-  item: Item;
-  close: () => false | void;
-}) {
+function GlobalNavItem({ item }: { item: Item }) {
   const segment = useSelectedLayoutSegment();
   const isActive = item.slug === segment;
 
+  // Check if the slug is an external URL
+  const isExternal = item.slug.startsWith('http');
+
+  const commonClasses = clsx(
+    'px-8 py-4 text-sm font-medium hover:text-gray-300 flex items-center gap-x-4',
+    {
+      'text-gray-400 hover:bg-gray-800': !isActive,
+      'text-white': isActive,
+    }
+  );
+
+  if (isExternal) {
+    return (
+      <a
+        href={item.slug}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={commonClasses}
+      >
+        {item.icon()} {item.name}
+      </a>
+    );
+  }
+
   return (
-    <Link
-      onClick={close}
-      href={`/${item.slug}`}
-      className={clsx(
-        'px-8 py-4 text-sm font-medium hover:text-gray-300 flex items-center gap-x-4',
-        {
-          'text-gray-400 hover:bg-gray-800': !isActive,
-          'text-white': isActive,
-        },
-      )}
-    >
+    <Link onClick={close} href={`/${item.slug}`} className={commonClasses}>
       {item.icon()} {item.name}
     </Link>
   );

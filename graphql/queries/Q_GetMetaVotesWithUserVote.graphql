@@ -1,0 +1,14 @@
+query GetMetaVotesWithUserVote($heroId: Int!, $categoryId: Int!, $userId: Int!, $ipAddress: String) {
+  metaVotesByHero(
+    categoryId: $categoryId
+    heroId: $heroId
+    ipAddress: $ipAddress
+    userId: $userId
+  ) {
+    downvoteCount
+    heroId
+    upvoteCount
+    userId
+    userVote
+  }
+}

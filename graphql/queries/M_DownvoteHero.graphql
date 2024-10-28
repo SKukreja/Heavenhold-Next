@@ -1,0 +1,6 @@
+mutation DownvoteHero($heroId: Int!, $categoryId: Int!, $userId: Int!, $ipAddress: String!) {
+      downvoteHero(input: { heroId: $heroId, categoryId: $categoryId, userId: $userId, ipAddress: $ipAddress }) {        
+        success
+        currentVote
+      }
+    }

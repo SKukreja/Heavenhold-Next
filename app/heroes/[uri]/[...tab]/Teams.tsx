@@ -14,6 +14,7 @@ import { equipmentIcons } from "#/ui/icons";
 import Loading from "#/app/components/loading";
 import { access } from "fs";
 import StatFormatter from "#/app/components/StatFormatter";
+import { getIpAddress } from "#/ui/helpers";
 
 interface TeamsProps {
   hero: Hero;
@@ -22,25 +23,12 @@ interface TeamsProps {
   items: Item[];
 }
 
-async function getIpAddress(): Promise<string> {
-  try {
-    const response = await fetch("https://api.ipify.org?format=json");
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json();
-    return data.ip; // Return the fetched IP address
-  } catch (error) {
-    console.error("Error fetching IP address:", error);
-    return "192.168.201.1"; // Fallback IP address
-  }
-}
-
 function Teams({ hero, teams, heroes, items }: TeamsProps) {
+  const ipAddress = getIpAddress();
   const userId = 1;
   const { data: votesData, loading: votesLoading } =
     useGetTeamVotesWithUserVoteQuery({
-      variables: { heroId: hero.databaseId, userId: userId },
+      variables: { heroId: hero.databaseId, ipAddress: ipAddress + "", userId: userId },
     });
 
   const [upvoteTeam] = useUpvoteTeamMutation();

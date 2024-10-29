@@ -1,7 +1,6 @@
-query GetMetaVotesWithUserVote($heroId: Int!, $categoryId: Int!, $userId: Int!, $ipAddress: String) {
-  metaVotesByHero(
+query GetMetaVotesWithUserVote($categoryId: Int!, $userId: Int!, $ipAddress: String) {
+  metaVotesByCategory(
     categoryId: $categoryId
-    heroId: $heroId
     ipAddress: $ipAddress
     userId: $userId
   ) {

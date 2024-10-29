@@ -1,5 +1,5 @@
-query GetTeamVotesWithUserVote($heroId: Int!, $userId: Int!) {
-  teamsVotesByHero(heroId: $heroId, userId: $userId) {
+query GetTeamVotesWithUserVote($heroId: Int!, $userId: Int!, $ipAddress: String) {
+  teamsVotesByHero(heroId: $heroId, ipAddress: $ipAddress, userId: $userId) {
     downvoteCount
     teamId
     userId

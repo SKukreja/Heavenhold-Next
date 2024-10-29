@@ -2917,6 +2917,31 @@ export type DiscussionSettings = {
   defaultPingStatus: Maybe<Scalars['String']['output']>;
 };
 
+/** Input for the downvoteHero mutation. */
+export type DownvoteHeroInput = {
+  /** The ID of the category */
+  categoryId: InputMaybe<Scalars['Int']['input']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** The ID of the hero */
+  heroId: InputMaybe<Scalars['Int']['input']>;
+  /** The IP address of the voter */
+  ipAddress: InputMaybe<Scalars['String']['input']>;
+  /** The ID of the user */
+  userId: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The payload for the downvoteHero mutation. */
+export type DownvoteHeroPayload = {
+  __typename?: 'DownvoteHeroPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+  /** The current vote status after the operation */
+  currentVote: Maybe<Scalars['String']['output']>;
+  /** True if the vote was successful */
+  success: Maybe<Scalars['Boolean']['output']>;
+};
+
 /** Input for the downvoteTeam mutation. */
 export type DownvoteTeamInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -8583,6 +8608,94 @@ export type MenuToMenuItemConnectionWhereArgs = {
   parentId: InputMaybe<Scalars['ID']['input']>;
 };
 
+/** Votes per hero */
+export type MetaVote = DatabaseIdentifier & Node & {
+  __typename?: 'MetaVote';
+  /** The category id */
+  categoryId: Maybe<Scalars['Int']['output']>;
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int']['output'];
+  /** Connection between the MetaVote type and the Hero type */
+  hero: Maybe<MetaVoteToHeroConnectionEdge>;
+  /** The hero id */
+  heroDatabaseId: Maybe<Scalars['Int']['output']>;
+  /** The globally unique ID for the object */
+  id: Scalars['ID']['output'];
+  /** The IP address of the user */
+  ipAddress: Maybe<Scalars['String']['output']>;
+  /** 1 for upvote, 0 for downvote */
+  upOrDown: Maybe<Scalars['Int']['output']>;
+  /** Connection between the MetaVote type and the User type */
+  user: Maybe<MetaVoteToUserConnectionEdge>;
+  /** The user account associated with the vote */
+  userDatabaseId: Maybe<Scalars['Int']['output']>;
+};
+
+/** Connection to MetaVote Nodes */
+export type MetaVoteConnection = {
+  /** A list of edges (relational context) between RootQuery and connected MetaVote Nodes */
+  edges: Array<MetaVoteConnectionEdge>;
+  /** A list of connected MetaVote Nodes */
+  nodes: Array<MetaVote>;
+  /** Information about pagination in a connection. */
+  pageInfo: MetaVoteConnectionPageInfo;
+};
+
+/** Edge between a Node and a connected MetaVote */
+export type MetaVoteConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The connected MetaVote Node */
+  node: MetaVote;
+};
+
+/** Page Info on the connected MetaVoteConnectionEdge */
+export type MetaVoteConnectionPageInfo = {
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** Team ID, Vote Count, Downvote Count, and Team Details */
+export type MetaVoteCount = {
+  __typename?: 'MetaVoteCount';
+  /** The total number of downvotes */
+  downvoteCount: Maybe<Scalars['Int']['output']>;
+  /** The hero details */
+  hero: Maybe<Hero>;
+  /** The hero ID */
+  heroId: Maybe<Scalars['Int']['output']>;
+  /** The total number of votes */
+  upvoteCount: Maybe<Scalars['Int']['output']>;
+  /** The ID of the user */
+  userId: Maybe<Scalars['Int']['output']>;
+  /** The current user&#039;s vote status on the hero: &quot;upvote&quot;, &quot;downvote&quot;, or &quot;none&quot; */
+  userVote: Maybe<Scalars['String']['output']>;
+};
+
+/** Connection between the MetaVote type and the Hero type */
+export type MetaVoteToHeroConnectionEdge = Edge & HeroConnectionEdge & OneToOneConnection & {
+  __typename?: 'MetaVoteToHeroConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The node of the connection, without the edges */
+  node: Hero;
+};
+
+/** Connection between the MetaVote type and the User type */
+export type MetaVoteToUserConnectionEdge = Edge & OneToOneConnection & UserConnectionEdge & {
+  __typename?: 'MetaVoteToUserConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The node of the connection, without the edges */
+  node: User;
+};
+
 /** The MimeType of the object */
 export enum MimeTypeEnum {
   /** application/java mime type. */
@@ -10972,6 +11085,8 @@ export type RootMutation = {
   deleteTeam: Maybe<DeleteTeamPayload>;
   /** The deleteUser mutation */
   deleteUser: Maybe<DeleteUserPayload>;
+  /** The downvoteHero mutation */
+  downvoteHero: Maybe<DownvoteHeroPayload>;
   /** The downvoteTeam mutation */
   downvoteTeam: Maybe<DownvoteTeamPayload>;
   /** Increase the count. */
@@ -11020,6 +11135,8 @@ export type RootMutation = {
   updateTeam: Maybe<UpdateTeamPayload>;
   /** The updateUser mutation */
   updateUser: Maybe<UpdateUserPayload>;
+  /** The upvoteHero mutation */
+  upvoteHero: Maybe<UpvoteHeroPayload>;
   /** The upvoteTeam mutation */
   upvoteTeam: Maybe<UpvoteTeamPayload>;
 };
@@ -11206,6 +11323,12 @@ export type RootMutationDeleteUserArgs = {
 
 
 /** The root mutation */
+export type RootMutationDownvoteHeroArgs = {
+  input: DownvoteHeroInput;
+};
+
+
+/** The root mutation */
 export type RootMutationDownvoteTeamArgs = {
   input: DownvoteTeamInput;
 };
@@ -11350,6 +11473,12 @@ export type RootMutationUpdateUserArgs = {
 
 
 /** The root mutation */
+export type RootMutationUpvoteHeroArgs = {
+  input: UpvoteHeroInput;
+};
+
+
+/** The root mutation */
 export type RootMutationUpvoteTeamArgs = {
   input: UpvoteTeamInput;
 };
@@ -11440,6 +11569,10 @@ export type RootQuery = {
   menuItems: Maybe<RootQueryToMenuItemConnection>;
   /** Connection between the RootQuery type and the Menu type */
   menus: Maybe<RootQueryToMenuConnection>;
+  /** Connection between the RootQuery type and the MetaVote type */
+  metaVotes: Maybe<RootQueryToMetaVoteConnection>;
+  /** Get heros and their total vote and downvote counts for a specific category and user */
+  metaVotesByCategory: Maybe<Array<Maybe<MetaVoteCount>>>;
   /** Fetches an object given its ID */
   node: Maybe<Node>;
   /** Fetches an object given its Unique Resource Identifier */
@@ -11509,6 +11642,8 @@ export type RootQuery = {
   themes: Maybe<RootQueryToThemeConnection>;
   /** Returns a user */
   user: Maybe<User>;
+  /** Get the current user&#039;s vote status for a specific category and hero */
+  userMetaVoteStatus: Maybe<Scalars['String']['output']>;
   /** Returns a user role */
   userRole: Maybe<UserRole>;
   /** Connection between the RootQuery type and the UserRole type */
@@ -11797,6 +11932,23 @@ export type RootQueryMenusArgs = {
 
 
 /** The root entry point into the Graph */
+export type RootQueryMetaVotesArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryMetaVotesByCategoryArgs = {
+  categoryId: InputMaybe<Scalars['Int']['input']>;
+  ipAddress?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The root entry point into the Graph */
 export type RootQueryNodeArgs = {
   id: InputMaybe<Scalars['ID']['input']>;
 };
@@ -12036,6 +12188,15 @@ export type RootQueryThemesArgs = {
 export type RootQueryUserArgs = {
   id: Scalars['ID']['input'];
   idType: InputMaybe<UserNodeIdTypeEnum>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryUserMetaVoteStatusArgs = {
+  categoryId: InputMaybe<Scalars['Int']['input']>;
+  heroId: InputMaybe<Scalars['Int']['input']>;
+  ipAddress: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -13025,6 +13186,39 @@ export type RootQueryToMenuItemConnectionWhereArgs = {
   parentDatabaseId: InputMaybe<Scalars['Int']['input']>;
   /** The ID of the parent menu object */
   parentId: InputMaybe<Scalars['ID']['input']>;
+};
+
+/** Connection between the RootQuery type and the MetaVote type */
+export type RootQueryToMetaVoteConnection = Connection & MetaVoteConnection & {
+  __typename?: 'RootQueryToMetaVoteConnection';
+  /** Edges for the RootQueryToMetaVoteConnection connection */
+  edges: Array<RootQueryToMetaVoteConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<MetaVote>;
+  /** Information about pagination in a connection. */
+  pageInfo: RootQueryToMetaVoteConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type RootQueryToMetaVoteConnectionEdge = Edge & MetaVoteConnectionEdge & {
+  __typename?: 'RootQueryToMetaVoteConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: MetaVote;
+};
+
+/** Page Info on the &quot;RootQueryToMetaVoteConnection&quot; */
+export type RootQueryToMetaVoteConnectionPageInfo = MetaVoteConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'RootQueryToMetaVoteConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
 };
 
 /** Connection between the RootQuery type and the page type */
@@ -16026,6 +16220,31 @@ export type UpdateUserPayload = {
   user: Maybe<User>;
 };
 
+/** Input for the upvoteHero mutation. */
+export type UpvoteHeroInput = {
+  /** The ID of the category */
+  categoryId: InputMaybe<Scalars['Int']['input']>;
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** The ID of the hero */
+  heroId: InputMaybe<Scalars['Int']['input']>;
+  /** The IP address of the voter */
+  ipAddress: InputMaybe<Scalars['String']['input']>;
+  /** The ID of the user */
+  userId: InputMaybe<Scalars['Int']['input']>;
+};
+
+/** The payload for the upvoteHero mutation. */
+export type UpvoteHeroPayload = {
+  __typename?: 'UpvoteHeroPayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+  /** The current vote status after the operation */
+  currentVote: Maybe<Scalars['String']['output']>;
+  /** True if the vote was successful */
+  success: Maybe<Scalars['Boolean']['output']>;
+};
+
 /** Input for the upvoteTeam mutation. */
 export type UpvoteTeamInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -16098,6 +16317,8 @@ export type User = Commenter & DatabaseIdentifier & Node & UniformResourceIdenti
   locale: Maybe<Scalars['String']['output']>;
   /** Connection between the User type and the mediaItem type */
   mediaItems: Maybe<UserToMediaItemConnection>;
+  /** Connection between the User type and the MetaVote type */
+  metaVotes: Maybe<UserToMetaVoteConnection>;
   /** Display name of the user. This is equivalent to the WP_User-&gt;display_name property. */
   name: Maybe<Scalars['String']['output']>;
   /** The nicename for the user. This field is equivalent to WP_User-&gt;user_nicename */
@@ -16177,6 +16398,15 @@ export type UserMediaItemsArgs = {
   first: InputMaybe<Scalars['Int']['input']>;
   last: InputMaybe<Scalars['Int']['input']>;
   where: InputMaybe<UserToMediaItemConnectionWhereArgs>;
+};
+
+
+/** A User object */
+export type UserMetaVotesArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -16580,6 +16810,39 @@ export type UserToMediaItemConnectionWhereArgs = {
   status: InputMaybe<PostStatusEnum>;
   /** Title of the object */
   title: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Connection between the User type and the MetaVote type */
+export type UserToMetaVoteConnection = Connection & MetaVoteConnection & {
+  __typename?: 'UserToMetaVoteConnection';
+  /** Edges for the UserToMetaVoteConnection connection */
+  edges: Array<UserToMetaVoteConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<MetaVote>;
+  /** Information about pagination in a connection. */
+  pageInfo: UserToMetaVoteConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type UserToMetaVoteConnectionEdge = Edge & MetaVoteConnectionEdge & {
+  __typename?: 'UserToMetaVoteConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: MetaVote;
+};
+
+/** Page Info on the &quot;UserToMetaVoteConnection&quot; */
+export type UserToMetaVoteConnectionPageInfo = MetaVoteConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'UserToMetaVoteConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
 };
 
 /** Connection between the User type and the page type */
@@ -17140,6 +17403,16 @@ export type WritingSettings = {
   useSmilies: Maybe<Scalars['Boolean']['output']>;
 };
 
+export type DownvoteHeroMutationVariables = Exact<{
+  heroId: Scalars['Int']['input'];
+  categoryId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
+  ipAddress: Scalars['String']['input'];
+}>;
+
+
+export type DownvoteHeroMutation = { __typename?: 'RootMutation', downvoteHero: { __typename?: 'DownvoteHeroPayload', success: boolean | null, currentVote: string | null } | null };
+
 export type DownvoteTeamMutationVariables = Exact<{
   heroId: Scalars['Int']['input'];
   teamId: Scalars['Int']['input'];
@@ -17149,6 +17422,16 @@ export type DownvoteTeamMutationVariables = Exact<{
 
 
 export type DownvoteTeamMutation = { __typename?: 'RootMutation', downvoteTeam: { __typename?: 'DownvoteTeamPayload', teamId: number | null, success: boolean | null, currentVote: string | null } | null };
+
+export type UpvoteHeroMutationVariables = Exact<{
+  heroId: Scalars['Int']['input'];
+  categoryId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
+  ipAddress: Scalars['String']['input'];
+}>;
+
+
+export type UpvoteHeroMutation = { __typename?: 'RootMutation', upvoteHero: { __typename?: 'UpvoteHeroPayload', success: boolean | null, currentVote: string | null } | null };
 
 export type UpvoteTeamMutationVariables = Exact<{
   heroId: Scalars['Int']['input'];
@@ -17175,15 +17458,64 @@ export type GetAllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAllTeamsQuery = { __typename?: 'RootQuery', teams: { __typename?: 'RootQueryToTeamConnection', nodes: Array<{ __typename?: 'Team', id: string, databaseId: number, title: string | null, teamFields: { __typename?: 'TeamFields', teamType: string | null, notes: string | null, teamDamage: number | null, composition: Array<{ __typename?: 'TeamFieldsComposition', hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shield: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessory: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cards: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merch: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relic: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, heroSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shieldSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessorySubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merchSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cardsSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relicSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null> | null } | null }> } | null };
 
+export type GetMetaVotesWithUserVoteQueryVariables = Exact<{
+  categoryId: Scalars['Int']['input'];
+  userId: Scalars['Int']['input'];
+  ipAddress: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetMetaVotesWithUserVoteQuery = { __typename?: 'RootQuery', metaVotesByCategory: Array<{ __typename?: 'MetaVoteCount', downvoteCount: number | null, heroId: number | null, upvoteCount: number | null, userId: number | null, userVote: string | null } | null> | null };
+
 export type GetTeamVotesWithUserVoteQueryVariables = Exact<{
   heroId: Scalars['Int']['input'];
   userId: Scalars['Int']['input'];
+  ipAddress: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
 export type GetTeamVotesWithUserVoteQuery = { __typename?: 'RootQuery', teamsVotesByHero: Array<{ __typename?: 'TeamVoteCount', downvoteCount: number | null, teamId: number | null, userId: number | null, userVote: string | null, upvoteCount: number | null, team: { __typename?: 'Team', id: string } | null } | null> | null };
 
 
+export const DownvoteHeroDocument = gql`
+    mutation DownvoteHero($heroId: Int!, $categoryId: Int!, $userId: Int!, $ipAddress: String!) {
+  downvoteHero(
+    input: {heroId: $heroId, categoryId: $categoryId, userId: $userId, ipAddress: $ipAddress}
+  ) {
+    success
+    currentVote
+  }
+}
+    `;
+export type DownvoteHeroMutationFn = Apollo.MutationFunction<DownvoteHeroMutation, DownvoteHeroMutationVariables>;
+
+/**
+ * __useDownvoteHeroMutation__
+ *
+ * To run a mutation, you first call `useDownvoteHeroMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDownvoteHeroMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [downvoteHeroMutation, { data, loading, error }] = useDownvoteHeroMutation({
+ *   variables: {
+ *      heroId: // value for 'heroId'
+ *      categoryId: // value for 'categoryId'
+ *      userId: // value for 'userId'
+ *      ipAddress: // value for 'ipAddress'
+ *   },
+ * });
+ */
+export function useDownvoteHeroMutation(baseOptions?: Apollo.MutationHookOptions<DownvoteHeroMutation, DownvoteHeroMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DownvoteHeroMutation, DownvoteHeroMutationVariables>(DownvoteHeroDocument, options);
+      }
+export type DownvoteHeroMutationHookResult = ReturnType<typeof useDownvoteHeroMutation>;
+export type DownvoteHeroMutationResult = Apollo.MutationResult<DownvoteHeroMutation>;
+export type DownvoteHeroMutationOptions = Apollo.BaseMutationOptions<DownvoteHeroMutation, DownvoteHeroMutationVariables>;
 export const DownvoteTeamDocument = gql`
     mutation DownvoteTeam($heroId: Int!, $teamId: Int!, $userId: Int!, $ipAddress: String!) {
   downvoteTeam(
@@ -17224,6 +17556,45 @@ export function useDownvoteTeamMutation(baseOptions?: Apollo.MutationHookOptions
 export type DownvoteTeamMutationHookResult = ReturnType<typeof useDownvoteTeamMutation>;
 export type DownvoteTeamMutationResult = Apollo.MutationResult<DownvoteTeamMutation>;
 export type DownvoteTeamMutationOptions = Apollo.BaseMutationOptions<DownvoteTeamMutation, DownvoteTeamMutationVariables>;
+export const UpvoteHeroDocument = gql`
+    mutation UpvoteHero($heroId: Int!, $categoryId: Int!, $userId: Int!, $ipAddress: String!) {
+  upvoteHero(
+    input: {heroId: $heroId, categoryId: $categoryId, userId: $userId, ipAddress: $ipAddress}
+  ) {
+    success
+    currentVote
+  }
+}
+    `;
+export type UpvoteHeroMutationFn = Apollo.MutationFunction<UpvoteHeroMutation, UpvoteHeroMutationVariables>;
+
+/**
+ * __useUpvoteHeroMutation__
+ *
+ * To run a mutation, you first call `useUpvoteHeroMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpvoteHeroMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [upvoteHeroMutation, { data, loading, error }] = useUpvoteHeroMutation({
+ *   variables: {
+ *      heroId: // value for 'heroId'
+ *      categoryId: // value for 'categoryId'
+ *      userId: // value for 'userId'
+ *      ipAddress: // value for 'ipAddress'
+ *   },
+ * });
+ */
+export function useUpvoteHeroMutation(baseOptions?: Apollo.MutationHookOptions<UpvoteHeroMutation, UpvoteHeroMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpvoteHeroMutation, UpvoteHeroMutationVariables>(UpvoteHeroDocument, options);
+      }
+export type UpvoteHeroMutationHookResult = ReturnType<typeof useUpvoteHeroMutation>;
+export type UpvoteHeroMutationResult = Apollo.MutationResult<UpvoteHeroMutation>;
+export type UpvoteHeroMutationOptions = Apollo.BaseMutationOptions<UpvoteHeroMutation, UpvoteHeroMutationVariables>;
 export const UpvoteTeamDocument = gql`
     mutation UpvoteTeam($heroId: Int!, $teamId: Int!, $userId: Int!, $ipAddress: String!) {
   upvoteTeam(
@@ -17946,9 +18317,59 @@ export type GetAllTeamsQueryHookResult = ReturnType<typeof useGetAllTeamsQuery>;
 export type GetAllTeamsLazyQueryHookResult = ReturnType<typeof useGetAllTeamsLazyQuery>;
 export type GetAllTeamsSuspenseQueryHookResult = ReturnType<typeof useGetAllTeamsSuspenseQuery>;
 export type GetAllTeamsQueryResult = Apollo.QueryResult<GetAllTeamsQuery, GetAllTeamsQueryVariables>;
+export const GetMetaVotesWithUserVoteDocument = gql`
+    query GetMetaVotesWithUserVote($categoryId: Int!, $userId: Int!, $ipAddress: String) {
+  metaVotesByCategory(
+    categoryId: $categoryId
+    ipAddress: $ipAddress
+    userId: $userId
+  ) {
+    downvoteCount
+    heroId
+    upvoteCount
+    userId
+    userVote
+  }
+}
+    `;
+
+/**
+ * __useGetMetaVotesWithUserVoteQuery__
+ *
+ * To run a query within a React component, call `useGetMetaVotesWithUserVoteQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMetaVotesWithUserVoteQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMetaVotesWithUserVoteQuery({
+ *   variables: {
+ *      categoryId: // value for 'categoryId'
+ *      userId: // value for 'userId'
+ *      ipAddress: // value for 'ipAddress'
+ *   },
+ * });
+ */
+export function useGetMetaVotesWithUserVoteQuery(baseOptions: Apollo.QueryHookOptions<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables> & ({ variables: GetMetaVotesWithUserVoteQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>(GetMetaVotesWithUserVoteDocument, options);
+      }
+export function useGetMetaVotesWithUserVoteLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>(GetMetaVotesWithUserVoteDocument, options);
+        }
+export function useGetMetaVotesWithUserVoteSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>(GetMetaVotesWithUserVoteDocument, options);
+        }
+export type GetMetaVotesWithUserVoteQueryHookResult = ReturnType<typeof useGetMetaVotesWithUserVoteQuery>;
+export type GetMetaVotesWithUserVoteLazyQueryHookResult = ReturnType<typeof useGetMetaVotesWithUserVoteLazyQuery>;
+export type GetMetaVotesWithUserVoteSuspenseQueryHookResult = ReturnType<typeof useGetMetaVotesWithUserVoteSuspenseQuery>;
+export type GetMetaVotesWithUserVoteQueryResult = Apollo.QueryResult<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>;
 export const GetTeamVotesWithUserVoteDocument = gql`
-    query GetTeamVotesWithUserVote($heroId: Int!, $userId: Int!) {
-  teamsVotesByHero(heroId: $heroId, userId: $userId) {
+    query GetTeamVotesWithUserVote($heroId: Int!, $userId: Int!, $ipAddress: String) {
+  teamsVotesByHero(heroId: $heroId, ipAddress: $ipAddress, userId: $userId) {
     downvoteCount
     teamId
     userId
@@ -17975,6 +18396,7 @@ export const GetTeamVotesWithUserVoteDocument = gql`
  *   variables: {
  *      heroId: // value for 'heroId'
  *      userId: // value for 'userId'
+ *      ipAddress: // value for 'ipAddress'
  *   },
  * });
  */

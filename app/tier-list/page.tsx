@@ -1,14 +1,24 @@
-import MetaList from "./MetaList";
+"use client";
 
+import { useState, useEffect, useMemo } from "react";
+import Loading from "#/app/components/loading";
+import { Hero, Item, Team } from "#/graphql/generated/types";
+import { useHeroes } from "#/app/components/GetHeroesProvider";
+import MetaList from "./[uri]/MetaList";
+import Link from "next/link";
 
-export default async function TierList(): Promise<JSX.Element> {
-    
-    return (
+export default function Page() {
+  const { data: heroesData } = useHeroes();
+
+  const heroes = useMemo(() => {
+    return [...(heroesData?.heroes?.nodes ?? [])] as Hero[];
+  }, [heroesData]);
+
+  return (
     <div
-      id="TierList"
-      className="relative overflow-visible z-20 w-full h-auto items-start flex px-4 3xl:px-8"
-    >
-        <MetaList />
-    </div>
-      );
+      id="TierListPage"      
+    >        
+        <MetaList categoryId={1} heroes={heroes} />
+    </div>    
+  );
 }

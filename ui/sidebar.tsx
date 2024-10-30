@@ -21,7 +21,7 @@ export default function Sidebar() {
   const itemPathValue = itemMatch ? itemMatch[1] : null;
 
   useEffect(() => {
-    if (pathname === '/' || pathname === '/tier-list') {
+    if (pathname === '/' || pathname.includes('/tier-list')) {
       // Sidebar is inactive on these paths regardless of stored preference
       setIsActive(false);
       setIsEnabled(false);

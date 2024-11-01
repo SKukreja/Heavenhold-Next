@@ -1,10 +1,11 @@
 "use client";
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { Hero, Team, Item, HeroInformationAbilityFieldsPartyBuff_Fields, HeroInformationAbilityFieldsPartyBuff } from "#/graphql/generated/types";
+import { Hero, Team, Item, HeroInformationAbilityFieldsPartyBuff_Fields, HeroInformationAbilityFieldsPartyBuff, GetMetaVotesQuery, GetMetaVotesWithUserVoteQuery } from "#/graphql/generated/types";
 import FadeInImage from "#/app/components/FadeInImage";
 import { upvote, downvote, chevron, crown } from "#/ui/icons";
 import Link from "next/link";
 import {
+  useGetMetaVotesQuery,
   useGetMetaVotesWithUserVoteQuery,
   useDownvoteHeroMutation,
   useUpvoteHeroMutation,
@@ -19,43 +20,96 @@ interface MetaProps {
   heroes: Hero[];
 }
 
-export default function MetaList({categoryId, heroes}: MetaProps) {
-    const ipAddress = getIpAddress();
-    const [upvoteTeam] = useUpvoteHeroMutation();
-    const [downvoteTeam] = useDownvoteHeroMutation();
-    const userId = 1;    
+export default function MetaList({ categoryId, heroes }: MetaProps) {
+  const ipAddress = getIpAddress();
+  const [upvoteTeam] = useUpvoteHeroMutation();
+  const [downvoteTeam] = useDownvoteHeroMutation();
+  const userId = 1;
+  const isOverall = (categoryId === 0)  
 
-    const { data: votesData, loading: votesLoading } =
-        useGetMetaVotesWithUserVoteQuery({
+  const { data: votesData, loading: votesLoading } =
+    isOverall ? 
+      useGetMetaVotesQuery()
+    :
+      useGetMetaVotesWithUserVoteQuery({
         variables: { categoryId: categoryId, ipAddress: ipAddress + "", userId: userId },
-    });
+      });
 
-    const heroesWithVotes = votesData?.metaVotesByCategory
-      ?.map((vote) => ({
-        ...heroes.find((hero) => hero.databaseId === vote?.heroId),
-        votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
-        userVote: vote?.userVote,
-      })).sort((a, b) => b.votes - a.votes);
+    // Declare combinedHeroes before using it
+    const [combinedHeroes, setCombinedHeroes] = useState<(Hero & { votes: number; userVote: string | null })[]>([]);
 
-    const heroesWithoutVotes = heroes
+    // Now you can use combinedHeroes
+    const heroQuarter = Math.ceil((combinedHeroes.length - 10) / 4);
+
+    useEffect(() => {
+      if (votesData && heroes) {
+        const heroesWithVotes = isOverall ? 
+          (votesData as GetMetaVotesQuery)?.metaVotesTotals?.map((vote) => {
+            const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
+            if (hero) {
+              return {
+                ...hero,
+                votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
+                userVote: null,
+              };
+            }
+            return null;
+          })
+          .filter((hero): hero is Hero & { votes: number; userVote: null } => hero !== null)
+          .sort((a, b) => b.votes - a.votes) ?? []
+        : (votesData as GetMetaVotesWithUserVoteQuery)?.metaVotesByCategory
+          ?.map((vote) => {
+            const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
+            if (hero) {
+              return {
+                ...hero,
+                votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
+                userVote: vote?.userVote ?? null,
+              };
+            }
+            return null;
+          })
+          .filter((hero): hero is Hero & { votes: number; userVote: string | null } => hero !== null)
+          .sort((a, b) => b.votes - a.votes) ?? [];
+
+        const heroesWithoutVotes = isOverall ? heroes
         .filter(
-        (hero) =>
-            !votesData?.metaVotesByCategory?.some(
-            (vote) => vote?.heroId === hero.databaseId
+          (hero) =>
+            !(votesData as GetMetaVotesQuery)?.metaVotesTotals?.some(
+              (vote) => vote?.heroId === hero.databaseId
             )
         )
-        .map((team) => ({ ...team, votes: 0, userVote: null }));
+        .map((hero) => ({
+          ...hero,
+          votes: 0,
+          userVote: null,
+        })) : heroes
+          .filter(
+            (hero) =>
+              !(votesData as GetMetaVotesWithUserVoteQuery)?.metaVotesByCategory?.some(
+                (vote) => vote?.heroId === hero.databaseId
+              )
+          )
+          .map((hero) => ({
+            ...hero,
+            votes: 0,
+            userVote: null,
+          }))
 
-    const [combinedHeroes, setCombinedHeroes] = useState<(Hero & { votes: number; userVote: string | null })[]>([
-        ...((heroesWithVotes ?? []) as (Hero & {
-        votes: number;
-        userVote: string | null;
-        })[]),
-        ...((heroesWithoutVotes ?? []) as (Hero & {
-        votes: number;
-        userVote: string | null;
-        })[]),
-    ].filter(x => x.heroInformation?.bioFields?.rarity?.toString() !== "1 Star").sort((a, b) => b.votes - a.votes));
+        const allCombinedHeroes = [...(heroesWithVotes || []), ...(heroesWithoutVotes || [])]
+          .filter(
+            (x) =>
+              x.heroInformation?.bioFields?.rarity?.toString() !== "1 Star"
+          )
+          .sort((a, b) => b.votes - a.votes);
+
+        setCombinedHeroes(allCombinedHeroes);
+      }
+    }, [votesData, heroes]);
+
+    if (votesLoading || !combinedHeroes.length) {
+      return <Loading />;
+    }
 
     const handleUpvote = async (
         heroId: number,
@@ -63,6 +117,7 @@ export default function MetaList({categoryId, heroes}: MetaProps) {
         event: React.MouseEvent<HTMLButtonElement>
       ) => {
         event.stopPropagation();
+        if (isOverall) return;
         try {
           const userIpAddress = await getIpAddress();
           const { data } = await upvoteTeam({
@@ -105,6 +160,7 @@ export default function MetaList({categoryId, heroes}: MetaProps) {
         event: React.MouseEvent<HTMLButtonElement>
       ) => {
         event.stopPropagation();
+        if (isOverall) return;
         try {
           const userIpAddress = await getIpAddress();
           const { data } = await downvoteTeam({
@@ -140,7 +196,6 @@ export default function MetaList({categoryId, heroes}: MetaProps) {
           console.error("Error handling downvote:", error);
         }
       };
-    const heroQuarter = Math.ceil((combinedHeroes.length - 10) / 4);
     
     if (!combinedHeroes || !heroQuarter) {
       return <Loading />;
@@ -158,6 +213,7 @@ export default function MetaList({categoryId, heroes}: MetaProps) {
               categoryId={categoryId}
               handleUpvote={handleUpvote}
               handleDownvote={handleDownvote}
+              isOverall={isOverall}
             />
           </div>
           <div
@@ -170,6 +226,7 @@ export default function MetaList({categoryId, heroes}: MetaProps) {
               categoryId={categoryId}
               handleUpvote={handleUpvote}
               handleDownvote={handleDownvote}
+              isOverall={isOverall}
             />
           </div>
           <div
@@ -182,6 +239,7 @@ export default function MetaList({categoryId, heroes}: MetaProps) {
               categoryId={categoryId}
               handleUpvote={handleUpvote}
               handleDownvote={handleDownvote}
+              isOverall={isOverall}
             />
           </div>
           <div
@@ -194,6 +252,7 @@ export default function MetaList({categoryId, heroes}: MetaProps) {
               categoryId={categoryId}
               handleUpvote={handleUpvote}
               handleDownvote={handleDownvote}
+              isOverall={isOverall}
             />
           </div>
           <div
@@ -206,6 +265,7 @@ export default function MetaList({categoryId, heroes}: MetaProps) {
               categoryId={categoryId}
               handleUpvote={handleUpvote}
               handleDownvote={handleDownvote}
+              isOverall={isOverall}
             />
           </div>
         </div>
@@ -217,11 +277,12 @@ interface RenderHeroesProps {
   categoryId: number;
   handleUpvote: (heroId: number, categoryId: number, event: React.MouseEvent<HTMLButtonElement>) => void;
   handleDownvote: (heroId: number, categoryId: number, event: React.MouseEvent<HTMLButtonElement>) => void;
+  isOverall: boolean;
 }
 
-const RenderHeroes: React.FC<RenderHeroesProps> = ({ heroes, categoryId, handleUpvote, handleDownvote }) => {
+const RenderHeroes: React.FC<RenderHeroesProps> = ({ heroes, categoryId, handleUpvote, handleDownvote, isOverall }) => {
   return (
-    <div className="w-[calc(100%-6rem)] lg:w-1/2 h-full z-20 gap-4 flex flex-col">
+    <div className="w-[calc(100%-6rem)] lg:w-[calc(100%-12rem)] h-full z-20 gap-4 flex flex-col">
       {heroes.length > 0 && heroes.map((hero) => {
         const heroSlug = hero?.slug ?? "";
         return (
@@ -236,9 +297,9 @@ const RenderHeroes: React.FC<RenderHeroesProps> = ({ heroes, categoryId, handleU
                     <button
                       className="w-4 h-4 flex justify-center items-center fill-white z-20 disabled:fill-orange-300"
                       onClick={(e) => handleUpvote(hero.databaseId, categoryId, e)}
-                      disabled={hero?.userVote === "upvote"}
+                      disabled={hero?.userVote && hero?.userVote === "upvote" || isOverall}
                     >
-                      {upvote()}
+                      {!isOverall && upvote()}
                     </button>
                     <div className="text-lg flex justify-center items-center font-oswald">
                       {hero.votes}
@@ -246,9 +307,9 @@ const RenderHeroes: React.FC<RenderHeroesProps> = ({ heroes, categoryId, handleU
                     <button
                       className="w-4 h-4 flex justify-center items-center fill-white z-20 disabled:fill-blue-300"
                       onClick={(e) => handleDownvote(hero.databaseId, categoryId, e)}
-                      disabled={hero?.userVote === "downvote"}
+                      disabled={hero?.userVote && hero?.userVote === "downvote" || isOverall}
                     >
-                      {downvote()}
+                      {!isOverall && downvote()}
                     </button>
                   </div>
                 </div>

@@ -1,12 +1,8 @@
 "use client";
 
-import { PropsWithChildren, useState, useEffect, useMemo } from "react";
-import Loading from "#/app/components/loading";
-import { Hero } from "#/graphql/generated/types";
+import { PropsWithChildren } from "react";
 import Link from "next/link";
-import { useHeroes } from "#/app/components/GetHeroesProvider";
-import { useSelectedLayoutSegment } from "next/navigation"; // Import the hook
-import { bio, abilities, teams, review, costumes, gallery } from "#/ui/icons";
+import { usePathname } from "next/navigation";
 
 interface LayoutProps {
   params: {
@@ -14,7 +10,8 @@ interface LayoutProps {
   };
 }
 
-export default function Layout({ children, params }: PropsWithChildren<LayoutProps>) {
+export default function Layout({ children }: PropsWithChildren<LayoutProps>) {
+  const pathname = usePathname();
 
   return (
     <div
@@ -27,16 +24,36 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
           <div className="flex flex-col justify-start px-8 lg:px-0">
             <span className="font-normal text-xs tracking-widest">Categories</span>
             <div className="text-lg flex items-center gap-4 font-bold">
-              <Link href={`/tier-list`} className="cursor-pointer hover:text-gray-500">
+              <Link
+                href="/tier-list"
+                className={`cursor-pointer hover:text-gray-500 ${
+                  pathname === '/tier-list' ? 'text-gray-500' : ''
+                }`}
+              >
                 All
               </Link>
-              <Link href={`/tier-list/colosseum`} className="cursor-pointer hover:text-fire">
+              <Link
+                href="/tier-list/colosseum"
+                className={`cursor-pointer hover:text-fire ${
+                  pathname.includes('colosseum') ? 'text-fire' : ''
+                }`}
+              >
                 Colosseum
               </Link>
-              <Link href={`/tier-list/raid`} className="cursor-pointer hover:text-water">
+              <Link
+                href="/tier-list/raid"
+                className={`cursor-pointer hover:text-water ${
+                  pathname.includes('raid') ? 'text-water' : ''
+                }`}
+              >
                 Raid
               </Link>
-              <Link href={`/tier-list/arena`} className="cursor-pointer hover:text-earth">
+              <Link
+                href="/tier-list/arena"
+                className={`cursor-pointer hover:text-earth ${
+                  pathname.includes('arena') ? 'text-earth' : ''
+                }`}
+              >
                 Arena
               </Link>
             </div>

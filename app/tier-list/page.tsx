@@ -18,7 +18,7 @@ export default function Page() {
     <div
       id="TierListPage"      
     >        
-        <MetaList categoryId={1} heroes={heroes} />
+        <MetaList categoryId={0} heroes={heroes} />
     </div>    
   );
 }

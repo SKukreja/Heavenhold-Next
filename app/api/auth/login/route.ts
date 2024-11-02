@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-export async function GET(request) {
+export async function GET(request: Request) {
   try {
     // Extract the token from the query parameter
     const { searchParams } = new URL(request.url);

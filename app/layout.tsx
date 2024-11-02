@@ -7,6 +7,7 @@ import { ApolloWrapper } from './components/ApolloWrapper';
 import { HeroesProvider } from './components/GetHeroesProvider';
 import { ItemsProvider } from './components/GetItemsProvider';
 import { TeamsProvider } from './components/GetTeamsProvider';
+import UserInfo from './components/UserInfo';
 import { cookies } from 'next/headers';
 
 export const metadata = {
@@ -27,7 +28,6 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
   if (sessionCookie) {
     try {
       user = JSON.parse(sessionCookie.value);
-      console.log(user)
     } catch (e) {
       console.error('Failed to parse session cookie:', e);
     }
@@ -44,6 +44,7 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
           <HeroesProvider>
             <ItemsProvider>
               <TeamsProvider>
+                  <UserInfo user={user} />
                   <Sidebar />
                   <div className="absolute right-0 w-full main-body transition-width min-h-screen">
                     <div>

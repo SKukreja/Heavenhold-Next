@@ -43,69 +43,49 @@ export default function MetaList({ categoryId, heroes }: MetaProps) {
 
     useEffect(() => {
       if (votesData && heroes) {
-        const heroesWithVotes = isOverall ? 
-          (votesData as GetMetaVotesQuery)?.metaVotesTotals?.map((vote) => {
-            const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
-            if (hero) {
-              return {
-                ...hero,
-                votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
-                userVote: null,
-              };
-            }
-            return null;
-          })
-          .filter((hero): hero is Hero & { votes: number; userVote: null } => hero !== null)
-          .sort((a, b) => b.votes - a.votes) ?? []
-        : (votesData as GetMetaVotesWithUserVoteQuery)?.metaVotesByCategory
-          ?.map((vote) => {
-            const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
-            if (hero) {
-              return {
-                ...hero,
-                votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
-                userVote: vote?.userVote ?? null,
-              };
-            }
-            return null;
-          })
-          .filter((hero): hero is Hero & { votes: number; userVote: string | null } => hero !== null)
-          .sort((a, b) => b.votes - a.votes) ?? [];
-
-        const heroesWithoutVotes = isOverall ? heroes
-        .filter(
-          (hero) =>
-            !(votesData as GetMetaVotesQuery)?.metaVotesTotals?.some(
-              (vote) => vote?.heroId === hero.databaseId
-            )
-        )
-        .map((hero) => ({
-          ...hero,
-          votes: 0,
-          userVote: null,
-        })) : heroes
-          .filter(
-            (hero) =>
-              !(votesData as GetMetaVotesWithUserVoteQuery)?.metaVotesByCategory?.some(
-                (vote) => vote?.heroId === hero.databaseId
-              )
-          )
+        // Map heroes with votes based on the selected query data
+        const heroesWithVotes = isOverall
+          ? (votesData as GetMetaVotesQuery)?.metaVotesTotals?.map((vote) => {
+              const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
+              if (hero) {
+                return {
+                  ...hero,
+                  votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
+                  userVote: null,
+                };
+              }
+              return null;
+            }).filter((hero): hero is Hero & { votes: number; userVote: null } => hero !== null)
+          : (votesData as GetMetaVotesWithUserVoteQuery)?.metaVotesByCategory?.map((vote) => {
+              const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
+              if (hero) {
+                return {
+                  ...hero,
+                  votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
+                  userVote: vote?.userVote ?? null,
+                };
+              }
+              return null;
+            }).filter((hero): hero is Hero & { votes: number; userVote: string | null } => hero !== null);
+    
+        // Filter heroes without votes by excluding those already in `heroesWithVotes`
+        const heroesWithVotesIds = heroesWithVotes?.map((hero) => hero.databaseId);
+        const heroesWithoutVotes = heroes
+          .filter((hero) => !heroesWithVotesIds?.includes(hero.databaseId))
           .map((hero) => ({
             ...hero,
             votes: 0,
             userVote: null,
-          }))
-
-        const allCombinedHeroes = [...(heroesWithVotes || []), ...(heroesWithoutVotes || [])]
-          .filter(
-            (x) =>
-              x.heroInformation?.bioFields?.rarity?.toString() !== "1 Star"
-          )
+          }));
+    
+        // Combine and sort heroes with and without votes, excluding 1-star heroes
+        const allCombinedHeroes = [...heroesWithVotes ?? [], ...heroesWithoutVotes]
+          .filter((x) => x.heroInformation?.bioFields?.rarity?.toString() !== "1 Star")
           .sort((a, b) => b.votes - a.votes);
-
+    
         setCombinedHeroes(allCombinedHeroes);
       }
-    }, [votesData, heroes]);
+    }, [votesData, heroes, isOverall]);
 
     if (votesLoading || !combinedHeroes.length) {
       return <Loading />;

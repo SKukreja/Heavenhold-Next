@@ -11,7 +11,7 @@ import {
 function makeClient() {
   const httpLink = new HttpLink({
     uri: "https://api.heavenhold.com/graphql",
-    fetchOptions: { cache: "no-store" },
+    credentials: "include",
   });
 
   return new ApolloClient({

@@ -7,6 +7,7 @@ import { ApolloWrapper } from './components/ApolloWrapper';
 import { HeroesProvider } from './components/GetHeroesProvider';
 import { ItemsProvider } from './components/GetItemsProvider';
 import { TeamsProvider } from './components/GetTeamsProvider';
+import { UserProvider } from './components/UserProvider';
 
 export const metadata = {
   title: "Heavenhold",
@@ -29,16 +30,18 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
           <HeroesProvider>
             <ItemsProvider>
               <TeamsProvider>
-                <Sidebar />
-                <div className="absolute right-0 w-full main-body transition-width min-h-screen">
-                  <div>
-                    <div className="rounded-lg shadow-lg shadow-black/20">
-                      <div className="min-h-screen ">
-                        {children}
+                <UserProvider>
+                  <Sidebar />
+                  <div className="absolute right-0 w-full main-body transition-width min-h-screen">
+                    <div>
+                      <div className="rounded-lg shadow-lg shadow-black/20">
+                        <div className="min-h-screen ">
+                          {children}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </UserProvider>
               </TeamsProvider>
             </ItemsProvider>
           </HeroesProvider>

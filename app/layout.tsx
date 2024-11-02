@@ -7,7 +7,7 @@ import { ApolloWrapper } from './components/ApolloWrapper';
 import { HeroesProvider } from './components/GetHeroesProvider';
 import { ItemsProvider } from './components/GetItemsProvider';
 import { TeamsProvider } from './components/GetTeamsProvider';
-import { UserProvider } from './components/UserProvider';
+import { cookies } from 'next/headers';
 
 export const metadata = {
   title: "Heavenhold",
@@ -19,6 +19,20 @@ interface RootLayoutProps {
 }
 
 export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
+
+  const cookieStore = cookies();
+  const sessionCookie = cookieStore.get('session');
+  let user = null;
+
+  if (sessionCookie) {
+    try {
+      user = JSON.parse(sessionCookie.value);
+      console.log(user)
+    } catch (e) {
+      console.error('Failed to parse session cookie:', e);
+    }
+  }
+
   return (
     <ApolloWrapper>
       <html
@@ -30,7 +44,6 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
           <HeroesProvider>
             <ItemsProvider>
               <TeamsProvider>
-                <UserProvider>
                   <Sidebar />
                   <div className="absolute right-0 w-full main-body transition-width min-h-screen">
                     <div>
@@ -41,7 +54,6 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
                       </div>
                     </div>
                   </div>
-                </UserProvider>
               </TeamsProvider>
             </ItemsProvider>
           </HeroesProvider>

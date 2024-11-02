@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 
-export async function GET() {
+export async function GET(request: Request) {
   // Redirect to the homepage
-  const res = NextResponse.redirect('/');
+  const res = NextResponse.redirect(new URL('/', request.url));
 
   // Delete the session cookie by setting it with an expired date
   res.cookies.set('session', '', {

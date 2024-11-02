@@ -7,7 +7,7 @@ export async function GET(request: Request) {
     const token = searchParams.get('token');
 
     if (!token) {
-      return NextResponse.redirect('/login?error=missing_token');
+      return NextResponse.redirect(new URL('/login?error=missing_token', request.url));
     }
 
     // Verify the token by making a request to WordPress API
@@ -20,26 +20,26 @@ export async function GET(request: Request) {
     });
 
     if (!response.ok) {
-      return NextResponse.redirect('/login?error=invalid_token');
+      return NextResponse.redirect(new URL('/login?error=invalid_token', request.url));
     }
 
     const userData = await response.json();
 
     // Redirect to the homepage
-    const res = NextResponse.redirect('/');
+    const res = NextResponse.redirect(new URL('/', request.url));
 
-    // Set the session cookie using response.cookies
+    // Set the session cookie using res.cookies.set
     res.cookies.set('session', JSON.stringify(userData), {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 60 * 60 * 24 * 7, // 7 days
-        path: '/',
-      });      
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 * 7, // 7 days in seconds
+      path: '/',
+    });
 
     return res;
   } catch (err) {
     console.error('Token verification failed:', err);
-    return NextResponse.redirect('/login?error=verification_failed');
+    return NextResponse.redirect(new URL('/login?error=verification_failed', request.url));
   }
 }

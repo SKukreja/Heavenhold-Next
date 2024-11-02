@@ -27,112 +27,116 @@ export default function MetaList({ categoryId, heroes }: MetaProps) {
   const userId = 1;
   const isOverall = (categoryId === 0)  
 
-  const { data: votesData, loading: votesLoading } =
-    isOverall ? 
-      useGetMetaVotesQuery()
-    :
-      useGetMetaVotesWithUserVoteQuery({
-        variables: { categoryId: categoryId, ipAddress: ipAddress + "", userId: userId },
-      });
+  const { data: votesDataOverall, loading: votesLoadingOverall } = useGetMetaVotesQuery({
+    skip: !isOverall,
+  });
+  
+  const { data: votesDataWithUserVote, loading: votesLoadingWithUserVote } = useGetMetaVotesWithUserVoteQuery({
+    variables: { categoryId: categoryId, ipAddress: ipAddress + "", userId: userId },
+    skip: isOverall,
+  });
 
-    // Declare combinedHeroes before using it
-    const [combinedHeroes, setCombinedHeroes] = useState<(Hero & { votes: number; userVote: string | null })[]>([]);
+  const votesData = isOverall ? votesDataOverall : votesDataWithUserVote;
+  const votesLoading = isOverall ? votesLoadingOverall : votesLoadingWithUserVote;
 
-    // Now you can use combinedHeroes
-    const heroQuarter = Math.ceil((combinedHeroes.length - 10) / 4);
+  // Declare combinedHeroes before using it
+  const [combinedHeroes, setCombinedHeroes] = useState<(Hero & { votes: number; userVote: string | null })[]>([]);
 
-    useEffect(() => {
-      if (votesData && heroes) {
-        // Map heroes with votes based on the selected query data
-        const heroesWithVotes = isOverall
-          ? (votesData as GetMetaVotesQuery)?.metaVotesTotals?.map((vote) => {
-              const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
-              if (hero) {
-                return {
-                  ...hero,
-                  votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
-                  userVote: null,
-                };
-              }
-              return null;
-            }).filter((hero): hero is Hero & { votes: number; userVote: null } => hero !== null)
-          : (votesData as GetMetaVotesWithUserVoteQuery)?.metaVotesByCategory?.map((vote) => {
-              const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
-              if (hero) {
-                return {
-                  ...hero,
-                  votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
-                  userVote: vote?.userVote ?? null,
-                };
-              }
-              return null;
-            }).filter((hero): hero is Hero & { votes: number; userVote: string | null } => hero !== null);
-    
-        // Filter heroes without votes by excluding those already in `heroesWithVotes`
-        const heroesWithVotesIds = heroesWithVotes?.map((hero) => hero.databaseId);
-        const heroesWithoutVotes = heroes
-          .filter((hero) => !heroesWithVotesIds?.includes(hero.databaseId))
-          .map((hero) => ({
-            ...hero,
-            votes: 0,
-            userVote: null,
-          }));
-    
-        // Combine and sort heroes with and without votes, excluding 1-star heroes
-        const allCombinedHeroes = [...heroesWithVotes ?? [], ...heroesWithoutVotes]
-          .filter((x) => x.heroInformation?.bioFields?.rarity?.toString() !== "1 Star")
-          .sort((a, b) => b.votes - a.votes);
-    
-        setCombinedHeroes(allCombinedHeroes);
-      }
-    }, [votesData, heroes, isOverall]);
+  // Now you can use combinedHeroes
+  const heroQuarter = Math.ceil((combinedHeroes.length - 10) / 4);
 
-    if (votesLoading || !combinedHeroes.length) {
-      return <Loading />;
+  useEffect(() => {
+    if (votesData && heroes) {
+      // Map heroes with votes based on the selected query data
+      const heroesWithVotes = isOverall
+        ? (votesData as GetMetaVotesQuery)?.metaVotesTotals?.map((vote) => {
+            const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
+            if (hero) {
+              return {
+                ...hero,
+                votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
+                userVote: null,
+              };
+            }
+            return null;
+          }).filter((hero): hero is Hero & { votes: number; userVote: null } => hero !== null)
+        : (votesData as GetMetaVotesWithUserVoteQuery)?.metaVotesByCategory?.map((vote) => {
+            const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
+            if (hero) {
+              return {
+                ...hero,
+                votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
+                userVote: vote?.userVote ?? null,
+              };
+            }
+            return null;
+          }).filter((hero): hero is Hero & { votes: number; userVote: string | null } => hero !== null);
+  
+      // Filter heroes without votes by excluding those already in `heroesWithVotes`
+      const heroesWithVotesIds = heroesWithVotes?.map((hero) => hero.databaseId);
+      const heroesWithoutVotes = heroes
+        .filter((hero) => !heroesWithVotesIds?.includes(hero.databaseId))
+        .map((hero) => ({
+          ...hero,
+          votes: 0,
+          userVote: null,
+        }));
+  
+      // Combine and sort heroes with and without votes, excluding 1-star heroes
+      const allCombinedHeroes = [...heroesWithVotes ?? [], ...heroesWithoutVotes]
+        .filter((x) => x.heroInformation?.bioFields?.rarity?.toString() !== "1 Star")
+        .sort((a, b) => b.votes - a.votes);
+  
+      setCombinedHeroes(allCombinedHeroes);
     }
+  }, [votesData, heroes, isOverall]);
 
-    const handleUpvote = async (
-        heroId: number,
-        categoryId: number,
-        event: React.MouseEvent<HTMLButtonElement>
-      ) => {
-        event.stopPropagation();
-        if (isOverall) return;
-        try {
-          const userIpAddress = await getIpAddress();
-          const { data } = await upvoteTeam({
-            variables: {
-              heroId: heroId,
-              categoryId: categoryId,
-              userId: userId,
-              ipAddress: userIpAddress,
-            },
-          });
-          if (data?.upvoteHero?.success) {
-            setCombinedHeroes((prevHeroes) =>
-              prevHeroes
-                .map((hero) => {
-                  if (hero.databaseId === heroId) {
-                    // Calculate the adjustment based on the previous vote
-                    let likeAdjustment = 1;
-                    if ("userVote" in hero && hero.userVote === "downvote") {
-                      likeAdjustment = 2;
-                    }
-                    return {
-                      ...hero,
-                      userVote: "upvote",
-                      votes: hero.votes + likeAdjustment,
-                    };
+  if (votesLoading || !combinedHeroes.length) {
+    return <Loading />;
+  }
+
+  const handleUpvote = async (
+      heroId: number,
+      categoryId: number,
+      event: React.MouseEvent<HTMLButtonElement>
+    ) => {
+      event.stopPropagation();
+      if (isOverall) return;
+      try {
+        const userIpAddress = await getIpAddress();
+        const { data } = await upvoteTeam({
+          variables: {
+            heroId: heroId,
+            categoryId: categoryId,
+            userId: userId,
+            ipAddress: userIpAddress,
+          },
+        });
+        if (data?.upvoteHero?.success) {
+          setCombinedHeroes((prevHeroes) =>
+            prevHeroes
+              .map((hero) => {
+                if (hero.databaseId === heroId) {
+                  // Calculate the adjustment based on the previous vote
+                  let likeAdjustment = 1;
+                  if ("userVote" in hero && hero.userVote === "downvote") {
+                    likeAdjustment = 2;
                   }
-                  return hero;
-                })
-                .sort((a, b) => b.votes - a.votes)
-            );
-          }
-        } catch (error) {
-          console.error("Error handling upvote:", error);
+                  return {
+                    ...hero,
+                    userVote: "upvote",
+                    votes: hero.votes + likeAdjustment,
+                  };
+                }
+                return hero;
+              })
+              .sort((a, b) => b.votes - a.votes)
+          );
         }
-      };
+      } catch (error) {
+        console.error("Error handling upvote:", error);
+      }
+    };
     
     const handleDownvote = async (
         heroId: number,

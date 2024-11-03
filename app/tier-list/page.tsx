@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useContext, useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import Loading from "#/app/components/loading";
 import { Hero, Item, Team } from "#/graphql/generated/types";
 import { useHeroes } from "#/app/components/GetHeroesProvider";
@@ -14,6 +14,10 @@ export default function Page() {
   const heroes = useMemo(() => {
     return [...(heroesData?.heroes?.nodes ?? [])] as Hero[];
   }, [heroesData]);
+
+  if (!heroesData) {
+    return <Loading />;
+  }
 
   return (
     <div

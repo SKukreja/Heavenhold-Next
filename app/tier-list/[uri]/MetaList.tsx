@@ -1,18 +1,15 @@
 "use client";
-import React, { useState, useEffect, useMemo, useRef } from "react";
-import { Hero, Team, Item, HeroInformationAbilityFieldsPartyBuff_Fields, HeroInformationAbilityFieldsPartyBuff, GetMetaVotesQuery, GetMetaVotesWithUserVoteQuery } from "#/graphql/generated/types";
+import React, { useState, useEffect } from "react";
+import { Hero, GetMetaVotesQuery, GetMetaVotesWithUserVoteQuery } from "#/graphql/generated/types";
 import FadeInImage from "#/app/components/FadeInImage";
-import { upvote, downvote, chevron, crown } from "#/ui/icons";
-import Link from "next/link";
+import { upvote, downvote } from "#/ui/icons";
 import {
   useGetMetaVotesQuery,
   useGetMetaVotesWithUserVoteQuery,
   useDownvoteHeroMutation,
   useUpvoteHeroMutation,
 } from "#/graphql/generated/types";
-import { equipmentIcons } from "#/ui/icons";
 import Loading from "#/app/components/loading";
-import { access } from "fs";
 import { getIpAddress } from "#/ui/helpers";
 
 interface MetaProps {

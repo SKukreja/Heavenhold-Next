@@ -6,7 +6,6 @@ import FadeInImage from "./FadeInImage";
 import Loading from "./loading";
 import { useItems } from './GetItemsProvider';
 import { useHeroes } from './GetHeroesProvider';
-import { Item, Hero } from "#/graphql/generated/types";
 
 interface SearchResultsProps {
   searchQuery: string;

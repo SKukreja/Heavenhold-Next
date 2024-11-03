@@ -15,19 +15,7 @@ function makeClient() {
   });
 
   return new ApolloClient({
-    cache: new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {
-            heroes: {
-              merge(existing, incoming) {
-                return { ...existing, ...incoming };
-              },
-            },
-          },
-        },
-      },
-    }),
+    cache: new InMemoryCache(),
     link: httpLink,
   });
 }

@@ -9,7 +9,6 @@ import { ItemsProvider } from './components/GetItemsProvider';
 import { TeamsProvider } from './components/GetTeamsProvider';
 import { UserProvider } from './components/UserContext';
 import { getUserData } from './components/UserDataFetcher';
-import { cookies } from 'next/headers';
 
 export const metadata = {
   title: "Heavenhold",
@@ -22,8 +21,6 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
   const userData = getUserData();
-  const cookieStore = cookies();
-  const sessionCookie = cookieStore.get('session');
 
   return (
     <ApolloWrapper>

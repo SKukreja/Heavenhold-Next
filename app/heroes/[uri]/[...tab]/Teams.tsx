@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Hero, Team, Item, HeroInformationAbilityFieldsPartyBuff_Fields, HeroInformationAbilityFieldsPartyBuff } from "#/graphql/generated/types";
+import { Hero, Team, Item } from "#/graphql/generated/types";
 import FadeInImage from "#/app/components/FadeInImage";
 import { upvote, downvote, chevron, crown } from "#/ui/icons";
 import Link from "next/link";
@@ -12,7 +12,6 @@ import {
 } from "#/graphql/generated/types";
 import { equipmentIcons } from "#/ui/icons";
 import Loading from "#/app/components/loading";
-import { access } from "fs";
 import StatFormatter from "#/app/components/StatFormatter";
 import { getIpAddress } from "#/ui/helpers";
 
@@ -231,6 +230,8 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
     if (activeTeamTypes.length === 0) return true;
     return activeTeamTypes.includes(team.teamFields?.teamType ?? "");
   });
+
+  if (votesLoading) return <Loading />;
 
   return (
     <div

@@ -1,11 +1,7 @@
 "use client";
 
 import { Item, Hero } from "#/graphql/generated/types";
-import { useState, useEffect } from "react";
 import FadeInImage from "#/app/components/FadeInImage";
-import { formatDate } from "#/ui/helpers";
-import StatFormatter from "#/app/components/StatFormatter";
-import { normal, special, chain } from "#/ui/icons";
 
 interface CostumeProps {
   hero: Hero;

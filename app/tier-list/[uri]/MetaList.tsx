@@ -109,7 +109,7 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
           variables: {
             heroId: heroId,
             categoryId: categoryId,
-            userId: userId! as number,
+            userId: userId! as number ?? 0,
             ipAddress: userIpAddress,
           },
         });
@@ -152,7 +152,7 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
             variables: {
               heroId: heroId,
               categoryId: categoryId,
-              userId: userId! as number,
+              userId: userId! as number ?? 0,
               ipAddress: userIpAddress,
             },
           });

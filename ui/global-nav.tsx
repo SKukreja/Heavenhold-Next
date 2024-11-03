@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { home, item, hero, book, rank, login, contribute, discord, logout } from './icons'; // Add a logout icon if you have one
+import { home, item, hero, book, rank, login, contribute, discord, logout, github } from './icons'; // Add a logout icon if you have one
 import FadeInImage from '#/app/components/FadeInImage';
 import { useRouter } from 'next/navigation';
 import { useUser } from '#/app/components/UserContext';
@@ -86,18 +86,18 @@ export function GlobalNav() {
       items: [
         {
           id: 6,
-          icon: user == null ? login : logout,
-          name: user == null ? 'Log In' : 'Log Out',
-          slug: user == null ? 'https://api.heavenhold.com/login/' : 'logout',
-          description: user == null ? 'Log into the site' : 'Log out of your account',
-          external: true,
-        },
-        {
-          id: 7,
           icon: discord,
           name: 'Discord',
           slug: 'https://discord.gg/heavenhold',
           description: 'Join our Discord server',
+          external: true,
+        },
+        {
+          id: 7,
+          icon: github,
+          name: 'Roadmap',
+          slug: 'https://github.com/users/SKukreja/projects/1',
+          description: 'Visit our roadmap',
           external: true,
         },
         {
@@ -109,6 +109,18 @@ export function GlobalNav() {
         },
       ],
     },
+    {
+      items: [
+        {
+          id: 9,
+          icon: user == null ? login : logout,
+          name: user == null ? 'Log In' : 'Log Out',
+          slug: user == null ? 'https://api.heavenhold.com/login/' : 'logout',
+          description: user == null ? 'Log into the site' : 'Log out of your account',
+          external: true,
+        },
+      ],
+    }
   ];
 
   return (
@@ -173,7 +185,7 @@ function GlobalNavItem({ item, close, handleLogout }: { item: Item, close: () =>
   const isAuth = item.slug.includes('login');
 
   const commonClasses = clsx(
-    'px-8 py-4 text-sm font-medium hover:text-gray-300 flex items-center gap-x-4',
+    'px-8 py-4 text-sm font-medium hover:text-gray-300 w-full flex items-center gap-x-4',
     {
       'text-gray-400 hover:bg-gray-800': !isActive,
       'text-white': isActive,

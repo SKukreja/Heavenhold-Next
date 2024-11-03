@@ -86,7 +86,7 @@ export function GlobalNav() {
       items: [
         {
           id: 6,
-          icon: login,
+          icon: user == null ? login : logout,
           name: user == null ? 'Log In' : 'Log Out',
           slug: user == null ? 'https://api.heavenhold.com/login/' : 'logout',
           description: user == null ? 'Log into the site' : 'Log out of your account',
@@ -106,18 +106,6 @@ export function GlobalNav() {
           name: 'Contribute',
           slug: 'contribute',
           description: 'Render multiple pages in the same layout',
-        },
-      ],
-    },
-    // Add the logout item here
-    {
-      items: [
-        {
-          id: 9,
-          icon: logout, // Make sure you have a logout icon or replace it with another icon
-          name: 'Log Out',
-          slug: 'logout',
-          description: 'Log out of your account',
         },
       ],
     },

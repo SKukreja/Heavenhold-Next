@@ -6,7 +6,8 @@ import clsx from 'clsx';
 import { useState } from 'react';
 import { home, item, hero, book, rank, login, contribute, discord, logout } from './icons'; // Add a logout icon if you have one
 import FadeInImage from '#/app/components/FadeInImage';
-import { useRouter } from 'next/navigation'; // Updated import for router
+import { useRouter } from 'next/navigation';
+import { useUser } from '#/app/components/UserContext';
 
 type Item = {
   id: number;
@@ -20,7 +21,7 @@ type Item = {
 export function GlobalNav() {
   const [isOpen, setIsOpen] = useState(false);
   const close = () => setIsOpen(false);
-
+  const { user } = useUser();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -86,9 +87,9 @@ export function GlobalNav() {
         {
           id: 6,
           icon: login,
-          name: 'Log In',
-          slug: 'https://api.heavenhold.com/login/',
-          description: 'Log into the site',
+          name: user == null ? 'Log In' : 'Log Out',
+          slug: user == null ? 'https://api.heavenhold.com/login/' : 'logout',
+          description: user == null ? 'Log into the site' : 'Log out of your account',
           external: true,
         },
         {
@@ -181,6 +182,7 @@ function GlobalNavItem({ item, close, handleLogout }: { item: Item, close: () =>
 
   // Check if the slug is an external URL
   const isExternal = item.slug.startsWith('http');
+  const isAuth = item.slug.includes('login');
 
   const commonClasses = clsx(
     'px-8 py-4 text-sm font-medium hover:text-gray-300 flex items-center gap-x-4',
@@ -191,7 +193,7 @@ function GlobalNavItem({ item, close, handleLogout }: { item: Item, close: () =>
   );
 
   // Handle external links
-  if (isExternal) {
+  if (isExternal && !isAuth) {
     return (
       <a
         href={item.slug}
@@ -221,7 +223,7 @@ function GlobalNavItem({ item, close, handleLogout }: { item: Item, close: () =>
 
   // Handle internal links
   return (
-    <Link onClick={close} href={`/${item.slug}`} className={commonClasses}>
+    <Link onClick={close} href={`${!isExternal ? '/' : ''}${item.slug}`} className={commonClasses}>
       {item.icon()} {item.name}
     </Link>
   );

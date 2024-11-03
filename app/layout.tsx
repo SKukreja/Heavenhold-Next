@@ -32,11 +32,11 @@ export default function RootLayout({ children }: RootLayoutProps): JSX.Element {
         className={`[color-scheme:dark] ${montserrat.variable} ${oswald.variable} font-montserrat tracking-wide font-medium text-xs 2xl:text-sm 3xl:text-sm 4xl:text-sm`}
       >
         <body className="h-screen overflow-y-auto flex flex-col scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 bg-gray-1100">
-          <GlobalNav />
           <UserProvider initialUser={userData}>
             <HeroesProvider>
               <ItemsProvider>
                 <TeamsProvider>
+                    <GlobalNav />
                     <Sidebar />
                     <div className="absolute right-0 w-full main-body transition-width min-h-screen">
                       <div>

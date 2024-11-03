@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { home, item, hero, book, rank, login, contribute, discord } from './icons';
+import { home, item, hero, book, rank, login, contribute, discord, logout } from './icons'; // Add a logout icon if you have one
 import FadeInImage from '#/app/components/FadeInImage';
+import { useRouter } from 'next/navigation'; // Updated import for router
 
 type Item = {
   id: number;
@@ -16,10 +17,25 @@ type Item = {
   external?: boolean; // Optional
 };
 
-
 export function GlobalNav() {
   const [isOpen, setIsOpen] = useState(false);
   const close = () => setIsOpen(false);
+
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      // Trigger the logout API call
+      await fetch('/api/auth/logout', {
+        method: 'GET',
+      });
+
+      // Redirect to the homepage after logging out
+      router.push('/');
+    } catch (error) {
+      console.error('Failed to logout:', error);
+    }
+  };
 
   const menu: { items: Item[] }[] = [
     {
@@ -48,50 +64,62 @@ export function GlobalNav() {
       ],
     },
     {
-        items: [
-          {
-            id: 4,
-            icon: rank,
-            name: 'Tier List',
-            slug: 'tier-list',
-            description: 'See the current meta',
-          },
-          {
-            id: 5,
-            icon: book,
-            name: 'Guides',
-            slug: 'guides',
-            description: 'Learn the best strategies',
-          },
-        ],
-      },
-      {
-        items: [
-          {
-            id: 6,
-            icon: login,
-            name: 'Log In',
-            slug: 'https://api.heavenhold.com/login/',
-            description: 'Log into the site',
-            external: true,
-          },
-          {
-            id: 7,
-            icon: discord,
-            name: 'Discord',
-            slug: 'https://discord.gg/heavenhold', // Replace with your actual Discord invite link
-            description: 'Join our Discord server',
-            external: true,
-          },          
-          {
-            id: 8,
-            icon: contribute,
-            name: 'Contribute',
-            slug: 'contribute',
-            description: 'Render multiple pages in the same layout',
-          },
-        ],
-      },
+      items: [
+        {
+          id: 4,
+          icon: rank,
+          name: 'Tier List',
+          slug: 'tier-list',
+          description: 'See the current meta',
+        },
+        {
+          id: 5,
+          icon: book,
+          name: 'Guides',
+          slug: 'guides',
+          description: 'Learn the best strategies',
+        },
+      ],
+    },
+    {
+      items: [
+        {
+          id: 6,
+          icon: login,
+          name: 'Log In',
+          slug: 'https://api.heavenhold.com/login/',
+          description: 'Log into the site',
+          external: true,
+        },
+        {
+          id: 7,
+          icon: discord,
+          name: 'Discord',
+          slug: 'https://discord.gg/heavenhold',
+          description: 'Join our Discord server',
+          external: true,
+        },
+        {
+          id: 8,
+          icon: contribute,
+          name: 'Contribute',
+          slug: 'contribute',
+          description: 'Render multiple pages in the same layout',
+        },
+      ],
+    },
+    // Add the logout item here
+    {
+      items: [
+        {
+          id: 9,
+          icon: logout, // Make sure you have a logout icon or replace it with another icon
+          name: 'Log Out',
+          slug: 'logout',
+          description: 'Log out of your account',
+        },
+      ],
+    },
   ];
 
   return (
@@ -132,13 +160,10 @@ export function GlobalNav() {
           {menu.map((section) => {
             return (
               <div key={section.items[0].id}>
-                <div className="mb-6 border-b border-gray-800 w-100 text-gray-400/80">
-
-                </div>
-
+                <div className="mb-6 border-b border-gray-800 w-100 text-gray-400/80"></div>
                 <div>
                   {section.items.map((item) => (
-                    <GlobalNavItem key={item.slug} item={item} close={close} />
+                    <GlobalNavItem key={item.slug} item={item} close={close} handleLogout={handleLogout} />
                   ))}
                 </div>
               </div>
@@ -150,7 +175,7 @@ export function GlobalNav() {
   );
 }
 
-function GlobalNavItem({ item, close }: { item: Item, close: () => void }) {
+function GlobalNavItem({ item, close, handleLogout }: { item: Item, close: () => void, handleLogout: () => void }) {
   const segment = useSelectedLayoutSegment();
   const isActive = item.slug === segment;
 
@@ -165,6 +190,7 @@ function GlobalNavItem({ item, close }: { item: Item, close: () => void }) {
     }
   );
 
+  // Handle external links
   if (isExternal) {
     return (
       <a
@@ -178,6 +204,22 @@ function GlobalNavItem({ item, close }: { item: Item, close: () => void }) {
     );
   }
 
+  // Handle logout link
+  if (item.slug === 'logout') {
+    return (
+      <button
+        onClick={() => {
+          close();
+          handleLogout();
+        }}
+        className={commonClasses}
+      >
+        {item.icon()} {item.name}
+      </button>
+    );
+  }
+
+  // Handle internal links
   return (
     <Link onClick={close} href={`/${item.slug}`} className={commonClasses}>
       {item.icon()} {item.name}

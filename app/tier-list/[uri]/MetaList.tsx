@@ -17,14 +17,15 @@ import { getIpAddress } from "#/ui/helpers";
 
 interface MetaProps {
   categoryId: number;
+  loggedInUserId: number | null;
   heroes: Hero[];
 }
 
-export default function MetaList({ categoryId, heroes }: MetaProps) {
+export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaProps) {
   const ipAddress = getIpAddress();
   const [upvoteTeam] = useUpvoteHeroMutation();
   const [downvoteTeam] = useDownvoteHeroMutation();
-  const userId = 1;
+  const userId = loggedInUserId ? loggedInUserId : null;
   const isOverall = (categoryId === 0)  
 
   const { data: votesDataOverall, loading: votesLoadingOverall } = useGetMetaVotesQuery({
@@ -32,7 +33,7 @@ export default function MetaList({ categoryId, heroes }: MetaProps) {
   });
   
   const { data: votesDataWithUserVote, loading: votesLoadingWithUserVote } = useGetMetaVotesWithUserVoteQuery({
-    variables: { categoryId: categoryId, ipAddress: ipAddress + "", userId: userId },
+    variables: { categoryId: categoryId, ipAddress: ipAddress + "", userId: userId ?? 0 },
     skip: isOverall,
   });
 
@@ -108,7 +109,7 @@ export default function MetaList({ categoryId, heroes }: MetaProps) {
           variables: {
             heroId: heroId,
             categoryId: categoryId,
-            userId: userId,
+            userId: userId! as number,
             ipAddress: userIpAddress,
           },
         });
@@ -151,7 +152,7 @@ export default function MetaList({ categoryId, heroes }: MetaProps) {
             variables: {
               heroId: heroId,
               categoryId: categoryId,
-              userId: userId,
+              userId: userId! as number,
               ipAddress: userIpAddress,
             },
           });

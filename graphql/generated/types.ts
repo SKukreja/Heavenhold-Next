@@ -7811,7 +7811,7 @@ export type MetaVoteConnectionPageInfo = {
   startCursor: Maybe<Scalars['String']['output']>;
 };
 
-/** Team ID, Vote Count, Downvote Count, and Team Details */
+/** Hero ID, Vote Count, Downvote Count, and Hero Details */
 export type MetaVoteCount = {
   __typename?: 'MetaVoteCount';
   /** The total number of downvotes */
@@ -7820,7 +7820,7 @@ export type MetaVoteCount = {
   hero: Maybe<Hero>;
   /** The hero ID */
   heroId: Maybe<Scalars['Int']['output']>;
-  /** The total number of votes */
+  /** The total number of upvotes */
   upvoteCount: Maybe<Scalars['Int']['output']>;
   /** The ID of the user */
   userId: Maybe<Scalars['Int']['output']>;
@@ -7846,14 +7846,14 @@ export type MetaVoteToUserConnectionEdge = Edge & OneToOneConnection & UserConne
   node: User;
 };
 
-/** Team ID, Vote Count, Downvote Count, and Team Details */
+/** Hero ID, Vote Count, Downvote Count */
 export type MetaVoteTotals = {
   __typename?: 'MetaVoteTotals';
   /** The total number of downvotes */
   downvoteCount: Maybe<Scalars['Int']['output']>;
   /** The hero ID */
   heroId: Maybe<Scalars['Int']['output']>;
-  /** The total number of votes */
+  /** The total number of upvotes */
   upvoteCount: Maybe<Scalars['Int']['output']>;
 };
 
@@ -10671,7 +10671,7 @@ export type RootQuery = {
   menus: Maybe<RootQueryToMenuConnection>;
   /** Connection between the RootQuery type and the MetaVote type */
   metaVotes: Maybe<RootQueryToMetaVoteConnection>;
-  /** Get heros and their total vote and downvote counts for a specific category and user */
+  /** Get heroes and their total vote and downvote counts for a specific category and user */
   metaVotesByCategory: Maybe<Array<Maybe<MetaVoteCount>>>;
   /** Get heroes and their total vote and downvote counts */
   metaVotesTotals: Maybe<Array<Maybe<MetaVoteTotals>>>;

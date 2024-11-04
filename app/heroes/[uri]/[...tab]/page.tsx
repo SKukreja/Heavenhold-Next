@@ -12,10 +12,10 @@ import Teams from "./Teams";
 import Costumes from "./Costumes";
 
 interface PageProps {
-  params: {
+  params: Promise<{
     uri: string;
     tab?: string[] | undefined;
-  };
+  }>;
 }
 
 function capitalize(s: string): string {
@@ -23,7 +23,7 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-export default function Page({ params }: PageProps) {
+export default async function Page({ params }: PageProps) {
   const { data: heroesData } = useHeroes();
   const { data: itemsData } = useItems();
   const { data: teamsData } = useTeams();
@@ -42,18 +42,18 @@ export default function Page({ params }: PageProps) {
 
   const [hero, setHero] = useState<Hero | null>(null);
   const [loading, setLoading] = useState(true);
+  const tabParam = (await params);
 
   useEffect(() => {
-    const fetchedHero = heroes.find((hero) => hero.slug === params.uri);
+    const fetchedHero = heroes.find((hero) => hero.slug === tabParam.uri);
     setHero(fetchedHero ?? null);
     setLoading(false);
-  }, [params.uri, heroes]);
-
-  const tabParam = params.tab ? params.tab[0] : undefined;
-  const [activeTab, setActiveTab] = useState(capitalize(tabParam || "Bio"));
+  }, [tabParam.uri, heroes]);
+  
+  const [activeTab, setActiveTab] = useState(capitalize(tabParam.tab?.[0] || "Bio"));
 
   useEffect(() => {
-    setActiveTab(capitalize(tabParam || "Bio"));
+    setActiveTab(capitalize(tabParam.tab?.[0]|| "Bio"));
   }, [tabParam]);
 
   if (loading) {

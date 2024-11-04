@@ -38,7 +38,6 @@ export default function HeroPage({
 
   const hero = heroes.find((hero) => hero.slug === uri);
 
-  if(!(hero)) return;
   const [currentHero, setCurrentHero] = useState<Hero | null>(hero as Hero);
   const [loading, setLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState(activeTab);

@@ -42,10 +42,6 @@ export default function HeroPage({
   const [loading, setLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState(activeTab);
 
-  if (!hero) {
-    return <div>Error: Hero not found</div>;
-  }
-
   useEffect(() => {
     setCurrentHero(hero as Hero);
   }, [hero]);

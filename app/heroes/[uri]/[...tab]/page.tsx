@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo } from "react";
 import Loading from "#/app/components/loading";
 import { Hero, Item, Team } from "#/graphql/generated/types";
-import Link from "next/link";
 import { useTeams } from "#/app/components/GetTeamsProvider";
 import { useHeroes } from "#/app/components/GetHeroesProvider";
 import { useItems } from "#/app/components/GetItemsProvider";
@@ -15,7 +14,7 @@ import Costumes from "./Costumes";
 interface PageProps {
   params: {
     uri: string;
-    tab?: string[];
+    tab?: string[] | undefined;
   };
 }
 

@@ -4,7 +4,7 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 // Define the user data type
-interface User {
+export interface User {
   user_id: number | null;
   user_login: string;
   user_email: string;

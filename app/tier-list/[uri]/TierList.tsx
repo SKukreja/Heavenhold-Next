@@ -36,24 +36,31 @@ export default function TierList({
         {
             id: 0,
             name: "General",
+            slug: "general"
         },{
             id: 1,
             name: "Colosseum",
+            slug: "colosseum"
         }, {
             id: 2,
             name: "Raid",
+            slug: "raid"
         }, {
             id: 3,
             name: "Arena",
+            slug: "arena"
         },{
             id: 4,
-            name: "Boss Rush"
+            name: "Boss Rush",
+            slug: "boss-rush"
         },{
             id: 5,
-            name: "Expedition"
+            name: "Expedition",
+            slug: "expedition"
         },{
             id: 6,
-            name: "Death Match"
+            name: "Death Match",
+            slug: "death-match"
         }
     ];
   }, []);
@@ -62,7 +69,7 @@ export default function TierList({
     if (!uri) {
       return;
     }
-    const urlCategory = categories.find((category) => category.name.toLowerCase() === uri.toLowerCase());
+    const urlCategory = categories.find((category) => category.slug.toLowerCase() === uri.toLowerCase());
     setCurrentCategory(urlCategory?.id ?? 0);
     setLoading(false);
   }, [uri]);  

@@ -4,69 +4,20 @@ import { useState, useEffect, useMemo } from "react";
 import Loading from "#/app/components/loading";
 import { Hero } from "#/graphql/generated/types";
 import { useHeroes } from "#/app/components/GetHeroesProvider";
-import { useUser } from '#/app/components/UserContext';
-import MetaList from "./MetaList";
+import TierList from "./TierList";
+
 
 interface MetaProps {
-  params: {
+  params: Promise<{
     uri: string;
-    tab?: string[];
-  };
+    tab?: string[] | undefined;
+  }>;
 }
 
-function capitalize(s: string): string {
-  if (!s) return '';
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-export default function Page({ params }: MetaProps) {
-  const { data: heroesData } = useHeroes();
-  const { user } = useUser();
-  const heroes = useMemo(() => {
-    return [...(heroesData?.heroes?.nodes ?? [])] as Hero[];
-  }, [heroesData]);
-  const categories = useMemo(() => {
-    return [
-        {
-            id: 0,
-            name: "General",
-        },{
-            id: 1,
-            name: "Colosseum",
-        }, {
-            id: 2,
-            name: "Raid",
-        }, {
-            id: 3,
-            name: "Arena",
-        }
-    ];
-  }, []);
-
-  const [currentCategory, setCurrentCategory] = useState(0);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!params.uri) {
-      return;
-    }
-    const urlCategory = categories.find((category) => category.name.toLowerCase() === params.uri.toLowerCase());
-    setCurrentCategory(urlCategory?.id ?? 0);
-    setLoading(false);
-  }, [params.uri]);
-
-  const tabParam = params.tab ? params.tab[0] : undefined;
-  const [activeTab, setActiveTab] = useState(capitalize(tabParam || "General"));
-
-  useEffect(() => {
-    setActiveTab(capitalize(tabParam || "General"));
-  }, [tabParam]);
-
-  if (!heroes || loading) {
-    return <Loading />;
-  }
+export default async function Page({ params }: MetaProps) {
+  const tabParam = await params;
 
   return (
-    <div className="w-full h-auto"><MetaList categoryId={currentCategory} heroes={heroes} loggedInUserId={user?.user_id ?? null} /></div>
+    <TierList activeTab={tabParam.tab?.[0] || "General"} uri={tabParam.uri ?? ""} />
   )
 }

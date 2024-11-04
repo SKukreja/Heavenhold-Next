@@ -1,9 +1,9 @@
 // app/components/UserDataFetcher.tsx
 import { cookies } from 'next/headers';
 
-export const getUserData = () => {
+export const getUserData = async () => {
   const cookieStore = cookies();
-  const sessionCookie = cookieStore.get('session');
+  const sessionCookie = (await cookieStore).get('session');
 
   if (sessionCookie) {
     try {

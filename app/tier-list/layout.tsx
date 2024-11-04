@@ -56,6 +56,14 @@ export default function Layout({ children }: PropsWithChildren<LayoutProps>) {
               >
                 Arena
               </Link>
+              <Link
+                href="/tier-list/boss-rush"
+                className={`cursor-pointer hover:text-earth ${
+                  pathname.includes('arena') ? 'text-earth' : ''
+                }`}
+              >
+                Boss Rush
+              </Link>
             </div>
           </div>
         </div>

@@ -1,9 +1,3 @@
-"use client";
-
-import { useState, useEffect, useMemo } from "react";
-import Loading from "#/app/components/loading";
-import { Hero } from "#/graphql/generated/types";
-import { useHeroes } from "#/app/components/GetHeroesProvider";
 import TierList from "./TierList";
 
 

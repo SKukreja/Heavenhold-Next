@@ -59,7 +59,7 @@ export default function Layout({ children }: PropsWithChildren<LayoutProps>) {
               <Link
                 href="/tier-list/boss-rush"
                 className={`cursor-pointer hover:text-light ${
-                  pathname.includes('arena') ? 'text-light' : ''
+                  pathname.includes('boss-rush') ? 'text-light' : ''
                 }`}
               >
                 Boss Rush
@@ -67,7 +67,7 @@ export default function Layout({ children }: PropsWithChildren<LayoutProps>) {
               <Link
                 href="/tier-list/expedition"
                 className={`cursor-pointer hover:text-basic ${
-                  pathname.includes('arena') ? 'text-basic' : ''
+                  pathname.includes('expedition') ? 'text-basic' : ''
                 }`}
               >
                 Expedition
@@ -75,7 +75,7 @@ export default function Layout({ children }: PropsWithChildren<LayoutProps>) {
               <Link
                 href="/tier-list/death-match"
                 className={`cursor-pointer hover:text-dark ${
-                  pathname.includes('arena') ? 'text-dark' : ''
+                  pathname.includes('death-match') ? 'text-dark' : ''
                 }`}
               >
                 Death Match

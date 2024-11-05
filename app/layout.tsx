@@ -1,4 +1,3 @@
-// layout.tsx
 import './globals.css';
 import { GlobalNav } from '#/ui/global-nav';
 import Sidebar from '#/ui/sidebar';
@@ -12,6 +11,8 @@ import { getUserData } from './components/UserDataFetcher';
 import { User } from './components/UserContext';
 import { Suspense } from 'react';
 import Loading from './components/loading';
+import { GetAllHeroesDocument, GetAllItemsDocument } from '#/graphql/generated/types';
+import { fetchGraphQL } from './components/FetchGraphQL';
 
 export const metadata = {
   title: "Heavenhold",
@@ -24,6 +25,9 @@ interface RootLayoutProps {
 
 export default async function RootLayout({ children }: RootLayoutProps): Promise<JSX.Element> {
   const userData = await getUserData();
+  
+  const heroData = await fetchGraphQL(GetAllHeroesDocument);
+  const itemsData = await fetchGraphQL(GetAllItemsDocument);
 
   return (
     <ApolloWrapper>
@@ -32,10 +36,10 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
         className={`[color-scheme:dark] ${montserrat.variable} ${oswald.variable} font-montserrat tracking-wide font-medium text-xs 2xl:text-sm 3xl:text-sm 4xl:text-sm`}
       >
         <body className="h-screen overflow-y-auto flex flex-col scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 bg-gray-1100">
-          <Suspense fallback={<Loading></Loading>}>
+          <Suspense fallback={<Loading />}>
             <UserProvider initialUser={userData as User}>
-            <HeroesProvider>
-            <ItemsProvider>
+            <HeroesProvider initialData={heroData}>
+            <ItemsProvider initialData={itemsData}>
             <TeamsProvider>
                 <GlobalNav />
                 <Sidebar />

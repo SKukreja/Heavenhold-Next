@@ -13,7 +13,6 @@ function makeClient() {
   const httpLink = new BatchHttpLink({
     uri: "https://api.heavenhold.com/graphql",
     credentials: "include",
-    fetchOptions: { cache: "no-store" },
     batchMax: 5, // No more than 5 operations per batch
     batchInterval: 20
   });

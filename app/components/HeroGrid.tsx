@@ -80,11 +80,11 @@ const HeroLink = ({ hero }: { hero: Hero }) => {
         </span>
         <span className="relative z-20 flex flex-col gap-1 m-2 leading-4 text-[0.52rem] lg:text-[0.55rem] font-bold text-center w-100 drop-shadow-2xl">
           {abilityFields?.partyBuff && abilityFields.partyBuff.map((buff, index) => (
-            <span key={index}>
+            <>
               {buff?.affectsParty && (
-                <>[Party] {buff?.stat} <span className="text-lime-500">+{buff.value}%</span></>
+                <span key={index}>[Party] {buff?.stat} <span className="text-lime-500">+{buff.value}%</span></span>
               )}
-            </span>
+            </>
           ))}
         </span>
       </div>

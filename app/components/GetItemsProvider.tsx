@@ -1,8 +1,8 @@
 // components/GetItemsProvider.tsx
-"use client";
+"use client"; // Keep this directive
 
 import React, { createContext, useContext, useMemo } from 'react';
-import { useGetAllItemsSuspenseQuery, GetAllItemsQuery } from '#/graphql/generated/types';
+import { GetAllItemsQuery } from '#/graphql/generated/types';
 
 interface ItemsContextType {
   data: GetAllItemsQuery | null;
@@ -10,16 +10,14 @@ interface ItemsContextType {
 
 const ItemsContext = createContext<ItemsContextType | undefined>(undefined);
 
-export function ItemsProvider({ children }: React.PropsWithChildren<{}>) {
-  const { data } = useGetAllItemsSuspenseQuery();
+interface ItemsProviderProps {
+  initialData: GetAllItemsQuery;
+  children: React.ReactNode;
+}
 
-  // Memoize the data to avoid unnecessary re-renders
-  const memoizedData = useMemo(() => data, [data]);
-
-  // Manage data loading state
-  if (!memoizedData) {
-    return <div>Loading...</div>; // Handle loading state as needed
-  }
+export function ItemsProvider({ initialData, children }: ItemsProviderProps) {
+  // Use the server-side data as initial data
+  const memoizedData = useMemo(() => initialData, [initialData]);
 
   return (
     <ItemsContext.Provider value={{ data: memoizedData }}>

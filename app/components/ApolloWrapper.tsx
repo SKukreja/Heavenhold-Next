@@ -21,6 +21,14 @@ function makeClient() {
   return new ApolloClient({
     cache: new InMemoryCache(),
     link: httpLink,
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: 'cache-first',
+      },
+      query: {
+        fetchPolicy: 'cache-first',
+      },
+    },
   });
 }
 

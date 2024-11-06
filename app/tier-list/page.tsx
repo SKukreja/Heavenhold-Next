@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import Loading from "#/app/components/loading";
-import { Hero, Item, Team } from "#/graphql/generated/types";
+import { Hero } from "#/graphql/generated/types";
 import { useHeroes } from "#/app/components/GetHeroesProvider";
 import MetaList from "./[uri]/MetaList";
 import { useUser } from '#/app/components/UserContext';

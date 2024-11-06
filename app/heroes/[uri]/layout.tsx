@@ -50,7 +50,7 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
     <HeroContext.Provider value={hero}>
       <main className="pt-32 lg:pt-0 h-auto lg:h-screen overflow-y-auto lg:overflow-hidden">
         {/* Tab Navigation */}
-        <div className="p-0 lg:p-8 fixed bottom-0 left-0 right-0 lg:relative flex hero-buttons w-full h-24 3xl:h-48 text-xs lg:text-xl overflow-hidden gap-0 lg:gap-8 mb-0 lg:mb-8 z-40">
+        <div className="p-0 lg:p-8 fixed bottom-0 left-0 right-0 lg:relative flex hero-buttons w-full h-24 text-xs lg:text-xl overflow-hidden gap-0 lg:gap-8 mb-0 lg:mb-8 z-40">
           {["Bio", "Abilities", "Teams", "Review", "Costumes", "Gallery"].map((tab: string) => (
                 <Link
                 key={tab}

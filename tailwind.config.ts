@@ -32,6 +32,7 @@ export default {
         '-100': '-1',
       },
       screens: {
+        '3xl': { 'raw': '(min-width: 1920px)' },
         '4xl': { 'raw': '(min-width: 2560px)' },
       },
       colors: {

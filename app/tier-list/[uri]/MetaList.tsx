@@ -187,7 +187,7 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
         <div className="w-full h-auto flex flex-col z-10 mb-8">
           <div
             className={`p-4 w-full flex justify-between`}
-            style={{ background: 'linear-gradient(to right, rgba(255, 14, 14, 0.3) 0%, rgba(255, 14, 14, 0.2) 60%, transparent 80%)' }}
+            style={{ background: 'linear-gradient(to right, rgba(255, 14, 14, 0.3) 0%, rgba(255, 14, 14, 0.2) 85%, transparent 100%)' }}
           >
             <span className="px-4 lg:px-0 text-6xl lg:text-[156px] leading-none font-oswald font-bolder text-[rgba(255,14,14,1)]">S</span>
             <RenderHeroes
@@ -200,7 +200,7 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
           </div>
           <div
             className={`p-4 b w-full flex justify-between`}
-            style={{ background: 'linear-gradient(to right, rgba(252, 171, 16, 0.4) 0%, rgba(252, 171, 16, 0.2) 60%, transparent 80%)' }}
+            style={{ background: 'linear-gradient(to right, rgba(252, 171, 16, 0.4) 0%, rgba(252, 171, 16, 0.2) 85%, transparent 100%)' }}
           >
             <span className="px-4 lg:px-0 text-6xl lg:text-[156px] leading-none font-oswald font-bolder text-[rgba(252,171,16,1)]">A</span>
             <RenderHeroes
@@ -213,7 +213,7 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
           </div>
           <div
             className={`p-4 border-green-900 w-full flex justify-between`}
-            style={{ background: 'linear-gradient(to right, rgba(104, 142, 38, 0.4) 0%, rgba(104, 142, 38, 0.2) 60%, transparent 80%)' }}
+            style={{ background: 'linear-gradient(to right, rgba(104, 142, 38, 0.4) 0%, rgba(104, 142, 38, 0.2) 85%, transparent 100%)' }}
           >
             <span className="px-4 lg:px-0 text-6xl lg:text-[156px] leading-none font-oswald font-bolder text-[rgba(104,142,38,1)]">B</span>
             <RenderHeroes
@@ -226,7 +226,7 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
           </div>
           <div
             className={`p-4 border-blue-900 w-full flex justify-between`}
-            style={{ background: 'linear-gradient(to right, rgba(67, 97, 238, 0.3) 0%, rgba(67, 97, 238, 0.2) 60%, transparent 80%)' }}
+            style={{ background: 'linear-gradient(to right, rgba(67, 97, 238, 0.3) 0%, rgba(67, 97, 238, 0.2) 85%, transparent 100%)' }}
           >
             <span className="px-4 lg:px-0 text-6xl lg:text-[156px] leading-none font-oswald font-bolder text-[rgba(67,97,238,1)]">C</span>
             <RenderHeroes
@@ -239,7 +239,7 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
           </div>
           <div
             className={`p-4 border-gray-800 w-full flex justify-between`}
-            style={{ background: 'linear-gradient(to right, rgba(144, 30, 245, 0.2) 0%, rgba(144, 30, 245, 0.1) 60%, transparent 80%)' }}
+            style={{ background: 'linear-gradient(to right, rgba(144, 30, 245, 0.2) 0%, rgba(144, 30, 245, 0.1) 85%, transparent 100%)' }}
           >
             <span className="px-4 lg:px-0 text-6xl lg:text-[156px] leading-none font-oswald font-bolder text-[rgba(144,30,245,1)]">D</span>
             <RenderHeroes

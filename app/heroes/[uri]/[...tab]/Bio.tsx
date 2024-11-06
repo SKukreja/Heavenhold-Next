@@ -4,12 +4,23 @@ import { formatDate } from "#/ui/helpers";
 import FadeInImage from "#/app/components/FadeInImage";
 import { Hero } from "#/graphql/generated/types";
 import { equipmentIcons } from "#/ui/icons";
+import { useState } from "react";
 
 interface BioProps {
   hero: Hero;
 }
 
 function Bio({ hero }: BioProps) {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const illustrations = hero.heroInformation?.illustrations ?? [];
+  
+  const handleNext = () => {
+    setCurrentSlide((prev: any) => (prev + 1) % illustrations.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentSlide((prev: any) => (prev - 1 + illustrations.length) % illustrations.length);
+  };
   const rarity = `r-${hero.heroInformation?.bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase() ?? ""}`;
 
   return (
@@ -25,10 +36,10 @@ function Bio({ hero }: BioProps) {
           <span className={`text-2xl mb-1 tracking-widest h-full flex flex-col justify-center ${rarity === 'r-3-star' ? 'text-yellow-500' : ''} ${rarity === 'r-2-star' ? 'text-gray-300' : ''} ${rarity === 'r-1-star' ? 'text-orange-600' : ''}`}>{rarity === 'r-3-star' && '★★★'}{rarity === 'r-2-star' && '★★'}{rarity === 'r-1-star' && '★'}</span>
         </div>
       </div>
-      <div id="Bio" className="relative lg:overflow-visible z-20 w-full h-auto lg:h-[calc(100vh-12rem)] items-start flex px-4 3xl:px-8 flex-col lg:flex-row">
+      <div id="Bio" className="relative lg:overflow-visible z-20 w-full h-auto lg:h-[calc(100vh-12rem)] items-start flex px-4 flex-col lg:flex-row">
         <div className="flex flex-col-reverse w-full lg:h-full lg:w-3/4 lg:flex-row">        
-          <div className="px-4 3xl:px-8 w-full lg:w-1/3 flex-col justify-start h-[calc(100%-8rem)] flex mb-16 lg:mb-0">
-            <div className="pt-8 lg:pt-16 flex flex-col gap-4 3xl:gap-6 justify-between w-full text-xs 3xl:text-sm">
+          <div className="px-4 w-full lg:w-1/3 flex-col justify-start h-[calc(100%-8rem)] flex mb-16 lg:mb-0">
+            <div className="pt-8 lg:pt-16 flex flex-col gap-4 justify-between w-full text-xs">
               <div className="w-full"><span className="w-1/2 inline-block font-bold">Name</span><span className="w-1/2 inline-block text-right">{hero.heroInformation?.bioFields?.name}</span></div>
                 <div className="w-full"><span className="w-1/2 inline-block font-bold">Released</span><span className="w-1/2 inline-block text-right">{formatDate(hero.heroInformation?.bioFields?.naReleaseDate ?? "")}</span></div>
               <div className="w-full"><span className="w-1/2 inline-block font-bold">Age</span><span className="w-1/2 inline-block text-right">{hero.heroInformation?.bioFields?.age}</span></div>
@@ -47,7 +58,7 @@ function Bio({ hero }: BioProps) {
                 </div>
             </div>
             <div className="pt-16 block relative tracking-wider">
-                <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Stats</h2>
+                <h2 className="mb-6 text-2xl font-medium font-oswald">Stats</h2>
                 <div className="mb-2 relative h-8 bg-gray-1100">
                   <div className="bg-red-600 h-8 rounded-sm progress-bar text-xs" style={{ width: `${Math.max((1 - (hero.heroInformation?.statFields?.atkRank ?? 0) / (hero.heroInformation?.statFields?.heroCount ?? 1)) * 100, 10)}%` }}></div>
                   <div className="absolute inset-0 px-4 flex justify-between items-center text-xs">
@@ -124,24 +135,41 @@ function Bio({ hero }: BioProps) {
                 </div>
             </div>
           </div>
-          <div className={"w-full h-auto mt-8 lg:mt-0 lg:w-2/3 lg:h-full flex items-center relative justify-center overflow-visible"}>
-            {hero.heroInformation?.illustrations?.map((illustration, index) => (
-              <FadeInImage
-                key={illustration?.name || index}
-                src={illustration?.image?.node.sourceUrl ?? ""}
-                width={1000}
-                height={800}
-                maxHeight={true}
-                priority={true}
-                className="object-contain w-full h-full z-30 lg:-mt-32 overflow-visible"
-                quality={100}
-                alt={illustration?.name ?? ""}
-              />
-            ))}
+          <div className="w-full flex flex-col h-[calc(60vh)] justify-center items-center relative mb-16 lg:mb-0">
+            <div className={"w-full h-full mt-16 lg:mt-0 flex items-center relative justify-center overflow-visible"}>
+              {illustrations.map((illustration: any, index: number) => (
+                <FadeInImage
+                  key={illustration?.name || index}
+                  src={illustration?.image?.node.sourceUrl ?? ""}
+                  width={1000}
+                  height={800}
+                  className={`absolute inset-0 -top-16 ml-auto mr-auto w-full h-full object-contain transition-opacity duration-500 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
+                  quality={100}
+                  alt={illustration?.name ?? ""}
+                />
+              ))}
+              {illustrations.length > 1 && (
+              <>
+                <button
+                  onClick={handlePrev}
+                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white p-2"
+                >
+                  &#9664;
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white p-2"
+                >
+                  &#9654;
+                </button>
+              </>
+              )}
+            </div>
+            <div className="left-0 right-0 absolute w-full text-center -bottom-8 text-lg font-bold">{illustrations[currentSlide]?.name ?? ""}</div>
           </div>
         </div>
         <div className="w-full lg:w-1/4 mb-16 lg:mb-0 h-auto lg:h-full px-4 lg:px-8">
-          <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Evolutions</h2>
+          <h2 className="mb-6 text-2xl font-medium font-oswald">Evolutions</h2>
           <div className="w-full flex gap-4 mb-16">
             {hero.heroInformation?.evolutionFields?.evolution1 && (
               <div className="flex flex-col gap-2 justify-center items-center">
@@ -174,7 +202,7 @@ function Bio({ hero }: BioProps) {
               </div>
             )}
           </div>
-          <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Story</h2>
+          <h2 className="mb-6 text-2xl font-medium font-oswald">Story</h2>
           <div className="w-full h-auto lg:h-[calc(100%-32rem)] lg:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100">
             <span className="w-full h-auto lg:h-full lg:overflow-y-scroll text-xs 3xl:text-sm" dangerouslySetInnerHTML={{ __html: hero?.heroInformation?.bioFields?.story + "" }}></span>
           </div>

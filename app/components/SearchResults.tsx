@@ -1,5 +1,3 @@
-"use client";
-
 import { Suspense, useMemo } from "react";
 import Link from "next/link";
 import FadeInImage from "./FadeInImage";
@@ -9,13 +7,13 @@ import { useHeroes } from './GetHeroesProvider';
 
 interface SearchResultsProps {
   searchQuery: string;
+  closeSidebar: () => void;
 }
 
-export default function SearchResults({ searchQuery }: SearchResultsProps) {
+export default function SearchResults({ searchQuery, closeSidebar }: SearchResultsProps) {
   const { data: itemsData } = useItems();
   const { data: heroesData } = useHeroes();
 
-  // Combine items and heroes into one array
   const combinedData = useMemo(() => {
     const items = itemsData?.items?.nodes ?? [];
     const heroes = heroesData?.heroes?.nodes ?? [];
@@ -39,7 +37,6 @@ export default function SearchResults({ searchQuery }: SearchResultsProps) {
     return [...itemResults, ...heroResults];
   }, [itemsData, heroesData]);
 
-  // Search and sort the combined data based on relevance
   const searchResults = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
     if (!query) return [];
@@ -81,7 +78,7 @@ export default function SearchResults({ searchQuery }: SearchResultsProps) {
             key={result.uri}
             className="pt-4 pb-4 pl-8 pr-8 card text-gray-400 hover:bg-gray-900"
           >
-            <Link href={result.uri} className="w-full">
+            <Link href={result.uri} className="w-full" onClick={closeSidebar}>
               <h3 className="flex items-center">
                 <FadeInImage
                   src={

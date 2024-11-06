@@ -105,8 +105,8 @@ export default function HeroFilters() {
   };
 
   return (
-    <form className="pt-8 pb-8">
-      <h3 className="px-8 text-lg font-medium">Filters</h3>
+    <form className="pt-8 pb-8 w-full">
+      <h3 className="px-8 font-bold tracking-widest uppercase">Filters</h3>
 
       {["Element", "Role", "Rarity"].map((section, index) => {
         const sectionId = `filter-section-mobile-${index}`;

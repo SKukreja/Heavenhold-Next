@@ -148,24 +148,26 @@ function Bio({ hero }: BioProps) {
                   alt={illustration?.name ?? ""}
                 />
               ))}
-              {illustrations.length > 1 && (
-              <>
+            </div>
+            <div className={`left-0 right-0 absolute w-1/2 text-center -bottom-8 text-lg font-bold flex ml-auto mr-auto items-center ${illustrations.length > 1 ? "justify-between" : "justify-center"} gap-8`}>
+            {illustrations.length > 1 && (              
                 <button
                   onClick={handlePrev}
-                  className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white p-2"
+                  className="text-white p-2"
                 >
                   &#9664;
-                </button>
+                </button>              
+              )}
+              {illustrations[currentSlide]?.name ?? ""}
+              {illustrations.length > 1 && (                              
                 <button
                   onClick={handleNext}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white p-2"
+                  className="text-white p-2"
                 >
                   &#9654;
-                </button>
-              </>
+                </button>              
               )}
-            </div>
-            <div className="left-0 right-0 absolute w-full text-center -bottom-8 text-lg font-bold">{illustrations[currentSlide]?.name ?? ""}</div>
+              </div>
           </div>
         </div>
         <div className="w-full lg:w-1/4 mb-16 lg:mb-0 h-auto lg:h-full px-4 lg:px-8">

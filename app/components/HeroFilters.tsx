@@ -105,7 +105,7 @@ export default function HeroFilters() {
   };
 
   return (
-    <form className="pt-8 pb-8 w-full">
+    <form className="pt-8 pb-8 w-[calc(100%-0.5rem)] lg:w-full">
       <h3 className="px-8 font-bold tracking-widest uppercase">Filters</h3>
 
       {["Element", "Role", "Rarity"].map((section, index) => {

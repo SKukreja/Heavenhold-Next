@@ -77,28 +77,29 @@ export default function Sidebar() {
     <>
       <div
         className={`fixed top-0 z-40 lg:flex lg:flex-col overflow-x-visible overflow-y-scroll bg-black border-b border-gray-800 scrollbar-none transition-width ${
-          isActive ? 'flex flex-col pt-16 lg:pt-0 inset-0 w-screen h-screen lg:w-[calc(15vw)]' : 'hidden w-0 lg:-left-[2px]'
+          isActive ? 'flex flex-col items-center lg:items-start pt-16 lg:pt-0 inset-0 w-screen h-screen lg:w-[calc(15vw)]' : 'hidden w-0 lg:-left-[2px]'
         } lg:left-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800`}
       >
         <Suspense>
-          <div className="relative search-bar" ref={searchRef}>
-            <input
-              type="text"
-              className="bg-gray-900 text-white outline-gray-900 w-full h-16 px-8 py-4"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsSearchFocused(true)}
-            />
-            {searchQuery && (
-              <button
-                onClick={clearSearch}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
-              >
-                ✕
-              </button>
-            )}
-          </div>
+        <div className="relative search-bar w-full" ref={searchRef}>
+          <input
+            type="text"
+            className="bg-gray-900 text-white outline-gray-900 w-[calc(100%-0.5rem)] lg:w-full h-16 px-8 py-4"
+            placeholder="Search..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onFocus={() => setIsSearchFocused(true)}
+          />
+          {searchQuery && (
+            <button
+              onClick={clearSearch}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
           {isSearchFocused && searchQuery ? (
             <SearchResults searchQuery={searchQuery} closeSidebar={() => setIsActive(false)} />
           ) : (
@@ -122,7 +123,7 @@ export default function Sidebar() {
         </span>
       </div>
       <div
-        className={`${isEnabled ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed bottom-6 right-6 w-20 h-20 flex justify-center items-center border-gray-800 border-2 text-white bg-gray-900/95 lg:bg-gray-900/80 hover:bg-gray-900 z-50 p-6 cursor-pointer`}
+        className={`${isEnabled ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed ${!heroPathValue ? "bottom-6 right-6" : "lg:hidden top-6 right-6"} w-16 h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-2 text-white bg-gray-900/95 lg:bg-gray-900/80 hover:bg-gray-900 z-50 p-6 cursor-pointer`}
         onClick={toggleSidebar}
       >        
           <span className="fill-white relative w-full h-full z-50">{isActive ? closeFilter() : filter()}</span>

@@ -12,8 +12,8 @@ const ButtonIconContainerStyles = "flex items-center";
 const ButtonIconStyles = "w-5 h-5";
 
 const itemTypes = [
-  { id: 'filter-mobile-category-1hsword', value: '1hsword', label: 'One-Handed Sword', icon: '/icons/equipment/1hsword.webp' },
-  { id: 'filter-mobile-category-2hsword', value: '2hsword', label: 'Two-Handed Sword', icon: '/icons/equipment/2hsword.webp' },
+  { id: 'filter-mobile-category-1hsword', value: 'one-handed-sword', label: 'One-Handed Sword', icon: '/icons/equipment/1hsword.webp' },
+  { id: 'filter-mobile-category-2hsword', value: 'two-handed-sword', label: 'Two-Handed Sword', icon: '/icons/equipment/2hsword.webp' },
   { id: 'filter-mobile-category-rifle', value: 'rifle', label: 'Rifle', icon: '/icons/equipment/rifle.webp' },
   { id: 'filter-mobile-category-bow', value: 'bow', label: 'Bow', icon: '/icons/equipment/bow.webp' },
   { id: 'filter-mobile-category-basket', value: 'basket', label: 'Basket', icon: '/icons/equipment/basket.webp' },
@@ -23,8 +23,8 @@ const itemTypes = [
   { id: 'filter-mobile-category-shield', value: 'shield', label: 'Shield', icon: '/icons/equipment/shield.webp' },
   { id: 'filter-mobile-category-accessory', value: 'accessory', label: 'Accessory', icon: '/icons/equipment/accessory.webp' },
   { id: 'filter-mobile-category-costume', value: 'costume', label: 'Hero Costume', icon: '/icons/equipment/herocostume.webp' },
-  { id: 'filter-mobile-category-equipmentcostume', value: 'equipmentcostume', label: 'Equipment Costume', icon: '/icons/equipment/equipmentcostume.webp' },
-  { id: 'filter-mobile-category-illustrationcostume', value: 'illustrationcostume', label: 'Illustration Costume', icon: '/icons/equipment/illustrationcostume.webp' },
+  { id: 'filter-mobile-category-equipmentcostume', value: 'equipment-costume', label: 'Equipment Costume', icon: '/icons/equipment/equipmentcostume.webp' },
+  { id: 'filter-mobile-category-illustrationcostume', value: 'illustration-costume', label: 'Illustration Costume', icon: '/icons/equipment/illustrationcostume.webp' },
   { id: 'filter-mobile-category-card', value: 'card', label: 'Card', icon: '/icons/equipment/card.webp' },  
   { id: 'filter-mobile-category-merch', value: 'merch', label: 'Merch', icon: '/icons/equipment/merch.webp' },    
   { id: 'filter-mobile-category-relic', value: 'relic', label: 'Relic', icon: '/icons/equipment/relic.webp' },  
@@ -70,6 +70,19 @@ export default function ItemFilters() {
     }));
   };
 
+  function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
+    let timer: ReturnType<typeof setTimeout>;
+    return function(...args: Parameters<T>) {
+      clearTimeout(timer);
+      timer = setTimeout(() => func(...args), delay);
+    };
+  }
+  
+  // Debounced URL update function
+  const debouncedPush = debounce((newQuery: URLSearchParams, router: any) => {
+    router.push(`?${newQuery.toString()}`);
+  }, 300); // Adjust debounce time as needed
+  
   const handleToggleChange = (filter: string) => () => {
     const isActive = !activeFilters[filter];
     const newFilters = {
@@ -77,24 +90,27 @@ export default function ItemFilters() {
       [filter]: isActive,
     };
     setActiveFilters(newFilters);
-
+  
+    // Update query parameters without delay
     const newQuery = new URLSearchParams(searchParams);
     if (isActive) {
       newQuery.set(filter, 'true');
     } else {
       newQuery.delete(filter);
     }
-    router.push(`?${newQuery.toString()}`);
+  
+    // Debounced URL change to prevent rapid changes and delays
+    debouncedPush(newQuery, router);
     applyFilters(newFilters);
   };
 
   const applyFilters = (filters: { [key: string]: boolean }) => {
     const elements = document.querySelectorAll('[data-filter]');
-    const elementFilters = Object.keys(filters).filter(filter => filters[filter] && elementOptions.some(option => option.value === filter));
-    const roleFilters = Object.keys(filters).filter(filter => filters[filter] && itemTypes.some(option => option.value === filter));
-    const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && ['r-1-star', 'r-2-star', 'r-3-star'].includes(filter));
+    const elementFilters = Object.keys(filters).filter(filter => filters[filter] && elementOptions.some(option => option.value == filter));
+    const typeFilters = Object.keys(filters).filter(filter => filters[filter] && itemTypes.some(option => option.value == filter));
+    const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && ['r-epic', 'r-legend', 'r-unique', 'r-rare', 'r-normal'].includes(filter));
 
-    if (elementFilters.length === 0 && roleFilters.length === 0 && rarityFilters.length === 0) {
+    if (elementFilters.length === 0 && typeFilters.length === 0 && rarityFilters.length === 0) {
       elements.forEach((el) => {
         el.classList.remove("hidden", "opacity-0");
       });
@@ -102,11 +118,11 @@ export default function ItemFilters() {
       elements.forEach((el) => {
         const elFilters = el.getAttribute('data-filter')?.split(' ') || [];
         
-        const matchesElement = elementFilters.length === 0 || elementFilters.some(filter => elFilters.includes(filter));
-        const matchesRole = roleFilters.length === 0 || roleFilters.some(filter => elFilters.includes(filter));
+        const matchesElement = elementFilters.length === 0 || elementFilters.some(filter => elFilters.includes("e-" + filter));
+        const matchesType = typeFilters.length === 0 || typeFilters.some(filter => elFilters.includes("t-" + filter) || elFilters.includes("w-" + filter));
         const matchesRarity = rarityFilters.length === 0 || rarityFilters.some(filter => elFilters.includes(filter));
         
-        if (matchesElement && matchesRole && matchesRarity) {
+        if (matchesElement && matchesType && matchesRarity) {
           el.classList.remove("hidden", "opacity-0");
         } else {
           el.classList.add("hidden");

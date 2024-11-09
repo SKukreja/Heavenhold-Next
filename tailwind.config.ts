@@ -14,6 +14,9 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      aspectRatio: {
+        '3/2': '3 / 2',
+      },
       fontSize: {
         '2xs': '0.55rem',
       },

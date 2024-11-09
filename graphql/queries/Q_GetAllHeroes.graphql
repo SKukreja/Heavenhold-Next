@@ -1,5 +1,9 @@
-query GetAllHeroes {
-            heroes(first: 1000) {
+query GetAllHeroes($after: String) {
+            heroes(first: 100, after: $after) {
+                pageInfo {
+                  endCursor
+                  hasNextPage
+                }
                 nodes {
                 id
                 databaseId

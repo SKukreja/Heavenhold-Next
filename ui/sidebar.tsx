@@ -104,7 +104,7 @@ export default function Sidebar() {
             <SearchResults searchQuery={searchQuery} closeSidebar={() => setIsActive(false)} />
           ) : (
             <>
-              {pathname === '/heroes' && <HeroFilters />}
+              {pathname === '/heroes' || pathname.includes("tier-list") && <HeroFilters />}
               {pathname === '/items' && <ItemFilters />}
               {heroPathValue && <HeroList />}
               {itemPathValue && <ItemList />}
@@ -123,13 +123,13 @@ export default function Sidebar() {
         </span>
       </div>
       <div
-        className={`${isEnabled ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-6"} w-16 h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 hover:bg-gray-1000 z-50 p-4 lg:p-6 cursor-pointer`}
+        className={`${isEnabled ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-8"} w-16 h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 hover:bg-gray-1000 z-50 p-4 lg:p-6 cursor-pointer`}
         onClick={toggleSidebar}
       >        
           <span className="fill-white relative w-full h-full z-50">{isActive ? (heroPathValue ? filter() : closeFilter()) : filter()}</span>
       </div>
       <div
-        className={`${isEnabled ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-6"} w-16 h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 hover:bg-gray-1000 z-50 p-4 lg:p-6 cursor-pointer`}
+        className={`${false ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-6"} w-16 h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 hover:bg-gray-1000 z-50 p-4 lg:p-6 cursor-pointer`}
         onClick={toggleSidebar}
       >        
           <span className="fill-white relative w-full h-full z-50">{isActive ? (heroPathValue ? filter() : closeFilter()) : filter()}</span>

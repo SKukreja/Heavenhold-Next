@@ -27,7 +27,7 @@ export default function ItemGrid() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <div id="HeroList" className="flex flex-wrap justify-center gap-4 lg:gap-8 lg:p-4 transform-gpu">
+      <div id="HeroList" className="flex flex-wrap justify-start ml-8 w-[calc(100%-4rem)] lg:w-[calc(100%-2rem)] gap-4 lg:gap-8 transform-gpu">
         {items
           .filter((item: Item) => item?.itemInformation?.itemType?.nodes[0].name != "Cards")
           .map((item: Item, index: number) => (
@@ -51,7 +51,7 @@ const ItemLink = ({ item, index }: { item: Item, index: number }) => {
       ? ' w-' + item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase() : ''} 
       ${"t-" + item?.itemInformation?.itemType?.nodes[0].name?.toLowerCase()} 
       r-${item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase()} 
-      relative w-[calc(100%-4rem)] lg:w-[calc(50%-2rem)] xl:w-[calc(30%-2rem)] flex m-0 lg:m-[10px] cursor-pointer bg-gray-800 
+      relative w-[calc(100%-4rem)] lg:w-[calc((100%/2)-2rem)] xl:w-[calc((100%/3)-2rem)] 3xl:w-[calc((100%/4)-2rem)] 4xl:w-[calc((100%/5)-2rem)] flex cursor-pointer bg-gray-800 
       align-middle transition-all duration-200 after:transition-all 
       after:linear after:duration-200 ease grayscale-[30%] 
       hover:after:outline-offset-[-5px] hover:grayscale-0 

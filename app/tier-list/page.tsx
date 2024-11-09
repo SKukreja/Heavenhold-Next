@@ -9,6 +9,7 @@ import { useUser } from '#/app/components/UserContext';
 
 export default function Page() {
   const { data: heroesData } = useHeroes();
+  console.log(heroesData);
   const { user } = useUser();
 
   const heroes = useMemo(() => {

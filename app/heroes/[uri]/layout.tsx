@@ -74,7 +74,7 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
         {/* Hero Title */}
         {activeTab === "Bio" ? (
           <>
-            <h2 className="px-8 text-xl 3xl:text-2xl font-medium uppercase tracking-widest mb-3 relative z-20">
+            <h2 className="px-8 text-sm 3xl:text-2xl font-medium uppercase tracking-widest mb-3 relative z-20">
               {hero.title && hero.heroInformation?.bioFields?.name
                 ? hero.title.replace(hero.heroInformation.bioFields.name, "").trim()
                 : ""}
@@ -84,7 +84,7 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
             </h1>
           </>
         ) : (
-          <h2 className="text-xl px-8 h-[calc(2rem)] 3xl:text-2xl font-medium uppercase tracking-widest mb-8 relative z-20">
+          <h2 className="text-sm lg:text-xl px-8 h-[calc(2rem)] 3xl:text-2xl font-medium uppercase tracking-widest mb-8 relative z-20">
             {hero.title?.replace(hero.heroInformation?.bioFields?.name || "", "").trim()}{" "}
             {hero.heroInformation?.bioFields?.name} / {activeTab}
           </h2>

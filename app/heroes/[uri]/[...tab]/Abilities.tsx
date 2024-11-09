@@ -54,10 +54,10 @@ function Abilities({ hero, items }: AbilitiesProps) {
                 <span>{ascended ? "Descent" : "Ascent"}</span>
                 <span className="w-5 h-5 ml-2 -mt-2">{ascended ? arrowDownLeft("white") : arrowUpRight("white")}</span>
               </h2>
-            </div>) : (<div className="w-full flex gap-8 cursor-pointer mb-6 text-2xl 3xl:text-4xl font-medium font-oswald uppercase">
-              <h2 className="text-white flex items-center justify-center">&nbsp;</h2>
+            </div>) : (<div className="w-full flex gap-4 lg:gap-8 cursor-pointer mb-6 text-2xl 3xl:text-4xl font-medium font-oswald uppercase">
+              <h2 className="text-white hidden lg:flex items-center justify-center">&nbsp;</h2>
             </div>)}
-            <div className="w-full flex gap-8 flex-wrap">
+            <div className="w-full flex gap-4 lg:gap-8 flex-wrap">
               <div className="w-[calc(100%)] py-8 pl-4 pr-8 bg-gray-transparent mb-2 flex items-center">
                 <div className="w-1/5 h-32 flex justify-center items-center pr-4">
                 <FadeInImage src={normal} alt={'Normal Attack Icon'} width={40} height={40} />
@@ -141,7 +141,7 @@ function Abilities({ hero, items }: AbilitiesProps) {
                 );
               })()}
             </div>
-            <div className="w-full mb-8">
+            <div className="w-full mb-4 lg:mb-8">
               {hero.heroInformation?.bioFields?.exclusiveWeapon && hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item && (hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item).weapons?.weaponSkillVideo?.node?.mediaItemUrl && (
                 <LoopVideo videoSrc={(hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes[selectedWeapon] as Item).weapons?.weaponSkillVideo?.node?.mediaItemUrl + ""} />
               )}   

@@ -40,7 +40,7 @@ export default function HeroList() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <div ref={containerRef} className="pt-4 pb-4 overflow-y-auto scrollbar-none h-full">
+      <div ref={containerRef} className="w-full pt-4 pb-4 overflow-y-auto scrollbar-none h-full">
         {heroes.map((hero: Hero) => (
           <div
             key={hero.uri}

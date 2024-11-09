@@ -276,7 +276,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
             </div>
           </div>
           <Link
-            className="text-xl text-gray-400 font-bold bg-gray-900 hover:bg-gray-800 hover:text-white px-8 py-4 flex justify-center items-center"
+            className="text-lg lg:text-xl text-gray-400 font-bold bg-transparent lg:bg-gray-900 lg:hover:bg-gray-800 hover:text-white px-0 py-0 lg:px-8 lg:py-4 flex justify-center items-center"
             href={`https://api.heavenhold.com/wp-admin/post-new.php?post_type=teams`}
           >
             + Submit Team

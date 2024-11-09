@@ -149,7 +149,7 @@ function Bio({ hero }: BioProps) {
                 />
               ))}
             </div>
-            <div className={`left-0 right-0 absolute w-1/2 text-center -bottom-8 text-lg font-bold flex ml-auto mr-auto items-center ${illustrations.length > 1 ? "justify-between" : "justify-center"} gap-8`}>
+            <div className={`left-0 right-0 absolute w-1/2 text-center bottom-0 lg:-bottom-8 text-lg font-bold flex ml-auto mr-auto items-center ${illustrations.length > 1 ? "justify-between" : "justify-center"} gap-8`}>
             {illustrations.length > 1 && (              
                 <button
                   onClick={handlePrev}

@@ -47,7 +47,16 @@ const ItemLink = ({ item, index }: { item: Item, index: number }) => {
     <Link
       href={item.uri ?? '/'}
       data-filter={`${item.title} ${rarity ? "r-" + rarity : ""} ${itemType ? "t-" + itemType : ""} ${element ? "e-" + element : ""} ${itemType == 'weapon' ? 'w-' + weaponType : ''}`}
-      className={`${"e-" + element}${item?.itemInformation?.itemType?.nodes[0].name == 'Weapon' ? ' w-' + item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase() : ''} ${"t-" + item?.itemInformation?.itemType?.nodes[0].name?.toLowerCase()} r-${item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase()} relative w-[calc(50vw-2rem)] lg:w-[calc(30%-2rem)] flex m-0 lg:m-[10px] cursor-pointer bg-gray-800 align-middle transition-all duration-200 after:transition-all after:linear after:duration-200 hover:after:outline-offset-[-5px] ease grayscale-[30%] hover:grayscale-0 after:w-full after:h-full after:absolute after:inset-0 after:z-20 after:pointer-events-none after:border after:border-gray-800 after:outline after:outline-2 p-8`}
+      className={`${"e-" + element}${item?.itemInformation?.itemType?.nodes[0].name == 'Weapon' 
+      ? ' w-' + item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase() : ''} 
+      ${"t-" + item?.itemInformation?.itemType?.nodes[0].name?.toLowerCase()} 
+      r-${item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase()} 
+      relative w-[calc(100%-4rem)] lg:w-[calc(50%-2rem)] xl:w-[calc(30%-2rem)] flex m-0 lg:m-[10px] cursor-pointer bg-gray-800 
+      align-middle transition-all duration-200 after:transition-all 
+      after:linear after:duration-200 ease grayscale-[30%] 
+      hover:after:outline-offset-[-5px] hover:grayscale-0 
+      after:w-full after:h-full after:absolute after:inset-0 after:z-20 after:pointer-events-none after:border after:border-gray-800 after:outline after:outline-2 
+      p-8`}
     >
       <ItemCard item={item} element={element} index={index} />
     </Link>

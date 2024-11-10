@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import clsx from 'clsx';
-import { useState } from 'react';
-import { home, item, hero, book, rank, login, contribute, discord, logout, github } from './icons'; // Add a logout icon if you have one
+import { useState, useContext } from 'react';
+import { SidebarContext } from '#/app/components/SidebarProvider';
+import { home, item, hero, book, rank, login, contribute, discord, logout, github, search } from './icons'; // Add a logout icon if you have one
 import FadeInImage from '#/app/components/FadeInImage';
 import { useRouter } from 'next/navigation';
 import { useUser } from '#/app/components/UserContext';
@@ -23,6 +24,11 @@ export function GlobalNav() {
   const close = () => setIsOpen(false);
   const { user } = useUser();
   const router = useRouter();
+  const { setIsActive } = useContext(SidebarContext) || {};
+
+  const openSidebar = () => {
+    setIsActive?.(true);
+  };
 
   const handleLogout = async () => {
     try {
@@ -37,6 +43,14 @@ export function GlobalNav() {
       console.error('Failed to logout:', error);
     }
   };
+
+  const focusSearch = () => {
+    openSidebar();
+    const searchInput = document.querySelector('#search-bar') as HTMLInputElement;
+    if (searchInput) {
+      searchInput.focus();
+    }
+  }
 
   const menu: { items: Item[] }[] = [
     {
@@ -125,16 +139,19 @@ export function GlobalNav() {
 
   return (
     <div className="fixed top-0 z-50 flex flex-col bg-black border-b border-gray-800 w-full h-16 lg:h-auto lg:w-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800">
-      <div className="flex items-center px-4 py-4 h-full lg:h-auto">
+      <div className="flex items-center pl-4 py-0 h-full lg:h-auto">
         <Link
           href="/"
-          className="group flex w-auto lg:w-full items-center gap-x-2"
+          className="group flex w-auto lg:w-full items-center gap-x-2 py-4"
           onClick={close}
         >
           <div className="p-4 rounded-full flex items-center h-full w-fit lg:h-7 lg:w-100">
             <FadeInImage src={'/logo.png'} className={'object-contain h-full w-auto'} alt={'logo'} width={128} height={128} />
           </div>
         </Link>
+        <div className='search-icon border-gray-800 cursor-pointer border-l hidden lg:flex justify-center items-center py-0 px-4 h-full aspect-square fill-gray-400 hover:bg-gray-800 hover:fill-white' onClick={() => focusSearch()}>
+          <span className="w-6 h-6">{search()}</span>
+        </div>
       </div>
       <button
         type="button"
@@ -153,7 +170,7 @@ export function GlobalNav() {
 
       <div
         className={clsx('overflow-y-auto lg:static lg:block', {
-          'fixed inset-x-0 bottom-0 top-14 mt-px bg-black': isOpen,
+          'fixed inset-x-0 bottom-0 top-16 bg-black': isOpen,
           hidden: !isOpen,
         })}
       >

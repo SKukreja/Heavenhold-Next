@@ -13,6 +13,7 @@ import { Suspense } from 'react';
 import Loading from './components/loading';
 import { GetAllHeroesDocument, GetAllHeroesQuery, GetAllItemsDocument, GetAllItemsQuery } from '#/graphql/generated/types';
 import { fetchGraphQL } from './components/FetchGraphQL';
+import { SidebarProvider } from './components/SidebarProvider';
 
 export const metadata = {
   title: "Heavenhold",
@@ -40,8 +41,9 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
           <Suspense fallback={<Loading />}>
             <UserProvider initialUser={userData as User}>
               <HeroesProvider initialData={heroData}>
-                <ItemsProvider initialData={itemData}>
+                <ItemsProvider initialData={itemData}>                  
                   <TeamsProvider>
+                    <SidebarProvider>
                     <GlobalNav />
                     <Sidebar />
                     <div className="absolute right-0 w-full main-body transition-width min-h-screen">
@@ -53,6 +55,7 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
                         </div>
                       </div>
                     </div>
+                    </SidebarProvider>
                   </TeamsProvider>
                 </ItemsProvider>
               </HeroesProvider>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState, useRef } from 'react';
+import { Suspense, useEffect, useState, useRef, useContext } from 'react';
 import { usePathname } from 'next/navigation';
 import HeroFilters from '#/app/components/HeroFilters';
 import HeroList from '#/app/components/HeroList';
@@ -8,9 +8,10 @@ import ItemList from '#/app/components/ItemList';
 import ItemFilters from '#/app/components/ItemFilters';
 import { chevron, closeFilter, filter } from "#/ui/icons";
 import SearchResults from '#/app/components/SearchResults';
+import { SidebarContext } from '#/app/components/SidebarProvider';
 
 export default function Sidebar() {
-  const [isActive, setIsActive] = useState(false);
+  const { isActive, toggleSidebar, setIsActive } = useContext(SidebarContext) || {};
   const [isEnabled, setIsEnabled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -22,20 +23,27 @@ export default function Sidebar() {
   const heroPathValue = heroMatch ? heroMatch[1] : null;
   const itemPathValue = itemMatch ? itemMatch[1] : null;
 
+  if (typeof isActive === 'undefined') {
+    return null;
+  }
+
+  // Update useEffect hooks to use context's setIsActive
   useEffect(() => {
     if (pathname === '/') {
-      setIsActive(false);
+      setIsActive?.(false);
       setIsEnabled(false);
     } else {
       setIsEnabled(true);
       const storedSidebarState = localStorage.getItem('sidebarState');
       if (storedSidebarState !== null) {
-        setIsActive(storedSidebarState === 'true');
+        setIsActive?.(storedSidebarState === 'true');
       } else {
-        setIsActive(!!(pathname.includes('/heroes') || pathname.includes('/items') || heroPathValue || itemPathValue));
+        setIsActive?.(
+          !!(pathname.includes('/heroes') || pathname.includes('/items') || heroPathValue || itemPathValue)
+        );
       }
     }
-  }, [pathname]);
+  }, [pathname, setIsActive, heroPathValue, itemPathValue]);
 
   useEffect(() => {
     const mainBody = document.querySelector('.main-body');
@@ -47,7 +55,7 @@ export default function Sidebar() {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && Array.isArray(searchRef.current) && !(searchRef.current as Node[]).includes(event.target as Node)) {
+      if (searchRef.current && !((searchRef.current as HTMLElement).contains(event.target as Node))) {
         setIsSearchFocused(false);
       }
     };
@@ -57,21 +65,16 @@ export default function Sidebar() {
 
   // Close sidebar on route change in mobile view
   useEffect(() => {
-    if (window.innerWidth < 1024) { // Adjust as needed for mobile breakpoint
-      setIsActive(false);
+    if (window.innerWidth < 1024) {
+      setIsActive?.(false);
     }
-  }, [pathname]);
-
-  const toggleSidebar = () => {
-    const newIsActive = !isActive;
-    setIsActive(newIsActive);
-    localStorage.setItem('sidebarState', newIsActive.toString());
-  };
+  }, [pathname, setIsActive]);
 
   const clearSearch = () => {
     setSearchQuery('');
     setIsSearchFocused(false);
   };
+
 
   return (
     <>
@@ -83,6 +86,7 @@ export default function Sidebar() {
         <Suspense>
         <div className="relative search-bar w-full" ref={searchRef}>
           <input
+            id="search-bar" 
             type="text"
             className="bg-gray-900 text-white outline-gray-900 w-[calc(100%-0.5rem)] lg:w-full h-16 px-8 py-4"
             placeholder="Search..."
@@ -101,10 +105,10 @@ export default function Sidebar() {
         </div>
 
           {isSearchFocused && searchQuery ? (
-            <SearchResults searchQuery={searchQuery} closeSidebar={() => setIsActive(false)} />
+            <SearchResults searchQuery={searchQuery} closeSidebar={() => setIsActive?.(false)} />
           ) : (
             <>
-              {pathname === '/heroes' || pathname.includes("tier-list") && <HeroFilters />}
+              {((pathname === '/heroes' && !heroPathValue) || pathname.includes("tier-list")) && <HeroFilters />}
               {pathname === '/items' && <ItemFilters />}
               {heroPathValue && <HeroList />}
               {itemPathValue && <ItemList />}

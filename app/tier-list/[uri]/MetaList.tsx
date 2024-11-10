@@ -11,6 +11,7 @@ import {
 } from "#/graphql/generated/types";
 import Loading from "#/app/components/loading";
 import { getIpAddress } from "#/ui/helpers";
+import Link from "next/link";
 
 interface MetaProps {
   categoryId: number;
@@ -268,6 +269,7 @@ const RenderHeroes: React.FC<RenderHeroesProps> = ({ heroes, categoryId, handleU
       {heroes.length > 0 && heroes.map((hero) => {
         const heroSlug = hero?.slug ?? "";
         return (
+          <Link href={`/heroes/${heroSlug}`} key={heroSlug + "-colosseum"}>
           <div
             key={heroSlug + "-colosseum"}
             className={`hero-box h-32 text-white bg-gray-transparent flex justify-start items-center w-full`}
@@ -320,6 +322,7 @@ const RenderHeroes: React.FC<RenderHeroesProps> = ({ heroes, categoryId, handleU
               </div>
             </div>
           </div>
+          </Link>
         );
       })}
     </div>

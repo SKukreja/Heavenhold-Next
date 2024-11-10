@@ -64,7 +64,7 @@ export default function SearchResults({ searchQuery, closeSidebar }: SearchResul
 
   if (!searchResults.length) {
     return (
-      <div className="pt-4 pb-4 pl-8 pr-8 text-gray-400">
+      <div className="pt-8 pb-4 pl-8 pr-8 text-gray-400">
         No results found.
       </div>
     );

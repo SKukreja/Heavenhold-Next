@@ -469,14 +469,14 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                       )}
                     </div>
                     <div className="team-build flex items-start justify-start gap-2 lg:gap-4 -ml-[calc(3rem)] w-[calc(100%+3rem)] lg:w-[calc(50%+3rem)]">
-                      <div className="w-32 h-full flex flex-col justify-start items-center gap-2">
-                          <div className="w-8 h-16 xl:h-12 2xl:h-8 mb-2"></div>
-                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["One-Handed Sword"]} width={12} height={12} alt={"Weapon icon"} /></div>
-                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Shield"]} width={12} height={12} alt={"Shield icon"} /></div>
-                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Accessory"]} width={12} height={12} alt={"Accessory icon"} /></div>
-                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Merch"]} width={12} height={12} alt={"Merch icon"} /></div>
-                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Relic"]} width={12} height={12} alt={"Relic icon"} /></div>
-                          <div className="w-8 h-16 xl:h-12 2xl:h-8 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto pl-[calc(0.1rem)] pr-[calc(0.1rem)]"} src={equipmentIcons["Cards"]} width={12} height={12} alt={"Card icon"} /></div>
+                      <div className="w-32 h-full flex flex-col justify-start items-center gap-4">
+                          <div className="w-8 h-16 xl:h-12 2xl:h-8"></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-12 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["One-Handed Sword"]} width={12} height={12} alt={"Weapon icon"} /></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-12 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Shield"]} width={12} height={12} alt={"Shield icon"} /></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-12 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Accessory"]} width={12} height={12} alt={"Accessory icon"} /></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-12 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Merch"]} width={12} height={12} alt={"Merch icon"} /></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-12 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto"} src={equipmentIcons["Relic"]} width={12} height={12} alt={"Relic icon"} /></div>
+                          <div className="w-8 h-16 xl:h-12 2xl:h-12 flex justify-center items-center text-center pr-4"><FadeInImage className={"w-4 h-auto pl-[calc(0.1rem)] pr-[calc(0.1rem)]"} src={equipmentIcons["Cards"]} width={12} height={12} alt={"Card icon"} /></div>
                       </div>
                       {team.teamFields?.composition?.map(
                         (slot: any, index: number) => {
@@ -517,28 +517,28 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                               </div>
                               <div className="build-items">
                                 <div className="build-object build-weapon">
-                                  <div className="build flex flex-col gap-2">                                  
-                                    <Link href={`${weapon?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8 ${weapon ? "" : "pointer-events-none text-gray-500"}`}>
+                                  <div className="build flex flex-col gap-4 text-2xs">                                  
+                                    <Link href={`${weapon?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12 ${weapon ? "" : "pointer-events-none text-gray-500"}`}>
                                       <FadeInImage src={weapon?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${weapon ? "" : "invisible"} hidden xl:flex`} alt={weapon?.title + " Icon"} /> 
                                       <span className="w-full">{weapon ? weapon?.title : "N/A"}</span>
                                     </Link>
-                                    <Link href={`${shield?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8 ${shield ? "" : "pointer-events-none text-gray-500"}`}>
+                                    <Link href={`${shield?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12 ${shield ? "" : "pointer-events-none text-gray-500"}`}>
                                       <FadeInImage src={shield?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${shield ? "" : "invisible"} hidden xl:flex`} alt={shield?.title + " Icon"} />
                                       <span className="w-full">{shield ? shield?.title : "N/A"}</span>
                                     </Link>
-                                    <Link href={`${accessory?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8 ${accessory ? "" : "pointer-events-none text-gray-500"}`}>
+                                    <Link href={`${accessory?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12 ${accessory ? "" : "pointer-events-none text-gray-500"}`}>
                                       <FadeInImage src={accessory?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${accessory ? "" : "invisible"} hidden xl:flex`} alt={accessory?.title + " Icon"} />
                                       <span className="w-full">{accessory ? accessory?.title : "N/A"}</span>
                                     </Link>
-                                    <Link href={`${merch?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8 ${merch ? "" : "pointer-events-none text-gray-500"}`}>
+                                    <Link href={`${merch?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12 ${merch ? "" : "pointer-events-none text-gray-500"}`}>
                                       <FadeInImage src={merch?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`h-full aspect-square justify-center items-center hidden xl:flex ${merch ? "" : "invisible"}`} alt={merch?.title + " Icon"} />
                                       <span className="w-full">{merch ? merch?.title : "N/A"}</span>
                                     </Link>
-                                    <Link href={`${relic?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8 ${relic ? "" : "pointer-events-none text-gray-500"}`}>
+                                    <Link href={`${relic?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12 ${relic ? "" : "pointer-events-none text-gray-500"}`}>
                                       <FadeInImage src={relic?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${relic ? "" : "invisible"} hidden xl:flex`} alt={relic?.title + " Icon"} />
                                       <span className="w-full">{relic ? relic?.title : "N/A"}</span>
                                     </Link>
-                                    <Link href={`#`} className="flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-8">
+                                    <Link href={`#`} className="flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12">
                                       <span className="w-0 lg:w-6"></span>
                                       <span className="w-full">{cards?.title}</span>
                                     </Link>

@@ -49,7 +49,13 @@ export default function Sidebar() {
     const mainBody = document.querySelector('.main-body');
     if (mainBody) {
       mainBody.classList.remove('lg:w-[calc(85%)]', 'lg:w-[calc(70%)]');
-      mainBody.classList.add(isActive ? 'lg:w-[calc(70%)]' : 'lg:w-[calc(85%)]');
+      mainBody.classList.add(isActive ? 'lg:w-[calc(70%)]' : 'lg:w-[calc(85%)]');      
+      if (isActive) {
+        document.body.style.overflowY = 'hidden';
+      } 
+      else {
+        document.body.style.overflowY = 'auto';
+      }
     }
   }, [isActive]);
 
@@ -81,7 +87,7 @@ export default function Sidebar() {
       <div
         className={`fixed top-0 z-40 lg:flex lg:flex-col overflow-x-visible overflow-y-scroll bg-black border-b border-gray-800 scrollbar-none transition-width ${
           isActive ? 'flex flex-col items-center lg:items-start pt-16 lg:pt-0 inset-0 w-screen h-screen lg:w-[calc(15vw)]' : 'hidden w-0 lg:-left-[2px]'
-        } lg:left-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800`}
+        } pb-32 lg:pb-16 lg:left-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800`}
       >
         <Suspense>
         <div className="relative search-bar w-full" ref={searchRef}>
@@ -97,7 +103,7 @@ export default function Sidebar() {
           {searchQuery && (
             <button
               onClick={clearSearch}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+              className="absolute right-8 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
             >
               ✕
             </button>
@@ -114,6 +120,13 @@ export default function Sidebar() {
               {itemPathValue && <ItemList />}
             </>
           )}
+
+          <div
+            className={`${isActive ? "visible pointer-events-auto lg:invisible lg:pointer-events-none" : "invisible pointer-events-none"} fixed bottom-8 w-auto h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white font-bold bg-gray-1000 hover:bg-gray-900 py-4 px-8 lg:p-6 cursor-pointer`}
+            onClick={toggleSidebar}
+          >        
+              <span className="fill-white relative w-full h-full flex justify-center items-center">Close</span>
+          </div>
         </Suspense>
       </div>
       <div
@@ -127,13 +140,7 @@ export default function Sidebar() {
         </span>
       </div>
       <div
-        className={`${isEnabled ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-8"} w-16 h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 hover:bg-gray-1000 z-50 p-4 lg:p-6 cursor-pointer`}
-        onClick={toggleSidebar}
-      >        
-          <span className="fill-white relative w-full h-full z-50">{isActive ? (heroPathValue ? filter() : closeFilter()) : filter()}</span>
-      </div>
-      <div
-        className={`${false ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-6"} w-16 h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 hover:bg-gray-1000 z-50 p-4 lg:p-6 cursor-pointer`}
+        className={`${isEnabled && !isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-8"} w-16 h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 hover:bg-gray-1000 z-50 p-4 lg:p-6 cursor-pointer`}
         onClick={toggleSidebar}
       >        
           <span className="fill-white relative w-full h-full z-50">{isActive ? (heroPathValue ? filter() : closeFilter()) : filter()}</span>

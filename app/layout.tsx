@@ -46,7 +46,7 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
                     <SidebarProvider>
                     <GlobalNav />
                     <Sidebar />
-                    <div className="absolute right-0 w-full main-body transition-width min-h-screen">
+                    <div id="main-body" className="absolute right-0 w-full main-body transition-width min-h-screen">
                       <div>
                         <div className="rounded-lg shadow-lg shadow-black/20">
                           <div className="min-h-screen ">

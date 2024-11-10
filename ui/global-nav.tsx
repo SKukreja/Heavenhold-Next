@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import clsx from 'clsx';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { SidebarContext } from '#/app/components/SidebarProvider';
 import { home, item, hero, book, rank, login, contribute, discord, logout, github, search } from './icons'; // Add a logout icon if you have one
 import FadeInImage from '#/app/components/FadeInImage';
@@ -25,6 +25,7 @@ export function GlobalNav() {
   const { user } = useUser();
   const router = useRouter();
   const { setIsActive } = useContext(SidebarContext) || {};
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
 
   const openSidebar = () => {
     setIsActive?.(true);
@@ -45,12 +46,32 @@ export function GlobalNav() {
   };
 
   const focusSearch = () => {
-    openSidebar();
-    const searchInput = document.querySelector('#search-bar') as HTMLInputElement;
-    if (searchInput) {
-      searchInput.focus();
+    if (isMobile) {
+      close();
     }
+    openSidebar();
+    // Wait for the sidebar to open before focusing the search input
+    setTimeout(() => {
+      const searchInput = document.querySelector('#search-bar') as HTMLInputElement;
+      if (searchInput) {
+        searchInput.focus();
+      }
+    }, 300);    
   }
+
+  useEffect(() => {
+    const mainBody = document.querySelector('.main-body');
+    if (mainBody) {
+      mainBody.classList.remove('lg:w-[calc(85%)]', 'lg:w-[calc(70%)]');
+      mainBody.classList.add(isOpen ? 'lg:w-[calc(70%)]' : 'lg:w-[calc(85%)]');      
+      if (isOpen) {
+        document.body.style.overflowY = 'hidden';
+      } 
+      else {
+        document.body.style.overflowY = 'auto';
+      }
+    }
+  }, [isOpen]);
 
   const menu: { items: Item[] }[] = [
     {
@@ -73,7 +94,7 @@ export function GlobalNav() {
           id: 3,
           icon: item,
           name: 'Items',
-          slug: 'items',
+          slug: 'items?one-handed-sword=true',
           description: 'Render multiple pages in the same layout',
         },
       ],
@@ -138,7 +159,7 @@ export function GlobalNav() {
   ];
 
   return (
-    <div className="fixed top-0 z-50 flex flex-col bg-black border-b border-gray-800 w-full h-16 lg:h-auto lg:w-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800">
+    <div className="fixed top-0 z-60 flex flex-col bg-black border-b border-gray-800 w-full h-16 lg:h-auto lg:w-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800">
       <div className="flex items-center pl-4 py-0 h-full lg:h-auto">
         <Link
           href="/"
@@ -155,10 +176,10 @@ export function GlobalNav() {
       </div>
       <button
         type="button"
-        className="absolute top-0 right-0 flex items-center px-4 group h-full gap-x-2 lg:hidden"
+        className="absolute top-0 right-0 flex justify-end items-center px-4 h-full gap-x-2 lg:hidden"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="font-medium text-gray-100 group-hover:text-gray-400">
+        <div className="font-medium text-gray-100 w-full group-hover:text-gray-400">
           Menu
         </div>
         {isOpen ? (
@@ -174,11 +195,12 @@ export function GlobalNav() {
           hidden: !isOpen,
         })}
       >
-        <nav className="space-y-6 pb-28">
+        <nav className="space-y-4 mt-0 lg:-mt-6 lg:space-y-6 pb-28">
+          <div className="mt-4 lg:mt-6 px-8 py-4 text-sm font-medium text-gray-300 w-full flex lg:hidden items-center gap-x-4" onClick={() => focusSearch()}><span className="w-6 h-6 fill-gray-300">{search()}</span>Search</div>
           {menu.map((section) => {
             return (
               <div key={section.items[0].id}>
-                <div className="mb-6 border-b border-gray-800 w-100 text-gray-400/80"></div>
+                <div className="mb-4 lg:mb-6 border-b border-gray-800 w-100 text-gray-400/80"></div>
                 <div>
                   {section.items.map((item) => (
                     <GlobalNavItem key={item.slug} item={item} close={close} handleLogout={handleLogout} />
@@ -206,7 +228,7 @@ function GlobalNavItem({ item, close, handleLogout }: { item: Item, close: () =>
     {
       'text-gray-400 hover:bg-gray-800': !isActive,
       'text-white': isActive,
-    }
+    } 
   );
 
   // Handle external links

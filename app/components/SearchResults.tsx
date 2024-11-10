@@ -72,7 +72,7 @@ export default function SearchResults({ searchQuery, closeSidebar }: SearchResul
 
   return (
     <Suspense fallback={<Loading />}>
-      <div className="w-full pt-4 pb-4 overflow-y-auto scrollbar-none h-full">
+      <div className="w-full pt-4 pb-4 overflow-y-auto scrollbar-none relative z-60 h-full">
         {searchResults.map((result) => (
           <div
             key={result.uri}

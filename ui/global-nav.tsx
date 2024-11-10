@@ -64,7 +64,7 @@ export function GlobalNav() {
     if (mainBody) {
       mainBody.classList.remove('lg:w-[calc(85%)]', 'lg:w-[calc(70%)]');
       mainBody.classList.add(isOpen ? 'lg:w-[calc(70%)]' : 'lg:w-[calc(85%)]');      
-      if (isOpen) {
+      if (isOpen && isMobile) {
         document.body.style.overflowY = 'hidden';
       } 
       else {

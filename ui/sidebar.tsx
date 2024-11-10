@@ -50,7 +50,7 @@ export default function Sidebar() {
     if (mainBody) {
       mainBody.classList.remove('lg:w-[calc(85%)]', 'lg:w-[calc(70%)]');
       mainBody.classList.add(isActive ? 'lg:w-[calc(70%)]' : 'lg:w-[calc(85%)]');      
-      if (isActive) {
+      if (isActive && window.innerWidth < 1024) {
         document.body.style.overflowY = 'hidden';
       } 
       else {

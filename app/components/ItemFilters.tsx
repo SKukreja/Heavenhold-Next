@@ -112,7 +112,7 @@ export default function ItemFilters() {
 
     if (elementFilters.length === 0 && typeFilters.length === 0 && rarityFilters.length === 0) {
       elements.forEach((el) => {
-        el.classList.remove("hidden", "opacity-0");
+        el.classList.remove("hidden");
       });
     } else {
       elements.forEach((el) => {
@@ -123,10 +123,9 @@ export default function ItemFilters() {
         const matchesRarity = rarityFilters.length === 0 || rarityFilters.some(filter => elFilters.includes(filter));
         
         if (matchesElement && matchesType && matchesRarity) {
-          el.classList.remove("hidden", "opacity-0");
+          el.classList.remove("hidden");
         } else {
           el.classList.add("hidden");
-          setTimeout(() => el.classList.add("opacity-0"), 50); // Add a slight delay to trigger the transition
         }
       });
     }

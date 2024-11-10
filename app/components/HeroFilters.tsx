@@ -84,7 +84,7 @@ export default function HeroFilters() {
 
     if (elementFilters.length === 0 && roleFilters.length === 0 && rarityFilters.length === 0) {
       elements.forEach((el) => {
-        el.classList.remove("hidden", "opacity-0");
+        el.classList.remove("hidden");
       });
     } else {
       elements.forEach((el) => {
@@ -95,9 +95,8 @@ export default function HeroFilters() {
         const matchesRarity = rarityFilters.length === 0 || rarityFilters.some(filter => elFilters.includes(filter));
         
         if (matchesElement && matchesRole && matchesRarity) {
-          el.classList.remove("hidden", "opacity-0");
+          el.classList.remove("hidden");
         } else {          
-          setTimeout(() => el.classList.add("opacity-0"), 50); // Add a slight delay to trigger the transition
           el.classList.add("hidden");
         }
       });

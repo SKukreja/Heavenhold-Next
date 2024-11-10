@@ -269,9 +269,10 @@ const RenderHeroes: React.FC<RenderHeroesProps> = ({ heroes, categoryId, handleU
       {heroes.length > 0 && heroes.map((hero) => {
         const heroSlug = hero?.slug ?? "";
         return (
-          <Link href={`/heroes/${heroSlug}`} key={heroSlug + "-colosseum"}>
+          <Link href={`/heroes/${heroSlug}`} key={heroSlug + "-colosseum"} 
+          data-filter={`${hero.heroInformation?.bioFields?.element?.toLowerCase()} ${hero.heroInformation?.bioFields?.role?.toLowerCase()} r-${hero.heroInformation?.bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()}`}>
           <div
-            key={heroSlug + "-colosseum"}
+            key={heroSlug + "-colosseum"}             
             className={`hero-box h-32 text-white bg-gray-transparent flex justify-start items-center w-full`}
           >
             <div className="hero-header cursor-pointer flex w-full items-center justify-start px-4 lg:px-8 py-4">

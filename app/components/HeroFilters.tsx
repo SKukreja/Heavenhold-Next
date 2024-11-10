@@ -96,9 +96,9 @@ export default function HeroFilters() {
         
         if (matchesElement && matchesRole && matchesRarity) {
           el.classList.remove("hidden", "opacity-0");
-        } else {
-          el.classList.add("hidden");
+        } else {          
           setTimeout(() => el.classList.add("opacity-0"), 50); // Add a slight delay to trigger the transition
+          el.classList.add("hidden");
         }
       });
     }

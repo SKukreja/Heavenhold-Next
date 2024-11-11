@@ -9,6 +9,10 @@
   export const support = '/icons/support.webp';
   export const tank = '/icons/tank.webp';
   export const warrior = '/icons/warrior.webp';
+
+  export const heroesIcon = '/icons/heroes.webp';
+  export const itemsIcon = '/icons/items.webp';
+  export const teamsIcon = '/icons/teams.webp';
   
   const menuClasses = 'w-6 h-6 fill-gray-300 hover:fill-white';
 

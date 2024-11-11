@@ -6,9 +6,10 @@ import HeroFilters from '#/app/components/HeroFilters';
 import HeroList from '#/app/components/HeroList';
 import ItemList from '#/app/components/ItemList';
 import ItemFilters from '#/app/components/ItemFilters';
-import { chevron, closeFilter, filter } from "#/ui/icons";
+import { chevron, closeFilter, filter, heroesIcon, itemsIcon } from "#/ui/icons";
 import SearchResults from '#/app/components/SearchResults';
 import { SidebarContext } from '#/app/components/SidebarProvider';
+import FadeInImage from '#/app/components/FadeInImage';
 
 export default function Sidebar() {
   const { isActive, toggleSidebar, setIsActive } = useContext(SidebarContext) || {};
@@ -140,10 +141,13 @@ export default function Sidebar() {
         </span>
       </div>
       <div
-        className={`${isEnabled && !isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-8"} w-16 h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 hover:bg-gray-1000 z-50 p-4 lg:p-6 cursor-pointer`}
+        className={`${isEnabled && !isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-8"} w-16 h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 hover:bg-gray-1000 z-50 ${heroPathValue || itemPathValue ? 'p-2' : 'p-4'} lg:p-6 cursor-pointer`}
         onClick={toggleSidebar}
       >        
-          <span className="fill-white relative w-full h-full z-50">{isActive ? (heroPathValue ? filter() : closeFilter()) : filter()}</span>
+          <span className="fill-white relative w-full h-full z-50">{isActive ? (heroPathValue ? filter() : closeFilter()) 
+          : (heroPathValue ? (<FadeInImage src={heroesIcon} width={32} height={32} className='w-full h-full' alt='Hero List Button Icon' />) 
+            : itemPathValue ? (<FadeInImage src={itemsIcon} width={32} height={32} className='w-full h-full' alt='Item List Button Icon' />) 
+            : filter())}</span>
       </div>
     </>
   );

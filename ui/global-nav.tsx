@@ -5,7 +5,7 @@ import { useSelectedLayoutSegment } from 'next/navigation';
 import clsx from 'clsx';
 import { useState, useContext, useEffect } from 'react';
 import { SidebarContext } from '#/app/components/SidebarProvider';
-import { home, item, hero, book, rank, login, contribute, discord, logout, github, search } from './icons'; // Add a logout icon if you have one
+import { home, item, hero, book, rank, login, contribute, discord, logout, github, search, heroesIcon, teamsIcon, itemsIcon } from './icons'; // Add a logout icon if you have one
 import FadeInImage from '#/app/components/FadeInImage';
 import { useRouter } from 'next/navigation';
 import { useUser } from '#/app/components/UserContext';
@@ -85,14 +85,14 @@ export function GlobalNav() {
         },
         {
           id: 2,
-          icon: hero,
+          icon: (() => (<FadeInImage src={heroesIcon} width={32} height={32} className="w-6 h-6 heroes-icon" alt="Heroes" />)),
           name: 'Heroes',
           slug: 'heroes?r-3-star=true&r-2-star=true',
           description: 'Organize routes without affecting URL paths',
         },
         {
           id: 3,
-          icon: item,
+          icon: (() => (<FadeInImage src={itemsIcon} width={32} height={32} className="w-6 h-6 items-icon" alt="Items" />)),
           name: 'Items',
           slug: 'items?one-handed-sword=true',
           description: 'Render multiple pages in the same layout',
@@ -110,6 +110,13 @@ export function GlobalNav() {
         },
         {
           id: 5,
+          icon: (() => (<FadeInImage src={teamsIcon} width={12} height={12} className="w-6 h-6 teams-icon" alt="Teams" />)),
+          name: 'Teams',
+          slug: 'teams',
+          description: 'Find the best teams',
+        },
+        {
+          id: 6,
           icon: book,
           name: 'Guides',
           slug: 'guides',
@@ -120,7 +127,7 @@ export function GlobalNav() {
     {
       items: [
         {
-          id: 6,
+          id: 7,
           icon: discord,
           name: 'Discord',
           slug: 'https://discord.gg/heavenhold',
@@ -128,7 +135,7 @@ export function GlobalNav() {
           external: true,
         },
         {
-          id: 7,
+          id: 8,
           icon: github,
           name: 'Roadmap',
           slug: 'https://github.com/users/SKukreja/projects/1',
@@ -136,7 +143,7 @@ export function GlobalNav() {
           external: true,
         },
         {
-          id: 8,
+          id: 9,
           icon: contribute,
           name: 'Contribute',
           slug: 'contribute',
@@ -147,7 +154,7 @@ export function GlobalNav() {
     {
       items: [
         {
-          id: 9,
+          id: 10,
           icon: user == null ? login : logout,
           name: user == null ? 'Log In' : 'Log Out',
           slug: user == null ? 'https://api.heavenhold.com/login/' : 'logout',

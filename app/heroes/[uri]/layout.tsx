@@ -6,8 +6,9 @@ import { Hero } from "#/graphql/generated/types";
 import Link from "next/link";
 import { useHeroes } from "#/app/components/GetHeroesProvider";
 import { useSelectedLayoutSegment } from "next/navigation"; // Import the hook
-import { bio, abilities, teams, review, costumes, gallery } from "#/ui/icons";
+import { bio, abilities, teamsIcon, review, costumes, gallery, teams } from "#/ui/icons";
 import HeroContext from "./HeroContext"; // Import HeroContext
+import FadeInImage from "#/app/components/FadeInImage";
 
 interface LayoutProps {
   params: {
@@ -48,9 +49,9 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
 
   return (
     <HeroContext.Provider value={hero}>
-      <main className="pt-32 lg:pt-0 h-auto lg:h-screen overflow-y-auto lg:overflow-hidden">
+      <main className="pt-24 lg:pt-0 h-auto lg:h-screen overflow-y-auto lg:overflow-hidden">
         {/* Tab Navigation */}
-        <div className="p-0 lg:p-8 fixed bottom-0 left-0 right-0 lg:relative flex hero-buttons w-full h-24 text-xs lg:text-xl overflow-hidden gap-0 lg:gap-8 mb-0 lg:mb-8 z-40">
+        <div className="p-0 lg:p-8 fixed bottom-0 left-0 right-0 lg:relative flex hero-buttons w-full h-24 text-xs lg:text-xl overflow-hidden gap-0 lg:gap-8 mb-0 lg:mb-8 z-30">
           {["Bio", "Abilities", "Teams", "Review", "Costumes", "Gallery"].map((tab: string) => (
                 <Link
                 key={tab}
@@ -59,10 +60,10 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
                 activeTab === tab ? "bg-gray-800 text-white" : "bg-gray-900 text-gray-400"
                 }`}
                 >
-                    <span className={`icon w-4 h-4 ${activeTab === tab ? "fill-white" : "fill-gray-400"}`}>
+                    <span className={`icon w-4 h-4 ${activeTab === tab ? "fill-white active" : "fill-gray-400"}`}>
                         {tab === "Bio" && bio()}
                         {tab === "Abilities" && abilities()}
-                        {tab === "Teams" && teams()}
+                        {tab === "Teams" && <FadeInImage src={teamsIcon} width={24} height={24} className="teams-icon" alt="Teams" />}
                         {tab === "Review" && review()}
                         {tab === "Costumes" && costumes()}
                         {tab === "Gallery" && gallery()}
@@ -84,10 +85,15 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
             </h1>
           </>
         ) : (
-          <h2 className="text-sm lg:text-xl px-8 h-[calc(2rem)] 3xl:text-2xl font-medium uppercase tracking-widest mb-8 relative z-20">
-            {hero.title?.replace(hero.heroInformation?.bioFields?.name || "", "").trim()}{" "}
-            {hero.heroInformation?.bioFields?.name} / {activeTab}
-          </h2>
+          <>
+            <h2 className="px-8 text-sm 3xl:text-2xl font-medium uppercase tracking-widest mb-3 relative z-20">
+              {hero.title?.replace(hero.heroInformation?.bioFields?.name || "", "").trim()}{" "}
+              {hero.heroInformation?.bioFields?.name}
+            </h2>
+            <h1 className="px-8 text-6xl 3xl:text-8xl font-extrabold font-oswald -ml-1 tracking-wide mb-6 relative z-20">
+              {activeTab}
+            </h1>
+          </>
         )}
         {/* Content */}
         <div

@@ -40,7 +40,7 @@ export default function ItemList() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <div ref={containerRef} className="pt-4 pb-4 overflow-y-auto scrollbar-none h-full">
+      <div ref={containerRef} className="pt-4 pb-4 overflow-y-auto scrollbar-none w-full h-full">
         {items.map((item: Item) => (
           <div
             key={item.uri}

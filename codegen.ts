@@ -2,18 +2,29 @@ import { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: 'https://api.heavenhold.com/graphql',
+  schema: [
+    {
+      'https://api.heavenhold.com/graphql': {
+        method: 'POST', // Specify the HTTP method
+        headers: {
+          // Include any necessary headers here
+          // For example:
+          // 'Authorization': `Bearer ${process.env.API_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      },
+    },
+  ],
   documents: './graphql/**/*.{gql,graphql}',
-  ignoreNoDocuments: true, 
+  ignoreNoDocuments: true,
   generates: {
     './graphql/generated/types.ts': {
       plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
       config: {
         avoidOptionals: true,
-      }
-    }, 
+      },
+    },
   },
-}  
+};
 
- 
 export default config;

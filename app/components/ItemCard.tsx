@@ -4,7 +4,7 @@ import { Hero, Item } from "#/graphql/generated/types";
 
 interface ItemCardProps {
   index: number;
-  selectedWeapon?: number;
+  selectedItem?: number;
   hero?: Hero;
   item: Item | undefined;
   element: string | undefined;
@@ -12,7 +12,7 @@ interface ItemCardProps {
 
 export default function ItemCard({
   index,
-  selectedWeapon,
+  selectedItem,
   hero,
   item,
   element,
@@ -22,7 +22,7 @@ export default function ItemCard({
   return (
     <div className="w-full h-full">
       <div className="flex">
-        <div className="w-24 3xl:w-20">
+        <div className="w-24">
           <FadeInImage
             src={
               item?.featuredImage?.node?.sourceUrl ??
@@ -34,22 +34,22 @@ export default function ItemCard({
             alt={item?.title ?? ""}
           />
         </div>
-        <div className="w-[calc(100%-8rem)] pl-4">
-          <h3 className="text-sm 3xl:text-lg font-bold">{item?.title ?? ""}</h3>
-          <h2 className="text-sm tracking-wide text-green-500">{item?.itemInformation?.rarity + " " + item?.weapons?.weaponType ?? ""}</h2>
+        <div className="w-full pl-4">
+          <h3 className="text-xs 3xl:text-sm font-bold">{item?.title ?? ""}</h3>
+          <h2 className="text-xs 3xl:text-sm tracking-wide text-green-500">{item?.itemInformation?.rarity + " " + item?.weapons?.weaponType ?? ""}</h2>
           <h2
             className={`${
-              selectedWeapon === index ? "mb-6" : "mb-0"
+              selectedItem === index || selectedItem === 9999 ? "mb-2" : "mb-0"
             } text-4xl 3xl:text-4xl font-medium font-oswald`}
           >
-            {item?.weapons?.minDps + ""}-{item?.weapons?.maxDps + ""}
+            {item?.weapons?.minDps ?? "?"}-{item?.weapons?.maxDps ?? "?"}
             <span className="text-lg ml-1">DPS</span>
           </h2>
         </div>
       </div>
       <div
         className={`flex flex-col gap-1 overflow-hidden ${
-          selectedWeapon === index ? "h-auto" : "h-0"
+          selectedItem === index || selectedItem === 9999 ? "h-auto" : "h-0"
         } text-xs 3xl:text-sm 4xl:text-base`}
       >
         {item?.equipmentOptions?.mainStats

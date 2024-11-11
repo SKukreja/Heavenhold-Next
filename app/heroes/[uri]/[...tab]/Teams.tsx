@@ -236,10 +236,10 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
   return (
     <div
       id="Teams"
-      className="relative overflow-visible z-20 w-full h-auto items-start flex px-4 3xl:px-8"
+      className="relative overflow-visible z-20 w-full h-auto items-start flex px-0 lg:px-8"
     >
-      <div className="px-4 3xl:px-8 w-full flex-col justify-start h-full flex">
-        <div className={"w-full h-16 flex justify-between items-end mb-8"}>
+      <div className="px-0 w-full flex-col justify-start h-full flex">
+        <div className={"w-full h-16 flex justify-between px-8 lg:px-0 items-end mb-8"}>
           <div className="flex flex-col justify-start">
             <span className="font-normal text-xs tracking-widest">Types</span>
             <div className="text-lg flex items-center gap-4 font-bold">
@@ -334,7 +334,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                 className={`team-box t-${team?.teamFields?.teamType?.toLowerCase()} text-white bg-gray-transparent w-full mb-4`}
               >
                 <div
-                  className="team-header cursor-pointer flex items-center justify-between px-4 lg:px-8 py-4"
+                  className="team-header cursor-pointer flex items-center justify-between px-8 py-4"
                   onClick={toggleTeamDetails}
                 >
                   <div className="w-0 lg:w-12 h-full flex mr-6 lg:mr-4">
@@ -445,7 +445,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
                   </span>
                 </div>
                 <div
-                  className="team-details hidden px-4 lg:px-8 py-4 w-full text-2xs lg:text-xs justify-between"
+                  className="team-details hidden px-8 py-4 w-full text-2xs lg:text-xs justify-between"
                 >
                   <div className="h-24 flex w-4 lg:w-12 mr-6 lg:mr-4"></div>
                   <div className="flex-col-reverse lg:flex-row flex w-4/5">

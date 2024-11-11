@@ -4,7 +4,7 @@ import { Hero, Item } from "#/graphql/generated/types";
 
 interface ItemAccessoryCardProps {
   index: number;
-  selectedWeapon?: number;
+  selectedItem?: number;
   hero?: Hero;
   item: Item | undefined;
   element: string | undefined;
@@ -12,7 +12,7 @@ interface ItemAccessoryCardProps {
 
 export default function ItemAccessoryCard({
   index,
-  selectedWeapon,
+  selectedItem,
   hero,
   item,
   element,

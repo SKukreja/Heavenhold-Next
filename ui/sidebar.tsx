@@ -63,7 +63,9 @@ export default function Sidebar() {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (searchRef.current && !((searchRef.current as HTMLElement).contains(event.target as Node))) {
-        setIsSearchFocused(false);
+        setTimeout(() => {
+          setIsSearchFocused(false);
+        }, 300); // Add a delay of 300 milliseconds
       }
     };
     document.addEventListener('mousedown', handleClickOutside);

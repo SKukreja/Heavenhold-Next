@@ -54,7 +54,7 @@ const ItemLink = ({ item, index }: { item: Item, index: number }) => {
       ? ' w-' + item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase() : ''} 
       ${"t-" + item?.itemInformation?.itemType?.nodes[0].name?.toLowerCase()} 
       r-${item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase()} 
-      relative w-[calc(100%)] lg:w-[calc((100%/2)-2rem)] xl:w-[calc((100%/3)-2rem)] 3xl:w-[calc((100%/4)-2rem)] 4xl:w-[calc((100%/5)-2rem)] flex cursor-pointer ${itemType == 'costume' ? 'bg-[#0f0c0c]' : 'bg-gray-800'}
+      relative w-[calc(100%)] lg:w-[calc((100%/2)-2rem-4px)] xl:w-[calc((100%/3)-2rem-4px)] 3xl:w-[calc((100%/4)-2rem-4px)] 4xl:w-[calc((100%/5)-2rem-4px)] flex cursor-pointer ${itemType == 'costume' ? 'bg-[#0f0c0c]' : 'bg-gray-800'}
       align-middle transition-all duration-200 after:transition-all 
       after:linear after:duration-200 ease grayscale-[30%] 
       hover:after:outline-offset-[-5px] hover:grayscale-0 

@@ -39,7 +39,7 @@ query GetAllItems($after: String) {
         weaponSkillRegenTime
         weaponSkillVideo {
           node {
-            sourceUrl
+            mediaItemUrl
           }
         }
         weaponType

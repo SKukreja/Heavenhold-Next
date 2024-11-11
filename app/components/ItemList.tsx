@@ -53,13 +53,11 @@ export default function ItemList() {
               <h3 className="flex items-center">
                 <FadeInImage
                   src={
-                    item.itemInformation?.image?.node.sourceUrl
-                      ? item.itemInformation?.image?.node.sourceUrl + ""
+                    item.featuredImage?.node.sourceUrl
+                      ? item.featuredImage?.node.sourceUrl + ""
                       : "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"
                   }
-                  className={`w-16 h-16 aspect-square object-cover bg-gradient-to-b border-b-4 ${
-                    (item?.itemInformation?.rarity?.toString() == 'Epic') ? `from-yellow-700 to-yellow-500 border-b-4 border-yellow-500` : (item?.itemInformation?.rarity?.toString() == 'Legend' ? `from-gray-600 to-gray-400 border-b-4 border-gray-400` : `from-amber-800 to-amber-600 border-b-4 border-amber-600`)
-                  }`} 
+                  className={`w-16 h-16 aspect-square object-cover`} 
                   width={100}
                   height={100}
                   alt={item.title + ""}

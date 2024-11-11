@@ -4,6 +4,7 @@ import FadeInImage from "./FadeInImage";
 import Loading from "./loading";
 import { useItems } from './GetItemsProvider';
 import { useHeroes } from './GetHeroesProvider';
+import { useRouter } from "next/navigation";
 
 interface SearchResultsProps {
   searchQuery: string;
@@ -11,6 +12,7 @@ interface SearchResultsProps {
 }
 
 export default function SearchResults({ searchQuery, closeSidebar }: SearchResultsProps) {
+  const router = useRouter();
   const { data: itemsData } = useItems();
   const { data: heroesData } = useHeroes();
 
@@ -77,8 +79,12 @@ export default function SearchResults({ searchQuery, closeSidebar }: SearchResul
           <div
             key={result.uri}
             className="pt-4 pb-4 pl-8 pr-8 card text-gray-400 hover:bg-gray-900"
+
           >
-            <Link href={result.uri} className="w-full" onClick={closeSidebar}>
+            <Link
+              href={result.uri}
+              className="w-full"
+            >
               <h3 className="flex items-center">
                 <FadeInImage
                   src={
@@ -106,4 +112,5 @@ export default function SearchResults({ searchQuery, closeSidebar }: SearchResul
       </div>
     </Suspense>
   );
+  
 }

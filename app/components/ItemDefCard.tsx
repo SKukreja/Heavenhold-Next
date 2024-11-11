@@ -4,7 +4,7 @@ import { Hero, Item } from "#/graphql/generated/types";
 
 interface ItemDefCardProps {
   index: number;
-  selectedWeapon?: number;
+  selectedItem?: number;
   hero?: Hero;
   item: Item | undefined;
   element: string | undefined;
@@ -12,7 +12,7 @@ interface ItemDefCardProps {
 
 export default function ItemDefCard({
   index,
-  selectedWeapon,
+  selectedItem,
   hero,
   item,
   element,
@@ -38,7 +38,7 @@ export default function ItemDefCard({
           <h2 className="text-sm tracking-wide text-green-500">{item?.itemInformation?.rarity + " " + item?.itemInformation?.itemType?.nodes[0].name}</h2>
           <h2
             className={`${
-              selectedWeapon === index ? "mb-6" : "mb-0"
+              selectedItem === index ? "mb-6" : "mb-0"
             } text-4xl 3xl:text-4xl font-medium font-oswald`}
           >
             {item?.equipmentOptions?.mainStats?.find(stat => stat?.stat?.toString() == "Def (Flat)")?.minValue ?? "?"}-{item?.equipmentOptions?.mainStats?.find(stat => stat?.stat?.toString() == "Def (Flat)")?.maxValue ?? "?"}

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -27,6 +29,8 @@ const roleOptions = [
   { id: 'filter-mobile-category-support', value: 'support', label: 'Support', icon: '/icons/support.webp' },
 ];
 
+const rarityOptions = ['r-1-star', 'r-2-star', 'r-3-star'];
+
 export default function HeroFilters() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -47,8 +51,14 @@ export default function HeroFilters() {
       }
     });
     console.log("Setting active filters from query params:", filters);
-    setActiveFilters(filters);
-    applyFilters(filters);
+
+    // Compare with current activeFilters
+    const filtersChanged = JSON.stringify(filters) !== JSON.stringify(activeFilters);
+
+    if (filtersChanged) {
+      setActiveFilters(filters);
+      applyFilters(filters);
+    }
   }, [searchParams]);
 
   const toggleSection = (section: string) => {
@@ -66,13 +76,18 @@ export default function HeroFilters() {
     };
     setActiveFilters(newFilters);
 
-    const newQuery = new URLSearchParams(searchParams);
-    if (isActive) {
-      newQuery.set(filter, 'true');
-    } else {
-      newQuery.delete(filter);
-    }
-    router.push(`?${newQuery.toString()}`);
+    const newQuery = new URLSearchParams();
+
+    // Add active filters to query
+    Object.keys(newFilters).forEach(key => {
+      if (newFilters[key]) {
+        newQuery.set(key, 'true');
+      }
+    });
+
+    // Update the URL immediately without adding to history
+    router.replace(`?${newQuery.toString()}`);
+
     applyFilters(newFilters);
   };
 
@@ -80,7 +95,7 @@ export default function HeroFilters() {
     const elements = document.querySelectorAll('[data-filter]');
     const elementFilters = Object.keys(filters).filter(filter => filters[filter] && elementOptions.some(option => option.value === filter));
     const roleFilters = Object.keys(filters).filter(filter => filters[filter] && roleOptions.some(option => option.value === filter));
-    const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && ['r-1-star', 'r-2-star', 'r-3-star'].includes(filter));
+    const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && rarityOptions.includes(filter));
 
     if (elementFilters.length === 0 && roleFilters.length === 0 && rarityFilters.length === 0) {
       elements.forEach((el) => {
@@ -169,9 +184,9 @@ function FilterToggle({ id, value, label, icon, onChange, isActive }: { id: stri
     <div
         className={`flex items-center p-4 cursor-pointer 
             ${isActive ? 'bg-gray-800' : 'bg-gray-900'} 
-            ${!isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'hover:bg-gray-800 hover:text-white' : ''} 
-            ${isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'text-white' : ''} 
-            ${!isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'text-gray-400' : ''} 
+            ${!isActive && !rarityOptions.includes(value) ? 'hover:bg-gray-800 hover:text-white' : ''} 
+            ${isActive && !rarityOptions.includes(value) ? 'text-white' : ''} 
+            ${!isActive && !rarityOptions.includes(value) ? 'text-gray-400' : ''} 
             ${value === 'r-3-star' ? 'text-yellow-500' : ''} 
             ${value === 'r-2-star' ? 'text-gray-300' : ''} 
             ${value === 'r-1-star' ? 'text-orange-600' : ''}`}

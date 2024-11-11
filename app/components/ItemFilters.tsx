@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -25,9 +27,9 @@ const itemTypes = [
   { id: 'filter-mobile-category-costume', value: 'costume', label: 'Hero Costume', icon: '/icons/equipment/herocostume.webp' },
   { id: 'filter-mobile-category-equipmentcostume', value: 'equipment-costume', label: 'Equipment Costume', icon: '/icons/equipment/equipmentcostume.webp' },
   { id: 'filter-mobile-category-illustrationcostume', value: 'illustration-costume', label: 'Illustration Costume', icon: '/icons/equipment/illustrationcostume.webp' },
-  { id: 'filter-mobile-category-card', value: 'card', label: 'Card', icon: '/icons/equipment/card.webp' },  
-  { id: 'filter-mobile-category-merch', value: 'merch', label: 'Merch', icon: '/icons/equipment/merch.webp' },    
-  { id: 'filter-mobile-category-relic', value: 'relic', label: 'Relic', icon: '/icons/equipment/relic.webp' },  
+  { id: 'filter-mobile-category-card', value: 'card', label: 'Card', icon: '/icons/equipment/card.webp' },
+  { id: 'filter-mobile-category-merch', value: 'merch', label: 'Merch', icon: '/icons/equipment/merch.webp' },
+  { id: 'filter-mobile-category-relic', value: 'relic', label: 'Relic', icon: '/icons/equipment/relic.webp' },
 ];
 
 const elementOptions = [
@@ -38,6 +40,8 @@ const elementOptions = [
   { id: 'filter-mobile-color-light', value: 'light', label: 'Light', icon: '/icons/light.webp' },
   { id: 'filter-mobile-color-water', value: 'water', label: 'Water', icon: '/icons/water.webp' },
 ];
+
+const rarityOptions = ['r-epic', 'r-legend', 'r-unique', 'r-rare', 'r-normal'];
 
 export default function ItemFilters() {
   const searchParams = useSearchParams();
@@ -50,18 +54,75 @@ export default function ItemFilters() {
 
   const [activeFilters, setActiveFilters] = useState<{ [key: string]: boolean }>({});
 
+  // Extract item type values for easy access
+  const itemTypeValues = itemTypes.map(option => option.value);
+
+  // Define the item types that should show Element and Rarity filters
+  const itemTypesWithElement = ['one-handed-sword', 'two-handed-sword', 'rifle', 'bow', 'basket', 'staff', 'gauntlet', 'claw'];
+  const itemTypesWithRarity = ['one-handed-sword', 'two-handed-sword', 'rifle', 'bow', 'basket', 'staff', 'gauntlet', 'claw', 'merch', 'relic', 'accessory', 'shield'];
+
   useEffect(() => {
     const params = Object.fromEntries(searchParams.entries());
-    const filters: { [key: string]: boolean } = {};
+    let filters: { [key: string]: boolean } = {};
     Object.keys(params).forEach((key) => {
       if (params[key] === 'true') {
         filters[key] = true;
       }
     });
-    console.log("Setting active filters from query params:", filters);
-    setActiveFilters(filters);
-    applyFilters(filters);
-  }, [searchParams]);
+  
+    // Determine selectedItemType
+    let selectedItemType = itemTypeValues.find(type => filters[type]);
+  
+    // If no item type is selected, default to 'one-handed-sword'
+    if (!selectedItemType) {
+      filters['one-handed-sword'] = true;
+      selectedItemType = 'one-handed-sword';
+    }
+
+    const activeFilterSection = document.querySelector(`#active-filters`);
+    if (activeFilterSection) {
+      activeFilterSection.innerHTML = '';
+      Object.keys(filters).forEach((key) => {
+        if (filters[key]) {
+          const filter = document.createElement('div');
+          if(itemTypeValues.includes(key)) {
+            filter.textContent = "Item Type = " + itemTypes.find(option => option.value === key)?.label;
+          }
+          else if(elementOptions.some(option => option.value === key)) {
+            filter.textContent = "Element = " + elementOptions.find(option => option.value === key)?.label;
+          }
+          else if(rarityOptions.includes(key)) {
+            filter.textContent = "Rarity = " + key.replace('r-', '');
+          }
+          filter.classList.add('p-4', 'cursor-pointer', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');          
+          activeFilterSection.appendChild(filter);
+        }
+      });
+    }
+  
+    // Clean up filters
+    const cleanedFilters = cleanupFilters(filters, selectedItemType);
+  
+    // Compare cleanedFilters with original filters
+    const filtersChanged = JSON.stringify(filters) !== JSON.stringify(cleanedFilters);
+  
+    // Update activeFilters
+    setActiveFilters(cleanedFilters);
+  
+    // Apply filters
+    applyFilters(cleanedFilters);
+  
+    // If filters have changed, update the URL
+    if (filtersChanged) {
+      const newQuery = new URLSearchParams();
+      Object.keys(cleanedFilters).forEach(key => {
+        if (cleanedFilters[key]) {
+          newQuery.set(key, 'true');
+        }
+      });
+      router.replace(`?${newQuery.toString()}`);
+    }
+  }, [searchParams]);  
 
   const toggleSection = (section: string) => {
     setOpenSections((prev) => ({
@@ -70,45 +131,83 @@ export default function ItemFilters() {
     }));
   };
 
-  function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
-    let timer: ReturnType<typeof setTimeout>;
-    return function(...args: Parameters<T>) {
-      clearTimeout(timer);
-      timer = setTimeout(() => func(...args), delay);
-    };
-  }
-  
-  // Debounced URL update function
-  const debouncedPush = debounce((newQuery: URLSearchParams, router: any) => {
-    router.push(`?${newQuery.toString()}`);
-  }, 300); // Adjust debounce time as needed
-  
   const handleToggleChange = (filter: string) => () => {
-    const isActive = !activeFilters[filter];
-    const newFilters = {
-      ...activeFilters,
-      [filter]: isActive,
-    };
-    setActiveFilters(newFilters);
-  
-    // Update query parameters without delay
-    const newQuery = new URLSearchParams(searchParams);
-    if (isActive) {
-      newQuery.set(filter, 'true');
+    if (itemTypeValues.includes(filter)) {
+      // It's an item type filter
+      if (activeFilters[filter]) {
+        // If the filter is already active, do nothing
+        return;
+      } else {
+        // Deactivate all other item type filters
+        let newFilters = { ...activeFilters };
+        itemTypeValues.forEach(typeFilter => {
+          newFilters[typeFilter] = false;
+        });
+        newFilters[filter] = true;
+
+        // Determine new selectedItemType
+        const newSelectedItemType = filter;
+
+        // Clean up filters based on new selectedItemType
+        newFilters = cleanupFilters(newFilters, newSelectedItemType);
+
+        // Update query parameters
+        const newQuery = new URLSearchParams();
+
+        // Add active filters to query
+        Object.keys(newFilters).forEach(key => {
+          if (newFilters[key]) {
+            newQuery.set(key, 'true');
+          }
+        });
+
+        // Update the URL immediately
+        router.replace(`?${newQuery.toString()}`);
+
+        // Update the state
+        setActiveFilters(newFilters);
+
+        // Apply filters
+        applyFilters(newFilters);
+      }
     } else {
-      newQuery.delete(filter);
+      // For other filters, toggle as before
+      const isActive = !activeFilters[filter];
+      let newFilters = { ...activeFilters };
+      newFilters[filter] = isActive;
+
+      // Determine selectedItemType
+      const selectedItemType = itemTypeValues.find(type => newFilters[type]) || 'one-handed-sword';
+
+      // Clean up filters based on selectedItemType
+      newFilters = cleanupFilters(newFilters, selectedItemType);
+
+      // Update query parameters
+      const newQuery = new URLSearchParams();
+
+      // Add active filters to query
+      Object.keys(newFilters).forEach(key => {
+        if (newFilters[key]) {
+          newQuery.set(key, 'true');
+        }
+      });
+
+      // Update the URL immediately
+      router.replace(`?${newQuery.toString()}`);
+
+      // Update the state
+      setActiveFilters(newFilters);
+
+      // Apply filters
+      applyFilters(newFilters);
     }
-  
-    // Debounced URL change to prevent rapid changes and delays
-    debouncedPush(newQuery, router);
-    applyFilters(newFilters);
   };
 
   const applyFilters = (filters: { [key: string]: boolean }) => {
     const elements = document.querySelectorAll('[data-filter]');
-    const elementFilters = Object.keys(filters).filter(filter => filters[filter] && elementOptions.some(option => option.value == filter));
-    const typeFilters = Object.keys(filters).filter(filter => filters[filter] && itemTypes.some(option => option.value == filter));
-    const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && ['r-epic', 'r-legend', 'r-unique', 'r-rare', 'r-normal'].includes(filter));
+    const elementFilters = Object.keys(filters).filter(filter => filters[filter] && elementOptions.some(option => option.value === filter));
+    const typeFilters = Object.keys(filters).filter(filter => filters[filter] && itemTypes.some(option => option.value === filter));
+    const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && rarityOptions.includes(filter));
 
     if (elementFilters.length === 0 && typeFilters.length === 0 && rarityFilters.length === 0) {
       elements.forEach((el) => {
@@ -131,12 +230,47 @@ export default function ItemFilters() {
     }
   };
 
+  function cleanupFilters(filters: { [key: string]: boolean }, selectedItemType: string | undefined) {
+    const newFilters = { ...filters };
+
+    if (!selectedItemType || !itemTypesWithElement.includes(selectedItemType)) {
+      // Remove Element filters
+      elementOptions.forEach(option => {
+        delete newFilters[option.value];
+      });
+    }
+
+    if (!selectedItemType || !itemTypesWithRarity.includes(selectedItemType)) {
+      // Remove Rarity filters
+      rarityOptions.forEach(value => {
+        delete newFilters[value];
+      });
+    }
+
+    return newFilters;
+  }
+
+  // Determine the selected item type
+  const selectedItemType = itemTypeValues.find(type => activeFilters[type]);
+
   return (
     <form className="pt-8 pb-8 w-[calc(100%-0.5rem)] lg:w-full">
       <h3 className="px-8 font-bold tracking-widest uppercase">Filters</h3>
 
       {["Type", "Element", "Rarity"].map((section, index) => {
         const sectionId = `filter-section-mobile-${index}`;
+
+        // Conditionally render Element and Rarity sections
+        if (section === "Element") {
+          if (!selectedItemType || !itemTypesWithElement.includes(selectedItemType)) {
+            return null; // Skip rendering this section
+          }
+        } else if (section === "Rarity") {
+          if (!selectedItemType || !itemTypesWithRarity.includes(selectedItemType)) {
+            return null; // Skip rendering this section
+          }
+        }
+
         return (
           <div key={sectionId} className={SectionStyles}>
             <h3 className={ButtonWrapperStyles}>
@@ -199,9 +333,9 @@ function FilterToggle({ id, value, label, icon, onChange, isActive }: { id: stri
     <div
         className={`flex items-center p-4 cursor-pointer 
             ${isActive ? 'bg-gray-800' : 'bg-gray-900'} 
-            ${!isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'hover:bg-gray-800 hover:text-white' : ''} 
-            ${isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'text-white' : ''} 
-            ${!isActive && value !== 'r-1-star' && value !== 'r-2-star' && value !== 'r-3-star' ? 'text-gray-400' : ''} 
+            ${!isActive && !['r-1-star', 'r-2-star', 'r-3-star'].includes(value) ? 'hover:bg-gray-800 hover:text-white' : ''} 
+            ${isActive && !['r-1-star', 'r-2-star', 'r-3-star'].includes(value) ? 'text-white' : ''} 
+            ${!isActive && !['r-1-star', 'r-2-star', 'r-3-star'].includes(value) ? 'text-gray-400' : ''} 
             ${value === 'r-3-star' ? 'text-yellow-500' : ''} 
             ${value === 'r-2-star' ? 'text-gray-300' : ''} 
             ${value === 'r-1-star' ? 'text-orange-600' : ''}`}

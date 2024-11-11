@@ -10,7 +10,7 @@ interface ItemCardProps {
   element: string | undefined;
 }
 
-export default function HeroList({
+export default function ItemCard({
   index,
   selectedWeapon,
   hero,
@@ -36,14 +36,14 @@ export default function HeroList({
         </div>
         <div className="w-[calc(100%-8rem)] pl-4">
           <h3 className="text-sm 3xl:text-lg font-bold">{item?.title ?? ""}</h3>
-          <h2 className="tracking-wide text-green-500">{item?.weapons?.weaponType ?? ""}</h2>
+          <h2 className="text-sm tracking-wide text-green-500">{item?.itemInformation?.rarity + " " + item?.weapons?.weaponType ?? ""}</h2>
           <h2
             className={`${
               selectedWeapon === index ? "mb-6" : "mb-0"
-            } text-2xl 3xl:text-4xl font-medium font-oswald`}
+            } text-4xl 3xl:text-4xl font-medium font-oswald`}
           >
-            {item?.weapons?.minDps + ""}-{item?.weapons?.maxDps + ""}{" "}
-            <span className="text-lg">DPS</span>
+            {item?.weapons?.minDps + ""}-{item?.weapons?.maxDps + ""}
+            <span className="text-lg ml-1">DPS</span>
           </h2>
         </div>
       </div>

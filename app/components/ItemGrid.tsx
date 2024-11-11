@@ -1,12 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { Suspense, useMemo } from "react";
+import { Suspense, useMemo, useEffect } from "react";
 import Loading from "./loading";
 import ItemCard from "./ItemCard";
-import FadeInImage from "./FadeInImage"; 
+import ItemCardCard from "./ItemCardCard";
+import ItemCostumeCard from "./ItemCostumeCard";
 import { Item } from "#/graphql/generated/types";
 import { useItems } from './GetItemsProvider';
+import ItemAccessoryCard from "./ItemAccessoryCard";
+import ItemDefCard from "./ItemDefCard";
 
 export default function ItemGrid() {
   const { data } = useItems();
@@ -27,7 +30,7 @@ export default function ItemGrid() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <div id="HeroList" className="flex flex-wrap justify-start ml-8 w-[calc(100%-4rem)] lg:w-[calc(100%-2rem)] gap-4 lg:gap-8 transform-gpu">
+      <div id="HeroList" className="flex flex-wrap justify-start ml-[calc(2rem+2px)] w-[calc(100%-4rem)] lg:w-[calc(100%-2rem)] gap-4 lg:gap-8 transform-gpu">
         {items
           .filter((item: Item) => item?.itemInformation?.itemType?.nodes[0].name != "Cards")
           .map((item: Item, index: number) => (
@@ -51,14 +54,19 @@ const ItemLink = ({ item, index }: { item: Item, index: number }) => {
       ? ' w-' + item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase() : ''} 
       ${"t-" + item?.itemInformation?.itemType?.nodes[0].name?.toLowerCase()} 
       r-${item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase()} 
-      relative w-[calc(100%)] lg:w-[calc((100%/2)-2rem)] xl:w-[calc((100%/3)-2rem)] 3xl:w-[calc((100%/4)-2rem)] 4xl:w-[calc((100%/5)-2rem)] flex cursor-pointer bg-gray-800 
+      relative w-[calc(100%)] lg:w-[calc((100%/2)-2rem)] xl:w-[calc((100%/3)-2rem)] 3xl:w-[calc((100%/4)-2rem)] 4xl:w-[calc((100%/5)-2rem)] flex cursor-pointer ${itemType == 'costume' ? 'bg-[#0f0c0c]' : 'bg-gray-800'}
       align-middle transition-all duration-200 after:transition-all 
       after:linear after:duration-200 ease grayscale-[30%] 
       hover:after:outline-offset-[-5px] hover:grayscale-0 
       after:w-full after:h-full after:absolute after:inset-0 after:z-20 after:pointer-events-none after:border after:border-gray-800 after:outline after:outline-2 
       p-8`}
     >
-      <ItemCard item={item} element={element} index={index} />
+      {itemType == 'costume' ? <ItemCostumeCard item={item} element={element} index={index} /> 
+      : itemType == 'card' ? <ItemCardCard item={item} element={element} index={index} />
+      : itemType == 'shield' || itemType == 'accessory' ? <ItemDefCard item={item} element={element} index={index} />
+      : itemType == 'merch' || itemType == 'relic' ? <ItemAccessoryCard item={item} element={element} index={index} />
+      : <ItemCard item={item} element={element} index={index} />
+      }     
     </Link>
   );
 }

@@ -1,11 +1,11 @@
 "use client";
 
-import { PropsWithChildren, useState, useEffect, useMemo } from "react";
+import { PropsWithChildren, useState, useEffect, useMemo, act } from "react";
 import Loading from "#/app/components/loading";
 import { Hero } from "#/graphql/generated/types";
 import Link from "next/link";
 import { useHeroes } from "#/app/components/GetHeroesProvider";
-import { useSelectedLayoutSegment } from "next/navigation"; // Import the hook
+import { useSelectedLayoutSegment, usePathname } from "next/navigation"; // Import the hook
 import { bio, abilities, teamsIcon, review, costumes, gallery, teams } from "#/ui/icons";
 import HeroContext from "./HeroContext"; // Import HeroContext
 import FadeInImage from "#/app/components/FadeInImage";
@@ -17,6 +17,7 @@ interface LayoutProps {
 }
 
 export default function Layout({ children, params }: PropsWithChildren<LayoutProps>) {
+  const pathname = usePathname(); 
   // Call hooks at the top level before any conditional logic
   const segment = useSelectedLayoutSegment(); // Move this to the top
   const { data: heroesData } = useHeroes();
@@ -27,6 +28,7 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
 
   const [hero, setHero] = useState<Hero | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchedHero = heroes.find((hero) => hero.slug === params.uri);
@@ -34,18 +36,26 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
     setLoading(false);
   }, [params.uri, heroes]);
 
+  useEffect(() => {    
+    const splitUri = pathname.split("/")
+    if(splitUri.length > 4 && splitUri[3].toLowerCase() === "teams") {
+      setActiveTab("Teams");
+    }
+    else {
+      setActiveTab(segment
+        ? segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase()
+        : "Bio");
+    }
+  }, [pathname])
+
   // Early returns after hooks are called
-  if (loading) {
+  if (loading || !activeTab) {
     return <Loading />;
   }
 
   if (!hero) {
     return <div>Error: Hero not found</div>;
   }
-
-  const activeTab = segment
-    ? segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase()
-    : "Bio";
 
   return (
     <HeroContext.Provider value={hero}>

@@ -99,7 +99,7 @@ export default function HeroPage({
                 }  
             </div>
             {currentItem?.weapons?.exclusive && 
-                <div className="hidden w-full lg:flex flex-col gap-4">
+                <div className="w-full flex flex-col gap-4">
                     <h2 className="mb-2 text-2xl font-medium font-oswald">Related Hero</h2>
                     {item?.weapons?.hero && (() => {
                         const hero = heroes.find(hero => hero.id === item?.weapons?.hero?.nodes[0]?.id);

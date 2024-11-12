@@ -7,6 +7,7 @@ import StatFormatter from "#/app/components/StatFormatter";
 import { normal, special, arrowUpRight, arrowDownLeft } from "#/ui/icons";
 import LoopVideo from "#/app/components/LoopVideo";
 import ItemCard from "#/app/components/ItemCard";
+import { useRouter } from "next/navigation";
 
 interface AbilitiesProps {
   hero: Hero;
@@ -15,11 +16,20 @@ interface AbilitiesProps {
 
 function Abilities({ hero, items }: AbilitiesProps) {
     const [selectedItem, setselectedItem] = useState(0);
-    const [ascended, setAscended] = useState(false);
+    const [ascended, setAscended] = useState(false);  
+    const router = useRouter();
+
+
     const [selectedExWeapon, setSelectedExWeapon] = useState(items.find(i => i.id === (hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes?.[selectedItem] as Item)?.id) || null);
 
-    const handleWeaponClick = (index: number) => {
-      setselectedItem(index);
+    const handleWeaponClick = (index: number, item: Item) => {
+      if (selectedItem === index) {        
+        router.push(`/items/${item.slug}`);
+
+      }
+      else {
+        setselectedItem(index);
+      }
     };
 
     const handleAscendClick = () => {
@@ -37,9 +47,10 @@ function Abilities({ hero, items }: AbilitiesProps) {
                 { 
                   const weaponNode = weapon as Item;
                   const item = items.find(x => x.id === weaponNode.id);
+                  if (!item) return null;
                   const element = item?.equipmentOptions?.mainStats?.find((x) => x?.stat?.includes("Fire") || x?.stat?.includes("Earth") || x?.stat?.includes("Water") || x?.stat?.includes("Light") || x?.stat?.includes("Dark") || x?.stat?.includes("Basic"))?.stat?.toString().replace(" Atk", "");
                   return (
-                    <div key={weaponNode.id} className={`w-full relative ${hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes?.length ?? 0 > 1 ? 'cursor-pointer' : ''} ${selectedItem === index ? 'bg-gray-800' : 'bg-gray-900'} p-4 3xl:p-8`} onClick={() => handleWeaponClick(index)}>
+                    <div key={item.id} className={`w-full relative ${hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes?.length ?? 0 > 1 ? 'cursor-pointer' : ''} ${selectedItem === index ? 'bg-gray-800' : 'bg-gray-900'} p-4 3xl:p-8`} onClick={() => handleWeaponClick(index, item)}>
                       <div className={`absolute top-4 right-4 text-xs text-${hero.heroInformation?.bioFields?.element?.toLowerCase()} ${selectedItem === index && (hero.heroInformation?.bioFields?.exclusiveWeapon?.nodes?.length ?? 0) > 1 ? 'block' : 'hidden'}`}>Selected</div>
                       <ItemCard item={item} element={element} selectedItem={selectedItem} index={index} hero={hero} />
                     </div>                    

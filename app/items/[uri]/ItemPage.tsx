@@ -12,6 +12,7 @@ import ItemDefCard from "#/app/components/ItemDefCard";
 import LoopVideo from "#/app/components/LoopVideo";
 import Loading from "#/app/components/loading";
 import { Hero, Item, Team } from "#/graphql/generated/types";
+import Link from "next/link";
 import { useState } from "react";
 
 interface HeroPageProps {
@@ -88,13 +89,61 @@ export default function HeroPage({
             {currentItem?.title}
         </h1>
         <div className="flex flex-col lg:flex-row w-full items-start gap-8">
-            <div className="p-4 w-full lg:w-1/3 bg-gray-800">
+            <div className={`w-full lg:w-1/3 flex flex-col gap-8`}>
+            <div className={`w-full ${itemType == 'costume' ? 'bg-[#0f0c0c] p-8' : 'bg-gray-800 p-4'}`}>
                 {itemType == 'costume' ? <ItemCostumeCard item={currentItem} element={element} selectedItem={9999} index={0} /> 
                 : itemType == 'card' ? <ItemCardCard item={currentItem} element={element} selectedItem={9999} index={0} />
                 : itemType == 'shield' || itemType == 'accessory' ? <ItemDefCard item={currentItem} selectedItem={9999} element={element} index={0} />
                 : itemType == 'merch' || itemType == 'relic' ? <ItemAccessoryCard item={currentItem} selectedItem={9999} element={element} index={0} />
                 : <ItemCard item={currentItem} element={element} selectedItem={9999} index={0} />
                 }  
+            </div>
+            {currentItem?.weapons?.exclusive && 
+                <div className="hidden w-full lg:flex flex-col gap-4">
+                    <h2 className="mb-2 text-2xl font-medium font-oswald">Related Hero</h2>
+                    {item?.weapons?.hero && (() => {
+                        const hero = heroes.find(hero => hero.id === item?.weapons?.hero?.nodes[0]?.id);
+                        if (!hero) return null;
+                        return (
+                        <Link href={"/heroes/"+hero?.slug} className="flex bg-gray-transparent p-4 justify-start items-center gap-8">
+                            <FadeInImage
+                                src={
+                                    hero?.heroInformation?.thumbnail?.node.sourceUrl
+                                    ? hero?.heroInformation?.thumbnail?.node.sourceUrl + ""
+                                    : "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"
+                                }
+                                className={`w-16 h-16 aspect-square object-cover bg-gradient-to-b border-b-4 ${
+                                    (hero?.heroInformation?.bioFields?.rarity?.toString() == '3 Star') ? `from-yellow-700 to-yellow-500 border-b-4 border-yellow-500` : (hero?.heroInformation?.bioFields?.rarity?.toString() == '2 Star' ? `from-gray-600 to-gray-400 border-b-4 border-gray-400` : `from-amber-800 to-amber-600 border-b-4 border-amber-600`)
+                                }`} 
+                                width={100}
+                                height={100}
+                                alt={hero?.title + ""}
+                            />
+                            <h3 className="font-semibold">{hero?.title}</h3>
+                        </Link>
+                        );
+                    })()}
+                </div>   
+            }
+            <div className="hidden w-full lg:flex flex-col gap-4">
+                <h2 className="mb-2 text-2xl font-medium font-oswald">Obtainable From</h2>
+                {item?.itemInformation?.howToObtain?.map((method, index) => {
+                    const relatedCurrency = obtainCurrencies[method as keyof typeof obtainCurrencies];
+                    let costDisplay = null;
+                    if (relatedCurrency && relatedCurrency.costField) {
+                        const cost = getCost(relatedCurrency.costField);
+                        if (cost != null) {
+                            costDisplay = `${cost} ${relatedCurrency.currencyName}`;
+                        }
+                    }
+                    return (
+                    <div key={index} className="flex bg-gray-transparent p-4 justify-between items-center">
+                        <h3 className="font-semibold">{method}</h3>
+                        {costDisplay && <p>{costDisplay}</p>}
+                    </div>
+                    );
+                })}
+            </div>
             </div>
             {item?.weapons?.weaponSkill && (() => {
                 console.log(item?.weapons?.weaponSkillVideo);
@@ -124,9 +173,10 @@ export default function HeroPage({
                 );
             })()}
         </div>
-        <div className="flex flex-col lg:flex-row w-full items-start gap-8">
-            <div className="p-4 w-full lg:w-1/3 flex flex-col gap-4">
-                <h2 className="text-xl font-bold mb-4">Obtainable From</h2>
+        {/* Mobile Section */}
+        <div className="flex lg:hidden flex-col lg:flex-row w-full items-start gap-8">
+            <div className="w-full lg:w-1/3 flex flex-col gap-4">
+                <h2 className="mb-2 text-2xl font-medium font-oswald">Obtainable From</h2>
                 {item?.itemInformation?.howToObtain?.map((method, index) => {
                     const relatedCurrency = obtainCurrencies[method as keyof typeof obtainCurrencies];
                     let costDisplay = null;

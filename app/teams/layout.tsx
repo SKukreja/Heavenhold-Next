@@ -9,7 +9,7 @@ interface LayoutProps {
   };
 }
 
-export default function Layout({ children }: PropsWithChildren<LayoutProps>) {
+export default function Layout({ children, params }: PropsWithChildren<LayoutProps>) {
 
 
   return (

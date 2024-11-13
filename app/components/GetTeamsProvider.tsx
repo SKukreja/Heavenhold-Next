@@ -1,25 +1,28 @@
 // components/GetTeamsProvider.tsx
 "use client";
 
-import React, { createContext, useContext } from 'react';
-import { useGetAllTeamsSuspenseQuery, GetAllTeamsQuery } from '#/graphql/generated/types';
+import React, { createContext, useContext, useMemo } from 'react';
+import { GetAllTeamsQuery, GetTeamVotesQuery } from '#/graphql/generated/types';
 
 interface TeamsContextType {
   data: GetAllTeamsQuery | null;
+  votes: GetTeamVotesQuery | null;
 }
 
 const TeamsContext = createContext<TeamsContextType | undefined>(undefined);
 
-export function TeamsProvider({ children }: React.PropsWithChildren<{}>) {
-  const { data } = useGetAllTeamsSuspenseQuery();
+interface TeamsProviderProps {
+  initialData: GetAllTeamsQuery;
+  initialVotes: GetTeamVotesQuery;
+  children: React.ReactNode;
+}
 
-  // Manage data loading state
-  if (!data) {
-    return <div>Loading...</div>; // or handle loading state as needed
-  }
+export function TeamsProvider({ initialData, initialVotes, children }: TeamsProviderProps) {
+  const memoizedData = useMemo(() => initialData, [initialData]);
+  const memoizedVotes = useMemo(() => initialVotes, [initialVotes]);
 
   return (
-    <TeamsContext.Provider value={{ data }}>
+    <TeamsContext.Provider value={{ data: memoizedData, votes: memoizedVotes }}>
       {children}
     </TeamsContext.Provider>
   );

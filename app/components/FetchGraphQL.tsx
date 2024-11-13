@@ -40,6 +40,13 @@ export async function fetchGraphQL<T extends object>(
       const pageInfo = heroes.pageInfo;
       afterCursor = pageInfo?.endCursor;
       hasNextPage = pageInfo?.hasNextPage;
+    } else if ('teams' in data && data.teams) {
+      const teams = data.teams as any;
+      allNodes.push(...teams.nodes);
+
+      const pageInfo = teams.pageInfo;
+      afterCursor = pageInfo?.endCursor;
+      hasNextPage = pageInfo?.hasNextPage;
     } else {
       hasNextPage = false;
     }
@@ -48,8 +55,12 @@ export async function fetchGraphQL<T extends object>(
   // Ensure the return structure matches the expected type for heroes
   if ('heroInformation' in allNodes[0]) {
     return { heroes: { nodes: allNodes } } as T;
-  } else if ('itemInformation' in allNodes[0]) {
+  } 
+  else if ('itemInformation' in allNodes[0]) {
     return { items: { nodes: allNodes } } as T;
+  }
+  else if ('teamFields' in allNodes[0]) {
+    return { teams: { nodes: allNodes } } as T;
   }
 
   throw new Error('Unexpected data structure');

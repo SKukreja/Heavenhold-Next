@@ -67,7 +67,7 @@ export default function HeroPage({
             hero={currentHero}
             teams={teams as Team[]}
             heroes={heroes as Hero[]}
-            items={items as Item[]}
+            items={items as Item[]} 
           />
         );
       case "Costumes":

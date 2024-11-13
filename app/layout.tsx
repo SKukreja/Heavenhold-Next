@@ -11,9 +11,10 @@ import { getUserData } from './components/UserDataFetcher';
 import { User } from './components/UserContext';
 import { Suspense } from 'react';
 import Loading from './components/loading';
-import { GetAllHeroesDocument, GetAllHeroesQuery, GetAllItemsDocument, GetAllItemsQuery } from '#/graphql/generated/types';
+import { GetAllHeroesDocument, GetAllHeroesQuery, GetAllItemsDocument, GetAllItemsQuery, GetAllTeamsDocument, GetAllTeamsQuery, GetTeamVotesDocument, GetTeamVotesQuery } from '#/graphql/generated/types';
 import { fetchGraphQL } from './components/FetchGraphQL';
 import { SidebarProvider } from './components/SidebarProvider';
+import { fetchVotes } from './components/FetchVotes';
 
 export const metadata = {
   title: "Heavenhold",
@@ -30,6 +31,8 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
   // Fetch paginated hero and item data with proper typing
   const heroData: GetAllHeroesQuery = await fetchGraphQL<GetAllHeroesQuery>(GetAllHeroesDocument);
   const itemData: GetAllItemsQuery = await fetchGraphQL<GetAllItemsQuery>(GetAllItemsDocument);
+  const teamData: GetAllTeamsQuery = await fetchGraphQL<GetAllTeamsQuery>(GetAllTeamsDocument);
+  const teamVotes: GetTeamVotesQuery = await fetchVotes<GetTeamVotesQuery>(GetTeamVotesDocument);
 
   return (
     <ApolloWrapper>
@@ -42,7 +45,7 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
             <UserProvider initialUser={userData as User}>
               <HeroesProvider initialData={heroData}>
                 <ItemsProvider initialData={itemData}>                  
-                  <TeamsProvider>
+                  <TeamsProvider initialData={teamData} initialVotes={teamVotes}>
                     <SidebarProvider>
                     <GlobalNav />
                     <Sidebar />

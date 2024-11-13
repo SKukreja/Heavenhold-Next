@@ -1,5 +1,9 @@
-query GetAllTeams {
-  teams(first: 200) {
+query GetAllTeams($after: String) {
+    teams(first: 100, after: $after) {
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
     nodes {
       id
       databaseId

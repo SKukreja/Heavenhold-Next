@@ -1,0 +1,6 @@
+query getUserTeamVoteStatus($userId: Int!, $ipAddress: String) {
+  getUserTeamVoteStatus(userId: $userId, ipAddress: $ipAddress) {
+    teamId
+    userVote
+  }
+}

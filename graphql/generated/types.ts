@@ -1817,8 +1817,6 @@ export enum ContentTypeEnum {
   /** The Type of Content object */
   Collections = 'COLLECTIONS',
   /** The Type of Content object */
-  GraphqlDocument = 'GRAPHQL_DOCUMENT',
-  /** The Type of Content object */
   Heroes = 'HEROES',
   /** The Type of Content object */
   Items = 'ITEMS',
@@ -1948,12 +1946,6 @@ export type ContentTypeToTaxonomyConnectionPageInfo = PageInfo & TaxonomyConnect
 export enum ContentTypesOfCategoryEnum {
   /** The Type of Content object */
   Post = 'POST'
-}
-
-/** Allowed Content Types of the GraphqlDocumentGroup taxonomy. */
-export enum ContentTypesOfGraphqlDocumentGroupEnum {
-  /** The Type of Content object */
-  GraphqlDocument = 'GRAPHQL_DOCUMENT'
 }
 
 /** Allowed Content Types of the ItemType taxonomy. */
@@ -2134,68 +2126,6 @@ export type CreateCommentPayload = {
   comment: Maybe<Comment>;
   /** Whether the mutation succeeded. If the comment is not approved, the server will not return the comment to a non authenticated user, but a success message can be returned if the create succeeded, and the client can optimistically add the comment to the client cache */
   success: Maybe<Scalars['Boolean']['output']>;
-};
-
-/** Input for the createGraphqlDocumentGroup mutation. */
-export type CreateGraphqlDocumentGroupInput = {
-  /** The slug that the graphql_document_group will be an alias of */
-  aliasOf: InputMaybe<Scalars['String']['input']>;
-  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: InputMaybe<Scalars['String']['input']>;
-  /** The description of the graphql_document_group object */
-  description: InputMaybe<Scalars['String']['input']>;
-  /** The name of the graphql_document_group object to mutate */
-  name: Scalars['String']['input'];
-  /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
-  slug: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The payload for the createGraphqlDocumentGroup mutation. */
-export type CreateGraphqlDocumentGroupPayload = {
-  __typename?: 'CreateGraphqlDocumentGroupPayload';
-  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: Maybe<Scalars['String']['output']>;
-  /** The created graphql_document_group */
-  graphqlDocumentGroup: Maybe<GraphqlDocumentGroup>;
-};
-
-/** Input for the createGraphqlDocument mutation. */
-export type CreateGraphqlDocumentInput = {
-  /** Alias names for saved GraphQL query documents */
-  alias: InputMaybe<Array<Scalars['String']['input']>>;
-  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: InputMaybe<Scalars['String']['input']>;
-  /** The content of the object */
-  content: InputMaybe<Scalars['String']['input']>;
-  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
-  date: InputMaybe<Scalars['String']['input']>;
-  /** Description for the saved GraphQL document */
-  description: InputMaybe<Scalars['String']['input']>;
-  /** Allow, deny or default access grant for specific query */
-  grant: InputMaybe<Scalars['String']['input']>;
-  /** Set connections between the graphqlDocument and graphqlDocumentGroups */
-  graphqlDocumentGroups: InputMaybe<GraphqlDocumentGraphqlDocumentGroupsInput>;
-  /** HTTP Cache-Control max-age directive for a saved GraphQL document */
-  maxAgeHeader: InputMaybe<Scalars['Int']['input']>;
-  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
-  menuOrder: InputMaybe<Scalars['Int']['input']>;
-  /** The password used to protect the content of the object */
-  password: InputMaybe<Scalars['String']['input']>;
-  /** The slug of the object */
-  slug: InputMaybe<Scalars['String']['input']>;
-  /** The status of the object */
-  status: InputMaybe<PostStatusEnum>;
-  /** The title of the object */
-  title: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The payload for the createGraphqlDocument mutation. */
-export type CreateGraphqlDocumentPayload = {
-  __typename?: 'CreateGraphqlDocumentPayload';
-  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: Maybe<Scalars['String']['output']>;
-  /** The Post object mutation type. */
-  graphqlDocument: Maybe<GraphqlDocument>;
 };
 
 /** Input for the createHero mutation. */
@@ -2652,48 +2582,6 @@ export type DeleteCommentPayload = {
   deletedId: Maybe<Scalars['ID']['output']>;
 };
 
-/** Input for the deleteGraphqlDocumentGroup mutation. */
-export type DeleteGraphqlDocumentGroupInput = {
-  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: InputMaybe<Scalars['String']['input']>;
-  /** The ID of the graphqlDocumentGroup to delete */
-  id: Scalars['ID']['input'];
-};
-
-/** The payload for the deleteGraphqlDocumentGroup mutation. */
-export type DeleteGraphqlDocumentGroupPayload = {
-  __typename?: 'DeleteGraphqlDocumentGroupPayload';
-  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: Maybe<Scalars['String']['output']>;
-  /** The ID of the deleted object */
-  deletedId: Maybe<Scalars['ID']['output']>;
-  /** The deleted term object */
-  graphqlDocumentGroup: Maybe<GraphqlDocumentGroup>;
-};
-
-/** Input for the deleteGraphqlDocument mutation. */
-export type DeleteGraphqlDocumentInput = {
-  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: InputMaybe<Scalars['String']['input']>;
-  /** Whether the object should be force deleted instead of being moved to the trash */
-  forceDelete: InputMaybe<Scalars['Boolean']['input']>;
-  /** The ID of the graphqlDocument to delete */
-  id: Scalars['ID']['input'];
-  /** Override the edit lock when another user is editing the post */
-  ignoreEditLock: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** The payload for the deleteGraphqlDocument mutation. */
-export type DeleteGraphqlDocumentPayload = {
-  __typename?: 'DeleteGraphqlDocumentPayload';
-  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: Maybe<Scalars['String']['output']>;
-  /** The ID of the deleted object */
-  deletedId: Maybe<Scalars['ID']['output']>;
-  /** The object before it was deleted */
-  graphqlDocument: Maybe<GraphqlDocument>;
-};
-
 /** Input for the deleteHero mutation. */
 export type DeleteHeroInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2946,8 +2834,6 @@ export type DownvoteHeroPayload = {
 export type DownvoteTeamInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId: InputMaybe<Scalars['String']['input']>;
-  /** The ID of the hero */
-  heroId: InputMaybe<Scalars['Int']['input']>;
   /** The IP address of the voter */
   ipAddress: InputMaybe<Scalars['String']['input']>;
   /** The ID of the team */
@@ -3394,744 +3280,6 @@ export type GeneralSettings = {
   title: Maybe<Scalars['String']['output']>;
   /** Site URL. */
   url: Maybe<Scalars['String']['output']>;
-};
-
-/** The graphqlDocument type */
-export type GraphqlDocument = ContentNode & DatabaseIdentifier & Node & NodeWithContentEditor & NodeWithTemplate & NodeWithTitle & UniformResourceIdentifiable & WithAcfGuideFields & {
-  __typename?: 'GraphqlDocument';
-  /** Alias names for saved GraphQL query documents */
-  alias: Maybe<Array<Scalars['String']['output']>>;
-  /**
-   * The ancestors of the content node.
-   * @deprecated This content type is not hierarchical and typically will not have ancestors
-   */
-  ancestors: Maybe<GraphqlDocumentToGraphqlDocumentConnection>;
-  /** The content of the post. */
-  content: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the ContentType type */
-  contentType: Maybe<ContentNodeToContentTypeConnectionEdge>;
-  /** The name of the Content Type the node belongs to */
-  contentTypeName: Scalars['String']['output'];
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** Post publishing date. */
-  date: Maybe<Scalars['String']['output']>;
-  /** The publishing date set in GMT. */
-  dateGmt: Maybe<Scalars['String']['output']>;
-  /** Description for the saved GraphQL document */
-  description: Maybe<Scalars['String']['output']>;
-  /** The desired slug of the post */
-  desiredSlug: Maybe<Scalars['String']['output']>;
-  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
-  editingLockedBy: Maybe<ContentNodeToEditLockConnectionEdge>;
-  /** The RSS enclosure for the object */
-  enclosure: Maybe<Scalars['String']['output']>;
-  /** Connection between the ContentNode type and the EnqueuedScript type */
-  enqueuedScripts: Maybe<ContentNodeToEnqueuedScriptConnection>;
-  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
-  /** Allow, deny or default access grant for specific query */
-  grant: Maybe<Scalars['String']['output']>;
-  /** Connection between the GraphqlDocument type and the graphqlDocumentGroup type */
-  graphqlDocumentGroups: Maybe<GraphqlDocumentToGraphqlDocumentGroupConnection>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of the databaseId field
-   */
-  graphqlDocumentId: Scalars['Int']['output'];
-  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
-  guid: Maybe<Scalars['String']['output']>;
-  /** Fields of the GuideFields ACF Field Group */
-  guideFields: Maybe<GuideFields>;
-  /** Whether the graphql_document object is password protected. */
-  hasPassword: Maybe<Scalars['Boolean']['output']>;
-  /** The globally unique identifier of the graphql_document object. */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Comment */
-  isComment: Scalars['Boolean']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the node represents the front page. */
-  isFrontPage: Scalars['Boolean']['output'];
-  /** Whether  the node represents the blog page. */
-  isPostsPage: Scalars['Boolean']['output'];
-  /** Whether the object is a node in the preview state */
-  isPreview: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the object is restricted from the current viewer */
-  isRestricted: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** The user that most recently edited the node */
-  lastEditedBy: Maybe<ContentNodeToEditLastConnectionEdge>;
-  /** The permalink of the post */
-  link: Maybe<Scalars['String']['output']>;
-  /** HTTP Cache-Control max-age directive for a saved GraphQL document */
-  maxAgeHeader: Maybe<Scalars['Int']['output']>;
-  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
-  modified: Maybe<Scalars['String']['output']>;
-  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
-  modifiedGmt: Maybe<Scalars['String']['output']>;
-  /**
-   * The parent of the content node.
-   * @deprecated This content type is not hierarchical and typically will not have a parent
-   */
-  parent: Maybe<GraphqlDocumentToParentConnectionEdge>;
-  /** The password for the graphql_document object. */
-  password: Maybe<Scalars['String']['output']>;
-  /**
-   * Connection between the GraphqlDocument type and the graphqlDocument type
-   * @deprecated The &quot;GraphqlDocument&quot; Type is not publicly queryable and does not support previews. This field will be removed in the future.
-   */
-  preview: Maybe<GraphqlDocumentToPreviewConnectionEdge>;
-  /** The database id of the preview node */
-  previewRevisionDatabaseId: Maybe<Scalars['Int']['output']>;
-  /** Whether the object is a node in the preview state */
-  previewRevisionId: Maybe<Scalars['ID']['output']>;
-  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
-  slug: Maybe<Scalars['String']['output']>;
-  /** The current status of the object */
-  status: Maybe<Scalars['String']['output']>;
-  /** The template assigned to the node */
-  template: Maybe<ContentTemplate>;
-  /** Connection between the GraphqlDocument type and the TermNode type */
-  terms: Maybe<GraphqlDocumentToTermNodeConnection>;
-  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
-  title: Maybe<Scalars['String']['output']>;
-  /** The unique resource identifier path */
-  uri: Maybe<Scalars['String']['output']>;
-};
-
-
-/** The graphqlDocument type */
-export type GraphqlDocumentAncestorsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The graphqlDocument type */
-export type GraphqlDocumentContentArgs = {
-  format: InputMaybe<PostObjectFieldFormatEnum>;
-};
-
-
-/** The graphqlDocument type */
-export type GraphqlDocumentEnqueuedScriptsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The graphqlDocument type */
-export type GraphqlDocumentEnqueuedStylesheetsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The graphqlDocument type */
-export type GraphqlDocumentGraphqlDocumentGroupsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  where: InputMaybe<GraphqlDocumentToGraphqlDocumentGroupConnectionWhereArgs>;
-};
-
-
-/** The graphqlDocument type */
-export type GraphqlDocumentTermsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  where: InputMaybe<GraphqlDocumentToTermNodeConnectionWhereArgs>;
-};
-
-
-/** The graphqlDocument type */
-export type GraphqlDocumentTitleArgs = {
-  format: InputMaybe<PostObjectFieldFormatEnum>;
-};
-
-/** Connection to graphqlDocument Nodes */
-export type GraphqlDocumentConnection = {
-  /** A list of edges (relational context) between RootQuery and connected graphqlDocument Nodes */
-  edges: Array<GraphqlDocumentConnectionEdge>;
-  /** A list of connected graphqlDocument Nodes */
-  nodes: Array<GraphqlDocument>;
-  /** Information about pagination in a connection. */
-  pageInfo: GraphqlDocumentConnectionPageInfo;
-};
-
-/** Edge between a Node and a connected graphqlDocument */
-export type GraphqlDocumentConnectionEdge = {
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The connected graphqlDocument Node */
-  node: GraphqlDocument;
-};
-
-/** Page Info on the connected GraphqlDocumentConnectionEdge */
-export type GraphqlDocumentConnectionPageInfo = {
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
-};
-
-/** Set relationships between the graphqlDocument to graphqlDocumentGroups */
-export type GraphqlDocumentGraphqlDocumentGroupsInput = {
-  /** If true, this will append the graphqlDocumentGroup to existing related graphqlDocumentGroups. If false, this will replace existing relationships. Default true. */
-  append: InputMaybe<Scalars['Boolean']['input']>;
-  /** The input list of items to set. */
-  nodes: InputMaybe<Array<InputMaybe<GraphqlDocumentGraphqlDocumentGroupsNodeInput>>>;
-};
-
-/** List of graphqlDocumentGroups to connect the graphqlDocument to. If an ID is set, it will be used to create the connection. If not, it will look for a slug. If neither are valid existing terms, and the site is configured to allow terms to be created during post mutations, a term will be created using the Name if it exists in the input, then fallback to the slug if it exists. */
-export type GraphqlDocumentGraphqlDocumentGroupsNodeInput = {
-  /** The description of the graphqlDocumentGroup. This field is used to set a description of the graphqlDocumentGroup if a new one is created during the mutation. */
-  description: InputMaybe<Scalars['String']['input']>;
-  /** The ID of the graphqlDocumentGroup. If present, this will be used to connect to the graphqlDocument. If no existing graphqlDocumentGroup exists with this ID, no connection will be made. */
-  id: InputMaybe<Scalars['ID']['input']>;
-  /** The name of the graphqlDocumentGroup. This field is used to create a new term, if term creation is enabled in nested mutations, and if one does not already exist with the provided slug or ID or if a slug or ID is not provided. If no name is included and a term is created, the creation will fallback to the slug field. */
-  name: InputMaybe<Scalars['String']['input']>;
-  /** The slug of the graphqlDocumentGroup. If no ID is present, this field will be used to make a connection. If no existing term exists with this slug, this field will be used as a fallback to the Name field when creating a new term to connect to, if term creation is enabled as a nested mutation. */
-  slug: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The graphqlDocumentGroup type */
-export type GraphqlDocumentGroup = DatabaseIdentifier & Node & TermNode & UniformResourceIdentifiable & {
-  __typename?: 'GraphqlDocumentGroup';
-  /** Connection between the GraphqlDocumentGroup type and the ContentNode type */
-  contentNodes: Maybe<GraphqlDocumentGroupToContentNodeConnection>;
-  /** The number of objects connected to the object */
-  count: Maybe<Scalars['Int']['output']>;
-  /** The unique identifier stored in the database */
-  databaseId: Scalars['Int']['output'];
-  /** The description of the object */
-  description: Maybe<Scalars['String']['output']>;
-  /** Connection between the TermNode type and the EnqueuedScript type */
-  enqueuedScripts: Maybe<TermNodeToEnqueuedScriptConnection>;
-  /** Connection between the TermNode type and the EnqueuedStylesheet type */
-  enqueuedStylesheets: Maybe<TermNodeToEnqueuedStylesheetConnection>;
-  /**
-   * The id field matches the WP_Post-&gt;ID field.
-   * @deprecated Deprecated in favor of databaseId
-   */
-  graphqlDocumentGroupId: Maybe<Scalars['Int']['output']>;
-  /** Connection between the GraphqlDocumentGroup type and the graphqlDocument type */
-  graphqlDocuments: Maybe<GraphqlDocumentGroupToGraphqlDocumentConnection>;
-  /** The globally unique ID for the object */
-  id: Scalars['ID']['output'];
-  /** Whether the node is a Comment */
-  isComment: Scalars['Boolean']['output'];
-  /** Whether the node is a Content Node */
-  isContentNode: Scalars['Boolean']['output'];
-  /** Whether the node represents the front page. */
-  isFrontPage: Scalars['Boolean']['output'];
-  /** Whether  the node represents the blog page. */
-  isPostsPage: Scalars['Boolean']['output'];
-  /** Whether the object is restricted from the current viewer */
-  isRestricted: Maybe<Scalars['Boolean']['output']>;
-  /** Whether the node is a Term */
-  isTermNode: Scalars['Boolean']['output'];
-  /** The link to the term */
-  link: Maybe<Scalars['String']['output']>;
-  /** The human friendly name of the object. */
-  name: Maybe<Scalars['String']['output']>;
-  /** An alphanumeric identifier for the object unique to its type. */
-  slug: Maybe<Scalars['String']['output']>;
-  /** Connection between the GraphqlDocumentGroup type and the Taxonomy type */
-  taxonomy: Maybe<GraphqlDocumentGroupToTaxonomyConnectionEdge>;
-  /** The name of the taxonomy that the object is associated with */
-  taxonomyName: Maybe<Scalars['String']['output']>;
-  /** The ID of the term group that this term object belongs to */
-  termGroupId: Maybe<Scalars['Int']['output']>;
-  /** The taxonomy ID that the object is associated with */
-  termTaxonomyId: Maybe<Scalars['Int']['output']>;
-  /** The unique resource identifier path */
-  uri: Maybe<Scalars['String']['output']>;
-};
-
-
-/** The graphqlDocumentGroup type */
-export type GraphqlDocumentGroupContentNodesArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  where: InputMaybe<GraphqlDocumentGroupToContentNodeConnectionWhereArgs>;
-};
-
-
-/** The graphqlDocumentGroup type */
-export type GraphqlDocumentGroupEnqueuedScriptsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The graphqlDocumentGroup type */
-export type GraphqlDocumentGroupEnqueuedStylesheetsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The graphqlDocumentGroup type */
-export type GraphqlDocumentGroupGraphqlDocumentsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  where: InputMaybe<GraphqlDocumentGroupToGraphqlDocumentConnectionWhereArgs>;
-};
-
-/** Connection to graphqlDocumentGroup Nodes */
-export type GraphqlDocumentGroupConnection = {
-  /** A list of edges (relational context) between RootQuery and connected graphqlDocumentGroup Nodes */
-  edges: Array<GraphqlDocumentGroupConnectionEdge>;
-  /** A list of connected graphqlDocumentGroup Nodes */
-  nodes: Array<GraphqlDocumentGroup>;
-  /** Information about pagination in a connection. */
-  pageInfo: GraphqlDocumentGroupConnectionPageInfo;
-};
-
-/** Edge between a Node and a connected graphqlDocumentGroup */
-export type GraphqlDocumentGroupConnectionEdge = {
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The connected graphqlDocumentGroup Node */
-  node: GraphqlDocumentGroup;
-};
-
-/** Page Info on the connected GraphqlDocumentGroupConnectionEdge */
-export type GraphqlDocumentGroupConnectionPageInfo = {
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
-};
-
-/** The Type of Identifier used to fetch a single resource. Default is ID. */
-export enum GraphqlDocumentGroupIdType {
-  /** The Database ID for the node */
-  DatabaseId = 'DATABASE_ID',
-  /** The hashed Global ID */
-  Id = 'ID',
-  /** The name of the node */
-  Name = 'NAME',
-  /** Url friendly name of the node */
-  Slug = 'SLUG',
-  /** The URI for the node */
-  Uri = 'URI'
-}
-
-/** Connection between the GraphqlDocumentGroup type and the ContentNode type */
-export type GraphqlDocumentGroupToContentNodeConnection = Connection & ContentNodeConnection & {
-  __typename?: 'GraphqlDocumentGroupToContentNodeConnection';
-  /** Edges for the GraphqlDocumentGroupToContentNodeConnection connection */
-  edges: Array<GraphqlDocumentGroupToContentNodeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<ContentNode>;
-  /** Information about pagination in a connection. */
-  pageInfo: GraphqlDocumentGroupToContentNodeConnectionPageInfo;
-};
-
-/** An edge in a connection */
-export type GraphqlDocumentGroupToContentNodeConnectionEdge = ContentNodeConnectionEdge & Edge & {
-  __typename?: 'GraphqlDocumentGroupToContentNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: ContentNode;
-};
-
-/** Page Info on the &quot;GraphqlDocumentGroupToContentNodeConnection&quot; */
-export type GraphqlDocumentGroupToContentNodeConnectionPageInfo = ContentNodeConnectionPageInfo & PageInfo & WpPageInfo & {
-  __typename?: 'GraphqlDocumentGroupToContentNodeConnectionPageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
-};
-
-/** Arguments for filtering the GraphqlDocumentGroupToContentNodeConnection connection */
-export type GraphqlDocumentGroupToContentNodeConnectionWhereArgs = {
-  /** The Types of content to filter */
-  contentTypes: InputMaybe<Array<InputMaybe<ContentTypesOfGraphqlDocumentGroupEnum>>>;
-  /** Filter the connection based on dates */
-  dateQuery: InputMaybe<DateQueryInput>;
-  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword: InputMaybe<Scalars['Boolean']['input']>;
-  /** Specific database ID of the object */
-  id: InputMaybe<Scalars['Int']['input']>;
-  /** Array of IDs for the objects to retrieve */
-  in: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Get objects with a specific mimeType property */
-  mimeType: InputMaybe<MimeTypeEnum>;
-  /** Slug / post_name of the object */
-  name: InputMaybe<Scalars['String']['input']>;
-  /** Specify objects to retrieve. Use slugs */
-  nameIn: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** What parameter to use to order the objects by. */
-  orderby: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
-  /** Use ID to return only children. Use 0 to return only top-level items */
-  parent: InputMaybe<Scalars['ID']['input']>;
-  /** Specify objects whose parent is in an array */
-  parentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Specify posts whose parent is not in an array */
-  parentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Show posts with a specific password. */
-  password: InputMaybe<Scalars['String']['input']>;
-  /** Show Posts based on a keyword search */
-  search: InputMaybe<Scalars['String']['input']>;
-  /** Retrieve posts where post status is in an array. */
-  stati: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
-  /** Show posts with a specific status. */
-  status: InputMaybe<PostStatusEnum>;
-  /** Title of the object */
-  title: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Connection between the GraphqlDocumentGroup type and the graphqlDocument type */
-export type GraphqlDocumentGroupToGraphqlDocumentConnection = Connection & GraphqlDocumentConnection & {
-  __typename?: 'GraphqlDocumentGroupToGraphqlDocumentConnection';
-  /** Edges for the GraphqlDocumentGroupToGraphqlDocumentConnection connection */
-  edges: Array<GraphqlDocumentGroupToGraphqlDocumentConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<GraphqlDocument>;
-  /** Information about pagination in a connection. */
-  pageInfo: GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo;
-};
-
-/** An edge in a connection */
-export type GraphqlDocumentGroupToGraphqlDocumentConnectionEdge = Edge & GraphqlDocumentConnectionEdge & {
-  __typename?: 'GraphqlDocumentGroupToGraphqlDocumentConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: GraphqlDocument;
-};
-
-/** Page Info on the &quot;GraphqlDocumentGroupToGraphqlDocumentConnection&quot; */
-export type GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo = GraphqlDocumentConnectionPageInfo & PageInfo & WpPageInfo & {
-  __typename?: 'GraphqlDocumentGroupToGraphqlDocumentConnectionPageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
-};
-
-/** Arguments for filtering the GraphqlDocumentGroupToGraphqlDocumentConnection connection */
-export type GraphqlDocumentGroupToGraphqlDocumentConnectionWhereArgs = {
-  /** Filter the connection based on dates */
-  dateQuery: InputMaybe<DateQueryInput>;
-  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword: InputMaybe<Scalars['Boolean']['input']>;
-  /** Specific database ID of the object */
-  id: InputMaybe<Scalars['Int']['input']>;
-  /** Array of IDs for the objects to retrieve */
-  in: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Get objects with a specific mimeType property */
-  mimeType: InputMaybe<MimeTypeEnum>;
-  /** Slug / post_name of the object */
-  name: InputMaybe<Scalars['String']['input']>;
-  /** Specify objects to retrieve. Use slugs */
-  nameIn: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** What parameter to use to order the objects by. */
-  orderby: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
-  /** Use ID to return only children. Use 0 to return only top-level items */
-  parent: InputMaybe<Scalars['ID']['input']>;
-  /** Specify objects whose parent is in an array */
-  parentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Specify posts whose parent is not in an array */
-  parentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Show posts with a specific password. */
-  password: InputMaybe<Scalars['String']['input']>;
-  /** Show Posts based on a keyword search */
-  search: InputMaybe<Scalars['String']['input']>;
-  /** Retrieve posts where post status is in an array. */
-  stati: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
-  /** Show posts with a specific status. */
-  status: InputMaybe<PostStatusEnum>;
-  /** Title of the object */
-  title: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Connection between the GraphqlDocumentGroup type and the Taxonomy type */
-export type GraphqlDocumentGroupToTaxonomyConnectionEdge = Edge & OneToOneConnection & TaxonomyConnectionEdge & {
-  __typename?: 'GraphqlDocumentGroupToTaxonomyConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The node of the connection, without the edges */
-  node: Taxonomy;
-};
-
-/** The Type of Identifier used to fetch a single resource. Default is ID. */
-export enum GraphqlDocumentIdType {
-  /** Identify a resource by the Database ID. */
-  DatabaseId = 'DATABASE_ID',
-  /** Identify a resource by the (hashed) Global ID. */
-  Id = 'ID',
-  /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
-  Slug = 'SLUG',
-  /** Identify a resource by the URI. */
-  Uri = 'URI'
-}
-
-/** Connection between the GraphqlDocument type and the graphqlDocument type */
-export type GraphqlDocumentToGraphqlDocumentConnection = Connection & GraphqlDocumentConnection & {
-  __typename?: 'GraphqlDocumentToGraphqlDocumentConnection';
-  /** Edges for the GraphqlDocumentToGraphqlDocumentConnection connection */
-  edges: Array<GraphqlDocumentToGraphqlDocumentConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<GraphqlDocument>;
-  /** Information about pagination in a connection. */
-  pageInfo: GraphqlDocumentToGraphqlDocumentConnectionPageInfo;
-};
-
-/** An edge in a connection */
-export type GraphqlDocumentToGraphqlDocumentConnectionEdge = Edge & GraphqlDocumentConnectionEdge & {
-  __typename?: 'GraphqlDocumentToGraphqlDocumentConnectionEdge';
-  /**
-   * A cursor for use in pagination
-   * @deprecated This content type is not hierarchical and typically will not have ancestors
-   */
-  cursor: Maybe<Scalars['String']['output']>;
-  /**
-   * The item at the end of the edge
-   * @deprecated This content type is not hierarchical and typically will not have ancestors
-   */
-  node: GraphqlDocument;
-};
-
-/** Page Info on the &quot;GraphqlDocumentToGraphqlDocumentConnection&quot; */
-export type GraphqlDocumentToGraphqlDocumentConnectionPageInfo = GraphqlDocumentConnectionPageInfo & PageInfo & WpPageInfo & {
-  __typename?: 'GraphqlDocumentToGraphqlDocumentConnectionPageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
-};
-
-/** Connection between the GraphqlDocument type and the graphqlDocumentGroup type */
-export type GraphqlDocumentToGraphqlDocumentGroupConnection = Connection & GraphqlDocumentGroupConnection & {
-  __typename?: 'GraphqlDocumentToGraphqlDocumentGroupConnection';
-  /** Edges for the GraphqlDocumentToGraphqlDocumentGroupConnection connection */
-  edges: Array<GraphqlDocumentToGraphqlDocumentGroupConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<GraphqlDocumentGroup>;
-  /** Information about pagination in a connection. */
-  pageInfo: GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo;
-};
-
-/** An edge in a connection */
-export type GraphqlDocumentToGraphqlDocumentGroupConnectionEdge = Edge & GraphqlDocumentGroupConnectionEdge & {
-  __typename?: 'GraphqlDocumentToGraphqlDocumentGroupConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: GraphqlDocumentGroup;
-};
-
-/** Page Info on the &quot;GraphqlDocumentToGraphqlDocumentGroupConnection&quot; */
-export type GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo = GraphqlDocumentGroupConnectionPageInfo & PageInfo & WpPageInfo & {
-  __typename?: 'GraphqlDocumentToGraphqlDocumentGroupConnectionPageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
-};
-
-/** Arguments for filtering the GraphqlDocumentToGraphqlDocumentGroupConnection connection */
-export type GraphqlDocumentToGraphqlDocumentGroupConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain: InputMaybe<Scalars['String']['input']>;
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf: InputMaybe<Scalars['Int']['input']>;
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless: InputMaybe<Scalars['Boolean']['input']>;
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike: InputMaybe<Scalars['String']['input']>;
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty: InputMaybe<Scalars['Boolean']['input']>;
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical: InputMaybe<Scalars['Boolean']['input']>;
-  /** Array of term ids to include. Default empty array. */
-  include: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Array of names to return term(s) for. Default empty. */
-  name: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike: InputMaybe<Scalars['String']['input']>;
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Direction the connection should be ordered in */
-  order: InputMaybe<OrderEnum>;
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby: InputMaybe<TermObjectsConnectionOrderbyEnum>;
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts: InputMaybe<Scalars['Boolean']['input']>;
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent: InputMaybe<Scalars['Int']['input']>;
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search: InputMaybe<Scalars['String']['input']>;
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomyId: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache: InputMaybe<Scalars['Boolean']['input']>;
-};
-
-/** Connection between the GraphqlDocument type and the graphqlDocument type */
-export type GraphqlDocumentToParentConnectionEdge = Edge & GraphqlDocumentConnectionEdge & OneToOneConnection & {
-  __typename?: 'GraphqlDocumentToParentConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor: Maybe<Scalars['String']['output']>;
-  /**
-   * The node of the connection, without the edges
-   * @deprecated This content type is not hierarchical and typically will not have a parent
-   */
-  node: GraphqlDocument;
-};
-
-/** Connection between the GraphqlDocument type and the graphqlDocument type */
-export type GraphqlDocumentToPreviewConnectionEdge = Edge & GraphqlDocumentConnectionEdge & OneToOneConnection & {
-  __typename?: 'GraphqlDocumentToPreviewConnectionEdge';
-  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
-  cursor: Maybe<Scalars['String']['output']>;
-  /**
-   * The node of the connection, without the edges
-   * @deprecated The &quot;GraphqlDocument&quot; Type is not publicly queryable and does not support previews. This field will be removed in the future.
-   */
-  node: GraphqlDocument;
-};
-
-/** Connection between the GraphqlDocument type and the TermNode type */
-export type GraphqlDocumentToTermNodeConnection = Connection & TermNodeConnection & {
-  __typename?: 'GraphqlDocumentToTermNodeConnection';
-  /** Edges for the GraphqlDocumentToTermNodeConnection connection */
-  edges: Array<GraphqlDocumentToTermNodeConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<TermNode>;
-  /** Information about pagination in a connection. */
-  pageInfo: GraphqlDocumentToTermNodeConnectionPageInfo;
-};
-
-/** An edge in a connection */
-export type GraphqlDocumentToTermNodeConnectionEdge = Edge & TermNodeConnectionEdge & {
-  __typename?: 'GraphqlDocumentToTermNodeConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: TermNode;
-};
-
-/** Page Info on the &quot;GraphqlDocumentToTermNodeConnection&quot; */
-export type GraphqlDocumentToTermNodeConnectionPageInfo = PageInfo & TermNodeConnectionPageInfo & WpPageInfo & {
-  __typename?: 'GraphqlDocumentToTermNodeConnectionPageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
-};
-
-/** Arguments for filtering the GraphqlDocumentToTermNodeConnection connection */
-export type GraphqlDocumentToTermNodeConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain: InputMaybe<Scalars['String']['input']>;
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf: InputMaybe<Scalars['Int']['input']>;
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless: InputMaybe<Scalars['Boolean']['input']>;
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike: InputMaybe<Scalars['String']['input']>;
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty: InputMaybe<Scalars['Boolean']['input']>;
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical: InputMaybe<Scalars['Boolean']['input']>;
-  /** Array of term ids to include. Default empty array. */
-  include: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Array of names to return term(s) for. Default empty. */
-  name: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike: InputMaybe<Scalars['String']['input']>;
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Direction the connection should be ordered in */
-  order: InputMaybe<OrderEnum>;
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby: InputMaybe<TermObjectsConnectionOrderbyEnum>;
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts: InputMaybe<Scalars['Boolean']['input']>;
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent: InputMaybe<Scalars['Int']['input']>;
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search: InputMaybe<Scalars['String']['input']>;
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** The Taxonomy to filter terms by */
-  taxonomies: InputMaybe<Array<InputMaybe<TaxonomyEnum>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomyId: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** The &quot;GuideFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
@@ -11042,10 +10190,6 @@ export type RootMutation = {
   createCollection: Maybe<CreateCollectionPayload>;
   /** The createComment mutation */
   createComment: Maybe<CreateCommentPayload>;
-  /** The createGraphqlDocument mutation */
-  createGraphqlDocument: Maybe<CreateGraphqlDocumentPayload>;
-  /** The createGraphqlDocumentGroup mutation */
-  createGraphqlDocumentGroup: Maybe<CreateGraphqlDocumentGroupPayload>;
   /** The createHero mutation */
   createHero: Maybe<CreateHeroPayload>;
   /** The createItem mutation */
@@ -11072,10 +10216,6 @@ export type RootMutation = {
   deleteCollection: Maybe<DeleteCollectionPayload>;
   /** The deleteComment mutation */
   deleteComment: Maybe<DeleteCommentPayload>;
-  /** The deleteGraphqlDocument mutation */
-  deleteGraphqlDocument: Maybe<DeleteGraphqlDocumentPayload>;
-  /** The deleteGraphqlDocumentGroup mutation */
-  deleteGraphqlDocumentGroup: Maybe<DeleteGraphqlDocumentGroupPayload>;
   /** The deleteHero mutation */
   deleteHero: Maybe<DeleteHeroPayload>;
   /** The deleteItem mutation */
@@ -11120,10 +10260,6 @@ export type RootMutation = {
   updateCollection: Maybe<UpdateCollectionPayload>;
   /** The updateComment mutation */
   updateComment: Maybe<UpdateCommentPayload>;
-  /** The updateGraphqlDocument mutation */
-  updateGraphqlDocument: Maybe<UpdateGraphqlDocumentPayload>;
-  /** The updateGraphqlDocumentGroup mutation */
-  updateGraphqlDocumentGroup: Maybe<UpdateGraphqlDocumentGroupPayload>;
   /** The updateHero mutation */
   updateHero: Maybe<UpdateHeroPayload>;
   /** The updateItem mutation */
@@ -11168,18 +10304,6 @@ export type RootMutationCreateCollectionArgs = {
 /** The root mutation */
 export type RootMutationCreateCommentArgs = {
   input: CreateCommentInput;
-};
-
-
-/** The root mutation */
-export type RootMutationCreateGraphqlDocumentArgs = {
-  input: CreateGraphqlDocumentInput;
-};
-
-
-/** The root mutation */
-export type RootMutationCreateGraphqlDocumentGroupArgs = {
-  input: CreateGraphqlDocumentGroupInput;
 };
 
 
@@ -11258,18 +10382,6 @@ export type RootMutationDeleteCollectionArgs = {
 /** The root mutation */
 export type RootMutationDeleteCommentArgs = {
   input: DeleteCommentInput;
-};
-
-
-/** The root mutation */
-export type RootMutationDeleteGraphqlDocumentArgs = {
-  input: DeleteGraphqlDocumentInput;
-};
-
-
-/** The root mutation */
-export type RootMutationDeleteGraphqlDocumentGroupArgs = {
-  input: DeleteGraphqlDocumentGroupInput;
 };
 
 
@@ -11406,18 +10518,6 @@ export type RootMutationUpdateCommentArgs = {
 
 
 /** The root mutation */
-export type RootMutationUpdateGraphqlDocumentArgs = {
-  input: UpdateGraphqlDocumentInput;
-};
-
-
-/** The root mutation */
-export type RootMutationUpdateGraphqlDocumentGroupArgs = {
-  input: UpdateGraphqlDocumentGroupInput;
-};
-
-
-/** The root mutation */
 export type RootMutationUpdateHeroArgs = {
   input: UpdateHeroInput;
 };
@@ -11528,19 +10628,10 @@ export type RootQuery = {
   discussionSettings: Maybe<DiscussionSettings>;
   /** Fields of the &#039;GeneralSettings&#039; settings group */
   generalSettings: Maybe<GeneralSettings>;
-  /** An object of the graphqlDocument Type. Saved GraphQL Documents */
-  graphqlDocument: Maybe<GraphqlDocument>;
-  /**
-   * A graphqlDocument object
-   * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
-   */
-  graphqlDocumentBy: Maybe<GraphqlDocument>;
-  /** A 0bject */
-  graphqlDocumentGroup: Maybe<GraphqlDocumentGroup>;
-  /** Connection between the RootQuery type and the graphqlDocumentGroup type */
-  graphqlDocumentGroups: Maybe<RootQueryToGraphqlDocumentGroupConnection>;
-  /** Connection between the RootQuery type and the graphqlDocument type */
-  graphqlDocuments: Maybe<RootQueryToGraphqlDocumentConnection>;
+  /** Get teams and their total vote and downvote counts for a specific hero and user */
+  getTeamVotes: Maybe<Array<Maybe<TeamVoteInfo>>>;
+  /** Get the vote status of a user for a particular team */
+  getUserTeamVoteStatus: Maybe<Array<Maybe<TeamUserVote>>>;
   /** An object of the hero Type. Heroes */
   hero: Maybe<Hero>;
   /**
@@ -11643,8 +10734,8 @@ export type RootQuery = {
   teamVotes: Maybe<RootQueryToTeamVoteConnection>;
   /** Connection between the RootQuery type and the team type */
   teams: Maybe<RootQueryToTeamConnection>;
-  /** Get teams and their total vote and downvote counts for a specific hero and user */
-  teamsVotesByHero: Maybe<Array<Maybe<TeamVoteCount>>>;
+  /** Get teams and their total vote and downvote counts for a specific user */
+  teamsVotesWithUserVote: Maybe<Array<Maybe<TeamVoteCount>>>;
   /** A node in a taxonomy used to group and relate content nodes */
   termNode: Maybe<TermNode>;
   /** Connection between the RootQuery type and the TermNode type */
@@ -11769,46 +10860,9 @@ export type RootQueryContentTypesArgs = {
 
 
 /** The root entry point into the Graph */
-export type RootQueryGraphqlDocumentArgs = {
-  asPreview: InputMaybe<Scalars['Boolean']['input']>;
-  id: Scalars['ID']['input'];
-  idType: InputMaybe<GraphqlDocumentIdType>;
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryGraphqlDocumentByArgs = {
-  graphqlDocumentId: InputMaybe<Scalars['Int']['input']>;
-  id: InputMaybe<Scalars['ID']['input']>;
-  slug: InputMaybe<Scalars['String']['input']>;
-  uri: InputMaybe<Scalars['String']['input']>;
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryGraphqlDocumentGroupArgs = {
-  id: Scalars['ID']['input'];
-  idType: InputMaybe<GraphqlDocumentGroupIdType>;
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryGraphqlDocumentGroupsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  where: InputMaybe<RootQueryToGraphqlDocumentGroupConnectionWhereArgs>;
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryGraphqlDocumentsArgs = {
-  after: InputMaybe<Scalars['String']['input']>;
-  before: InputMaybe<Scalars['String']['input']>;
-  first: InputMaybe<Scalars['Int']['input']>;
-  last: InputMaybe<Scalars['Int']['input']>;
-  where: InputMaybe<RootQueryToGraphqlDocumentConnectionWhereArgs>;
+export type RootQueryGetUserTeamVoteStatusArgs = {
+  ipAddress?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -12157,8 +11211,7 @@ export type RootQueryTeamsArgs = {
 
 
 /** The root entry point into the Graph */
-export type RootQueryTeamsVotesByHeroArgs = {
-  heroId: InputMaybe<Scalars['Int']['input']>;
+export type RootQueryTeamsVotesWithUserVoteArgs = {
   ipAddress?: InputMaybe<Scalars['String']['input']>;
   userId?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -12230,7 +11283,6 @@ export type RootQueryUserRolesArgs = {
 
 /** The root entry point into the Graph */
 export type RootQueryUserVoteStatusArgs = {
-  heroId: InputMaybe<Scalars['Int']['input']>;
   ipAddress: InputMaybe<Scalars['String']['input']>;
   teamId: InputMaybe<Scalars['Int']['input']>;
   userId?: InputMaybe<Scalars['Int']['input']>;
@@ -12661,156 +11713,6 @@ export type RootQueryToEnqueuedStylesheetConnectionPageInfo = EnqueuedStylesheet
   hasPreviousPage: Scalars['Boolean']['output'];
   /** When paginating backwards, the cursor to continue. */
   startCursor: Maybe<Scalars['String']['output']>;
-};
-
-/** Connection between the RootQuery type and the graphqlDocument type */
-export type RootQueryToGraphqlDocumentConnection = Connection & GraphqlDocumentConnection & {
-  __typename?: 'RootQueryToGraphqlDocumentConnection';
-  /** Edges for the RootQueryToGraphqlDocumentConnection connection */
-  edges: Array<RootQueryToGraphqlDocumentConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<GraphqlDocument>;
-  /** Information about pagination in a connection. */
-  pageInfo: RootQueryToGraphqlDocumentConnectionPageInfo;
-};
-
-/** An edge in a connection */
-export type RootQueryToGraphqlDocumentConnectionEdge = Edge & GraphqlDocumentConnectionEdge & {
-  __typename?: 'RootQueryToGraphqlDocumentConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: GraphqlDocument;
-};
-
-/** Page Info on the &quot;RootQueryToGraphqlDocumentConnection&quot; */
-export type RootQueryToGraphqlDocumentConnectionPageInfo = GraphqlDocumentConnectionPageInfo & PageInfo & WpPageInfo & {
-  __typename?: 'RootQueryToGraphqlDocumentConnectionPageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
-};
-
-/** Arguments for filtering the RootQueryToGraphqlDocumentConnection connection */
-export type RootQueryToGraphqlDocumentConnectionWhereArgs = {
-  /** Filter the connection based on dates */
-  dateQuery: InputMaybe<DateQueryInput>;
-  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
-  hasPassword: InputMaybe<Scalars['Boolean']['input']>;
-  /** Specific database ID of the object */
-  id: InputMaybe<Scalars['Int']['input']>;
-  /** Array of IDs for the objects to retrieve */
-  in: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Get objects with a specific mimeType property */
-  mimeType: InputMaybe<MimeTypeEnum>;
-  /** Slug / post_name of the object */
-  name: InputMaybe<Scalars['String']['input']>;
-  /** Specify objects to retrieve. Use slugs */
-  nameIn: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
-  notIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** What parameter to use to order the objects by. */
-  orderby: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
-  /** Use ID to return only children. Use 0 to return only top-level items */
-  parent: InputMaybe<Scalars['ID']['input']>;
-  /** Specify objects whose parent is in an array */
-  parentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Specify posts whose parent is not in an array */
-  parentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Show posts with a specific password. */
-  password: InputMaybe<Scalars['String']['input']>;
-  /** Show Posts based on a keyword search */
-  search: InputMaybe<Scalars['String']['input']>;
-  /** Retrieve posts where post status is in an array. */
-  stati: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
-  /** Show posts with a specific status. */
-  status: InputMaybe<PostStatusEnum>;
-  /** Title of the object */
-  title: InputMaybe<Scalars['String']['input']>;
-};
-
-/** Connection between the RootQuery type and the graphqlDocumentGroup type */
-export type RootQueryToGraphqlDocumentGroupConnection = Connection & GraphqlDocumentGroupConnection & {
-  __typename?: 'RootQueryToGraphqlDocumentGroupConnection';
-  /** Edges for the RootQueryToGraphqlDocumentGroupConnection connection */
-  edges: Array<RootQueryToGraphqlDocumentGroupConnectionEdge>;
-  /** The nodes of the connection, without the edges */
-  nodes: Array<GraphqlDocumentGroup>;
-  /** Information about pagination in a connection. */
-  pageInfo: RootQueryToGraphqlDocumentGroupConnectionPageInfo;
-};
-
-/** An edge in a connection */
-export type RootQueryToGraphqlDocumentGroupConnectionEdge = Edge & GraphqlDocumentGroupConnectionEdge & {
-  __typename?: 'RootQueryToGraphqlDocumentGroupConnectionEdge';
-  /** A cursor for use in pagination */
-  cursor: Maybe<Scalars['String']['output']>;
-  /** The item at the end of the edge */
-  node: GraphqlDocumentGroup;
-};
-
-/** Page Info on the &quot;RootQueryToGraphqlDocumentGroupConnection&quot; */
-export type RootQueryToGraphqlDocumentGroupConnectionPageInfo = GraphqlDocumentGroupConnectionPageInfo & PageInfo & WpPageInfo & {
-  __typename?: 'RootQueryToGraphqlDocumentGroupConnectionPageInfo';
-  /** When paginating forwards, the cursor to continue. */
-  endCursor: Maybe<Scalars['String']['output']>;
-  /** When paginating forwards, are there more items? */
-  hasNextPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, are there more items? */
-  hasPreviousPage: Scalars['Boolean']['output'];
-  /** When paginating backwards, the cursor to continue. */
-  startCursor: Maybe<Scalars['String']['output']>;
-};
-
-/** Arguments for filtering the RootQueryToGraphqlDocumentGroupConnection connection */
-export type RootQueryToGraphqlDocumentGroupConnectionWhereArgs = {
-  /** Unique cache key to be produced when this query is stored in an object cache. Default is 'core'. */
-  cacheDomain: InputMaybe<Scalars['String']['input']>;
-  /** Term ID to retrieve child terms of. If multiple taxonomies are passed, $child_of is ignored. Default 0. */
-  childOf: InputMaybe<Scalars['Int']['input']>;
-  /** True to limit results to terms that have no children. This parameter has no effect on non-hierarchical taxonomies. Default false. */
-  childless: InputMaybe<Scalars['Boolean']['input']>;
-  /** Retrieve terms where the description is LIKE the input value. Default empty. */
-  descriptionLike: InputMaybe<Scalars['String']['input']>;
-  /** Array of term ids to exclude. If $include is non-empty, $exclude is ignored. Default empty array. */
-  exclude: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Array of term ids to exclude along with all of their descendant terms. If $include is non-empty, $exclude_tree is ignored. Default empty array. */
-  excludeTree: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Whether to hide terms not assigned to any posts. Accepts true or false. Default false */
-  hideEmpty: InputMaybe<Scalars['Boolean']['input']>;
-  /** Whether to include terms that have non-empty descendants (even if $hide_empty is set to true). Default true. */
-  hierarchical: InputMaybe<Scalars['Boolean']['input']>;
-  /** Array of term ids to include. Default empty array. */
-  include: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Array of names to return term(s) for. Default empty. */
-  name: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Retrieve terms where the name is LIKE the input value. Default empty. */
-  nameLike: InputMaybe<Scalars['String']['input']>;
-  /** Array of object IDs. Results will be limited to terms associated with these objects. */
-  objectIds: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Direction the connection should be ordered in */
-  order: InputMaybe<OrderEnum>;
-  /** Field(s) to order terms by. Defaults to 'name'. */
-  orderby: InputMaybe<TermObjectsConnectionOrderbyEnum>;
-  /** Whether to pad the quantity of a term's children in the quantity of each term's "count" object variable. Default false. */
-  padCounts: InputMaybe<Scalars['Boolean']['input']>;
-  /** Parent term ID to retrieve direct-child terms of. Default empty. */
-  parent: InputMaybe<Scalars['Int']['input']>;
-  /** Search criteria to match terms. Will be SQL-formatted with wildcards before and after. Default empty. */
-  search: InputMaybe<Scalars['String']['input']>;
-  /** Array of slugs to return term(s) for. Default empty. */
-  slug: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomId: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Array of term taxonomy IDs, to match when querying terms. */
-  termTaxonomyId: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
-  /** Whether to prime meta caches for matched terms. Default true. */
-  updateTermMetaCache: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 /** Connection between the RootQuery type and the hero type */
@@ -14524,8 +13426,6 @@ export type TaxonomyConnectionPageInfo = {
 export enum TaxonomyEnum {
   /** Taxonomy enum category */
   Category = 'CATEGORY',
-  /** Taxonomy enum graphql_document_group */
-  Graphqldocumentgroup = 'GRAPHQLDOCUMENTGROUP',
   /** Taxonomy enum item_categories */
   Itemtype = 'ITEMTYPE',
   /** Taxonomy enum post_format */
@@ -15290,13 +14190,20 @@ export type TeamToTeamConnectionPageInfo = PageInfo & TeamConnectionPageInfo & W
   startCursor: Maybe<Scalars['String']['output']>;
 };
 
+/** Team ID, Vote Count, Downvote Count, and Team Details */
+export type TeamUserVote = {
+  __typename?: 'TeamUserVote';
+  /** The team ID */
+  teamId: Maybe<Scalars['Int']['output']>;
+  /** The current user&#039;s vote status on the team: &quot;upvote&quot;, &quot;downvote&quot;, or &quot;none&quot; */
+  userVote: Maybe<Scalars['String']['output']>;
+};
+
 /** Votes per hero team team option */
 export type TeamVote = DatabaseIdentifier & Node & {
   __typename?: 'TeamVote';
   /** The unique identifier stored in the database */
   databaseId: Scalars['Int']['output'];
-  /** The hero id */
-  heroDatabaseId: Maybe<Scalars['Int']['output']>;
   /** The globally unique ID for the object */
   id: Scalars['ID']['output'];
   /** The IP address of the user */
@@ -15358,6 +14265,17 @@ export type TeamVoteCount = {
   userId: Maybe<Scalars['Int']['output']>;
   /** The current user&#039;s vote status on the team: &quot;upvote&quot;, &quot;downvote&quot;, or &quot;none&quot; */
   userVote: Maybe<Scalars['String']['output']>;
+};
+
+/** Team ID, Vote Count, Downvote Count */
+export type TeamVoteInfo = {
+  __typename?: 'TeamVoteInfo';
+  /** The total number of downvotes */
+  downvoteCount: Maybe<Scalars['Int']['output']>;
+  /** The team ID */
+  teamId: Maybe<Scalars['Int']['output']>;
+  /** The total number of votes */
+  upvoteCount: Maybe<Scalars['Int']['output']>;
 };
 
 /** Connection between the TeamVote type and the Team type */
@@ -15738,74 +14656,6 @@ export type UpdateCommentPayload = {
   comment: Maybe<Comment>;
   /** Whether the mutation succeeded. If the comment is not approved, the server will not return the comment to a non authenticated user, but a success message can be returned if the create succeeded, and the client can optimistically add the comment to the client cache */
   success: Maybe<Scalars['Boolean']['output']>;
-};
-
-/** Input for the updateGraphqlDocumentGroup mutation. */
-export type UpdateGraphqlDocumentGroupInput = {
-  /** The slug that the graphql_document_group will be an alias of */
-  aliasOf: InputMaybe<Scalars['String']['input']>;
-  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: InputMaybe<Scalars['String']['input']>;
-  /** The description of the graphql_document_group object */
-  description: InputMaybe<Scalars['String']['input']>;
-  /** The ID of the graphqlDocumentGroup object to update */
-  id: Scalars['ID']['input'];
-  /** The name of the graphql_document_group object to mutate */
-  name: InputMaybe<Scalars['String']['input']>;
-  /** If this argument exists then the slug will be checked to see if it is not an existing valid term. If that check succeeds (it is not a valid term), then it is added and the term id is given. If it fails, then a check is made to whether the taxonomy is hierarchical and the parent argument is not empty. If the second check succeeds, the term will be inserted and the term id will be given. If the slug argument is empty, then it will be calculated from the term name. */
-  slug: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The payload for the updateGraphqlDocumentGroup mutation. */
-export type UpdateGraphqlDocumentGroupPayload = {
-  __typename?: 'UpdateGraphqlDocumentGroupPayload';
-  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: Maybe<Scalars['String']['output']>;
-  /** The created graphql_document_group */
-  graphqlDocumentGroup: Maybe<GraphqlDocumentGroup>;
-};
-
-/** Input for the updateGraphqlDocument mutation. */
-export type UpdateGraphqlDocumentInput = {
-  /** Alias names for saved GraphQL query documents */
-  alias: InputMaybe<Array<Scalars['String']['input']>>;
-  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: InputMaybe<Scalars['String']['input']>;
-  /** The content of the object */
-  content: InputMaybe<Scalars['String']['input']>;
-  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
-  date: InputMaybe<Scalars['String']['input']>;
-  /** Description for the saved GraphQL document */
-  description: InputMaybe<Scalars['String']['input']>;
-  /** Allow, deny or default access grant for specific query */
-  grant: InputMaybe<Scalars['String']['input']>;
-  /** Set connections between the graphqlDocument and graphqlDocumentGroups */
-  graphqlDocumentGroups: InputMaybe<GraphqlDocumentGraphqlDocumentGroupsInput>;
-  /** The ID of the graphqlDocument object */
-  id: Scalars['ID']['input'];
-  /** Override the edit lock when another user is editing the post */
-  ignoreEditLock: InputMaybe<Scalars['Boolean']['input']>;
-  /** HTTP Cache-Control max-age directive for a saved GraphQL document */
-  maxAgeHeader: InputMaybe<Scalars['Int']['input']>;
-  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
-  menuOrder: InputMaybe<Scalars['Int']['input']>;
-  /** The password used to protect the content of the object */
-  password: InputMaybe<Scalars['String']['input']>;
-  /** The slug of the object */
-  slug: InputMaybe<Scalars['String']['input']>;
-  /** The status of the object */
-  status: InputMaybe<PostStatusEnum>;
-  /** The title of the object */
-  title: InputMaybe<Scalars['String']['input']>;
-};
-
-/** The payload for the updateGraphqlDocument mutation. */
-export type UpdateGraphqlDocumentPayload = {
-  __typename?: 'UpdateGraphqlDocumentPayload';
-  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
-  clientMutationId: Maybe<Scalars['String']['output']>;
-  /** The Post object mutation type. */
-  graphqlDocument: Maybe<GraphqlDocument>;
 };
 
 /** Input for the updateHero mutation. */
@@ -16262,8 +15112,6 @@ export type UpvoteHeroPayload = {
 export type UpvoteTeamInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
   clientMutationId: InputMaybe<Scalars['String']['input']>;
-  /** The ID of the hero */
-  heroId: InputMaybe<Scalars['Int']['input']>;
   /** The IP address of the voter */
   ipAddress: InputMaybe<Scalars['String']['input']>;
   /** The ID of the team */
@@ -17427,7 +16275,6 @@ export type DownvoteHeroMutationVariables = Exact<{
 export type DownvoteHeroMutation = { __typename?: 'RootMutation', downvoteHero: { __typename?: 'DownvoteHeroPayload', success: boolean | null, currentVote: string | null } | null };
 
 export type DownvoteTeamMutationVariables = Exact<{
-  heroId: Scalars['Int']['input'];
   teamId: Scalars['Int']['input'];
   userId: Scalars['Int']['input'];
   ipAddress: Scalars['String']['input'];
@@ -17447,7 +16294,6 @@ export type UpvoteHeroMutationVariables = Exact<{
 export type UpvoteHeroMutation = { __typename?: 'RootMutation', upvoteHero: { __typename?: 'UpvoteHeroPayload', success: boolean | null, currentVote: string | null } | null };
 
 export type UpvoteTeamMutationVariables = Exact<{
-  heroId: Scalars['Int']['input'];
   teamId: Scalars['Int']['input'];
   userId: Scalars['Int']['input'];
   ipAddress: Scalars['String']['input'];
@@ -17461,19 +16307,21 @@ export type GetAllHeroesQueryVariables = Exact<{
 }>;
 
 
-export type GetAllHeroesQuery = { __typename?: 'RootQuery', heroes: { __typename?: 'RootQueryToHeroConnection', pageInfo: { __typename?: 'RootQueryToHeroConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Hero', id: string, databaseId: number, uri: string | null, slug: string | null, heroId: number, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaDetails: { __typename?: 'MediaDetails', sizes: Array<{ __typename?: 'MediaSize', sourceUrl: string | null, name: string | null } | null> | null } | null } } | null, heroInformation: { __typename?: 'HeroInformation', variations: Array<string | null> | null, portrait: Array<{ __typename?: 'HeroInformationPortrait', title: string | null, art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null> | null, bioFields: { __typename?: 'HeroInformationBioFields', rarity: Array<string | null> | null, element: string | null, role: string | null, name: string | null, age: string | null, compatibleEquipment: Array<string | null> | null, weight: string | null, story: string | null, species: string | null, naReleaseDate: string | null, krReleaseDate: string | null, jpReleaseDate: string | null, height: string | null, exclusiveWeapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, title: string | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' }> } | null } | null, abilityFields: { __typename?: 'HeroInformationAbilityFields', chainStateTrigger: Array<string | null> | null, chainStateResult: Array<string | null> | null, chainSkillDescription: string | null, chainSkillName: string | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityName: string | null, specialAbilityDescription: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAbilityFieldsPartyBuff', affectsParty: boolean | null, value: number | null, stat: Array<string | null> | null } | null> | null } | null, thumbnail: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, background: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, mlbAwakeningFields: { __typename?: 'HeroInformationMlbAwakeningFields', midGradeHpMlb: number | null, midGradeDreamMlb: number | null, midGradeDefMlb: number | null, midGradeAtkMlb: number | null, lowGradeHpMlb: number | null, lowGradeDreamMlb: number | null, lowGradeDefMlb: number | null, lowGradeAtkMlb: number | null, legendaryAwakeningMlb: number | null, highGradeHpMlb: number | null, highGradeDreamMlb: number | null, highGradeDefMlb: number | null, highGradeAtkMlb: number | null, gold: number | null } | null, statFields: { __typename?: 'HeroInformationStatFields', atk: number | null, basicResistance: number | null, cardSlot: number | null, crit: number | null, damageReduction: number | null, darkResistance: number | null, def: number | null, earthResistance: number | null, fieldGroupName: string | null, heal: number | null, hp: number | null, lightResistance: number | null, waterResistance: number | null, fireResistance: number | null, atkRank: number | null, defRank: number | null, hpRank: number | null, critRank: number | null, healRank: number | null, drRank: number | null, heroCount: number | null } | null, statPriorities: Array<{ __typename?: 'HeroInformationStatPriorities', buildName: string | null, explanation: string | null, statPriority: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item' } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post', id: string, title: string | null } | { __typename?: 'Team' } }> } | null } | null> | null, portrait2: Array<{ __typename?: 'HeroInformationPortrait2', art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null, title: string | null } } | null } | null> | null, costumes: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null, evolutionFields2: { __typename?: 'HeroInformationEvolutionFields2', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evolutionFields: { __typename?: 'HeroInformationEvolutionFields', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evaluationFields: { __typename?: 'HeroInformationEvaluationFields', pros: string | null, cons: string | null, tags: Array<string | null> | null } | null, buildGuideFields: { __typename?: 'HeroInformationBuildGuideFields', suggestedWeapons: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedWeapons', weaponExplanation: string | null, suggestedWeapon: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedShield: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedShield', shieldExplanation: string | null, suggestedShield: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedMerch: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedMerch', merchExplanation: string | null, suggestedMerch: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedCards: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedCards', cardExplanation: string | null, suggestedCard: string | null } | null> | null, suggestedAccessories: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedAccessories', accessoryExplanation: string | null, suggestedAccessory: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'GraphqlDocument' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null } | null, bioFields2: { __typename?: 'HeroInformationBioFields2', weight: string | null, story: string | null, name: string | null, height: string | null, age: string | null } | null, analysisFields: { __typename?: 'HeroInformationAnalysisFields', detailedReview: string | null } | null, ascentAbilities: { __typename?: 'HeroInformationAscentAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, ascentExAbilities: { __typename?: 'HeroInformationAscentExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, exAbilities: { __typename?: 'HeroInformationExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, illustrations: Array<{ __typename?: 'HeroInformationIllustrations', name: string | null, image: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', title: string | null, sourceUrl: string | null } } | null } | null> | null } | null }> } | null };
+export type GetAllHeroesQuery = { __typename?: 'RootQuery', heroes: { __typename?: 'RootQueryToHeroConnection', pageInfo: { __typename?: 'RootQueryToHeroConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Hero', id: string, databaseId: number, uri: string | null, slug: string | null, heroId: number, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaDetails: { __typename?: 'MediaDetails', sizes: Array<{ __typename?: 'MediaSize', sourceUrl: string | null, name: string | null } | null> | null } | null } } | null, heroInformation: { __typename?: 'HeroInformation', variations: Array<string | null> | null, portrait: Array<{ __typename?: 'HeroInformationPortrait', title: string | null, art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null> | null, bioFields: { __typename?: 'HeroInformationBioFields', rarity: Array<string | null> | null, element: string | null, role: string | null, name: string | null, age: string | null, compatibleEquipment: Array<string | null> | null, weight: string | null, story: string | null, species: string | null, naReleaseDate: string | null, krReleaseDate: string | null, jpReleaseDate: string | null, height: string | null, exclusiveWeapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, title: string | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' }> } | null } | null, abilityFields: { __typename?: 'HeroInformationAbilityFields', chainStateTrigger: Array<string | null> | null, chainStateResult: Array<string | null> | null, chainSkillDescription: string | null, chainSkillName: string | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityName: string | null, specialAbilityDescription: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAbilityFieldsPartyBuff', affectsParty: boolean | null, value: number | null, stat: Array<string | null> | null } | null> | null } | null, thumbnail: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, background: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, mlbAwakeningFields: { __typename?: 'HeroInformationMlbAwakeningFields', midGradeHpMlb: number | null, midGradeDreamMlb: number | null, midGradeDefMlb: number | null, midGradeAtkMlb: number | null, lowGradeHpMlb: number | null, lowGradeDreamMlb: number | null, lowGradeDefMlb: number | null, lowGradeAtkMlb: number | null, legendaryAwakeningMlb: number | null, highGradeHpMlb: number | null, highGradeDreamMlb: number | null, highGradeDefMlb: number | null, highGradeAtkMlb: number | null, gold: number | null } | null, statFields: { __typename?: 'HeroInformationStatFields', atk: number | null, basicResistance: number | null, cardSlot: number | null, crit: number | null, damageReduction: number | null, darkResistance: number | null, def: number | null, earthResistance: number | null, fieldGroupName: string | null, heal: number | null, hp: number | null, lightResistance: number | null, waterResistance: number | null, fireResistance: number | null, atkRank: number | null, defRank: number | null, hpRank: number | null, critRank: number | null, healRank: number | null, drRank: number | null, heroCount: number | null } | null, statPriorities: Array<{ __typename?: 'HeroInformationStatPriorities', buildName: string | null, explanation: string | null, statPriority: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item' } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post', id: string, title: string | null } | { __typename?: 'Team' } }> } | null } | null> | null, portrait2: Array<{ __typename?: 'HeroInformationPortrait2', art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null, title: string | null } } | null } | null> | null, costumes: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null, evolutionFields2: { __typename?: 'HeroInformationEvolutionFields2', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evolutionFields: { __typename?: 'HeroInformationEvolutionFields', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evaluationFields: { __typename?: 'HeroInformationEvaluationFields', pros: string | null, cons: string | null, tags: Array<string | null> | null } | null, buildGuideFields: { __typename?: 'HeroInformationBuildGuideFields', suggestedWeapons: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedWeapons', weaponExplanation: string | null, suggestedWeapon: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedShield: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedShield', shieldExplanation: string | null, suggestedShield: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedMerch: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedMerch', merchExplanation: string | null, suggestedMerch: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedCards: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedCards', cardExplanation: string | null, suggestedCard: string | null } | null> | null, suggestedAccessories: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedAccessories', accessoryExplanation: string | null, suggestedAccessory: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null } | null, bioFields2: { __typename?: 'HeroInformationBioFields2', weight: string | null, story: string | null, name: string | null, height: string | null, age: string | null } | null, analysisFields: { __typename?: 'HeroInformationAnalysisFields', detailedReview: string | null } | null, ascentAbilities: { __typename?: 'HeroInformationAscentAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, ascentExAbilities: { __typename?: 'HeroInformationAscentExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, exAbilities: { __typename?: 'HeroInformationExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, illustrations: Array<{ __typename?: 'HeroInformationIllustrations', name: string | null, image: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', title: string | null, sourceUrl: string | null } } | null } | null> | null } | null }> } | null };
 
 export type GetAllItemsQueryVariables = Exact<{
   after: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type GetAllItemsQuery = { __typename?: 'RootQuery', items: { __typename?: 'RootQueryToItemConnection', pageInfo: { __typename?: 'RootQueryToItemConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Item', id: string, databaseId: number, uri: string | null, title: string | null, slug: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, weapons: { __typename?: 'Weapons', exclusive: boolean | null, exclusiveEffects: string | null, isFirstEx: boolean | null, magazine: number | null, maxDps: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, engraving: Array<{ __typename?: 'WeaponsEngraving', stat: Array<string | null> | null, value: number | null } | null> | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl: string | null } } | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null, costume: { __typename?: 'Costume', illustration: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null, itemInformation: { __typename?: 'ItemInformation', achievement: string | null, artifactDescription: string | null, artifactPassives: string | null, artifactRarity: string | null, battleMedalShopCost: number | null, bottleCapCost: number | null, cost: number | null, costumeWeaponType: string | null, equipmentShopCost: number | null, howToObtain: Array<string | null> | null, maxLevel: number | null, mileageShopCost: number | null, mirrorShardCost: number | null, mysticThreadCost: number | null, rarity: Array<string | null> | null, unreleased: boolean | null, collections: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, itemType: { __typename?: 'AcfTermNodeConnection', nodes: Array<{ __typename?: 'Category', name: string | null } | { __typename?: 'GraphqlDocumentGroup', name: string | null } | { __typename?: 'ItemType', name: string | null } | { __typename?: 'PostFormat', name: string | null } | { __typename?: 'Tag', name: string | null }> } | null } | null }> } | null };
+export type GetAllItemsQuery = { __typename?: 'RootQuery', items: { __typename?: 'RootQueryToItemConnection', pageInfo: { __typename?: 'RootQueryToItemConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Item', id: string, databaseId: number, uri: string | null, title: string | null, slug: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, weapons: { __typename?: 'Weapons', exclusive: boolean | null, exclusiveEffects: string | null, isFirstEx: boolean | null, magazine: number | null, maxDps: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, engraving: Array<{ __typename?: 'WeaponsEngraving', stat: Array<string | null> | null, value: number | null } | null> | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl: string | null } } | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null, costume: { __typename?: 'Costume', illustration: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null, itemInformation: { __typename?: 'ItemInformation', achievement: string | null, artifactDescription: string | null, artifactPassives: string | null, artifactRarity: string | null, battleMedalShopCost: number | null, bottleCapCost: number | null, cost: number | null, costumeWeaponType: string | null, equipmentShopCost: number | null, howToObtain: Array<string | null> | null, maxLevel: number | null, mileageShopCost: number | null, mirrorShardCost: number | null, mysticThreadCost: number | null, rarity: Array<string | null> | null, unreleased: boolean | null, collections: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, itemType: { __typename?: 'AcfTermNodeConnection', nodes: Array<{ __typename?: 'Category', name: string | null } | { __typename?: 'ItemType', name: string | null } | { __typename?: 'PostFormat', name: string | null } | { __typename?: 'Tag', name: string | null }> } | null } | null }> } | null };
 
-export type GetAllTeamsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAllTeamsQueryVariables = Exact<{
+  after: InputMaybe<Scalars['String']['input']>;
+}>;
 
 
-export type GetAllTeamsQuery = { __typename?: 'RootQuery', teams: { __typename?: 'RootQueryToTeamConnection', nodes: Array<{ __typename?: 'Team', id: string, databaseId: number, title: string | null, teamFields: { __typename?: 'TeamFields', teamType: string | null, notes: string | null, teamDamage: number | null, composition: Array<{ __typename?: 'TeamFieldsComposition', hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shield: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessory: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cards: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merch: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relic: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, heroSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shieldSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessorySubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merchSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cardsSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relicSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'GraphqlDocument', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null> | null } | null }> } | null };
+export type GetAllTeamsQuery = { __typename?: 'RootQuery', teams: { __typename?: 'RootQueryToTeamConnection', pageInfo: { __typename?: 'RootQueryToTeamConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Team', id: string, databaseId: number, title: string | null, teamFields: { __typename?: 'TeamFields', teamType: string | null, notes: string | null, teamDamage: number | null, composition: Array<{ __typename?: 'TeamFieldsComposition', hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shield: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessory: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cards: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merch: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relic: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, heroSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shieldSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessorySubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merchSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cardsSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relicSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null> | null } | null }> } | null };
 
 export type GetMetaVotesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -17489,14 +16337,18 @@ export type GetMetaVotesWithUserVoteQueryVariables = Exact<{
 
 export type GetMetaVotesWithUserVoteQuery = { __typename?: 'RootQuery', metaVotesByCategory: Array<{ __typename?: 'MetaVoteCount', downvoteCount: number | null, heroId: number | null, upvoteCount: number | null, userId: number | null, userVote: string | null } | null> | null };
 
-export type GetTeamVotesWithUserVoteQueryVariables = Exact<{
-  heroId: Scalars['Int']['input'];
+export type GetTeamVotesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetTeamVotesQuery = { __typename?: 'RootQuery', getTeamVotes: Array<{ __typename?: 'TeamVoteInfo', downvoteCount: number | null, teamId: number | null, upvoteCount: number | null } | null> | null };
+
+export type GetUserTeamVoteStatusQueryVariables = Exact<{
   userId: Scalars['Int']['input'];
   ipAddress: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type GetTeamVotesWithUserVoteQuery = { __typename?: 'RootQuery', teamsVotesByHero: Array<{ __typename?: 'TeamVoteCount', downvoteCount: number | null, teamId: number | null, userId: number | null, userVote: string | null, upvoteCount: number | null, team: { __typename?: 'Team', id: string } | null } | null> | null };
+export type GetUserTeamVoteStatusQuery = { __typename?: 'RootQuery', getUserTeamVoteStatus: Array<{ __typename?: 'TeamUserVote', teamId: number | null, userVote: string | null } | null> | null };
 
 
 export const DownvoteHeroDocument = gql`
@@ -17539,10 +16391,8 @@ export type DownvoteHeroMutationHookResult = ReturnType<typeof useDownvoteHeroMu
 export type DownvoteHeroMutationResult = Apollo.MutationResult<DownvoteHeroMutation>;
 export type DownvoteHeroMutationOptions = Apollo.BaseMutationOptions<DownvoteHeroMutation, DownvoteHeroMutationVariables>;
 export const DownvoteTeamDocument = gql`
-    mutation DownvoteTeam($heroId: Int!, $teamId: Int!, $userId: Int!, $ipAddress: String!) {
-  downvoteTeam(
-    input: {heroId: $heroId, teamId: $teamId, userId: $userId, ipAddress: $ipAddress}
-  ) {
+    mutation DownvoteTeam($teamId: Int!, $userId: Int!, $ipAddress: String!) {
+  downvoteTeam(input: {teamId: $teamId, userId: $userId, ipAddress: $ipAddress}) {
     teamId
     success
     currentVote
@@ -17564,7 +16414,6 @@ export type DownvoteTeamMutationFn = Apollo.MutationFunction<DownvoteTeamMutatio
  * @example
  * const [downvoteTeamMutation, { data, loading, error }] = useDownvoteTeamMutation({
  *   variables: {
- *      heroId: // value for 'heroId'
  *      teamId: // value for 'teamId'
  *      userId: // value for 'userId'
  *      ipAddress: // value for 'ipAddress'
@@ -17618,10 +16467,8 @@ export type UpvoteHeroMutationHookResult = ReturnType<typeof useUpvoteHeroMutati
 export type UpvoteHeroMutationResult = Apollo.MutationResult<UpvoteHeroMutation>;
 export type UpvoteHeroMutationOptions = Apollo.BaseMutationOptions<UpvoteHeroMutation, UpvoteHeroMutationVariables>;
 export const UpvoteTeamDocument = gql`
-    mutation UpvoteTeam($heroId: Int!, $teamId: Int!, $userId: Int!, $ipAddress: String!) {
-  upvoteTeam(
-    input: {heroId: $heroId, teamId: $teamId, userId: $userId, ipAddress: $ipAddress}
-  ) {
+    mutation UpvoteTeam($teamId: Int!, $userId: Int!, $ipAddress: String!) {
+  upvoteTeam(input: {teamId: $teamId, userId: $userId, ipAddress: $ipAddress}) {
     teamId
     success
     currentVote
@@ -17643,7 +16490,6 @@ export type UpvoteTeamMutationFn = Apollo.MutationFunction<UpvoteTeamMutation, U
  * @example
  * const [upvoteTeamMutation, { data, loading, error }] = useUpvoteTeamMutation({
  *   variables: {
- *      heroId: // value for 'heroId'
  *      teamId: // value for 'teamId'
  *      userId: // value for 'userId'
  *      ipAddress: // value for 'ipAddress'
@@ -18230,8 +17076,12 @@ export type GetAllItemsLazyQueryHookResult = ReturnType<typeof useGetAllItemsLaz
 export type GetAllItemsSuspenseQueryHookResult = ReturnType<typeof useGetAllItemsSuspenseQuery>;
 export type GetAllItemsQueryResult = Apollo.QueryResult<GetAllItemsQuery, GetAllItemsQueryVariables>;
 export const GetAllTeamsDocument = gql`
-    query GetAllTeams {
-  teams(first: 200) {
+    query GetAllTeams($after: String) {
+  teams(first: 100, after: $after) {
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
     nodes {
       id
       databaseId
@@ -18330,6 +17180,7 @@ export const GetAllTeamsDocument = gql`
  * @example
  * const { data, loading, error } = useGetAllTeamsQuery({
  *   variables: {
+ *      after: // value for 'after'
  *   },
  * });
  */
@@ -18440,52 +17291,86 @@ export type GetMetaVotesWithUserVoteQueryHookResult = ReturnType<typeof useGetMe
 export type GetMetaVotesWithUserVoteLazyQueryHookResult = ReturnType<typeof useGetMetaVotesWithUserVoteLazyQuery>;
 export type GetMetaVotesWithUserVoteSuspenseQueryHookResult = ReturnType<typeof useGetMetaVotesWithUserVoteSuspenseQuery>;
 export type GetMetaVotesWithUserVoteQueryResult = Apollo.QueryResult<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>;
-export const GetTeamVotesWithUserVoteDocument = gql`
-    query GetTeamVotesWithUserVote($heroId: Int!, $userId: Int!, $ipAddress: String) {
-  teamsVotesByHero(heroId: $heroId, ipAddress: $ipAddress, userId: $userId) {
+export const GetTeamVotesDocument = gql`
+    query getTeamVotes {
+  getTeamVotes {
     downvoteCount
     teamId
-    userId
-    userVote
-    team {
-      id
-    }
     upvoteCount
   }
 }
     `;
 
 /**
- * __useGetTeamVotesWithUserVoteQuery__
+ * __useGetTeamVotesQuery__
  *
- * To run a query within a React component, call `useGetTeamVotesWithUserVoteQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTeamVotesWithUserVoteQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetTeamVotesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTeamVotesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetTeamVotesWithUserVoteQuery({
+ * const { data, loading, error } = useGetTeamVotesQuery({
  *   variables: {
- *      heroId: // value for 'heroId'
+ *   },
+ * });
+ */
+export function useGetTeamVotesQuery(baseOptions?: Apollo.QueryHookOptions<GetTeamVotesQuery, GetTeamVotesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTeamVotesQuery, GetTeamVotesQueryVariables>(GetTeamVotesDocument, options);
+      }
+export function useGetTeamVotesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamVotesQuery, GetTeamVotesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTeamVotesQuery, GetTeamVotesQueryVariables>(GetTeamVotesDocument, options);
+        }
+export function useGetTeamVotesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTeamVotesQuery, GetTeamVotesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetTeamVotesQuery, GetTeamVotesQueryVariables>(GetTeamVotesDocument, options);
+        }
+export type GetTeamVotesQueryHookResult = ReturnType<typeof useGetTeamVotesQuery>;
+export type GetTeamVotesLazyQueryHookResult = ReturnType<typeof useGetTeamVotesLazyQuery>;
+export type GetTeamVotesSuspenseQueryHookResult = ReturnType<typeof useGetTeamVotesSuspenseQuery>;
+export type GetTeamVotesQueryResult = Apollo.QueryResult<GetTeamVotesQuery, GetTeamVotesQueryVariables>;
+export const GetUserTeamVoteStatusDocument = gql`
+    query getUserTeamVoteStatus($userId: Int!, $ipAddress: String) {
+  getUserTeamVoteStatus(userId: $userId, ipAddress: $ipAddress) {
+    teamId
+    userVote
+  }
+}
+    `;
+
+/**
+ * __useGetUserTeamVoteStatusQuery__
+ *
+ * To run a query within a React component, call `useGetUserTeamVoteStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserTeamVoteStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserTeamVoteStatusQuery({
+ *   variables: {
  *      userId: // value for 'userId'
  *      ipAddress: // value for 'ipAddress'
  *   },
  * });
  */
-export function useGetTeamVotesWithUserVoteQuery(baseOptions: Apollo.QueryHookOptions<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables> & ({ variables: GetTeamVotesWithUserVoteQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetUserTeamVoteStatusQuery(baseOptions: Apollo.QueryHookOptions<GetUserTeamVoteStatusQuery, GetUserTeamVoteStatusQueryVariables> & ({ variables: GetUserTeamVoteStatusQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>(GetTeamVotesWithUserVoteDocument, options);
+        return Apollo.useQuery<GetUserTeamVoteStatusQuery, GetUserTeamVoteStatusQueryVariables>(GetUserTeamVoteStatusDocument, options);
       }
-export function useGetTeamVotesWithUserVoteLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>) {
+export function useGetUserTeamVoteStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserTeamVoteStatusQuery, GetUserTeamVoteStatusQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>(GetTeamVotesWithUserVoteDocument, options);
+          return Apollo.useLazyQuery<GetUserTeamVoteStatusQuery, GetUserTeamVoteStatusQueryVariables>(GetUserTeamVoteStatusDocument, options);
         }
-export function useGetTeamVotesWithUserVoteSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>) {
+export function useGetUserTeamVoteStatusSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserTeamVoteStatusQuery, GetUserTeamVoteStatusQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>(GetTeamVotesWithUserVoteDocument, options);
+          return Apollo.useSuspenseQuery<GetUserTeamVoteStatusQuery, GetUserTeamVoteStatusQueryVariables>(GetUserTeamVoteStatusDocument, options);
         }
-export type GetTeamVotesWithUserVoteQueryHookResult = ReturnType<typeof useGetTeamVotesWithUserVoteQuery>;
-export type GetTeamVotesWithUserVoteLazyQueryHookResult = ReturnType<typeof useGetTeamVotesWithUserVoteLazyQuery>;
-export type GetTeamVotesWithUserVoteSuspenseQueryHookResult = ReturnType<typeof useGetTeamVotesWithUserVoteSuspenseQuery>;
-export type GetTeamVotesWithUserVoteQueryResult = Apollo.QueryResult<GetTeamVotesWithUserVoteQuery, GetTeamVotesWithUserVoteQueryVariables>;
+export type GetUserTeamVoteStatusQueryHookResult = ReturnType<typeof useGetUserTeamVoteStatusQuery>;
+export type GetUserTeamVoteStatusLazyQueryHookResult = ReturnType<typeof useGetUserTeamVoteStatusLazyQuery>;
+export type GetUserTeamVoteStatusSuspenseQueryHookResult = ReturnType<typeof useGetUserTeamVoteStatusSuspenseQuery>;
+export type GetUserTeamVoteStatusQueryResult = Apollo.QueryResult<GetUserTeamVoteStatusQuery, GetUserTeamVoteStatusQueryVariables>;

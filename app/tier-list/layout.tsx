@@ -1,17 +1,10 @@
 "use client";
 
-import { PropsWithChildren, useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { PropsWithChildren } from "react";
 import CategoriesHeader from "../components/CategoriesHeader";
 
-interface LayoutProps {
-  params: {
-    uri: string;
-  };
-}
 
-export default function Layout({ children }: PropsWithChildren<LayoutProps>) {
+export default function Layout({ children }: PropsWithChildren) {
 
 
   return (

@@ -3,13 +3,7 @@
 import { PropsWithChildren } from "react";
 import CategoriesHeader from "../components/CategoriesHeader";
 
-interface LayoutProps {
-  params: {
-    uri: string;
-  };
-}
-
-export default function Layout({ children, params }: PropsWithChildren<LayoutProps>) {
+export default function Layout({ children }: PropsWithChildren) {
 
 
   return (

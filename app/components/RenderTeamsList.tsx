@@ -38,10 +38,6 @@ export default function TeamsList({hero, activeCategory}: TeamsListProps) {
     const items = itemsData?.items?.nodes ?? [] as Item[];
     const [teams, setTeams] = useState(teamsData?.teams?.nodes ?? [] as Team[]);
 
-    if (!heroesData || !itemsData || !teamsData) {
-        return <Loading />;
-    }
-
     useEffect(() => {
         if (activeCategory) {
             setTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase() === activeCategory));
@@ -228,6 +224,10 @@ export default function TeamsList({hero, activeCategory}: TeamsListProps) {
             })[]),
         ]);        
       }, [voteData, teams, hero]);
+
+    if (!heroesData || !itemsData || !teamsData) {
+        return <Loading />;
+    }
 
     return (
     <Suspense fallback={<Loading />}>

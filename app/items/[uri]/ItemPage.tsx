@@ -126,6 +126,33 @@ export default function HeroPage({
                     })()}
                 </div>   
             }
+            {['costume'].includes(currentItem?.itemInformation?.itemType?.nodes[0].name?.toLowerCase().replace(/ /g, "-") ?? "") && 
+                <div className="w-full flex flex-col gap-4">
+                    <h2 className="mb-2 text-2xl font-medium font-oswald">Related Hero</h2>
+                    {item?.costume?.hero && (() => {
+                        const hero = heroes.find(hero => hero.id === item?.costume?.hero?.nodes[0]?.id);
+                        if (!hero) return null;
+                        return (
+                        <Link href={"/heroes/"+hero?.slug} className="flex bg-gray-transparent p-4 justify-start items-center gap-8">
+                            <FadeInImage
+                                src={
+                                    hero?.heroInformation?.thumbnail?.node.sourceUrl
+                                    ? hero?.heroInformation?.thumbnail?.node.sourceUrl + ""
+                                    : "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"
+                                }
+                                className={`w-16 h-16 aspect-square object-cover bg-gradient-to-b border-b-4 ${
+                                    (hero?.heroInformation?.bioFields?.rarity?.toString() == '3 Star') ? `from-yellow-700 to-yellow-500 border-b-4 border-yellow-500` : (hero?.heroInformation?.bioFields?.rarity?.toString() == '2 Star' ? `from-gray-600 to-gray-400 border-b-4 border-gray-400` : `from-amber-800 to-amber-600 border-b-4 border-amber-600`)
+                                }`} 
+                                width={100}
+                                height={100}
+                                alt={hero?.title + ""}
+                            />
+                            <h3 className="font-semibold">{hero?.title}</h3>
+                        </Link>
+                        );
+                    })()}
+                </div>   
+            }
             <div className="hidden w-full lg:flex flex-col gap-4">
                 <h2 className="mb-2 text-2xl font-medium font-oswald">Obtainable From</h2>
                 {item?.itemInformation?.howToObtain?.map((method, index) => {
@@ -195,12 +222,12 @@ export default function HeroPage({
                 })}
             </div>
         </div>
-
+        {['weapon', 'shield', 'accessory', 'merch', 'artifact'].includes(item.itemInformation?.itemType?.nodes[0].name?.toLowerCase().replace(/ /g, "-") ?? "") && (
             <div className="flex flex-col w-full items-start">
                 <h2 className="mb-6 text-2xl font-medium font-oswald">Teams</h2>
-                <TeamsList item={item as Item} />
+                <TeamsList item={currentItem as Item} />
             </div>
-
+        )}
     </div>
   )
   ;

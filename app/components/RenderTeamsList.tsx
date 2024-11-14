@@ -79,12 +79,12 @@ export default function TeamsList({hero, item, activeCategory}: TeamsListProps) 
     useEffect(() => {
         if (!teams) return;
         if (activeCategory && hero) {
-            setFilteredTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase() === activeCategory).filter(team => team.teamFields?.composition?.some(
+            setFilteredTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase().replace(/ /g, "-") === activeCategory.replace(/ /g, "-")).filter(team => team.teamFields?.composition?.some(
                 (slot) => slot?.hero?.nodes[0].id === hero.id
             )) as Team[]);
         }
         else if (activeCategory && item) {
-            setFilteredTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase() === activeCategory).filter(team => team.teamFields?.composition?.some(
+            setFilteredTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase().replace(/ /g, "-") === activeCategory.replace(/ /g, "-")).filter(team => team.teamFields?.composition?.some(
                 (slot) => 
                 slot?.weapon?.nodes[0].id === item.id || 
                 slot?.merch?.nodes[0].id === item.id || 
@@ -94,7 +94,7 @@ export default function TeamsList({hero, item, activeCategory}: TeamsListProps) 
             )) as Team[]);
         }
         else if (activeCategory) {
-            setFilteredTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase() === activeCategory) as Team[]);
+            setFilteredTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase().replace(/ /g, "-") === activeCategory.replace(/ /g, "-")) as Team[]);
         }
         else if (hero) {
             setFilteredTeams(teams?.filter(team => team.teamFields?.composition?.some(

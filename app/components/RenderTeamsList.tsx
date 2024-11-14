@@ -16,32 +16,41 @@ import StatFormatter from "#/app/components/StatFormatter";
 import { getIpAddress } from "#/ui/helpers";
 import { useUser } from '#/app/components/UserContext';
 import { useTeams } from "./GetTeamsProvider";
+import { useHeroes } from "./GetHeroesProvider";
+import { useItems } from "./GetItemsProvider";
 
 interface TeamsListProps {
     hero?: Hero;
-    heroes: Hero[];
-    items: Item[];
-    teams: Team[];
+    activeCategory?: string;
 }
 
-export default function TeamsList({hero, heroes, items, teams}: TeamsListProps) {
+export default function TeamsList({hero, activeCategory}: TeamsListProps) {
     const ipAddress = getIpAddress();
     const { votes } = useTeams();
     const { user } = useUser();
     const [upvoteTeam] = useUpvoteTeamMutation();
     const [downvoteTeam] = useDownvoteTeamMutation();
     const { data: voteData } = useGetUserTeamVoteStatusSuspenseQuery({ variables: { userId: user?.user_id ?? 0 as number, ipAddress: ipAddress.toString() } });
+    const { data: heroesData } = useHeroes();
+    const { data: itemsData } = useItems();
+    const { data: teamsData } = useTeams();
+    const heroes = heroesData?.heroes?.nodes ?? [] as Hero[];
+    const items = itemsData?.items?.nodes ?? [] as Item[];
+    const [teams, setTeams] = useState(teamsData?.teams?.nodes ?? [] as Team[]);
 
-    // const { data: votesData, loading: votesLoading } =
-    // useGetTeamVotesWithUserVoteQuery({
-    //   variables: { heroId: hero.databaseId, ipAddress: ipAddress + "", userId: user?.user_id as number },
-    // });
+    if (!heroesData || !itemsData || !teamsData) {
+        return <Loading />;
+    }
 
-    console.log(hero)
+    useEffect(() => {
+        if (activeCategory) {
+            setTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase() === activeCategory));
+        }
+    }, [activeCategory]);
 
     const toRender = hero ? teams.filter(team => team.teamFields?.composition?.some(
         (slot) => slot?.hero?.nodes[0].id === hero.id
-      )) : teams;
+    )) : teams;
 
     const teamsWithVotes = toRender
       .map((team) => {
@@ -261,7 +270,7 @@ export default function TeamsList({hero, heroes, items, teams}: TeamsListProps) 
 
         return (
         <div
-            key={teamSlug}
+            key={teamSlug + team.id}
             className={`team-box t-${team?.teamFields?.teamType?.toLowerCase()} text-white bg-gray-transparent w-full mb-4`}
         >
             <div

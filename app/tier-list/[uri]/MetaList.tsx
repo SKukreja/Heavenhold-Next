@@ -99,6 +99,7 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
       categoryId: number,
       event: React.MouseEvent<HTMLButtonElement>
     ) => {
+      event.preventDefault()
       event.stopPropagation();
       if (isOverall) return;
       try {
@@ -142,6 +143,7 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
         categoryId: number,
         event: React.MouseEvent<HTMLButtonElement>
       ) => {
+        event.preventDefault()
         event.stopPropagation();
         if (isOverall) return;
         try {

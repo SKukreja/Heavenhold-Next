@@ -50,7 +50,6 @@ export default function HeroFilters() {
         filters[key] = true;
       }
     });
-    console.log("Setting active filters from query params:", filters);
 
     // Compare with current activeFilters
     const filtersChanged = JSON.stringify(filters) !== JSON.stringify(activeFilters);

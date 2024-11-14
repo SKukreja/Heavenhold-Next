@@ -24,30 +24,16 @@ interface TeamsProps {
   items: Item[];
 }
 
-function Teams({ hero, teams, heroes, items }: TeamsProps) {
+function Teams({ hero, teams, heroes, items }: TeamsProps) {  
+   const [activeCategory, setActiveCategory] = useState("");
+   const pathname = usePathname();
 
-
-
-  // // State to manage active team type filters
-  // const [activeTeamTypes, setActiveTeamTypes] = useState<string[]>([]);
-  
-  // const [activeFilter, setActiveFilter] = useState("");
-
-  // useEffect(() => {    
-  //   const splitUri = pathname.split("/")
-  //   if(splitUri.length > 4 && splitUri[3].toLowerCase() === "teams") {
-  //     setActiveFilter(splitUri[4]);
-  //   }
-  // }, [pathname])
-
-
-  // // Filter teams based on active team types
-  // const filteredTeams = combinedTeams.filter((team) => {
-  //   if (activeFilter == "") return true;
-  //   return team.teamFields?.teamType === activeFilter;
-  // });
-
-  // if (votesLoading) return <Loading />;
+  useEffect(() => {    
+    const splitUri = pathname.split("/")
+    if(splitUri.length > 4 && splitUri[3].toLowerCase() === "teams") {
+      setActiveCategory(splitUri[4]);
+    }
+  }, [pathname])
 
   return (
     <div
@@ -76,7 +62,7 @@ function Teams({ hero, teams, heroes, items }: TeamsProps) {
               </Link>
             </div>
           )} */}
-          <TeamsList teams={teams} heroes={heroes} items={items} hero={hero} />
+          <TeamsList hero={hero} activeCategory={activeCategory} />
         </div>
       </div>
     </div>

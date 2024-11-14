@@ -146,7 +146,6 @@ export default function HeroPage({
             </div>
             </div>
             {item?.weapons?.weaponSkill && (() => {
-                console.log(item?.weapons?.weaponSkillVideo);
                 return (
                     <div className="flex flex-col gap-8 w-full lg:w-2/3">
                         <div className="w-full py-8 pl-4 pr-8 bg-gray-transparent flex items-center">

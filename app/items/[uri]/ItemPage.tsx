@@ -10,6 +10,7 @@ import ItemCardCard from "#/app/components/ItemCardCard";
 import ItemCostumeCard from "#/app/components/ItemCostumeCard";
 import ItemDefCard from "#/app/components/ItemDefCard";
 import LoopVideo from "#/app/components/LoopVideo";
+import TeamsList from "#/app/components/RenderTeamsList";
 import Loading from "#/app/components/loading";
 import { Hero, Item, Team } from "#/graphql/generated/types";
 import Link from "next/link";
@@ -194,6 +195,11 @@ export default function HeroPage({
                 })}
             </div>
         </div>
+
+            <div className="flex flex-col w-full items-start">
+                <h2 className="mb-6 text-2xl font-medium font-oswald">Teams</h2>
+                <TeamsList item={item as Item} />
+            </div>
 
     </div>
   )

@@ -21,10 +21,11 @@ import { useItems } from "./GetItemsProvider";
 
 interface TeamsListProps {
     hero?: Hero;
+    item?: Item;
     activeCategory?: string;
 }
 
-export default function TeamsList({hero, activeCategory}: TeamsListProps) {
+export default function TeamsList({hero, item, activeCategory}: TeamsListProps) {
     const ipAddress = getIpAddress();
     const { votes } = useTeams();
     const { user } = useUser();
@@ -36,19 +37,10 @@ export default function TeamsList({hero, activeCategory}: TeamsListProps) {
     const { data: teamsData } = useTeams();
     const heroes = heroesData?.heroes?.nodes ?? [] as Hero[];
     const items = itemsData?.items?.nodes ?? [] as Item[];
-    const [teams, setTeams] = useState(teamsData?.teams?.nodes ?? [] as Team[]);
+    const teams = teamsData?.teams?.nodes ?? [] as Team[];
+    const [filteredTeams, setFilteredTeams] = useState<Team[]>([]);
 
-    useEffect(() => {
-        if (activeCategory) {
-            setTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase() === activeCategory));
-        }
-    }, [activeCategory]);
-
-    const toRender = hero ? teams.filter(team => team.teamFields?.composition?.some(
-        (slot) => slot?.hero?.nodes[0].id === hero.id
-    )) : teams;
-
-    const teamsWithVotes = toRender
+    const teamsWithVotes = filteredTeams
       .map((team) => {
         const vote = votes?.getTeamVotes?.find((v) => v?.teamId === team.databaseId);
         return {
@@ -62,7 +54,7 @@ export default function TeamsList({hero, activeCategory}: TeamsListProps) {
       })
       .sort((a, b) => b.votes - a.votes);
 
-    const teamsWithoutVotes = toRender
+    const teamsWithoutVotes = filteredTeams
         .filter(
         (team) =>
             !votes?.getTeamVotes?.some(
@@ -83,6 +75,82 @@ export default function TeamsList({hero, activeCategory}: TeamsListProps) {
         userVote: string | null;
         })[]),
     ]);
+
+    useEffect(() => {
+        if (!teams) return;
+        if (activeCategory && hero) {
+            setFilteredTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase() === activeCategory).filter(team => team.teamFields?.composition?.some(
+                (slot) => slot?.hero?.nodes[0].id === hero.id
+            )) as Team[]);
+        }
+        else if (activeCategory && item) {
+            setFilteredTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase() === activeCategory).filter(team => team.teamFields?.composition?.some(
+                (slot) => 
+                slot?.weapon?.nodes[0].id === item.id || 
+                slot?.merch?.nodes[0].id === item.id || 
+                slot?.relic?.nodes[0].id === item.id ||
+                slot?.accessory?.nodes[0].id === item.id ||
+                slot?.shield?.nodes[0].id === item.id         
+            )) as Team[]);
+        }
+        else if (activeCategory) {
+            setFilteredTeams(teams.filter(team => team.teamFields?.teamType?.toLowerCase() === activeCategory) as Team[]);
+        }
+        else if (hero) {
+            setFilteredTeams(teams?.filter(team => team.teamFields?.composition?.some(
+                (slot) => slot?.hero?.nodes[0].id === hero.id
+            )) as Team[]);
+        }
+        else if (item) {
+            setFilteredTeams(teams.filter(team => team.teamFields?.composition?.some(
+                (slot) => 
+                slot?.weapon?.nodes[0].id === item.id || 
+                slot?.merch?.nodes[0].id === item.id || 
+                slot?.relic?.nodes[0].id === item.id ||
+                slot?.accessory?.nodes[0].id === item.id ||
+                slot?.shield?.nodes[0].id === item.id         
+            )) as Team[]);
+        }
+        else {
+            setFilteredTeams(teams as Team[]);
+        }
+
+        if (!voteData) return;
+    
+        const teamsWithVotes = filteredTeams
+          .map((team) => {
+            const vote = votes?.getTeamVotes?.find((v) => v?.teamId === team.databaseId);
+            return {
+              ...team,
+              votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
+              userVote:
+                voteData?.getUserTeamVoteStatus?.find(
+                  (userVote) => userVote?.teamId === team.databaseId
+                )?.userVote ?? null,
+            };
+          })
+          .sort((a, b) => b.votes - a.votes);
+
+        const teamsWithoutVotes = filteredTeams
+            .filter(
+            (team) =>
+                !votes?.getTeamVotes?.some(
+                (vote) => vote?.teamId === team.databaseId
+                )
+            )
+            .map((team) => ({ ...team, votes: 0, userVote: null }));
+    
+        setCombinedTeams([
+            ...((teamsWithVotes ?? []) as (Team & {
+            votes: number;
+            userVote: string | null;
+            })[]),
+            ...((teamsWithoutVotes ?? []) as (Team & {
+            votes: number;
+            userVote: string | null;
+            })[]),
+        ]);      
+    }, [activeCategory, hero, item, teams, filteredTeams]);
 
     const handleUpvote = async (
         teamId: number,
@@ -184,54 +252,13 @@ export default function TeamsList({hero, activeCategory}: TeamsListProps) {
         }
     };
 
-    useEffect(() => {
-        if (!voteData) return;
-        const toRender = hero ? teams.filter(team => team.teamFields?.composition?.some(
-            (slot) => slot?.hero?.nodes[0].id === hero.id
-          )) : teams;
-    
-        const teamsWithVotes = toRender
-          .map((team) => {
-            const vote = votes?.getTeamVotes?.find((v) => v?.teamId === team.databaseId);
-            return {
-              ...team,
-              votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
-              userVote:
-                voteData?.getUserTeamVoteStatus?.find(
-                  (userVote) => userVote?.teamId === team.databaseId
-                )?.userVote ?? null,
-            };
-          })
-          .sort((a, b) => b.votes - a.votes);
-
-        const teamsWithoutVotes = toRender
-            .filter(
-            (team) =>
-                !votes?.getTeamVotes?.some(
-                (vote) => vote?.teamId === team.databaseId
-                )
-            )
-            .map((team) => ({ ...team, votes: 0, userVote: null }));
-    
-        setCombinedTeams([
-            ...((teamsWithVotes ?? []) as (Team & {
-            votes: number;
-            userVote: string | null;
-            })[]),
-            ...((teamsWithoutVotes ?? []) as (Team & {
-            votes: number;
-            userVote: string | null;
-            })[]),
-        ]);        
-      }, [voteData, teams, hero]);
-
     if (!heroesData || !itemsData || !teamsData) {
         return <Loading />;
     }
 
     return (
     <Suspense fallback={<Loading />}>
-      {combinedTeams.length > 0 && combinedTeams.map((team: Team & {
+      {combinedTeams.length > 0 ? combinedTeams.map((team: Team & {
         votes: number;
         userVote: string | null;
         }) => {
@@ -493,7 +520,17 @@ export default function TeamsList({hero, activeCategory}: TeamsListProps) {
             </div>
         </div>
         );
-    })}
+    }) : (
+            <div className="flex flex-col w-full h-[calc(50vh)] justify-center items-center">
+                <span>No teams found{(item ? ' with ' + item?.title : hero ? ' for ' + hero?.title : '')}.</span>
+                <Link
+                    className="text-xl text-gray-400 font-bold hover:text-white px-8 py-4 flex justify-center items-center"
+                    href={`https://api.heavenhold.com/wp-admin/post-new.php?post_type=teams`}
+                >
+                    Add a new team
+                </Link>
+            </div>
+    )}
     </Suspense>
   );
 }

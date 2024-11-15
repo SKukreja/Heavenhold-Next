@@ -4,8 +4,9 @@ export function formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString(undefined, options);
 }
 
+// Function to get user's IP address for vote tracking
 export async function getIpAddress(): Promise<string> {
-  const delay = 2000; // Adjust delay as needed
+  const delay = 2000;
   let timeoutId: NodeJS.Timeout;
   let cachedPromise: Promise<string> | null = null;
 
@@ -19,7 +20,7 @@ export async function getIpAddress(): Promise<string> {
       timeoutId = setTimeout(async () => {
           cachedPromise = (async () => {
               try {
-                  const response = await fetch("https://api.ipify.org?format=json");
+                  const response = await fetch("/api/getIpAddress");
                   if (!response.ok) {
                       throw new Error(`HTTP error! status: ${response.status}`);
                   }

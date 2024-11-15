@@ -49,7 +49,8 @@ const HeroLink = ({ hero }: { hero: Hero }) => {
         <FadeInImage
           src={hero.heroInformation?.portrait?.[0]?.art?.node?.sourceUrl || 'https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg'}
           quality={100}
-          fill={true}
+          fill={true} 
+          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
           alt={hero.title ?? ''}
         />
       </div>
@@ -82,7 +83,7 @@ const HeroLink = ({ hero }: { hero: Hero }) => {
           {abilityFields?.partyBuff && abilityFields.partyBuff.map((buff, index) => (
             <>
               {buff?.affectsParty && (
-                <span key={index}>[Party] {buff?.stat} <span className="text-lime-500">+{buff.value}%</span></span>
+                <span key={hero.id + "pbuff" + index}>[Party] {buff?.stat} <span className="text-lime-500">+{buff.value}%</span></span>
               )}
             </>
           ))}

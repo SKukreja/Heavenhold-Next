@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { createContext, useContext, useMemo, useState, useEffect } from 'react';
 import { GetAllHeroesQuery } from '#/graphql/generated/types';
 import { usePathname } from 'next/navigation';
 
@@ -30,10 +30,23 @@ export function HeroesProvider({ initialData, children }: HeroesProviderProps) {
     return fetchedHero?.heroInformation?.background?.node?.sourceUrl ?? "";
   }, [pathname, memoizedData]);
 
+  const [bgLoaded, setBgLoaded] = useState(false);
+
+  useEffect(() => {
+    setBgLoaded(false); // Reset the loading state when the background image changes
+    if (heroBG) {
+      const img = new Image();
+      img.src = heroBG;
+      img.onload = () => setBgLoaded(true);
+    } else {
+      setBgLoaded(true); // If there's no image, consider it as loaded
+    }
+  }, [heroBG]);
+
   return (
     <HeroesContext.Provider value={{ data: memoizedData }}>
       <div 
-        className="fixed z-0 w-full h-[calc(100vh)] pointer-events-none after:pointer-events-none bg-cover bg-no-repeat bg-center after:bg-black after:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] after:[background-size:12px_12px] after:opacity-90 after:absolute after:inset-0 after:z-10"
+        className={`fixed z-0 w-full h-[calc(100vh)] pointer-events-none after:pointer-events-none bg-cover bg-no-repeat bg-center after:bg-black after:bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)] after:[background-size:12px_12px] after:opacity-90 after:absolute after:inset-0 after:z-10 transition-opacity duration-2000 ${bgLoaded ? 'opacity-100' : 'opacity-0'}`}
         style={{
           backgroundImage: `url(${heroBG ?? ""})`,
         }}

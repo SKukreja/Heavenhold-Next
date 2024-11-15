@@ -506,34 +506,34 @@ export default function TeamsList({ hero, item, activeCategory }: TeamsListProps
                           </div>
                           <div className="build-items">
                             <div className="build-object build-weapon">
-                              <div className="build flex flex-col gap-4 text-2xs">
-                                <Link
-                                  href={`${weapon?.uri}`}
-                                  className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12 ${
-                                    weapon ? "" : "pointer-events-none text-gray-500"
-                                  }`}
-                                >
-                                  <FadeInImage
-                                    src={
-                                      weapon?.featuredImage?.node?.sourceUrl ??
-                                      "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"
-                                    }
-                                    width={20}
-                                    height={20}
-                                    className={`${
-                                      weapon ? "" : "invisible"
-                                    } hidden xl:flex`}
-                                    alt={weapon?.title + " Icon"}
-                                  />
-                                  <span className="w-full">
-                                    {weapon ? weapon?.title : "N/A"}
-                                  </span>
+                            <div className="build flex flex-col gap-4 text-2xs">                                  
+                                <Link href={`${weapon?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12 ${weapon ? "" : "pointer-events-none text-gray-500"}`}>
+                                <FadeInImage src={weapon?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${weapon ? "" : "invisible"} hidden xl:flex`} alt={weapon?.title + " Icon"} /> 
+                                <span className="w-full">{weapon ? weapon?.title : "N/A"}</span>
                                 </Link>
-                                {/* Repeat similar blocks for shield, accessory, merch, relic, and cards */}
-                                {/* ... */}
-                              </div>
+                                <Link href={`${shield?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12 ${shield ? "" : "pointer-events-none text-gray-500"}`}>
+                                <FadeInImage src={shield?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${shield ? "" : "invisible"} hidden xl:flex`} alt={shield?.title + " Icon"} />
+                                <span className="w-full">{shield ? shield?.title : "N/A"}</span>
+                                </Link>
+                                <Link href={`${accessory?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12 ${accessory ? "" : "pointer-events-none text-gray-500"}`}>
+                                <FadeInImage src={accessory?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${accessory ? "" : "invisible"} hidden xl:flex`} alt={accessory?.title + " Icon"} />
+                                <span className="w-full">{accessory ? accessory?.title : "N/A"}</span>
+                                </Link>
+                                <Link href={`${merch?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12 ${merch ? "" : "pointer-events-none text-gray-500"}`}>
+                                <FadeInImage src={merch?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`h-full aspect-square justify-center items-center hidden xl:flex ${merch ? "" : "invisible"}`} alt={merch?.title + " Icon"} />
+                                <span className="w-full">{merch ? merch?.title : "N/A"}</span>
+                                </Link>
+                                <Link href={`${relic?.uri}`} className={`flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12 ${relic ? "" : "pointer-events-none text-gray-500"}`}>
+                                <FadeInImage src={relic?.featuredImage?.node?.sourceUrl ?? "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"} width={20} height={20} className={`${relic ? "" : "invisible"} hidden xl:flex`} alt={relic?.title + " Icon"} />
+                                <span className="w-full">{relic ? relic?.title : "N/A"}</span>
+                                </Link>
+                                <Link href={`#`} className="flex items-center gap-1 lg:gap-2 h-16 xl:h-12 2xl:h-12">
+                                <span className="w-0 lg:w-6"></span>
+                                <span className="w-full">{cards?.title}</span>
+                                </Link>
                             </div>
-                          </div>
+                            </div>
+                        </div>
                         </div>
                       );
                     })}
@@ -545,7 +545,7 @@ export default function TeamsList({ hero, item, activeCategory }: TeamsListProps
           );
         })
       ) : (
-        <div className="flex flex-col w-full h-[calc(50vh)] justify-center items-center">
+        <div className={`flex flex-col w-full ${item ? 'h-[calc(25vh)]' : 'h-[calc(50vh)]'} justify-center items-center`}>
           <span>
             No teams found
             {item ? " with " + item?.title : hero ? " for " + hero?.title : ""}.

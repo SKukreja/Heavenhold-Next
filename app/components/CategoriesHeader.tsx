@@ -102,7 +102,7 @@ export default function CategoriesHeader({
                         <li key={path}>
                         <button
                             onClick={() => handleNavigation(currentLocation + path)}
-                            className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                            className="block w-full text-left px-4 py-2 hover:bg-gray-1000"
                         >
                             {label}
                         </button>

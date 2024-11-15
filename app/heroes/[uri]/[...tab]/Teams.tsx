@@ -2,17 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Hero, Team, Item } from "#/graphql/generated/types";
-import FadeInImage from "#/app/components/FadeInImage";
-import { upvote, downvote, chevron, crown } from "#/ui/icons";
 import Link from "next/link";
-import {
-  useDownvoteTeamMutation,
-  useUpvoteTeamMutation,
-} from "#/graphql/generated/types";
-import { equipmentIcons } from "#/ui/icons";
-import Loading from "#/app/components/loading";
-import StatFormatter from "#/app/components/StatFormatter";
-import { getIpAddress } from "#/ui/helpers";
 import CategoriesHeader from "#/app/components/CategoriesHeader";
 import { usePathname } from "next/navigation";
 import TeamsList from "#/app/components/RenderTeamsList";

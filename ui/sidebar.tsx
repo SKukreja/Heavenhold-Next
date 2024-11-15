@@ -90,7 +90,7 @@ export default function Sidebar() {
       <div
         className={`fixed top-0 z-40 lg:flex lg:flex-col overflow-x-visible overflow-y-scroll bg-black border-b border-gray-800 scrollbar-none transition-width ${
           isActive ? 'flex flex-col items-center lg:items-start pt-16 lg:pt-0 inset-0 w-screen h-screen lg:w-[calc(15vw)]' : 'hidden w-0 lg:-left-[2px]'
-        } pb-32 lg:pb-16 lg:left-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800`}
+        } pb-32 lg:pb-0 lg:left-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800`}
       >
         <Suspense>
         <div className="relative search-bar w-full" ref={searchRef}>

@@ -31,7 +31,7 @@ function delay(ms: number) {
 
 export default async function RootLayout({ children }: RootLayoutProps): Promise<JSX.Element> {
   const userData = await getUserData();
-
+ 
   // Stagger fetch requests with a delay
   const heroDataPromise = fetchGraphQL<GetAllHeroesQuery>(GetAllHeroesDocument);
   await delay(100); // 100ms delay before the next call

@@ -6,7 +6,7 @@ import HeroFilters from '#/app/components/HeroFilters';
 import HeroList from '#/app/components/HeroList';
 import ItemList from '#/app/components/ItemList';
 import ItemFilters from '#/app/components/ItemFilters';
-import { chevron, closeFilter, filter, heroesIcon, itemsIcon } from "#/ui/icons";
+import { chevron, closeFilter, filter, heroesIcon, itemsIcon, close, sort } from "#/ui/icons";
 import SearchResults from '#/app/components/SearchResults';
 import { SidebarContext } from '#/app/components/SidebarProvider';
 import FadeInImage from '#/app/components/FadeInImage';
@@ -14,6 +14,8 @@ import FadeInImage from '#/app/components/FadeInImage';
 export default function Sidebar() {
   const { isActive, toggleSidebar, setIsActive } = useContext(SidebarContext) || {};
   const [isEnabled, setIsEnabled] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [sortingOpen, setSortingOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const pathname = usePathname();
@@ -37,6 +39,7 @@ export default function Sidebar() {
       setIsEnabled(true);
       const storedSidebarState = localStorage.getItem('sidebarState');
       if (storedSidebarState !== null) {
+        if (settingsOpen) { setSettingsOpen(false); }
         setIsActive?.(storedSidebarState === 'true');
       } else {
         setIsActive?.(
@@ -90,9 +93,13 @@ export default function Sidebar() {
       <div
         className={`fixed top-0 z-40 lg:flex lg:flex-col overflow-x-visible overflow-y-scroll bg-black border-b border-gray-800 scrollbar-none transition-width ${
           isActive ? 'flex flex-col items-center lg:items-start pt-16 lg:pt-0 inset-0 w-screen h-screen lg:w-[calc(15vw)]' : 'hidden w-0 lg:-left-[2px]'
-        } pb-32 lg:pb-0 lg:left-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800`}
+        } pb-32 lg:pb-16 lg:left-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800`}
       >
         <Suspense>
+        <div className={`w-full h-full ${settingsOpen ? 'flex' : 'hidden'} bg-black absolute flex-col inset-0 pt-16`}>
+          {heroPathValue && <HeroFilters />}
+          {itemPathValue && <ItemFilters />}
+        </div>
         <div className="relative search-bar w-full" ref={searchRef}>
           <input
             id="search-bar" 
@@ -122,13 +129,32 @@ export default function Sidebar() {
               {heroPathValue && <HeroList />}
               {itemPathValue && <ItemList />}
             </>
-          )}
-
+          )}          
           <div
-            className={`${isActive ? "visible pointer-events-auto lg:invisible lg:pointer-events-none" : "invisible pointer-events-none"} fixed bottom-8 w-auto h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white font-bold bg-gray-1000 hover:bg-gray-900 py-4 px-8 lg:p-6 cursor-pointer`}
-            onClick={toggleSidebar}
-          >        
-              <span className="fill-white relative w-full h-full flex justify-center items-center">Close</span>
+            className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed bottom-0 w-[15vw] h-16 flex justify-center items-center border-gray-800 border-1 border-t text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
+          > 
+            {heroPathValue || itemPathValue ? (       
+              <>
+                <div
+                  className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} w-1/3 h-16 flex justify-center items-center border-gray-800 border-1 text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
+                  onClick={() => setSettingsOpen(!settingsOpen)}
+                >        
+                    <span className="fill-white relative w-6 h-6 flex justify-center items-center">{settingsOpen ? close() : filter() }</span>
+                </div>
+                <div
+                  className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} w-1/3 h-16 flex justify-center items-center border-gray-800 border-l border-r border-1 text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
+                  onClick={() => setSortingOpen(!sortingOpen)}
+                >        
+                    <span className="fill-white relative w-6 h-6 flex justify-center items-center">{sortingOpen ? close() : sort()}</span>
+                </div>
+              </>
+            ) : null}
+            <div
+              className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} ${heroPathValue || itemPathValue ? 'w-1/3' : 'w-full'} h-16 flex justify-center items-center border-gray-800 border-1 text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
+              onClick={toggleSidebar}
+            >        
+                <span className="fill-white relative w-full h-full flex justify-center items-center">Close</span>
+            </div>
           </div>
         </Suspense>
       </div>
@@ -142,15 +168,18 @@ export default function Sidebar() {
           {chevron()}
         </span>
       </div>
-      <div
-        className={`${isEnabled && !isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-8"} w-16 h-16 lg:w-20 lg:h-20 flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 hover:bg-gray-1000 z-50 ${heroPathValue || itemPathValue ? 'p-2' : 'p-4'} lg:p-6 cursor-pointer`}
+      {/* <div
+        className={`${isEnabled && !isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} 
+        fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-8"} w-16 h-16 lg:w-20 lg:h-20 
+        flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 
+        hover:bg-gray-1000 z-50 ${heroPathValue || itemPathValue ? 'p-2' : 'p-4'} lg:p-6 cursor-pointer`}
         onClick={toggleSidebar}
       >        
-          <span className="fill-white relative w-full h-full z-50">{isActive ? (heroPathValue ? filter() : closeFilter()) 
+          <span className="fill-white relative w-full h-full z-50">{isActive ? (heroPathValue ? filter() : close()) 
           : (heroPathValue ? (<FadeInImage src={heroesIcon} width={32} height={32} className='w-full h-full' alt='Hero List Button Icon' />) 
             : itemPathValue ? (<FadeInImage src={itemsIcon} width={32} height={32} className='w-full h-full' alt='Item List Button Icon' />) 
             : filter())}</span>
-      </div>
+      </div> */}
     </>
   );
 }

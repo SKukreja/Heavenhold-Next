@@ -45,7 +45,26 @@ export default function HeroList() {
           <div
             key={hero.uri}
             ref={(el) => { heroesRef.current[hero.uri ?? ""] = el; }}
-            className={`pt-4 pb-4 pl-8 pr-8 card ${
+            data-filter={`${hero.heroInformation?.bioFields?.element?.toLowerCase()} ${hero.heroInformation?.bioFields?.role?.toLowerCase()} r-${hero.heroInformation?.bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()} ${hero.heroInformation?.abilityFields?.partyBuff?.map(buff => buff?.affectsParty ? buff?.stat?.toString()
+              .replaceAll(/ /g, "-")
+              .replaceAll('[]','')
+              .replaceAll(',','')
+              .replaceAll('--','-')      
+              .toLowerCase()
+              .replaceAll('x%','x')
+              .replaceAll('%', '')
+              .replace('when-a-shield-is-present-damage-dealt-increases-by-x-while-damage-taken-decreases-by-x','shield-damage')
+              .replace('decrease-damage-taken-by-of-increased-skill-damage','skill-damage-decreased-damage-taken') : '').join(' ')}`.trim()}
+            className={`${hero.heroInformation?.abilityFields?.partyBuff?.map(buff => buff?.affectsParty ? buff?.stat?.toString()
+              .replaceAll(/ /g, "-")
+              .replaceAll('[]','')
+              .replaceAll(',','')
+              .replaceAll('--','-')      
+              .toLowerCase()
+              .replaceAll('x%','x')
+              .replaceAll('%', '')
+              .replace('when-a-shield-is-present-damage-dealt-increases-by-x-while-damage-taken-decreases-by-x','shield-damage')
+              .replace('decrease-damage-taken-by-of-increased-skill-damage','skill-damage-decreased-damage-taken') : '').join(' ')} ${"e-" + hero.heroInformation?.bioFields?.element?.toLowerCase()} ${hero.heroInformation?.bioFields?.element?.toLowerCase()} r-${hero.heroInformation?.bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()} ${hero.heroInformation?.bioFields?.role?.toLowerCase()} pt-4 pb-4 pl-8 pr-8 card ${
               activeHero === hero.uri ? 'bg-gray-800 text-gray-300' : 'text-gray-400 hover:bg-gray-900'
             }`}
           >

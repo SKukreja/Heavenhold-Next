@@ -131,7 +131,7 @@ export default function Sidebar() {
             </>
           )}          
           <div
-            className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed bottom-0 w-[15vw] h-16 flex justify-center items-center border-gray-800 border-1 border-t text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
+            className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed bottom-0 w-[15vw] h-16 flex justify-center items-center border-gray-800 border-1 border-t border-r text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
           > 
             {heroPathValue || itemPathValue ? (       
               <>

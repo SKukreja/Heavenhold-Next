@@ -25,32 +25,14 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-function delay(ms: number) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 export default async function RootLayout({ children }: RootLayoutProps): Promise<JSX.Element> {
   const userData = await getUserData();
- 
-  // Stagger fetch requests with a delay
-  const heroDataPromise = fetchGraphQL<GetAllHeroesQuery>(GetAllHeroesDocument);
-  await delay(100); // 100ms delay before the next call
 
-  const itemDataPromise = fetchGraphQL<GetAllItemsQuery>(GetAllItemsDocument);
-  await delay(100); // another 100ms delay
-
-  const teamDataPromise = fetchGraphQL<GetAllTeamsQuery>(GetAllTeamsDocument);
-  await delay(100);
-
-  const teamVotesPromise = fetchVotes<GetTeamVotesQuery>(GetTeamVotesDocument);
-
-  // Await all promises to resolve
-  const [heroData, itemData, teamData, teamVotes] = await Promise.all([
-    heroDataPromise,
-    itemDataPromise,
-    teamDataPromise,
-    teamVotesPromise
-  ]);
+  // Fetch paginated hero and item data with proper typing
+  const heroData: GetAllHeroesQuery = await fetchGraphQL<GetAllHeroesQuery>(GetAllHeroesDocument);
+  const itemData: GetAllItemsQuery = await fetchGraphQL<GetAllItemsQuery>(GetAllItemsDocument);
+  const teamData: GetAllTeamsQuery = await fetchGraphQL<GetAllTeamsQuery>(GetAllTeamsDocument);
+  const teamVotes: GetTeamVotesQuery = await fetchVotes<GetTeamVotesQuery>(GetTeamVotesDocument);
 
   return (
     <ApolloWrapper>
@@ -62,20 +44,20 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
           <Suspense fallback={<Loading />}>
             <UserProvider initialUser={userData as User}>
               <HeroesProvider initialData={heroData}>
-                <ItemsProvider initialData={itemData}>
+                <ItemsProvider initialData={itemData}>                  
                   <TeamsProvider initialData={teamData} initialVotes={teamVotes}>
                     <SidebarProvider>
-                      <GlobalNav />
-                      <Sidebar />
-                      <div id="main-body" className="absolute right-0 w-full main-body transition-width min-h-screen">
-                        <div>
-                          <div className="rounded-lg shadow-lg shadow-black/20">
-                            <div className="min-h-screen">
-                              {children}
-                            </div>
+                    <GlobalNav />
+                    <Sidebar />
+                    <div id="main-body" className="absolute right-0 w-full main-body transition-width min-h-screen">
+                      <div>
+                        <div className="rounded-lg shadow-lg shadow-black/20">
+                          <div className="min-h-screen ">
+                            {children}
                           </div>
                         </div>
                       </div>
+                    </div>
                     </SidebarProvider>
                   </TeamsProvider>
                 </ItemsProvider>

@@ -272,7 +272,16 @@ const RenderHeroes: React.FC<RenderHeroesProps> = ({ heroes, categoryId, handleU
         const heroSlug = hero?.slug ?? "";
         return (
           <Link href={`/heroes/${heroSlug}`} key={heroSlug + "-colosseum"} 
-          data-filter={`${hero.heroInformation?.bioFields?.element?.toLowerCase()} ${hero.heroInformation?.bioFields?.role?.toLowerCase()} r-${hero.heroInformation?.bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()}`}>
+          data-filter={`${hero.heroInformation?.abilityFields?.partyBuff?.map(buff => buff?.affectsParty ? buff?.stat?.toString()
+            .replaceAll(/ /g, "-")
+            .replaceAll('[]','')
+            .replaceAll(',','')
+            .replaceAll('--','-')      
+            .toLowerCase()
+            .replaceAll('x%','x')
+            .replaceAll('%', '')
+            .replace('when-a-shield-is-present-damage-dealt-increases-by-x-while-damage-taken-decreases-by-x','shield-damage')
+            .replace('decrease-damage-taken-by-of-increased-skill-damage','skill-damage-decreased-damage-taken') : '').join(' ')} ${hero.heroInformation?.bioFields?.element?.toLowerCase()} ${hero.heroInformation?.bioFields?.role?.toLowerCase()} r-${hero.heroInformation?.bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()}`}>
           <div
             key={heroSlug + "-colosseum"}             
             className={`hero-box h-32 text-white bg-gray-transparent flex justify-start items-center w-full`}

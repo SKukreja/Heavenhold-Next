@@ -42,8 +42,26 @@ const HeroLink = ({ hero }: { hero: Hero }) => {
   return (
     <Link
       href={hero.uri ?? '/'}
-      data-filter={`${bioFields?.element?.toLowerCase()} ${bioFields?.role?.toLowerCase()} r-${bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()}`}
-      className={`${"e-" + bioFields?.element?.toLowerCase()} ${bioFields?.element?.toLowerCase()} r-${bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()} ${bioFields?.role?.toLowerCase()} aspect-[2/3] relative w-[calc((100%/2)-0.5rem)] lg:w-[calc((100%/4)-2rem)] 2xl:w-[calc((100%/5)-2rem)] 3xl:w-[calc((100%/6)-2rem)] flex cursor-pointer align-middle transition-all duration-200 after:transition-all after:linear after:duration-200 hover:after:outline-offset-[-5px] ease grayscale-[30%] hover:grayscale-0 after:w-full after:h-full after:absolute after:inset-0 after:z-20 after:pointer-events-none after:border after:border-gray-800 after:outline after:outline-2 after:outline-offset-[-10px]`}
+      data-filter={`${bioFields?.element?.toLowerCase()} ${bioFields?.role?.toLowerCase()} r-${bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()} ${hero.heroInformation?.abilityFields?.partyBuff?.map(buff => buff?.affectsParty ? buff?.stat?.toString()
+        .replaceAll(/ /g, "-")
+        .replaceAll('[]','')
+        .replaceAll(',','')
+        .replaceAll('--','-')      
+        .toLowerCase()
+        .replaceAll('x%','x')
+        .replaceAll('%', '')
+        .replace('when-a-shield-is-present-damage-dealt-increases-by-x-while-damage-taken-decreases-by-x','shield-damage')
+        .replace('decrease-damage-taken-by-of-increased-skill-damage','skill-damage-decreased-damage-taken') : '').join(' ')}`.trim()}
+      className={`${hero.heroInformation?.abilityFields?.partyBuff?.map(buff => buff?.affectsParty ? buff?.stat?.toString()
+        .replaceAll(/ /g, "-")
+        .replaceAll('[]','')
+        .replaceAll(',','')
+        .replaceAll('--','-')      
+        .toLowerCase()
+        .replaceAll('x%','x')
+        .replaceAll('%', '')
+        .replace('when-a-shield-is-present-damage-dealt-increases-by-x-while-damage-taken-decreases-by-x','shield-damage')
+        .replace('decrease-damage-taken-by-of-increased-skill-damage','skill-damage-decreased-damage-taken') : '').join(' ')} ${"e-" + bioFields?.element?.toLowerCase()} ${bioFields?.element?.toLowerCase()} r-${bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()} ${bioFields?.role?.toLowerCase()}  aspect-[2/3] relative w-[calc((100%/2)-0.5rem)] lg:w-[calc((100%/4)-2rem)] 2xl:w-[calc((100%/5)-2rem)] 3xl:w-[calc((100%/6)-2rem)] flex cursor-pointer align-middle transition-all duration-200 after:transition-all after:linear after:duration-200 hover:after:outline-offset-[-5px] ease grayscale-[30%] hover:grayscale-0 after:w-full after:h-full after:absolute after:inset-0 after:z-20 after:pointer-events-none after:border after:border-gray-800 after:outline after:outline-2 after:outline-offset-[-10px]`}
     >
       <div className="absolute inset-0 z-0 w-full h-full">
         <FadeInImage

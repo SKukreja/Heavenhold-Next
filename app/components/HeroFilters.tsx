@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from 'next/navigation';
+import { Hero } from "#/graphql/generated/types";
+import { useHeroes } from "./GetHeroesProvider";
 
 const ToggleStyles = "flex items-center justify-between w-full px-8 py-4 text-white bg-gray-800";
 const ToggleText = "font-medium text-sm";
@@ -32,6 +34,30 @@ const roleOptions = [
 const rarityOptions = ['r-1-star', 'r-2-star', 'r-3-star'];
 
 export default function HeroFilters() {
+  const { data } = useHeroes();
+  const heroes = [...(data?.heroes?.nodes ?? [])] as Hero[];
+  const partyBuffsMap: { [key: string]: string } = heroes.reduce((acc, hero) => {
+    const partyBuffs = hero.heroInformation?.abilityFields?.partyBuff ?? [];
+    partyBuffs.forEach((passive) => {
+      if (!passive?.affectsParty) return;
+      const originalStat = passive?.stat;
+      const transformedStat = originalStat?.toString()
+      .replaceAll(/ /g, "-")
+      .replaceAll('[]','')
+      .replaceAll(',','')
+      .replaceAll('--','-')      
+      .toLowerCase()
+      .replaceAll('x%','x')
+      .replaceAll('%', '')
+      .replace('when-a-shield-is-present-damage-dealt-increases-by-x-while-damage-taken-decreases-by-x','shield-damage')
+      .replace('decrease-damage-taken-by-of-increased-skill-damage','skill-damage-decreased-damage-taken') ?? '';
+      if (!acc[transformedStat]) {
+        acc[transformedStat] = originalStat?.toString().replaceAll('[]', 'x').replaceAll('x%','x').replaceAll('%','x') ?? '';
+      }
+    });
+    return acc;
+  }, {} as { [key: string]: string });
+
   const searchParams = useSearchParams();
   const router = useRouter();
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
@@ -95,8 +121,9 @@ export default function HeroFilters() {
     const elementFilters = Object.keys(filters).filter(filter => filters[filter] && elementOptions.some(option => option.value === filter));
     const roleFilters = Object.keys(filters).filter(filter => filters[filter] && roleOptions.some(option => option.value === filter));
     const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && rarityOptions.includes(filter));
+    const partyBuffFilters = Object.keys(filters).filter(filter => filters[filter] && partyBuffsMap[filter]);
 
-    if (elementFilters.length === 0 && roleFilters.length === 0 && rarityFilters.length === 0) {
+    if (elementFilters.length === 0 && roleFilters.length === 0 && rarityFilters.length === 0 && partyBuffFilters.length === 0) {
       elements.forEach((el) => {
         el.classList.remove("hidden");
       });
@@ -107,8 +134,9 @@ export default function HeroFilters() {
         const matchesElement = elementFilters.length === 0 || elementFilters.some(filter => elFilters.includes(filter));
         const matchesRole = roleFilters.length === 0 || roleFilters.some(filter => elFilters.includes(filter));
         const matchesRarity = rarityFilters.length === 0 || rarityFilters.some(filter => elFilters.includes(filter));
+        const matchesPartyBuff = partyBuffFilters.length === 0 || partyBuffFilters.some(filter => elFilters.includes(filter));
         
-        if (matchesElement && matchesRole && matchesRarity) {
+        if (matchesElement && matchesRole && matchesRarity && matchesPartyBuff) {
           el.classList.remove("hidden");
         } else {          
           el.classList.add("hidden");
@@ -121,7 +149,7 @@ export default function HeroFilters() {
     <form className="pt-8 pb-8 w-[calc(100%-0.5rem)] lg:w-full">
       <h3 className="px-8 font-bold tracking-widest uppercase">Filters</h3>
 
-      {["Element", "Role", "Rarity"].map((section, index) => {
+      {["Element", "Role", "Rarity", "Party Buffs"].map((section, index) => {
         const sectionId = `filter-section-mobile-${index}`;
         return (
           <div key={sectionId} className={SectionStyles}>
@@ -148,7 +176,7 @@ export default function HeroFilters() {
               </button>
             </h3>
             <div
-              className={`transition-max-height duration-500 ease-in-out overflow-hidden ${openSections[sectionId] ? 'max-h-96' : 'max-h-0'}`}
+              className={`transition-max-height duration-500 ease-in-out overflow-hidden ${openSections[sectionId] ? 'h-auto' : 'max-h-0'}`}
               id={sectionId}
             >
               <div>
@@ -165,6 +193,16 @@ export default function HeroFilters() {
                     <FilterToggle id="filter-mobile-size-2" value="r-3-star" label="★★★" onChange={handleToggleChange('r-3-star')} isActive={!!activeFilters['r-3-star']} />
                   </>
                 )}
+                {section === "Party Buffs" && Object.entries(partyBuffsMap).map(([key, value]) => (
+                  <FilterToggle
+                    key={key}
+                    id={key}
+                    value={key}
+                    label={value}
+                    onChange={handleToggleChange(key)}
+                    isActive={!!activeFilters[key]}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -181,7 +219,7 @@ function FilterToggle({ id, value, label, icon, onChange, isActive }: { id: stri
 
   return (
     <div
-        className={`flex items-center p-4 cursor-pointer 
+        className={`flex items-center p-4 select-none cursor-pointer 
             ${isActive ? 'bg-gray-800' : 'bg-gray-900'} 
             ${!isActive && !rarityOptions.includes(value) ? 'hover:bg-gray-800 hover:text-white' : ''} 
             ${isActive && !rarityOptions.includes(value) ? 'text-white' : ''} 

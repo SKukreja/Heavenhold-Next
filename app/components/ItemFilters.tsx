@@ -254,7 +254,7 @@ export default function ItemFilters() {
   const selectedItemType = itemTypeValues.find(type => activeFilters[type]);
 
   return (
-    <form className="pt-8 pb-8 w-[calc(100%-0.5rem)] lg:w-full">
+    <form className="pt-8 pb-16 w-[calc(100%-0.5rem)] lg:w-full">
       <h3 className="px-8 font-bold tracking-widest uppercase">Filters</h3>
 
       {["Type", "Element", "Rarity"].map((section, index) => {

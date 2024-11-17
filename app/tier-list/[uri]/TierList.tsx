@@ -79,5 +79,5 @@ export default function TierList({
     return <Loading />;
   }
 
-  return <div className="w-full h-auto"><MetaList categoryId={currentCategory} heroes={heroes as Hero[]} loggedInUserId={user?.user_id ?? null} /></div>;
+  return <div className="w-full h-auto"><MetaList categoryId={currentCategory} /></div>;
 }

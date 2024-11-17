@@ -33,6 +33,7 @@ const roleOptions = [
 
 const rarityOptions = ['r-1-star', 'r-2-star', 'r-3-star'];
 
+
 export default function HeroFilters() {
   const { data } = useHeroes();
   const heroes = [...(data?.heroes?.nodes ?? [])] as Hero[];
@@ -76,15 +77,86 @@ export default function HeroFilters() {
         filters[key] = true;
       }
     });
+  
+    const activeFilterSection = document.querySelector(`#active-filters`);
+    if (activeFilterSection) {
+      activeFilterSection.innerHTML = '';
 
+      console.log('filters', filters);
+      console.log(rarityOptions)
+      // Create and append filter divs
+      Object.keys(filters).forEach((key) => {
+        console.log(rarityOptions.includes(key))
+        if (filters[key]) {
+          const filter = document.createElement('div');
+          if (roleOptions.some(option => option.value === key)) {
+            filter.textContent = "Role = " + roleOptions.find(option => option.value === key)?.label;
+          } else if (elementOptions.some(option => option.value === key)) {
+            filter.textContent = "Element = " + elementOptions.find(option => option.value === key)?.label;
+          } else if (rarityOptions.includes(key)) {
+            filter.textContent = "Rarity = " + key.replace('r-', '');
+          } else if (partyBuffsMap[key]) {
+            filter.textContent = "Party Buff = " + partyBuffsMap[key];
+          }
+          filter.classList.add('p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');
+          activeFilterSection.appendChild(filter);
+        }
+      });
+  
+      // Remove existing event listener to prevent duplicates
+      const existingClickHandler = (activeFilterSection as any)._clickHandler;
+      if (existingClickHandler) {
+        activeFilterSection.removeEventListener('click', existingClickHandler);
+      }
+  
+      // Add event listener once
+      const clickHandler = (event: Event) => {
+        const target = event.target as HTMLElement;
+        if (target.classList.contains('cursor-pointer')) {
+          const filterText = target.textContent;
+          const key = Object.keys(filters).find(k => {
+            if (roleOptions.some(option => option.value === k)) {
+              return filterText === "Role = " + roleOptions.find(option => option.value === k)?.label;
+            } else if (elementOptions.some(option => option.value === k)) {
+              return filterText === "Element = " + elementOptions.find(option => option.value === k)?.label;
+            } else if (rarityOptions.includes(k)) {
+              return filterText === "Rarity = " + k.replace('r-', '');
+            } else if (partyBuffsMap[k]) {
+              return filterText === "Party Buff = " + partyBuffsMap[k];
+            }
+            return false;
+          });
+          if (key) {
+            handleToggleChange(key)();
+          }
+        }
+      };
+  
+      activeFilterSection.addEventListener('click', clickHandler);
+  
+      // Store the handler to remove it later if needed
+      (activeFilterSection as any)._clickHandler = clickHandler;
+  
+      // Add reset button
+      const resetButton = document.createElement('div');
+      resetButton.textContent = "Reset";
+      resetButton.classList.add('p-4', 'cursor-pointer', Object.keys(filters).length > 0 ? 'flex' : 'hidden', 'select-none', 'bg-red-900/50', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');
+      resetButton.addEventListener('click', () => {
+        // Navigate to a new URL
+        router.replace('/heroes?sort=name&order=asc&r-3-star=true&r-2-star=true');
+      });
+      activeFilterSection.appendChild(resetButton);
+    }
+  
     // Compare with current activeFilters
     const filtersChanged = JSON.stringify(filters) !== JSON.stringify(activeFilters);
-
+  
     if (filtersChanged) {
       setActiveFilters(filters);
       applyFilters(filters);
     }
   }, [searchParams]);
+  
 
   const toggleSection = (section: string) => {
     setOpenSections((prev) => ({
@@ -100,21 +172,23 @@ export default function HeroFilters() {
       [filter]: isActive,
     };
     setActiveFilters(newFilters);
-
-    const newQuery = new URLSearchParams();
-
-    // Add active filters to query
-    Object.keys(newFilters).forEach(key => {
-      if (newFilters[key]) {
-        newQuery.set(key, 'true');
-      }
-    });
-
-    // Update the URL immediately without adding to history
+  
+    // Initialize newQuery with existing searchParams
+    const newQuery = new URLSearchParams(searchParams.toString());
+  
+    // Update the query parameters with the new filter state
+    if (isActive) {
+      newQuery.set(filter, 'true');
+    } else {
+      newQuery.delete(filter);
+    }
+  
+    // Update the URL without adding to history
     router.replace(`?${newQuery.toString()}`);
-
+  
     applyFilters(newFilters);
   };
+  
 
   const applyFilters = (filters: { [key: string]: boolean }) => {
     const elements = document.querySelectorAll('[data-filter]');

@@ -10,6 +10,8 @@ import { chevron, closeFilter, filter, heroesIcon, itemsIcon, close, sort } from
 import SearchResults from '#/app/components/SearchResults';
 import { SidebarContext } from '#/app/components/SidebarProvider';
 import FadeInImage from '#/app/components/FadeInImage';
+import HeroSorting from '#/app/components/HeroSorting';
+import ItemSorting from '#/app/components/ItemSorting';
 
 export default function Sidebar() {
   const { isActive, toggleSidebar, setIsActive } = useContext(SidebarContext) || {};
@@ -36,10 +38,12 @@ export default function Sidebar() {
       setIsActive?.(false);
       setIsEnabled(false);
     } else {
+      if (pathname.includes('tier-list') || (pathname.includes('/heroes') && !heroPathValue) || (pathname.includes('/items') && !itemPathValue)) setSettingsOpen(true);
+      else if (settingsOpen) { setSettingsOpen(false); }
+      if (sortingOpen) { setSortingOpen(false); }
       setIsEnabled(true);
       const storedSidebarState = localStorage.getItem('sidebarState');
-      if (storedSidebarState !== null) {
-        if (settingsOpen) { setSettingsOpen(false); }
+      if (storedSidebarState !== null) {        
         setIsActive?.(storedSidebarState === 'true');
       } else {
         setIsActive?.(
@@ -47,7 +51,7 @@ export default function Sidebar() {
         );
       }
     }
-  }, [pathname, setIsActive, heroPathValue, itemPathValue]);
+  }, [pathname, heroPathValue, itemPathValue]);
 
   useEffect(() => {
     const mainBody = document.querySelector('.main-body');
@@ -87,6 +91,18 @@ export default function Sidebar() {
     setIsSearchFocused(false);
   };
 
+  const clickFilterSettings = () => {
+    if(settingsOpen && heroPathValue || itemPathValue) { setSettingsOpen(false); }
+    else { setSettingsOpen(true); }
+    setSortingOpen(false);
+  }
+
+  const clickSortingSettings = () => {
+    if(sortingOpen && heroPathValue || itemPathValue) { setSortingOpen(false); }
+    else { setSortingOpen(true); }
+    setSettingsOpen(false);
+  }
+
 
   return (
     <>
@@ -96,9 +112,11 @@ export default function Sidebar() {
         } pb-32 lg:pb-16 lg:left-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800`}
       >
         <Suspense>
-        <div className={`w-full h-full ${settingsOpen ? 'flex' : 'hidden'} bg-black absolute flex-col inset-0 pt-16`}>
-          {heroPathValue && <HeroFilters />}
-          {itemPathValue && <ItemFilters />}
+        <div className={`w-full h-full ${settingsOpen || sortingOpen ? 'flex' : 'hidden'} bg-black absolute flex-col inset-0 pt-16`}>
+          {((pathname === '/heroes' && !heroPathValue) || pathname.includes('tier-list') || heroPathValue) && <div className={settingsOpen ? 'flex' : 'hidden'}><HeroFilters /></div>}
+          {((pathname === '/items' && !itemPathValue) || itemPathValue) && <div className={settingsOpen ? 'flex' : 'hidden'}><ItemFilters /></div>}
+          {((pathname === '/heroes' && !heroPathValue) || pathname.includes('tier-list') || heroPathValue) && <div className={sortingOpen ? 'flex' : 'hidden'}><HeroSorting /></div>}
+          {((pathname === '/items' && !itemPathValue) || itemPathValue) && <div className={sortingOpen ? 'flex' : 'hidden'}><ItemSorting /></div>}
         </div>
         <div className="relative search-bar w-full" ref={searchRef}>
           <input
@@ -124,33 +142,31 @@ export default function Sidebar() {
             <SearchResults searchQuery={searchQuery} closeSidebar={() => setIsActive?.(false)} />
           ) : (
             <>
-              {((pathname === '/heroes' && !heroPathValue) || pathname.includes("tier-list")) && <HeroFilters />}
-              {pathname === '/items' && <ItemFilters />}
               {heroPathValue && <HeroList />}
               {itemPathValue && <ItemList />}
             </>
           )}          
           <div
-            className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed bottom-0 w-full lg:w-[15vw] h-16 flex justify-center items-center border-gray-800 border-1 border-t border-r text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
+            className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} fixed select-none bottom-0 w-full lg:w-[15vw] h-16 flex justify-center items-center border-gray-800 border-1 border-t border-r text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
           > 
-            {heroPathValue || itemPathValue ? (       
+            {heroPathValue || itemPathValue || (pathname === '/heroes' && !heroPathValue) || (pathname === '/items' && !itemPathValue) ? (       
               <>
                 <div
-                  className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} w-1/3 h-16 flex justify-center items-center border-gray-800 border-1 text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
-                  onClick={() => setSettingsOpen(!settingsOpen)}
+                  className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} ${settingsOpen ? 'bg-gray-800' : ''} w-1/3 h-16 flex justify-center items-center border-gray-800 border-1 text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
+                  onClick={() => clickFilterSettings()}
                 >        
-                    <span className="fill-white relative w-6 h-6 flex justify-center items-center">{settingsOpen ? close() : filter() }</span>
+                    <span className="fill-white relative w-6 h-6 flex justify-center items-center">{settingsOpen && pathname != '/heroes' && pathname != '/items' ? close() : filter() }</span>
                 </div>
                 <div
-                  className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} w-1/3 h-16 flex justify-center items-center border-gray-800 border-l border-r border-1 text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
-                  onClick={() => setSortingOpen(!sortingOpen)}
+                  className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} ${sortingOpen ? 'bg-gray-800' : ''} w-1/3 h-16 flex justify-center items-center border-gray-800 border-l border-r border-1 text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
+                  onClick={() => clickSortingSettings()}
                 >        
-                    <span className="fill-white relative w-6 h-6 flex justify-center items-center">{sortingOpen ? close() : sort()}</span>
+                    <span className="fill-white relative w-6 h-6 flex justify-center items-center">{sortingOpen && pathname != '/heroes' && pathname != '/items' ? close() : sort()}</span>
                 </div>
               </>
             ) : null}
             <div
-              className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} ${heroPathValue || itemPathValue ? 'w-1/3' : 'w-full'} h-16 flex justify-center items-center border-gray-800 border-1 text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
+              className={`${isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} ${heroPathValue || itemPathValue || (pathname === '/heroes' && !heroPathValue) || (pathname === '/items' && !itemPathValue) ? 'w-1/3' : 'w-full'} h-16 flex justify-center items-center border-gray-800 border-1 text-white font-bold bg-gray-1000 hover:bg-gray-900 cursor-pointer`}
               onClick={toggleSidebar}
             >        
                 <span className="fill-white relative w-full h-full flex justify-center items-center">Close</span>

@@ -13,7 +13,7 @@ const FadeInImage: React.FC<FadeInImageProps> = ({ maxHeight = false, setWidth =
   const [isLoaded, setIsLoaded] = useState(false);
 
   return (
-    <div className={`fade-in ${isLoaded ? 'loaded' : ''} ${maxHeight ? 'h-full' : ''} ${setWidth > 0 ? `w-[calc(${setWidth}px)]` : ''}`}>
+    <div className={`fade-in select-none ${isLoaded ? 'loaded' : ''} ${maxHeight ? 'h-full' : ''} ${setWidth > 0 ? `w-[calc(${setWidth}px)]` : ''}`}>
       <Image
         {...props}
         onLoad={() => setIsLoaded(true)}

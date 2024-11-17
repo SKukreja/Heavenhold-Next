@@ -28,7 +28,7 @@ export default function HeroGrid() {
     <Suspense fallback={<Loading />}>
       <div id="HeroList" className="flex flex-wrap justify-start ml-8 w-[calc(100%-4rem)] lg:w-[calc(100%-2rem)] gap-4 lg:gap-8 transform-gpu">
         {heroes.map((hero: Hero) => (
-          <HeroLink key={hero.uri} hero={hero} />
+          <HeroLink key={hero.uri + hero.id} hero={hero} />
         ))}
       </div>
     </Suspense>
@@ -41,7 +41,8 @@ const HeroLink = ({ hero }: { hero: Hero }) => {
 
   return (
     <Link
-      href={hero.uri ?? '/'}
+      href={hero.uri ?? '/'} 
+      data-sort data-name={hero.heroInformation?.bioFields?.name} data-title={hero.title} data-element={hero.heroInformation?.bioFields?.element} data-rarity={hero.heroInformation?.bioFields?.rarity} data-party-buff={hero.heroInformation?.abilityFields?.partyBuff?.[0]?.stat || 'none'}
       data-filter={`${bioFields?.element?.toLowerCase()} ${bioFields?.role?.toLowerCase()} r-${bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()} ${hero.heroInformation?.abilityFields?.partyBuff?.map(buff => buff?.affectsParty ? buff?.stat?.toString()
         .replaceAll(/ /g, "-")
         .replaceAll('[]','')

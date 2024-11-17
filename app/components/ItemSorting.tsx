@@ -43,15 +43,6 @@ const elementOptions = [
 
 const rarityOptions = ['r-epic', 'r-legend', 'r-unique', 'r-rare', 'r-normal'];
 
-// Define rarity label map
-const rarityLabelMap: { [key: string]: string } = {
-  'r-epic': 'Epic',
-  'r-legend': 'Legend',
-  'r-unique': 'Unique',
-  'r-rare': 'Rare',
-  'r-normal': 'Normal',
-};
-
 export default function ItemFilters() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -87,7 +78,7 @@ export default function ItemFilters() {
       filters['one-handed-sword'] = true;
       selectedItemType = 'one-handed-sword';
     }
-  
+
     const activeFilterSection = document.querySelector(`#active-filters`);
     if (activeFilterSection) {
       activeFilterSection.innerHTML = '';
@@ -101,56 +92,13 @@ export default function ItemFilters() {
             filter.textContent = "Element = " + elementOptions.find(option => option.value === key)?.label;
           }
           else if(rarityOptions.includes(key)) {
-            filter.textContent = "Rarity = " + rarityLabelMap[key];
+            filter.textContent = "Rarity = " + key.replace('r-', '');
           }
-          filter.classList.add('p-4', 'cursor-pointer', 'bg-gray-transparent', 'normal-case', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');          
-          filter.style.textTransform = 'none';
+          filter.classList.add('p-4', 'cursor-pointer', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');          
           activeFilterSection.appendChild(filter);
         }
       });
-  
-      // Remove existing event listener to prevent duplicates
-      const existingClickHandler = (activeFilterSection as any)._clickHandler;
-      if (existingClickHandler) {
-        activeFilterSection.removeEventListener('click', existingClickHandler);
-      }
-  
-      // Add event listener once
-      const clickHandler = (event: Event) => {
-        const target = event.target as HTMLElement;
-        if (target.classList.contains('cursor-pointer')) {
-          const filterText = target.textContent;
-          const key = Object.keys(filters).find(k => {
-            if (itemTypeValues.includes(k)) {
-              return filterText === "Item Type = " + itemTypes.find(option => option.value === k)?.label;
-            } else if (elementOptions.some(option => option.value === k)) {
-              return filterText === "Element = " + elementOptions.find(option => option.value === k)?.label;
-            } else if (rarityOptions.includes(k)) {
-              const rarityLabel = rarityLabelMap[k].charAt(0).toUpperCase() + rarityLabelMap[k].slice(1);
-              return filterText === "Rarity = " + rarityLabel;
-            }
-            return false;
-          });
-          if (key) {
-            handleToggleChange(key)();
-          }
-        }
-      };
-  
-      activeFilterSection.addEventListener('click', clickHandler);
-      (activeFilterSection as any)._clickHandler = clickHandler;
-
-      // Add reset button
-      const resetButton = document.createElement('div');
-      resetButton.textContent = "Reset";
-      resetButton.classList.add('p-4', 'cursor-pointer', Object.keys(filters).length > 0 ? 'flex' : 'hidden', 'select-none', 'bg-red-900/50', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');
-      resetButton.addEventListener('click', () => {
-        // Navigate to a new URL
-        router.replace('/items?one-handed-sword=true');
-      });
-      activeFilterSection.appendChild(resetButton);
     }
-    
   
     // Clean up filters
     const cleanedFilters = cleanupFilters(filters, selectedItemType);
@@ -307,7 +255,7 @@ export default function ItemFilters() {
 
   return (
     <form className="pt-8 pb-16 w-[calc(100%-0.5rem)] lg:w-full">
-      <h3 className="px-8 font-bold tracking-widest uppercase">Filters</h3>
+      <h3 className="px-8 font-bold tracking-widest uppercase">Sorting</h3>
 
       {["Type", "Element", "Rarity"].map((section, index) => {
         const sectionId = `filter-section-mobile-${index}`;
@@ -383,20 +331,18 @@ function FilterToggle({ id, value, label, icon, onChange, isActive }: { id: stri
 
   return (
     <div
-      className={`flex items-center p-4 cursor-pointer 
-          ${isActive ? 'bg-gray-800' : 'bg-gray-900'} 
-          ${!isActive && !rarityOptions.includes(value) ? 'hover:bg-gray-800 hover:text-white' : ''} 
-          ${isActive && !rarityOptions.includes(value) ? 'text-white' : ''} 
-          ${!isActive && !rarityOptions.includes(value) ? 'text-gray-400' : ''} 
-          ${value === 'r-epic' ? 'text-green-500' : ''} 
-          ${value === 'r-legend' ? 'text-yellow-500' : ''} 
-          ${value === 'r-unique' ? 'text-orange-700'  : ''} 
-          ${value === 'r-rare' ? 'text-blue-500' : ''} 
-          ${value === 'r-normal' ? 'text-gray-500' : ''}`}
-      onClick={onChange}
+        className={`flex items-center p-4 cursor-pointer 
+            ${isActive ? 'bg-gray-800' : 'bg-gray-900'} 
+            ${!isActive && !['r-1-star', 'r-2-star', 'r-3-star'].includes(value) ? 'hover:bg-gray-800 hover:text-white' : ''} 
+            ${isActive && !['r-1-star', 'r-2-star', 'r-3-star'].includes(value) ? 'text-white' : ''} 
+            ${!isActive && !['r-1-star', 'r-2-star', 'r-3-star'].includes(value) ? 'text-gray-400' : ''} 
+            ${value === 'r-3-star' ? 'text-yellow-500' : ''} 
+            ${value === 'r-2-star' ? 'text-gray-300' : ''} 
+            ${value === 'r-1-star' ? 'text-orange-600' : ''}`}
+        onClick={handleClick}
     >
       <input id={id} name="filter" value={value} type="checkbox" className={InputStyles} checked={isActive} readOnly />
-      <label htmlFor={id} className={`${LabelStyles} normal-case`}> 
+      <label htmlFor={id} className={LabelStyles}> 
         {icon && <Image src={icon} alt={label} width={16} height={16} className="mr-4 fill-white" />}
         {label}
       </label>

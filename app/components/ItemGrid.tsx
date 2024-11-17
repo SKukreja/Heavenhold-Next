@@ -30,7 +30,7 @@ export default function ItemGrid() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <div id="HeroList" className="flex flex-wrap justify-start ml-[calc(2rem+2px)] w-[calc(100%-4rem)] lg:w-[calc(100%-2rem)] gap-4 lg:gap-8 transform-gpu">
+      <div id="ItemList" className="flex flex-wrap justify-start ml-[calc(2rem+2px)] w-[calc(100%-4rem)] lg:w-[calc(100%-2rem)] gap-4 lg:gap-8 transform-gpu">
         {items
           .filter((item: Item) => item?.itemInformation?.itemType?.nodes[0].name != "Cards")
           .map((item: Item, index: number) => (

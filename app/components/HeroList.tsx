@@ -44,7 +44,8 @@ export default function HeroList() {
         {heroes.map((hero: Hero) => (
           <div
             key={hero.uri}
-            ref={(el) => { heroesRef.current[hero.uri ?? ""] = el; }}
+            ref={(el) => { heroesRef.current[hero.uri ?? ""] = el; }} 
+            data-sort data-name={hero.heroInformation?.bioFields?.name} data-title={hero.title} data-element={hero.heroInformation?.bioFields?.element} data-rarity={hero.heroInformation?.bioFields?.rarity} data-party-buff={hero.heroInformation?.abilityFields?.partyBuff?.[0]?.stat || 'none'} 
             data-filter={`${hero.heroInformation?.bioFields?.element?.toLowerCase()} ${hero.heroInformation?.bioFields?.role?.toLowerCase()} r-${hero.heroInformation?.bioFields?.rarity?.toString().replace(/ /g, "-").toLowerCase()} ${hero.heroInformation?.abilityFields?.partyBuff?.map(buff => buff?.affectsParty ? buff?.stat?.toString()
               .replaceAll(/ /g, "-")
               .replaceAll('[]','')

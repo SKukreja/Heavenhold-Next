@@ -207,7 +207,7 @@ export default function MetaList({ categoryId }: MetaProps) {
         }
       };
     
-    if (!combinedHeroes || !heroQuarter || !userVotes) {
+    if (!combinedHeroes || !heroQuarter || (!isOverall && !userVotes)) {
       return <Loading />;
     }
 

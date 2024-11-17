@@ -1,42 +1,67 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Hero, GetMetaVotesQuery, GetMetaVotesWithUserVoteQuery } from "#/graphql/generated/types";
+import { Hero, useGetUserMetaVoteStatusSuspenseQuery, GetUserMetaVoteStatusQuery, GetMetaVotesQuery, GetMetaVotesQueryVariables } from "#/graphql/generated/types";
 import FadeInImage from "#/app/components/FadeInImage";
 import { upvote, downvote } from "#/ui/icons";
 import {
-  useGetMetaVotesQuery,
-  useGetMetaVotesWithUserVoteQuery,
   useDownvoteHeroMutation,
   useUpvoteHeroMutation,
 } from "#/graphql/generated/types";
 import Loading from "#/app/components/loading";
 import { getIpAddress } from "#/ui/helpers";
 import Link from "next/link";
+import { useHeroes } from "#/app/components/GetHeroesProvider";
+import { useUser } from "#/app/components/UserContext";
 
 interface MetaProps {
   categoryId: number;
-  loggedInUserId: number | null;
-  heroes: Hero[];
 }
 
-export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaProps) {
+export default function MetaList({ categoryId }: MetaProps) {
+  const isOverall = (categoryId === 0);
   const ipAddress = getIpAddress();
-  const [upvoteTeam] = useUpvoteHeroMutation();
-  const [downvoteTeam] = useDownvoteHeroMutation();
-  const userId = loggedInUserId ? loggedInUserId : null;
-  const isOverall = (categoryId === 0)  
-
-  const { data: votesDataOverall, loading: votesLoadingOverall } = useGetMetaVotesQuery({
-    skip: !isOverall,
-  });
-  
-  const { data: votesDataWithUserVote, loading: votesLoadingWithUserVote } = useGetMetaVotesWithUserVoteQuery({
-    variables: { categoryId: categoryId, ipAddress: ipAddress + "", userId: userId ?? 0 },
+  const { data: heroesData, votes: votesData } = useHeroes();
+  const heroes = heroesData?.heroes?.nodes ?? ([] as Hero[]);
+  const currentCategoryVotes = votesData?.metaVotesByCategory?.filter((vote) => vote?.categoryId === categoryId);
+  const { user } = useUser();
+  const [upvoteHero] = useUpvoteHeroMutation();
+  const [downvoteHero] = useDownvoteHeroMutation();
+  const { data: userVotes } = useGetUserMetaVoteStatusSuspenseQuery({
+    variables: { categoryId: categoryId, userId: user?.user_id ?? 0, ipAddress: ipAddress.toString() },
     skip: isOverall,
   });
+  
 
-  const votesData = isOverall ? votesDataOverall : votesDataWithUserVote;
-  const votesLoading = isOverall ? votesLoadingOverall : votesLoadingWithUserVote;
+  const overallVotes = Array.from(
+    votesData?.metaVotesByCategory?.reduce((acc, vote) => {
+      if (!vote?.heroId) return acc; // Skip null or undefined heroId entries
+  
+      // If the hero is already in the map, update their totals
+      if (acc.has(vote.heroId)) {
+        const existing = acc.get(vote.heroId);
+        acc.set(vote.heroId, {
+          heroId: vote.heroId,
+          upvoteCount: (existing?.upvoteCount ?? 0) + (vote.upvoteCount ?? 0),
+          downvoteCount: (existing?.downvoteCount ?? 0) + (vote.downvoteCount ?? 0),
+        });
+      } else {
+        // Otherwise, initialize a new entry for the hero
+        acc.set(vote.heroId, {
+          heroId: vote.heroId,
+          upvoteCount: vote.upvoteCount ?? 0,
+          downvoteCount: vote.downvoteCount ?? 0,
+        });
+      }
+  
+      return acc;
+    }, new Map<number, { heroId: number; upvoteCount: number; downvoteCount: number }>()) ?? []
+  ).map(([_, value]) => value) // Convert the Map to an array of values
+    .sort((a, b) => {
+      const netVotesA = (a.upvoteCount ?? 0) - (a.downvoteCount ?? 0);
+      const netVotesB = (b.upvoteCount ?? 0) - (b.downvoteCount ?? 0);
+      return netVotesB - netVotesA; // Sort descending by net votes
+    });
+  
 
   // Declare combinedHeroes before using it
   const [combinedHeroes, setCombinedHeroes] = useState<(Hero & { votes: number; userVote: string | null })[]>([]);
@@ -46,9 +71,8 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
 
   useEffect(() => {
     if (votesData && heroes) {
-      // Map heroes with votes based on the selected query data
       const heroesWithVotes = isOverall
-        ? (votesData as GetMetaVotesQuery)?.metaVotesTotals?.map((vote) => {
+        ? (overallVotes.map((vote) => {
             const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
             if (hero) {
               return {
@@ -58,14 +82,15 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
               };
             }
             return null;
-          }).filter((hero): hero is Hero & { votes: number; userVote: null } => hero !== null)
-        : (votesData as GetMetaVotesWithUserVoteQuery)?.metaVotesByCategory?.map((vote) => {
-            const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);
+          }).filter((hero): hero is Hero & { votes: number; userVote: null } => hero !== null))
+        : currentCategoryVotes?.map((vote) => {
+            const hero = heroes.find((hero) => hero.databaseId === vote?.heroId);            
+            const userVote = userVotes?.getUserMetaVoteStatus?.find((userVote) => (userVote?.heroId === vote?.heroId));
             if (hero) {
               return {
                 ...hero,
                 votes: (vote?.upvoteCount ?? 0) - (vote?.downvoteCount ?? 0),
-                userVote: vote?.userVote ?? null,
+                userVote: userVote?.userVote ?? null,
               };
             }
             return null;
@@ -80,17 +105,17 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
           votes: 0,
           userVote: null,
         }));
-  
+
       // Combine and sort heroes with and without votes, excluding 1-star heroes
       const allCombinedHeroes = [...heroesWithVotes ?? [], ...heroesWithoutVotes]
         .filter((x) => x.heroInformation?.bioFields?.rarity?.toString() !== "1 Star")
         .sort((a, b) => b.votes - a.votes);
-  
-      setCombinedHeroes(allCombinedHeroes);
+
+      setCombinedHeroes(allCombinedHeroes as (Hero & { votes: number; userVote: string | null })[]);
     }
   }, [votesData, heroes, isOverall]);
 
-  if (votesLoading || !combinedHeroes.length) {
+  if (!combinedHeroes.length) {
     return <Loading />;
   }
 
@@ -104,11 +129,11 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
       if (isOverall) return;
       try {
         const userIpAddress = await getIpAddress();
-        const { data } = await upvoteTeam({
+        const { data } = await upvoteHero({
           variables: {
             heroId: heroId,
             categoryId: categoryId,
-            userId: userId! as number ?? 0,
+            userId: user?.user_id! as number ?? 0,
             ipAddress: userIpAddress,
           },
         });
@@ -148,11 +173,11 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
         if (isOverall) return;
         try {
           const userIpAddress = await getIpAddress();
-          const { data } = await downvoteTeam({
+          const { data } = await downvoteHero({
             variables: {
               heroId: heroId,
               categoryId: categoryId,
-              userId: userId! as number ?? 0,
+              userId: user?.user_id! as number ?? 0,
               ipAddress: userIpAddress,
             },
           });
@@ -182,7 +207,7 @@ export default function MetaList({ categoryId, loggedInUserId, heroes }: MetaPro
         }
       };
     
-    if (!combinedHeroes || !heroQuarter) {
+    if (!combinedHeroes || !heroQuarter || !userVotes) {
       return <Loading />;
     }
 

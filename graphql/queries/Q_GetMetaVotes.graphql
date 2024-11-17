@@ -1,7 +1,8 @@
 query GetMetaVotes {
-  metaVotesTotals {
+  metaVotesByCategory {
     upvoteCount
     downvoteCount
     heroId
+    categoryId
   }
 }

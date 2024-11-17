@@ -7756,6 +7756,15 @@ export type MenuToMenuItemConnectionWhereArgs = {
   parentId: InputMaybe<Scalars['ID']['input']>;
 };
 
+/** Hero ID, Vote Count, Downvote Count, and Hero Details */
+export type MetaUserVote = {
+  __typename?: 'MetaUserVote';
+  /** The Hero ID */
+  heroId: Maybe<Scalars['Int']['output']>;
+  /** The current user&#039;s vote status for the hero: &quot;upvote&quot;, &quot;downvote&quot;, or &quot;none&quot; */
+  userVote: Maybe<Scalars['String']['output']>;
+};
+
 /** Votes per hero */
 export type MetaVote = DatabaseIdentifier & Node & {
   __typename?: 'MetaVote';
@@ -7809,23 +7818,6 @@ export type MetaVoteConnectionPageInfo = {
   startCursor: Maybe<Scalars['String']['output']>;
 };
 
-/** Hero ID, Vote Count, Downvote Count, and Hero Details */
-export type MetaVoteCount = {
-  __typename?: 'MetaVoteCount';
-  /** The total number of downvotes */
-  downvoteCount: Maybe<Scalars['Int']['output']>;
-  /** The hero details */
-  hero: Maybe<Hero>;
-  /** The hero ID */
-  heroId: Maybe<Scalars['Int']['output']>;
-  /** The total number of upvotes */
-  upvoteCount: Maybe<Scalars['Int']['output']>;
-  /** The ID of the user */
-  userId: Maybe<Scalars['Int']['output']>;
-  /** The current user&#039;s vote status on the hero: &quot;upvote&quot;, &quot;downvote&quot;, or &quot;none&quot; */
-  userVote: Maybe<Scalars['String']['output']>;
-};
-
 /** Connection between the MetaVote type and the Hero type */
 export type MetaVoteToHeroConnectionEdge = Edge & HeroConnectionEdge & OneToOneConnection & {
   __typename?: 'MetaVoteToHeroConnectionEdge';
@@ -7847,6 +7839,8 @@ export type MetaVoteToUserConnectionEdge = Edge & OneToOneConnection & UserConne
 /** Hero ID, Vote Count, Downvote Count */
 export type MetaVoteTotals = {
   __typename?: 'MetaVoteTotals';
+  /** The category ID */
+  categoryId: Maybe<Scalars['Int']['output']>;
   /** The total number of downvotes */
   downvoteCount: Maybe<Scalars['Int']['output']>;
   /** The hero ID */
@@ -10630,6 +10624,8 @@ export type RootQuery = {
   generalSettings: Maybe<GeneralSettings>;
   /** Get teams and their total vote and downvote counts for a specific hero and user */
   getTeamVotes: Maybe<Array<Maybe<TeamVoteInfo>>>;
+  /** Get the vote status of a user for a particular hero and category */
+  getUserMetaVoteStatus: Maybe<Array<Maybe<MetaUserVote>>>;
   /** Get the vote status of a user for a particular team */
   getUserTeamVoteStatus: Maybe<Array<Maybe<TeamUserVote>>>;
   /** An object of the hero Type. Heroes */
@@ -10673,8 +10669,8 @@ export type RootQuery = {
   menus: Maybe<RootQueryToMenuConnection>;
   /** Connection between the RootQuery type and the MetaVote type */
   metaVotes: Maybe<RootQueryToMetaVoteConnection>;
-  /** Get heroes and their total vote and downvote counts for a specific category and user */
-  metaVotesByCategory: Maybe<Array<Maybe<MetaVoteCount>>>;
+  /** Get heroes and their total vote and downvote counts for categories */
+  metaVotesByCategory: Maybe<Array<Maybe<MetaVoteTotals>>>;
   /** Get heroes and their total vote and downvote counts */
   metaVotesTotals: Maybe<Array<Maybe<MetaVoteTotals>>>;
   /** Fetches an object given its ID */
@@ -10860,6 +10856,14 @@ export type RootQueryContentTypesArgs = {
 
 
 /** The root entry point into the Graph */
+export type RootQueryGetUserMetaVoteStatusArgs = {
+  categoryId: InputMaybe<Scalars['Int']['input']>;
+  ipAddress?: InputMaybe<Scalars['String']['input']>;
+  userId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The root entry point into the Graph */
 export type RootQueryGetUserTeamVoteStatusArgs = {
   ipAddress?: InputMaybe<Scalars['String']['input']>;
   userId?: InputMaybe<Scalars['Int']['input']>;
@@ -11004,14 +11008,6 @@ export type RootQueryMetaVotesArgs = {
   before: InputMaybe<Scalars['String']['input']>;
   first: InputMaybe<Scalars['Int']['input']>;
   last: InputMaybe<Scalars['Int']['input']>;
-};
-
-
-/** The root entry point into the Graph */
-export type RootQueryMetaVotesByCategoryArgs = {
-  categoryId: InputMaybe<Scalars['Int']['input']>;
-  ipAddress?: InputMaybe<Scalars['String']['input']>;
-  userId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -16326,21 +16322,21 @@ export type GetAllTeamsQuery = { __typename?: 'RootQuery', teams: { __typename?:
 export type GetMetaVotesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetMetaVotesQuery = { __typename?: 'RootQuery', metaVotesTotals: Array<{ __typename?: 'MetaVoteTotals', upvoteCount: number | null, downvoteCount: number | null, heroId: number | null } | null> | null };
-
-export type GetMetaVotesWithUserVoteQueryVariables = Exact<{
-  categoryId: Scalars['Int']['input'];
-  userId: Scalars['Int']['input'];
-  ipAddress: InputMaybe<Scalars['String']['input']>;
-}>;
-
-
-export type GetMetaVotesWithUserVoteQuery = { __typename?: 'RootQuery', metaVotesByCategory: Array<{ __typename?: 'MetaVoteCount', downvoteCount: number | null, heroId: number | null, upvoteCount: number | null, userId: number | null, userVote: string | null } | null> | null };
+export type GetMetaVotesQuery = { __typename?: 'RootQuery', metaVotesByCategory: Array<{ __typename?: 'MetaVoteTotals', upvoteCount: number | null, downvoteCount: number | null, heroId: number | null, categoryId: number | null } | null> | null };
 
 export type GetTeamVotesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetTeamVotesQuery = { __typename?: 'RootQuery', getTeamVotes: Array<{ __typename?: 'TeamVoteInfo', downvoteCount: number | null, teamId: number | null, upvoteCount: number | null } | null> | null };
+
+export type GetUserMetaVoteStatusQueryVariables = Exact<{
+  userId: Scalars['Int']['input'];
+  ipAddress: InputMaybe<Scalars['String']['input']>;
+  categoryId: Scalars['Int']['input'];
+}>;
+
+
+export type GetUserMetaVoteStatusQuery = { __typename?: 'RootQuery', getUserMetaVoteStatus: Array<{ __typename?: 'MetaUserVote', heroId: number | null, userVote: string | null } | null> | null };
 
 export type GetUserTeamVoteStatusQueryVariables = Exact<{
   userId: Scalars['Int']['input'];
@@ -17202,10 +17198,11 @@ export type GetAllTeamsSuspenseQueryHookResult = ReturnType<typeof useGetAllTeam
 export type GetAllTeamsQueryResult = Apollo.QueryResult<GetAllTeamsQuery, GetAllTeamsQueryVariables>;
 export const GetMetaVotesDocument = gql`
     query GetMetaVotes {
-  metaVotesTotals {
+  metaVotesByCategory {
     upvoteCount
     downvoteCount
     heroId
+    categoryId
   }
 }
     `;
@@ -17241,56 +17238,6 @@ export type GetMetaVotesQueryHookResult = ReturnType<typeof useGetMetaVotesQuery
 export type GetMetaVotesLazyQueryHookResult = ReturnType<typeof useGetMetaVotesLazyQuery>;
 export type GetMetaVotesSuspenseQueryHookResult = ReturnType<typeof useGetMetaVotesSuspenseQuery>;
 export type GetMetaVotesQueryResult = Apollo.QueryResult<GetMetaVotesQuery, GetMetaVotesQueryVariables>;
-export const GetMetaVotesWithUserVoteDocument = gql`
-    query GetMetaVotesWithUserVote($categoryId: Int!, $userId: Int!, $ipAddress: String) {
-  metaVotesByCategory(
-    categoryId: $categoryId
-    ipAddress: $ipAddress
-    userId: $userId
-  ) {
-    downvoteCount
-    heroId
-    upvoteCount
-    userId
-    userVote
-  }
-}
-    `;
-
-/**
- * __useGetMetaVotesWithUserVoteQuery__
- *
- * To run a query within a React component, call `useGetMetaVotesWithUserVoteQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMetaVotesWithUserVoteQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMetaVotesWithUserVoteQuery({
- *   variables: {
- *      categoryId: // value for 'categoryId'
- *      userId: // value for 'userId'
- *      ipAddress: // value for 'ipAddress'
- *   },
- * });
- */
-export function useGetMetaVotesWithUserVoteQuery(baseOptions: Apollo.QueryHookOptions<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables> & ({ variables: GetMetaVotesWithUserVoteQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>(GetMetaVotesWithUserVoteDocument, options);
-      }
-export function useGetMetaVotesWithUserVoteLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>(GetMetaVotesWithUserVoteDocument, options);
-        }
-export function useGetMetaVotesWithUserVoteSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>) {
-          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>(GetMetaVotesWithUserVoteDocument, options);
-        }
-export type GetMetaVotesWithUserVoteQueryHookResult = ReturnType<typeof useGetMetaVotesWithUserVoteQuery>;
-export type GetMetaVotesWithUserVoteLazyQueryHookResult = ReturnType<typeof useGetMetaVotesWithUserVoteLazyQuery>;
-export type GetMetaVotesWithUserVoteSuspenseQueryHookResult = ReturnType<typeof useGetMetaVotesWithUserVoteSuspenseQuery>;
-export type GetMetaVotesWithUserVoteQueryResult = Apollo.QueryResult<GetMetaVotesWithUserVoteQuery, GetMetaVotesWithUserVoteQueryVariables>;
 export const GetTeamVotesDocument = gql`
     query getTeamVotes {
   getTeamVotes {
@@ -17332,6 +17279,53 @@ export type GetTeamVotesQueryHookResult = ReturnType<typeof useGetTeamVotesQuery
 export type GetTeamVotesLazyQueryHookResult = ReturnType<typeof useGetTeamVotesLazyQuery>;
 export type GetTeamVotesSuspenseQueryHookResult = ReturnType<typeof useGetTeamVotesSuspenseQuery>;
 export type GetTeamVotesQueryResult = Apollo.QueryResult<GetTeamVotesQuery, GetTeamVotesQueryVariables>;
+export const GetUserMetaVoteStatusDocument = gql`
+    query getUserMetaVoteStatus($userId: Int!, $ipAddress: String, $categoryId: Int!) {
+  getUserMetaVoteStatus(
+    userId: $userId
+    ipAddress: $ipAddress
+    categoryId: $categoryId
+  ) {
+    heroId
+    userVote
+  }
+}
+    `;
+
+/**
+ * __useGetUserMetaVoteStatusQuery__
+ *
+ * To run a query within a React component, call `useGetUserMetaVoteStatusQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserMetaVoteStatusQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserMetaVoteStatusQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *      ipAddress: // value for 'ipAddress'
+ *      categoryId: // value for 'categoryId'
+ *   },
+ * });
+ */
+export function useGetUserMetaVoteStatusQuery(baseOptions: Apollo.QueryHookOptions<GetUserMetaVoteStatusQuery, GetUserMetaVoteStatusQueryVariables> & ({ variables: GetUserMetaVoteStatusQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserMetaVoteStatusQuery, GetUserMetaVoteStatusQueryVariables>(GetUserMetaVoteStatusDocument, options);
+      }
+export function useGetUserMetaVoteStatusLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserMetaVoteStatusQuery, GetUserMetaVoteStatusQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserMetaVoteStatusQuery, GetUserMetaVoteStatusQueryVariables>(GetUserMetaVoteStatusDocument, options);
+        }
+export function useGetUserMetaVoteStatusSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserMetaVoteStatusQuery, GetUserMetaVoteStatusQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetUserMetaVoteStatusQuery, GetUserMetaVoteStatusQueryVariables>(GetUserMetaVoteStatusDocument, options);
+        }
+export type GetUserMetaVoteStatusQueryHookResult = ReturnType<typeof useGetUserMetaVoteStatusQuery>;
+export type GetUserMetaVoteStatusLazyQueryHookResult = ReturnType<typeof useGetUserMetaVoteStatusLazyQuery>;
+export type GetUserMetaVoteStatusSuspenseQueryHookResult = ReturnType<typeof useGetUserMetaVoteStatusSuspenseQuery>;
+export type GetUserMetaVoteStatusQueryResult = Apollo.QueryResult<GetUserMetaVoteStatusQuery, GetUserMetaVoteStatusQueryVariables>;
 export const GetUserTeamVoteStatusDocument = gql`
     query getUserTeamVoteStatus($userId: Int!, $ipAddress: String) {
   getUserTeamVoteStatus(userId: $userId, ipAddress: $ipAddress) {

@@ -1,0 +1,10 @@
+query getUserMetaVoteStatus($userId: Int!, $ipAddress: String, $categoryId: Int!) {
+  getUserMetaVoteStatus(
+    userId: $userId
+    ipAddress: $ipAddress
+    categoryId: $categoryId
+  ) {
+    heroId
+    userVote
+  }
+}

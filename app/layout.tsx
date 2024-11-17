@@ -11,7 +11,7 @@ import { getUserData } from './components/UserDataFetcher';
 import { User } from './components/UserContext';
 import { Suspense } from 'react';
 import Loading from './components/loading';
-import { GetAllHeroesDocument, GetAllHeroesQuery, GetAllItemsDocument, GetAllItemsQuery, GetAllTeamsDocument, GetAllTeamsQuery, GetTeamVotesDocument, GetTeamVotesQuery } from '#/graphql/generated/types';
+import { GetAllHeroesDocument, GetAllHeroesQuery, GetAllItemsDocument, GetAllItemsQuery, GetAllTeamsDocument, GetAllTeamsQuery, GetMetaVotesDocument, GetMetaVotesQuery, GetTeamVotesDocument, GetTeamVotesQuery } from '#/graphql/generated/types';
 import { fetchGraphQL } from './components/FetchGraphQL';
 import { SidebarProvider } from './components/SidebarProvider';
 import { fetchVotes } from './components/FetchVotes';
@@ -33,6 +33,7 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
   const itemData: GetAllItemsQuery = await fetchGraphQL<GetAllItemsQuery>(GetAllItemsDocument);
   const teamData: GetAllTeamsQuery = await fetchGraphQL<GetAllTeamsQuery>(GetAllTeamsDocument);
   const teamVotes: GetTeamVotesQuery = await fetchVotes<GetTeamVotesQuery>(GetTeamVotesDocument);
+  const metaVotes: GetMetaVotesQuery = await fetchVotes<GetMetaVotesQuery>(GetMetaVotesDocument);
 
   return (
     <ApolloWrapper>
@@ -43,7 +44,7 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
         <body className="h-screen overflow-y-auto flex flex-col scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 bg-gray-1100">
           <Suspense fallback={<Loading />}>
             <UserProvider initialUser={userData as User}>
-              <HeroesProvider initialData={heroData}>
+              <HeroesProvider initialData={heroData} initialVotes={metaVotes}>
                 <ItemsProvider initialData={itemData}>                  
                   <TeamsProvider initialData={teamData} initialVotes={teamVotes}>
                     <SidebarProvider>

@@ -14,7 +14,6 @@ export default function BlogList({}: BlogListProps) {
     // Fetch data on the server
     const { data: blogData } = useBlog();
     const blog = blogData as any;
-    if (!('data' in blog)) return;
     const blogPosts = blog.data.nodes as Blog[];
     const { user } = useUser(); 
 
@@ -27,7 +26,7 @@ export default function BlogList({}: BlogListProps) {
     return (
         <div className="w-full h-auto px-8">
             {blogData && blogPosts.map((blog: Blog) => (
-            <div key={blog.uri} className="w-full h-auto">
+            <div key={'blog-' + blog.uri} className="w-full h-auto">
                 <Link href={'/blog/' + blog?.slug} className="text-white">{blog?.title}</Link>
             </div> 
             ))}

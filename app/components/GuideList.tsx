@@ -16,7 +16,6 @@ export default function GuideList({}: GuideListProps) {
     // Fetch data on the server
     const { data: guidesData } = useGuides();
     const guides = guidesData as any;
-    if (!('data' in guides)) return;
     const guideData = guides.data.nodes as Guide[];
     const { user } = useUser();
     console.log(guideData)
@@ -29,7 +28,7 @@ export default function GuideList({}: GuideListProps) {
     return (
         <div className="w-full h-auto px-8">
             {guideData && guideData.map((guide: Guide) => (
-            <div key={guide.uri} className="w-full h-auto">
+            <div key={'guide-' + guide.slug} className="w-full h-auto">
                 <Link href={'/guides/' + guide?.slug} className="text-white">{guide?.title}</Link>
             </div>
             ))}

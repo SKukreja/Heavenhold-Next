@@ -22,7 +22,6 @@ export default function GuidePage({
   // Fetch data on the server
   const { data: guidesData } = useGuides();
   const guides = guidesData as any;
-  if (!('data' in guides)) return;
   const guideData = guides.data.nodes as Guide[];
   const guide = guideData.find((guide) => guide.slug === uri);
 

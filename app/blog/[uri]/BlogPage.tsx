@@ -15,7 +15,6 @@ export default function BlogPage({
   // Fetch data on the server
   const { data: blogData } = useBlog();
   const blog = blogData as any;
-  if (!('data' in blog)) return;
   const blogPosts = blog.data.nodes as Blog[];
   const currentPost = blogPosts.find((blog) => blog.slug === uri);
 

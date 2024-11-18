@@ -211,6 +211,449 @@ export type Banner_Fields = {
   rightOrnament: Maybe<AcfMediaItemConnectionEdge>;
 };
 
+/** The blog type */
+export type Blog = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithComments & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfGuideFields & {
+  __typename?: 'Blog';
+  /**
+   * The ancestors of the content node.
+   * @deprecated This content type is not hierarchical and typically will not have ancestors
+   */
+  ancestors: Maybe<BlogToBlogConnection>;
+  /**
+   * The id field matches the WP_Post-&gt;ID field.
+   * @deprecated Deprecated in favor of the databaseId field
+   */
+  blogId: Scalars['Int']['output'];
+  /** The number of comments. Even though WPGraphQL denotes this field as an integer, in WordPress this field should be saved as a numeric string for compatibility. */
+  commentCount: Maybe<Scalars['Int']['output']>;
+  /** Whether the comments are open or closed for this particular post. */
+  commentStatus: Maybe<Scalars['String']['output']>;
+  /** Connection between the Blog type and the Comment type */
+  comments: Maybe<BlogToCommentConnection>;
+  /** The content of the post. */
+  content: Maybe<Scalars['String']['output']>;
+  /** Connection between the ContentNode type and the ContentType type */
+  contentType: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String']['output'];
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int']['output'];
+  /** Post publishing date. */
+  date: Maybe<Scalars['String']['output']>;
+  /** The publishing date set in GMT. */
+  dateGmt: Maybe<Scalars['String']['output']>;
+  /** The desired slug of the post */
+  desiredSlug: Maybe<Scalars['String']['output']>;
+  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+  editingLockedBy: Maybe<ContentNodeToEditLockConnectionEdge>;
+  /** The RSS enclosure for the object */
+  enclosure: Maybe<Scalars['String']['output']>;
+  /** Connection between the ContentNode type and the EnqueuedScript type */
+  enqueuedScripts: Maybe<ContentNodeToEnqueuedScriptConnection>;
+  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+  /** The excerpt of the post. */
+  excerpt: Maybe<Scalars['String']['output']>;
+  /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
+  featuredImage: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
+  /** The database identifier for the featured image node assigned to the content node */
+  featuredImageDatabaseId: Maybe<Scalars['Int']['output']>;
+  /** Globally unique ID of the featured image assigned to the node */
+  featuredImageId: Maybe<Scalars['ID']['output']>;
+  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+  guid: Maybe<Scalars['String']['output']>;
+  /** Fields of the GuideFields ACF Field Group */
+  guideFields: Maybe<GuideFields>;
+  /** Whether the blog object is password protected. */
+  hasPassword: Maybe<Scalars['Boolean']['output']>;
+  /** The globally unique identifier of the blog object. */
+  id: Scalars['ID']['output'];
+  /** Whether the node is a Comment */
+  isComment: Scalars['Boolean']['output'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean']['output'];
+  /** Whether the node represents the front page. */
+  isFrontPage: Scalars['Boolean']['output'];
+  /** Whether  the node represents the blog page. */
+  isPostsPage: Scalars['Boolean']['output'];
+  /** Whether the object is a node in the preview state */
+  isPreview: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the object is restricted from the current viewer */
+  isRestricted: Maybe<Scalars['Boolean']['output']>;
+  /** True if the node is a revision of another node */
+  isRevision: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean']['output'];
+  /** The user that most recently edited the node */
+  lastEditedBy: Maybe<ContentNodeToEditLastConnectionEdge>;
+  /** The permalink of the post */
+  link: Maybe<Scalars['String']['output']>;
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  modified: Maybe<Scalars['String']['output']>;
+  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+  modifiedGmt: Maybe<Scalars['String']['output']>;
+  /**
+   * The parent of the content node.
+   * @deprecated This content type is not hierarchical and typically will not have a parent
+   */
+  parent: Maybe<BlogToParentConnectionEdge>;
+  /** The password for the blog object. */
+  password: Maybe<Scalars['String']['output']>;
+  /** Connection between the Blog type and the blog type */
+  preview: Maybe<BlogToPreviewConnectionEdge>;
+  /** The database id of the preview node */
+  previewRevisionDatabaseId: Maybe<Scalars['Int']['output']>;
+  /** Whether the object is a node in the preview state */
+  previewRevisionId: Maybe<Scalars['ID']['output']>;
+  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+  revisionOf: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+  /** Connection between the Blog type and the blog type */
+  revisions: Maybe<BlogToRevisionConnection>;
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  slug: Maybe<Scalars['String']['output']>;
+  /** The current status of the object */
+  status: Maybe<Scalars['String']['output']>;
+  /** The template assigned to the node */
+  template: Maybe<ContentTemplate>;
+  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+  title: Maybe<Scalars['String']['output']>;
+  /** The unique resource identifier path */
+  uri: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The blog type */
+export type BlogAncestorsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The blog type */
+export type BlogCommentsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  where: InputMaybe<BlogToCommentConnectionWhereArgs>;
+};
+
+
+/** The blog type */
+export type BlogContentArgs = {
+  format: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+
+/** The blog type */
+export type BlogEnqueuedScriptsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The blog type */
+export type BlogEnqueuedStylesheetsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The blog type */
+export type BlogExcerptArgs = {
+  format: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+
+/** The blog type */
+export type BlogRevisionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  where: InputMaybe<BlogToRevisionConnectionWhereArgs>;
+};
+
+
+/** The blog type */
+export type BlogTitleArgs = {
+  format: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+/** Connection to blog Nodes */
+export type BlogConnection = {
+  /** A list of edges (relational context) between RootQuery and connected blog Nodes */
+  edges: Array<BlogConnectionEdge>;
+  /** A list of connected blog Nodes */
+  nodes: Array<Blog>;
+  /** Information about pagination in a connection. */
+  pageInfo: BlogConnectionPageInfo;
+};
+
+/** Edge between a Node and a connected blog */
+export type BlogConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The connected blog Node */
+  node: Blog;
+};
+
+/** Page Info on the connected BlogConnectionEdge */
+export type BlogConnectionPageInfo = {
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** The Type of Identifier used to fetch a single resource. Default is ID. */
+export enum BlogIdType {
+  /** Identify a resource by the Database ID. */
+  DatabaseId = 'DATABASE_ID',
+  /** Identify a resource by the (hashed) Global ID. */
+  Id = 'ID',
+  /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
+  Slug = 'SLUG',
+  /** Identify a resource by the URI. */
+  Uri = 'URI'
+}
+
+/** Connection between the Blog type and the blog type */
+export type BlogToBlogConnection = BlogConnection & Connection & {
+  __typename?: 'BlogToBlogConnection';
+  /** Edges for the BlogToBlogConnection connection */
+  edges: Array<BlogToBlogConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Blog>;
+  /** Information about pagination in a connection. */
+  pageInfo: BlogToBlogConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type BlogToBlogConnectionEdge = BlogConnectionEdge & Edge & {
+  __typename?: 'BlogToBlogConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated This content type is not hierarchical and typically will not have ancestors
+   */
+  cursor: Maybe<Scalars['String']['output']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated This content type is not hierarchical and typically will not have ancestors
+   */
+  node: Blog;
+};
+
+/** Page Info on the &quot;BlogToBlogConnection&quot; */
+export type BlogToBlogConnectionPageInfo = BlogConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'BlogToBlogConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** Connection between the Blog type and the Comment type */
+export type BlogToCommentConnection = CommentConnection & Connection & {
+  __typename?: 'BlogToCommentConnection';
+  /** Edges for the BlogToCommentConnection connection */
+  edges: Array<BlogToCommentConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Comment>;
+  /** Information about pagination in a connection. */
+  pageInfo: BlogToCommentConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type BlogToCommentConnectionEdge = CommentConnectionEdge & Edge & {
+  __typename?: 'BlogToCommentConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: Comment;
+};
+
+/** Page Info on the &quot;BlogToCommentConnection&quot; */
+export type BlogToCommentConnectionPageInfo = CommentConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'BlogToCommentConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** Arguments for filtering the BlogToCommentConnection connection */
+export type BlogToCommentConnectionWhereArgs = {
+  /** Comment author email address. */
+  authorEmail: InputMaybe<Scalars['String']['input']>;
+  /** Array of author IDs to include comments for. */
+  authorIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of author IDs to exclude comments for. */
+  authorNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Comment author URL. */
+  authorUrl: InputMaybe<Scalars['String']['input']>;
+  /** Array of comment IDs to include. */
+  commentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of IDs of users whose unapproved comments will be returned by the query regardless of status. */
+  commentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Include comments of a given type. */
+  commentType: InputMaybe<Scalars['String']['input']>;
+  /** Include comments from a given array of comment types. */
+  commentTypeIn: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Exclude comments from a given array of comment types. */
+  commentTypeNotIn: InputMaybe<Scalars['String']['input']>;
+  /** Content object author ID to limit results by. */
+  contentAuthor: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of author IDs to retrieve comments for. */
+  contentAuthorIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of author IDs *not* to retrieve comments for. */
+  contentAuthorNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Limit results to those affiliated with a given content object ID. */
+  contentId: InputMaybe<Scalars['ID']['input']>;
+  /** Array of content object IDs to include affiliated comments for. */
+  contentIdIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of content object IDs to exclude affiliated comments for. */
+  contentIdNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Content object name (i.e. slug ) to retrieve affiliated comments for. */
+  contentName: InputMaybe<Scalars['String']['input']>;
+  /** Content Object parent ID to retrieve affiliated comments for. */
+  contentParent: InputMaybe<Scalars['Int']['input']>;
+  /** Array of content object statuses to retrieve affiliated comments for. Pass 'any' to match any value. */
+  contentStatus: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
+  contentType: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
+  /** Array of IDs or email addresses of users whose unapproved comments will be returned by the query regardless of $status. Default empty */
+  includeUnapproved: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Karma score to retrieve matching comments for. */
+  karma: InputMaybe<Scalars['Int']['input']>;
+  /** The cardinality of the order of the connection */
+  order: InputMaybe<OrderEnum>;
+  /** Field to order the comments by. */
+  orderby: InputMaybe<CommentsConnectionOrderbyEnum>;
+  /** Parent ID of comment to retrieve children of. */
+  parent: InputMaybe<Scalars['Int']['input']>;
+  /** Array of parent IDs of comments to retrieve children for. */
+  parentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of parent IDs of comments *not* to retrieve children for. */
+  parentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Search term(s) to retrieve matching comments for. */
+  search: InputMaybe<Scalars['String']['input']>;
+  /** Comment status to limit results by. */
+  status: InputMaybe<Scalars['String']['input']>;
+  /** Include comments for a specific user ID. */
+  userId: InputMaybe<Scalars['ID']['input']>;
+};
+
+/** Connection between the Blog type and the blog type */
+export type BlogToParentConnectionEdge = BlogConnectionEdge & Edge & OneToOneConnection & {
+  __typename?: 'BlogToParentConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /**
+   * The node of the connection, without the edges
+   * @deprecated This content type is not hierarchical and typically will not have a parent
+   */
+  node: Blog;
+};
+
+/** Connection between the Blog type and the blog type */
+export type BlogToPreviewConnectionEdge = BlogConnectionEdge & Edge & OneToOneConnection & {
+  __typename?: 'BlogToPreviewConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The node of the connection, without the edges */
+  node: Blog;
+};
+
+/** Connection between the Blog type and the blog type */
+export type BlogToRevisionConnection = BlogConnection & Connection & {
+  __typename?: 'BlogToRevisionConnection';
+  /** Edges for the BlogToRevisionConnection connection */
+  edges: Array<BlogToRevisionConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Blog>;
+  /** Information about pagination in a connection. */
+  pageInfo: BlogToRevisionConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type BlogToRevisionConnectionEdge = BlogConnectionEdge & Edge & {
+  __typename?: 'BlogToRevisionConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: Blog;
+};
+
+/** Page Info on the &quot;BlogToRevisionConnection&quot; */
+export type BlogToRevisionConnectionPageInfo = BlogConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'BlogToRevisionConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** Arguments for filtering the BlogToRevisionConnection connection */
+export type BlogToRevisionConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword: InputMaybe<Scalars['Boolean']['input']>;
+  /** Specific database ID of the object */
+  id: InputMaybe<Scalars['Int']['input']>;
+  /** Array of IDs for the objects to retrieve */
+  in: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name: InputMaybe<Scalars['String']['input']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** What parameter to use to order the objects by. */
+  orderby: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent: InputMaybe<Scalars['ID']['input']>;
+  /** Specify objects whose parent is in an array */
+  parentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Show posts with a specific password. */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** Show Posts based on a keyword search */
+  search: InputMaybe<Scalars['String']['input']>;
+  /** Retrieve posts where post status is in an array. */
+  stati: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
+};
+
 /** The category type */
 export type Category = DatabaseIdentifier & HierarchicalNode & HierarchicalTermNode & MenuItemLinkable & Node & TermNode & UniformResourceIdentifiable & {
   __typename?: 'Category';
@@ -1815,7 +2258,11 @@ export enum ContentTypeEnum {
   /** The Type of Content object */
   Attachment = 'ATTACHMENT',
   /** The Type of Content object */
+  Blog = 'BLOG',
+  /** The Type of Content object */
   Collections = 'COLLECTIONS',
+  /** The Type of Content object */
+  Guides = 'GUIDES',
   /** The Type of Content object */
   Heroes = 'HEROES',
   /** The Type of Content object */
@@ -2037,6 +2484,39 @@ export type Costume_FieldsShopRotationArgs = {
   last: InputMaybe<Scalars['Int']['input']>;
 };
 
+/** Input for the createBlog mutation. */
+export type CreateBlogInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** The comment status for the object */
+  commentStatus: InputMaybe<Scalars['String']['input']>;
+  /** The content of the object */
+  content: InputMaybe<Scalars['String']['input']>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date: InputMaybe<Scalars['String']['input']>;
+  /** The excerpt of the object */
+  excerpt: InputMaybe<Scalars['String']['input']>;
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder: InputMaybe<Scalars['Int']['input']>;
+  /** The password used to protect the content of the object */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** The slug of the object */
+  slug: InputMaybe<Scalars['String']['input']>;
+  /** The status of the object */
+  status: InputMaybe<PostStatusEnum>;
+  /** The title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The payload for the createBlog mutation. */
+export type CreateBlogPayload = {
+  __typename?: 'CreateBlogPayload';
+  /** The Post object mutation type. */
+  blog: Maybe<Blog>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+};
+
 /** Input for the createCategory mutation. */
 export type CreateCategoryInput = {
   /** The slug that the category will be an alias of */
@@ -2126,6 +2606,39 @@ export type CreateCommentPayload = {
   comment: Maybe<Comment>;
   /** Whether the mutation succeeded. If the comment is not approved, the server will not return the comment to a non authenticated user, but a success message can be returned if the create succeeded, and the client can optimistically add the comment to the client cache */
   success: Maybe<Scalars['Boolean']['output']>;
+};
+
+/** Input for the createGuide mutation. */
+export type CreateGuideInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** The comment status for the object */
+  commentStatus: InputMaybe<Scalars['String']['input']>;
+  /** The content of the object */
+  content: InputMaybe<Scalars['String']['input']>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date: InputMaybe<Scalars['String']['input']>;
+  /** The excerpt of the object */
+  excerpt: InputMaybe<Scalars['String']['input']>;
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder: InputMaybe<Scalars['Int']['input']>;
+  /** The password used to protect the content of the object */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** The slug of the object */
+  slug: InputMaybe<Scalars['String']['input']>;
+  /** The status of the object */
+  status: InputMaybe<PostStatusEnum>;
+  /** The title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The payload for the createGuide mutation. */
+export type CreateGuidePayload = {
+  __typename?: 'CreateGuidePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+  /** The Post object mutation type. */
+  guide: Maybe<Guide>;
 };
 
 /** Input for the createHero mutation. */
@@ -2519,6 +3032,29 @@ export type DefaultTemplate = ContentTemplate & {
   templateName: Maybe<Scalars['String']['output']>;
 };
 
+/** Input for the deleteBlog mutation. */
+export type DeleteBlogInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** Whether the object should be force deleted instead of being moved to the trash */
+  forceDelete: InputMaybe<Scalars['Boolean']['input']>;
+  /** The ID of the blog to delete */
+  id: Scalars['ID']['input'];
+  /** Override the edit lock when another user is editing the post */
+  ignoreEditLock: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** The payload for the deleteBlog mutation. */
+export type DeleteBlogPayload = {
+  __typename?: 'DeleteBlogPayload';
+  /** The object before it was deleted */
+  blog: Maybe<Blog>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+  /** The ID of the deleted object */
+  deletedId: Maybe<Scalars['ID']['output']>;
+};
+
 /** Input for the deleteCategory mutation. */
 export type DeleteCategoryInput = {
   /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
@@ -2580,6 +3116,29 @@ export type DeleteCommentPayload = {
   comment: Maybe<Comment>;
   /** The deleted comment ID */
   deletedId: Maybe<Scalars['ID']['output']>;
+};
+
+/** Input for the deleteGuide mutation. */
+export type DeleteGuideInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** Whether the object should be force deleted instead of being moved to the trash */
+  forceDelete: InputMaybe<Scalars['Boolean']['input']>;
+  /** The ID of the guide to delete */
+  id: Scalars['ID']['input'];
+  /** Override the edit lock when another user is editing the post */
+  ignoreEditLock: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+/** The payload for the deleteGuide mutation. */
+export type DeleteGuidePayload = {
+  __typename?: 'DeleteGuidePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+  /** The ID of the deleted object */
+  deletedId: Maybe<Scalars['ID']['output']>;
+  /** The object before it was deleted */
+  guide: Maybe<Guide>;
 };
 
 /** Input for the deleteHero mutation. */
@@ -3282,6 +3841,211 @@ export type GeneralSettings = {
   url: Maybe<Scalars['String']['output']>;
 };
 
+/** The guide type */
+export type Guide = ContentNode & DatabaseIdentifier & MenuItemLinkable & Node & NodeWithComments & NodeWithContentEditor & NodeWithExcerpt & NodeWithFeaturedImage & NodeWithRevisions & NodeWithTemplate & NodeWithTitle & Previewable & UniformResourceIdentifiable & WithAcfGuideFields & {
+  __typename?: 'Guide';
+  /**
+   * The ancestors of the content node.
+   * @deprecated This content type is not hierarchical and typically will not have ancestors
+   */
+  ancestors: Maybe<GuideToGuideConnection>;
+  /** The number of comments. Even though WPGraphQL denotes this field as an integer, in WordPress this field should be saved as a numeric string for compatibility. */
+  commentCount: Maybe<Scalars['Int']['output']>;
+  /** Whether the comments are open or closed for this particular post. */
+  commentStatus: Maybe<Scalars['String']['output']>;
+  /** Connection between the Guide type and the Comment type */
+  comments: Maybe<GuideToCommentConnection>;
+  /** The content of the post. */
+  content: Maybe<Scalars['String']['output']>;
+  /** Connection between the ContentNode type and the ContentType type */
+  contentType: Maybe<ContentNodeToContentTypeConnectionEdge>;
+  /** The name of the Content Type the node belongs to */
+  contentTypeName: Scalars['String']['output'];
+  /** The unique identifier stored in the database */
+  databaseId: Scalars['Int']['output'];
+  /** Post publishing date. */
+  date: Maybe<Scalars['String']['output']>;
+  /** The publishing date set in GMT. */
+  dateGmt: Maybe<Scalars['String']['output']>;
+  /** The desired slug of the post */
+  desiredSlug: Maybe<Scalars['String']['output']>;
+  /** If a user has edited the node within the past 15 seconds, this will return the user that last edited. Null if the edit lock doesn&#039;t exist or is greater than 15 seconds */
+  editingLockedBy: Maybe<ContentNodeToEditLockConnectionEdge>;
+  /** The RSS enclosure for the object */
+  enclosure: Maybe<Scalars['String']['output']>;
+  /** Connection between the ContentNode type and the EnqueuedScript type */
+  enqueuedScripts: Maybe<ContentNodeToEnqueuedScriptConnection>;
+  /** Connection between the ContentNode type and the EnqueuedStylesheet type */
+  enqueuedStylesheets: Maybe<ContentNodeToEnqueuedStylesheetConnection>;
+  /** The excerpt of the post. */
+  excerpt: Maybe<Scalars['String']['output']>;
+  /** Connection between the NodeWithFeaturedImage type and the MediaItem type */
+  featuredImage: Maybe<NodeWithFeaturedImageToMediaItemConnectionEdge>;
+  /** The database identifier for the featured image node assigned to the content node */
+  featuredImageDatabaseId: Maybe<Scalars['Int']['output']>;
+  /** Globally unique ID of the featured image assigned to the node */
+  featuredImageId: Maybe<Scalars['ID']['output']>;
+  /** The global unique identifier for this post. This currently matches the value stored in WP_Post-&gt;guid and the guid column in the &quot;post_objects&quot; database table. */
+  guid: Maybe<Scalars['String']['output']>;
+  /** Fields of the GuideFields ACF Field Group */
+  guideFields: Maybe<GuideFields>;
+  /**
+   * The id field matches the WP_Post-&gt;ID field.
+   * @deprecated Deprecated in favor of the databaseId field
+   */
+  guideId: Scalars['Int']['output'];
+  /** Whether the guides object is password protected. */
+  hasPassword: Maybe<Scalars['Boolean']['output']>;
+  /** The globally unique identifier of the guides object. */
+  id: Scalars['ID']['output'];
+  /** Whether the node is a Comment */
+  isComment: Scalars['Boolean']['output'];
+  /** Whether the node is a Content Node */
+  isContentNode: Scalars['Boolean']['output'];
+  /** Whether the node represents the front page. */
+  isFrontPage: Scalars['Boolean']['output'];
+  /** Whether  the node represents the blog page. */
+  isPostsPage: Scalars['Boolean']['output'];
+  /** Whether the object is a node in the preview state */
+  isPreview: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the object is restricted from the current viewer */
+  isRestricted: Maybe<Scalars['Boolean']['output']>;
+  /** True if the node is a revision of another node */
+  isRevision: Maybe<Scalars['Boolean']['output']>;
+  /** Whether the node is a Term */
+  isTermNode: Scalars['Boolean']['output'];
+  /** The user that most recently edited the node */
+  lastEditedBy: Maybe<ContentNodeToEditLastConnectionEdge>;
+  /** The permalink of the post */
+  link: Maybe<Scalars['String']['output']>;
+  /** The local modified time for a post. If a post was recently updated the modified field will change to match the corresponding time. */
+  modified: Maybe<Scalars['String']['output']>;
+  /** The GMT modified time for a post. If a post was recently updated the modified field will change to match the corresponding time in GMT. */
+  modifiedGmt: Maybe<Scalars['String']['output']>;
+  /**
+   * The parent of the content node.
+   * @deprecated This content type is not hierarchical and typically will not have a parent
+   */
+  parent: Maybe<GuideToParentConnectionEdge>;
+  /** The password for the guides object. */
+  password: Maybe<Scalars['String']['output']>;
+  /** Connection between the Guide type and the guide type */
+  preview: Maybe<GuideToPreviewConnectionEdge>;
+  /** The database id of the preview node */
+  previewRevisionDatabaseId: Maybe<Scalars['Int']['output']>;
+  /** Whether the object is a node in the preview state */
+  previewRevisionId: Maybe<Scalars['ID']['output']>;
+  /** If the current node is a revision, this field exposes the node this is a revision of. Returns null if the node is not a revision of another node. */
+  revisionOf: Maybe<NodeWithRevisionsToContentNodeConnectionEdge>;
+  /** Connection between the Guide type and the guide type */
+  revisions: Maybe<GuideToRevisionConnection>;
+  /** The uri slug for the post. This is equivalent to the WP_Post-&gt;post_name field and the post_name column in the database for the &quot;post_objects&quot; table. */
+  slug: Maybe<Scalars['String']['output']>;
+  /** The current status of the object */
+  status: Maybe<Scalars['String']['output']>;
+  /** The template assigned to the node */
+  template: Maybe<ContentTemplate>;
+  /** The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made. */
+  title: Maybe<Scalars['String']['output']>;
+  /** The unique resource identifier path */
+  uri: Maybe<Scalars['String']['output']>;
+};
+
+
+/** The guide type */
+export type GuideAncestorsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The guide type */
+export type GuideCommentsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  where: InputMaybe<GuideToCommentConnectionWhereArgs>;
+};
+
+
+/** The guide type */
+export type GuideContentArgs = {
+  format: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+
+/** The guide type */
+export type GuideEnqueuedScriptsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The guide type */
+export type GuideEnqueuedStylesheetsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The guide type */
+export type GuideExcerptArgs = {
+  format: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+
+/** The guide type */
+export type GuideRevisionsArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  where: InputMaybe<GuideToRevisionConnectionWhereArgs>;
+};
+
+
+/** The guide type */
+export type GuideTitleArgs = {
+  format: InputMaybe<PostObjectFieldFormatEnum>;
+};
+
+/** Connection to guide Nodes */
+export type GuideConnection = {
+  /** A list of edges (relational context) between RootQuery and connected guide Nodes */
+  edges: Array<GuideConnectionEdge>;
+  /** A list of connected guide Nodes */
+  nodes: Array<Guide>;
+  /** Information about pagination in a connection. */
+  pageInfo: GuideConnectionPageInfo;
+};
+
+/** Edge between a Node and a connected guide */
+export type GuideConnectionEdge = {
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The connected guide Node */
+  node: Guide;
+};
+
+/** Page Info on the connected GuideConnectionEdge */
+export type GuideConnectionPageInfo = {
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
 /** The &quot;GuideFields&quot; Field Group. Added to the Schema by &quot;WPGraphQL for ACF&quot;. */
 export type GuideFields = AcfFieldGroup & AcfFieldGroupFields & GuideFields_Fields & {
   __typename?: 'GuideFields';
@@ -3311,6 +4075,244 @@ export type GuideFields_Fields = {
   guideNumber: Maybe<Scalars['Float']['output']>;
   /** Field of the &quot;radio&quot; Field Type added to the schema as part of the &quot;GuideFields&quot; Field Group */
   guideType: Maybe<Scalars['String']['output']>;
+};
+
+/** The Type of Identifier used to fetch a single resource. Default is ID. */
+export enum GuideIdType {
+  /** Identify a resource by the Database ID. */
+  DatabaseId = 'DATABASE_ID',
+  /** Identify a resource by the (hashed) Global ID. */
+  Id = 'ID',
+  /** Identify a resource by the slug. Available to non-hierarchcial Types where the slug is a unique identifier. */
+  Slug = 'SLUG',
+  /** Identify a resource by the URI. */
+  Uri = 'URI'
+}
+
+/** Connection between the Guide type and the Comment type */
+export type GuideToCommentConnection = CommentConnection & Connection & {
+  __typename?: 'GuideToCommentConnection';
+  /** Edges for the GuideToCommentConnection connection */
+  edges: Array<GuideToCommentConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Comment>;
+  /** Information about pagination in a connection. */
+  pageInfo: GuideToCommentConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type GuideToCommentConnectionEdge = CommentConnectionEdge & Edge & {
+  __typename?: 'GuideToCommentConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: Comment;
+};
+
+/** Page Info on the &quot;GuideToCommentConnection&quot; */
+export type GuideToCommentConnectionPageInfo = CommentConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'GuideToCommentConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** Arguments for filtering the GuideToCommentConnection connection */
+export type GuideToCommentConnectionWhereArgs = {
+  /** Comment author email address. */
+  authorEmail: InputMaybe<Scalars['String']['input']>;
+  /** Array of author IDs to include comments for. */
+  authorIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of author IDs to exclude comments for. */
+  authorNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Comment author URL. */
+  authorUrl: InputMaybe<Scalars['String']['input']>;
+  /** Array of comment IDs to include. */
+  commentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of IDs of users whose unapproved comments will be returned by the query regardless of status. */
+  commentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Include comments of a given type. */
+  commentType: InputMaybe<Scalars['String']['input']>;
+  /** Include comments from a given array of comment types. */
+  commentTypeIn: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Exclude comments from a given array of comment types. */
+  commentTypeNotIn: InputMaybe<Scalars['String']['input']>;
+  /** Content object author ID to limit results by. */
+  contentAuthor: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of author IDs to retrieve comments for. */
+  contentAuthorIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of author IDs *not* to retrieve comments for. */
+  contentAuthorNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Limit results to those affiliated with a given content object ID. */
+  contentId: InputMaybe<Scalars['ID']['input']>;
+  /** Array of content object IDs to include affiliated comments for. */
+  contentIdIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of content object IDs to exclude affiliated comments for. */
+  contentIdNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Content object name (i.e. slug ) to retrieve affiliated comments for. */
+  contentName: InputMaybe<Scalars['String']['input']>;
+  /** Content Object parent ID to retrieve affiliated comments for. */
+  contentParent: InputMaybe<Scalars['Int']['input']>;
+  /** Array of content object statuses to retrieve affiliated comments for. Pass 'any' to match any value. */
+  contentStatus: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Content object type or array of types to retrieve affiliated comments for. Pass 'any' to match any value. */
+  contentType: InputMaybe<Array<InputMaybe<ContentTypeEnum>>>;
+  /** Array of IDs or email addresses of users whose unapproved comments will be returned by the query regardless of $status. Default empty */
+  includeUnapproved: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Karma score to retrieve matching comments for. */
+  karma: InputMaybe<Scalars['Int']['input']>;
+  /** The cardinality of the order of the connection */
+  order: InputMaybe<OrderEnum>;
+  /** Field to order the comments by. */
+  orderby: InputMaybe<CommentsConnectionOrderbyEnum>;
+  /** Parent ID of comment to retrieve children of. */
+  parent: InputMaybe<Scalars['Int']['input']>;
+  /** Array of parent IDs of comments to retrieve children for. */
+  parentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Array of parent IDs of comments *not* to retrieve children for. */
+  parentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Search term(s) to retrieve matching comments for. */
+  search: InputMaybe<Scalars['String']['input']>;
+  /** Comment status to limit results by. */
+  status: InputMaybe<Scalars['String']['input']>;
+  /** Include comments for a specific user ID. */
+  userId: InputMaybe<Scalars['ID']['input']>;
+};
+
+/** Connection between the Guide type and the guide type */
+export type GuideToGuideConnection = Connection & GuideConnection & {
+  __typename?: 'GuideToGuideConnection';
+  /** Edges for the GuideToGuideConnection connection */
+  edges: Array<GuideToGuideConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Guide>;
+  /** Information about pagination in a connection. */
+  pageInfo: GuideToGuideConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type GuideToGuideConnectionEdge = Edge & GuideConnectionEdge & {
+  __typename?: 'GuideToGuideConnectionEdge';
+  /**
+   * A cursor for use in pagination
+   * @deprecated This content type is not hierarchical and typically will not have ancestors
+   */
+  cursor: Maybe<Scalars['String']['output']>;
+  /**
+   * The item at the end of the edge
+   * @deprecated This content type is not hierarchical and typically will not have ancestors
+   */
+  node: Guide;
+};
+
+/** Page Info on the &quot;GuideToGuideConnection&quot; */
+export type GuideToGuideConnectionPageInfo = GuideConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'GuideToGuideConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** Connection between the Guide type and the guide type */
+export type GuideToParentConnectionEdge = Edge & GuideConnectionEdge & OneToOneConnection & {
+  __typename?: 'GuideToParentConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /**
+   * The node of the connection, without the edges
+   * @deprecated This content type is not hierarchical and typically will not have a parent
+   */
+  node: Guide;
+};
+
+/** Connection between the Guide type and the guide type */
+export type GuideToPreviewConnectionEdge = Edge & GuideConnectionEdge & OneToOneConnection & {
+  __typename?: 'GuideToPreviewConnectionEdge';
+  /** Opaque reference to the nodes position in the connection. Value can be used with pagination args. */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The node of the connection, without the edges */
+  node: Guide;
+};
+
+/** Connection between the Guide type and the guide type */
+export type GuideToRevisionConnection = Connection & GuideConnection & {
+  __typename?: 'GuideToRevisionConnection';
+  /** Edges for the GuideToRevisionConnection connection */
+  edges: Array<GuideToRevisionConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Guide>;
+  /** Information about pagination in a connection. */
+  pageInfo: GuideToRevisionConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type GuideToRevisionConnectionEdge = Edge & GuideConnectionEdge & {
+  __typename?: 'GuideToRevisionConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: Guide;
+};
+
+/** Page Info on the &quot;GuideToRevisionConnection&quot; */
+export type GuideToRevisionConnectionPageInfo = GuideConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'GuideToRevisionConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** Arguments for filtering the GuideToRevisionConnection connection */
+export type GuideToRevisionConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword: InputMaybe<Scalars['Boolean']['input']>;
+  /** Specific database ID of the object */
+  id: InputMaybe<Scalars['Int']['input']>;
+  /** Array of IDs for the objects to retrieve */
+  in: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name: InputMaybe<Scalars['String']['input']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** What parameter to use to order the objects by. */
+  orderby: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent: InputMaybe<Scalars['ID']['input']>;
+  /** Specify objects whose parent is in an array */
+  parentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Show posts with a specific password. */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** Show Posts based on a keyword search */
+  search: InputMaybe<Scalars['String']['input']>;
+  /** Retrieve posts where post status is in an array. */
+  stati: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
 };
 
 /** The hero type */
@@ -7626,7 +8628,7 @@ export enum MenuItemNodeIdTypeEnum {
 }
 
 /** Deprecated in favor of MenuItemLinkeable Interface */
-export type MenuItemObjectUnion = Category | Collection | Hero | Item | ItemType | Page | Post | Tag | Team;
+export type MenuItemObjectUnion = Blog | Category | Collection | Guide | Hero | Item | ItemType | Page | Post | Tag | Team;
 
 /** Connection between the MenuItem type and the Menu type */
 export type MenuItemToMenuConnectionEdge = Edge & MenuConnectionEdge & OneToOneConnection & {
@@ -10178,12 +11180,16 @@ export type RestoreCommentPayload = {
 /** The root mutation */
 export type RootMutation = {
   __typename?: 'RootMutation';
+  /** The createBlog mutation */
+  createBlog: Maybe<CreateBlogPayload>;
   /** The createCategory mutation */
   createCategory: Maybe<CreateCategoryPayload>;
   /** The createCollection mutation */
   createCollection: Maybe<CreateCollectionPayload>;
   /** The createComment mutation */
   createComment: Maybe<CreateCommentPayload>;
+  /** The createGuide mutation */
+  createGuide: Maybe<CreateGuidePayload>;
   /** The createHero mutation */
   createHero: Maybe<CreateHeroPayload>;
   /** The createItem mutation */
@@ -10204,12 +11210,16 @@ export type RootMutation = {
   createTeam: Maybe<CreateTeamPayload>;
   /** The createUser mutation */
   createUser: Maybe<CreateUserPayload>;
+  /** The deleteBlog mutation */
+  deleteBlog: Maybe<DeleteBlogPayload>;
   /** The deleteCategory mutation */
   deleteCategory: Maybe<DeleteCategoryPayload>;
   /** The deleteCollection mutation */
   deleteCollection: Maybe<DeleteCollectionPayload>;
   /** The deleteComment mutation */
   deleteComment: Maybe<DeleteCommentPayload>;
+  /** The deleteGuide mutation */
+  deleteGuide: Maybe<DeleteGuidePayload>;
   /** The deleteHero mutation */
   deleteHero: Maybe<DeleteHeroPayload>;
   /** The deleteItem mutation */
@@ -10248,12 +11258,16 @@ export type RootMutation = {
   restoreComment: Maybe<RestoreCommentPayload>;
   /** Send password reset email to user */
   sendPasswordResetEmail: Maybe<SendPasswordResetEmailPayload>;
+  /** The updateBlog mutation */
+  updateBlog: Maybe<UpdateBlogPayload>;
   /** The updateCategory mutation */
   updateCategory: Maybe<UpdateCategoryPayload>;
   /** The updateCollection mutation */
   updateCollection: Maybe<UpdateCollectionPayload>;
   /** The updateComment mutation */
   updateComment: Maybe<UpdateCommentPayload>;
+  /** The updateGuide mutation */
+  updateGuide: Maybe<UpdateGuidePayload>;
   /** The updateHero mutation */
   updateHero: Maybe<UpdateHeroPayload>;
   /** The updateItem mutation */
@@ -10284,6 +11298,12 @@ export type RootMutation = {
 
 
 /** The root mutation */
+export type RootMutationCreateBlogArgs = {
+  input: CreateBlogInput;
+};
+
+
+/** The root mutation */
 export type RootMutationCreateCategoryArgs = {
   input: CreateCategoryInput;
 };
@@ -10298,6 +11318,12 @@ export type RootMutationCreateCollectionArgs = {
 /** The root mutation */
 export type RootMutationCreateCommentArgs = {
   input: CreateCommentInput;
+};
+
+
+/** The root mutation */
+export type RootMutationCreateGuideArgs = {
+  input: CreateGuideInput;
 };
 
 
@@ -10362,6 +11388,12 @@ export type RootMutationCreateUserArgs = {
 
 
 /** The root mutation */
+export type RootMutationDeleteBlogArgs = {
+  input: DeleteBlogInput;
+};
+
+
+/** The root mutation */
 export type RootMutationDeleteCategoryArgs = {
   input: DeleteCategoryInput;
 };
@@ -10376,6 +11408,12 @@ export type RootMutationDeleteCollectionArgs = {
 /** The root mutation */
 export type RootMutationDeleteCommentArgs = {
   input: DeleteCommentInput;
+};
+
+
+/** The root mutation */
+export type RootMutationDeleteGuideArgs = {
+  input: DeleteGuideInput;
 };
 
 
@@ -10494,6 +11532,12 @@ export type RootMutationSendPasswordResetEmailArgs = {
 
 
 /** The root mutation */
+export type RootMutationUpdateBlogArgs = {
+  input: UpdateBlogInput;
+};
+
+
+/** The root mutation */
 export type RootMutationUpdateCategoryArgs = {
   input: UpdateCategoryInput;
 };
@@ -10508,6 +11552,12 @@ export type RootMutationUpdateCollectionArgs = {
 /** The root mutation */
 export type RootMutationUpdateCommentArgs = {
   input: UpdateCommentInput;
+};
+
+
+/** The root mutation */
+export type RootMutationUpdateGuideArgs = {
+  input: UpdateGuideInput;
 };
 
 
@@ -10591,8 +11641,17 @@ export type RootMutationUpvoteTeamArgs = {
 /** The root entry point into the Graph */
 export type RootQuery = {
   __typename?: 'RootQuery';
+  /** Connection between the RootQuery type and the blog type */
+  allBlog: Maybe<RootQueryToBlogConnection>;
   /** Entry point to get all settings for the site */
   allSettings: Maybe<Settings>;
+  /** An object of the blog Type. Blog */
+  blog: Maybe<Blog>;
+  /**
+   * A blog object
+   * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
+   */
+  blogBy: Maybe<Blog>;
   /** Connection between the RootQuery type and the category type */
   categories: Maybe<RootQueryToCategoryConnection>;
   /** A 0bject */
@@ -10628,6 +11687,15 @@ export type RootQuery = {
   getUserMetaVoteStatus: Maybe<Array<Maybe<MetaUserVote>>>;
   /** Get the vote status of a user for a particular team */
   getUserTeamVoteStatus: Maybe<Array<Maybe<TeamUserVote>>>;
+  /** An object of the guide Type. Guides */
+  guide: Maybe<Guide>;
+  /**
+   * A guide object
+   * @deprecated Deprecated in favor of using the single entry point for this type with ID and IDType fields. For example, instead of postBy( id: &quot;&quot; ), use post(id: &quot;&quot; idType: &quot;&quot;)
+   */
+  guideBy: Maybe<Guide>;
+  /** Connection between the RootQuery type and the guide type */
+  guides: Maybe<RootQueryToGuideConnection>;
   /** An object of the hero Type. Heroes */
   hero: Maybe<Hero>;
   /**
@@ -10760,6 +11828,33 @@ export type RootQuery = {
 
 
 /** The root entry point into the Graph */
+export type RootQueryAllBlogArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  where: InputMaybe<RootQueryToBlogConnectionWhereArgs>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryBlogArgs = {
+  asPreview: InputMaybe<Scalars['Boolean']['input']>;
+  id: Scalars['ID']['input'];
+  idType: InputMaybe<BlogIdType>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryBlogByArgs = {
+  blogId: InputMaybe<Scalars['Int']['input']>;
+  id: InputMaybe<Scalars['ID']['input']>;
+  slug: InputMaybe<Scalars['String']['input']>;
+  uri: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The root entry point into the Graph */
 export type RootQueryCategoriesArgs = {
   after: InputMaybe<Scalars['String']['input']>;
   before: InputMaybe<Scalars['String']['input']>;
@@ -10867,6 +11962,33 @@ export type RootQueryGetUserMetaVoteStatusArgs = {
 export type RootQueryGetUserTeamVoteStatusArgs = {
   ipAddress?: InputMaybe<Scalars['String']['input']>;
   userId?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryGuideArgs = {
+  asPreview: InputMaybe<Scalars['Boolean']['input']>;
+  id: Scalars['ID']['input'];
+  idType: InputMaybe<GuideIdType>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryGuideByArgs = {
+  guideId: InputMaybe<Scalars['Int']['input']>;
+  id: InputMaybe<Scalars['ID']['input']>;
+  slug: InputMaybe<Scalars['String']['input']>;
+  uri: InputMaybe<Scalars['String']['input']>;
+};
+
+
+/** The root entry point into the Graph */
+export type RootQueryGuidesArgs = {
+  after: InputMaybe<Scalars['String']['input']>;
+  before: InputMaybe<Scalars['String']['input']>;
+  first: InputMaybe<Scalars['Int']['input']>;
+  last: InputMaybe<Scalars['Int']['input']>;
+  where: InputMaybe<RootQueryToGuideConnectionWhereArgs>;
 };
 
 
@@ -11294,6 +12416,77 @@ export type RootQueryUsersArgs = {
   where: InputMaybe<RootQueryToUserConnectionWhereArgs>;
 };
 
+/** Connection between the RootQuery type and the blog type */
+export type RootQueryToBlogConnection = BlogConnection & Connection & {
+  __typename?: 'RootQueryToBlogConnection';
+  /** Edges for the RootQueryToBlogConnection connection */
+  edges: Array<RootQueryToBlogConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Blog>;
+  /** Information about pagination in a connection. */
+  pageInfo: RootQueryToBlogConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type RootQueryToBlogConnectionEdge = BlogConnectionEdge & Edge & {
+  __typename?: 'RootQueryToBlogConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: Blog;
+};
+
+/** Page Info on the &quot;RootQueryToBlogConnection&quot; */
+export type RootQueryToBlogConnectionPageInfo = BlogConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'RootQueryToBlogConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** Arguments for filtering the RootQueryToBlogConnection connection */
+export type RootQueryToBlogConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword: InputMaybe<Scalars['Boolean']['input']>;
+  /** Specific database ID of the object */
+  id: InputMaybe<Scalars['Int']['input']>;
+  /** Array of IDs for the objects to retrieve */
+  in: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name: InputMaybe<Scalars['String']['input']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** What parameter to use to order the objects by. */
+  orderby: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent: InputMaybe<Scalars['ID']['input']>;
+  /** Specify objects whose parent is in an array */
+  parentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Show posts with a specific password. */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** Show Posts based on a keyword search */
+  search: InputMaybe<Scalars['String']['input']>;
+  /** Retrieve posts where post status is in an array. */
+  stati: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
+};
+
 /** Connection between the RootQuery type and the category type */
 export type RootQueryToCategoryConnection = CategoryConnection & Connection & {
   __typename?: 'RootQueryToCategoryConnection';
@@ -11709,6 +12902,77 @@ export type RootQueryToEnqueuedStylesheetConnectionPageInfo = EnqueuedStylesheet
   hasPreviousPage: Scalars['Boolean']['output'];
   /** When paginating backwards, the cursor to continue. */
   startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** Connection between the RootQuery type and the guide type */
+export type RootQueryToGuideConnection = Connection & GuideConnection & {
+  __typename?: 'RootQueryToGuideConnection';
+  /** Edges for the RootQueryToGuideConnection connection */
+  edges: Array<RootQueryToGuideConnectionEdge>;
+  /** The nodes of the connection, without the edges */
+  nodes: Array<Guide>;
+  /** Information about pagination in a connection. */
+  pageInfo: RootQueryToGuideConnectionPageInfo;
+};
+
+/** An edge in a connection */
+export type RootQueryToGuideConnectionEdge = Edge & GuideConnectionEdge & {
+  __typename?: 'RootQueryToGuideConnectionEdge';
+  /** A cursor for use in pagination */
+  cursor: Maybe<Scalars['String']['output']>;
+  /** The item at the end of the edge */
+  node: Guide;
+};
+
+/** Page Info on the &quot;RootQueryToGuideConnection&quot; */
+export type RootQueryToGuideConnectionPageInfo = GuideConnectionPageInfo & PageInfo & WpPageInfo & {
+  __typename?: 'RootQueryToGuideConnectionPageInfo';
+  /** When paginating forwards, the cursor to continue. */
+  endCursor: Maybe<Scalars['String']['output']>;
+  /** When paginating forwards, are there more items? */
+  hasNextPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, are there more items? */
+  hasPreviousPage: Scalars['Boolean']['output'];
+  /** When paginating backwards, the cursor to continue. */
+  startCursor: Maybe<Scalars['String']['output']>;
+};
+
+/** Arguments for filtering the RootQueryToGuideConnection connection */
+export type RootQueryToGuideConnectionWhereArgs = {
+  /** Filter the connection based on dates */
+  dateQuery: InputMaybe<DateQueryInput>;
+  /** True for objects with passwords; False for objects without passwords; null for all objects with or without passwords */
+  hasPassword: InputMaybe<Scalars['Boolean']['input']>;
+  /** Specific database ID of the object */
+  id: InputMaybe<Scalars['Int']['input']>;
+  /** Array of IDs for the objects to retrieve */
+  in: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Get objects with a specific mimeType property */
+  mimeType: InputMaybe<MimeTypeEnum>;
+  /** Slug / post_name of the object */
+  name: InputMaybe<Scalars['String']['input']>;
+  /** Specify objects to retrieve. Use slugs */
+  nameIn: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Specify IDs NOT to retrieve. If this is used in the same query as "in", it will be ignored */
+  notIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** What parameter to use to order the objects by. */
+  orderby: InputMaybe<Array<InputMaybe<PostObjectsConnectionOrderbyInput>>>;
+  /** Use ID to return only children. Use 0 to return only top-level items */
+  parent: InputMaybe<Scalars['ID']['input']>;
+  /** Specify objects whose parent is in an array */
+  parentIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Specify posts whose parent is not in an array */
+  parentNotIn: InputMaybe<Array<InputMaybe<Scalars['ID']['input']>>>;
+  /** Show posts with a specific password. */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** Show Posts based on a keyword search */
+  search: InputMaybe<Scalars['String']['input']>;
+  /** Retrieve posts where post status is in an array. */
+  stati: InputMaybe<Array<InputMaybe<PostStatusEnum>>>;
+  /** Show posts with a specific status. */
+  status: InputMaybe<PostStatusEnum>;
+  /** Title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
 };
 
 /** Connection between the RootQuery type and the hero type */
@@ -14555,6 +15819,43 @@ export type UniformResourceIdentifiable = {
   uri: Maybe<Scalars['String']['output']>;
 };
 
+/** Input for the updateBlog mutation. */
+export type UpdateBlogInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** The comment status for the object */
+  commentStatus: InputMaybe<Scalars['String']['input']>;
+  /** The content of the object */
+  content: InputMaybe<Scalars['String']['input']>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date: InputMaybe<Scalars['String']['input']>;
+  /** The excerpt of the object */
+  excerpt: InputMaybe<Scalars['String']['input']>;
+  /** The ID of the blog object */
+  id: Scalars['ID']['input'];
+  /** Override the edit lock when another user is editing the post */
+  ignoreEditLock: InputMaybe<Scalars['Boolean']['input']>;
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder: InputMaybe<Scalars['Int']['input']>;
+  /** The password used to protect the content of the object */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** The slug of the object */
+  slug: InputMaybe<Scalars['String']['input']>;
+  /** The status of the object */
+  status: InputMaybe<PostStatusEnum>;
+  /** The title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The payload for the updateBlog mutation. */
+export type UpdateBlogPayload = {
+  __typename?: 'UpdateBlogPayload';
+  /** The Post object mutation type. */
+  blog: Maybe<Blog>;
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+};
+
 /** Input for the updateCategory mutation. */
 export type UpdateCategoryInput = {
   /** The slug that the category will be an alias of */
@@ -14652,6 +15953,43 @@ export type UpdateCommentPayload = {
   comment: Maybe<Comment>;
   /** Whether the mutation succeeded. If the comment is not approved, the server will not return the comment to a non authenticated user, but a success message can be returned if the create succeeded, and the client can optimistically add the comment to the client cache */
   success: Maybe<Scalars['Boolean']['output']>;
+};
+
+/** Input for the updateGuide mutation. */
+export type UpdateGuideInput = {
+  /** This is an ID that can be passed to a mutation by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: InputMaybe<Scalars['String']['input']>;
+  /** The comment status for the object */
+  commentStatus: InputMaybe<Scalars['String']['input']>;
+  /** The content of the object */
+  content: InputMaybe<Scalars['String']['input']>;
+  /** The date of the object. Preferable to enter as year/month/day (e.g. 01/31/2017) as it will rearrange date as fit if it is not specified. Incomplete dates may have unintended results for example, "2017" as the input will use current date with timestamp 20:17  */
+  date: InputMaybe<Scalars['String']['input']>;
+  /** The excerpt of the object */
+  excerpt: InputMaybe<Scalars['String']['input']>;
+  /** The ID of the guide object */
+  id: Scalars['ID']['input'];
+  /** Override the edit lock when another user is editing the post */
+  ignoreEditLock: InputMaybe<Scalars['Boolean']['input']>;
+  /** A field used for ordering posts. This is typically used with nav menu items or for special ordering of hierarchical content types. */
+  menuOrder: InputMaybe<Scalars['Int']['input']>;
+  /** The password used to protect the content of the object */
+  password: InputMaybe<Scalars['String']['input']>;
+  /** The slug of the object */
+  slug: InputMaybe<Scalars['String']['input']>;
+  /** The status of the object */
+  status: InputMaybe<PostStatusEnum>;
+  /** The title of the object */
+  title: InputMaybe<Scalars['String']['input']>;
+};
+
+/** The payload for the updateGuide mutation. */
+export type UpdateGuidePayload = {
+  __typename?: 'UpdateGuidePayload';
+  /** If a &#039;clientMutationId&#039; input is provided to the mutation, it will be returned as output on the mutation. This ID can be used by the client to track the progress of mutations and catch possible duplicate mutation submissions. */
+  clientMutationId: Maybe<Scalars['String']['output']>;
+  /** The Post object mutation type. */
+  guide: Maybe<Guide>;
 };
 
 /** Input for the updateHero mutation. */
@@ -16298,26 +17636,40 @@ export type UpvoteTeamMutationVariables = Exact<{
 
 export type UpvoteTeamMutation = { __typename?: 'RootMutation', upvoteTeam: { __typename?: 'UpvoteTeamPayload', teamId: number | null, success: boolean | null, currentVote: string | null } | null };
 
+export type GetBlogQueryVariables = Exact<{
+  after: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetBlogQuery = { __typename?: 'RootQuery', allBlog: { __typename?: 'RootQueryToBlogConnection', pageInfo: { __typename?: 'RootQueryToBlogConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Blog', databaseId: number, title: string | null, slug: string | null, content: string | null, date: string | null }> } | null };
+
+export type GetGuidesQueryVariables = Exact<{
+  after: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetGuidesQuery = { __typename?: 'RootQuery', guides: { __typename?: 'RootQueryToGuideConnection', pageInfo: { __typename?: 'RootQueryToGuideConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Guide', databaseId: number, title: string | null, slug: string | null, content: string | null }> } | null };
+
 export type GetAllHeroesQueryVariables = Exact<{
   after: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type GetAllHeroesQuery = { __typename?: 'RootQuery', heroes: { __typename?: 'RootQueryToHeroConnection', pageInfo: { __typename?: 'RootQueryToHeroConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Hero', id: string, databaseId: number, uri: string | null, slug: string | null, heroId: number, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaDetails: { __typename?: 'MediaDetails', sizes: Array<{ __typename?: 'MediaSize', sourceUrl: string | null, name: string | null } | null> | null } | null } } | null, heroInformation: { __typename?: 'HeroInformation', variations: Array<string | null> | null, portrait: Array<{ __typename?: 'HeroInformationPortrait', title: string | null, art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null> | null, bioFields: { __typename?: 'HeroInformationBioFields', rarity: Array<string | null> | null, element: string | null, role: string | null, name: string | null, age: string | null, compatibleEquipment: Array<string | null> | null, weight: string | null, story: string | null, species: string | null, naReleaseDate: string | null, krReleaseDate: string | null, jpReleaseDate: string | null, height: string | null, exclusiveWeapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, title: string | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' }> } | null } | null, abilityFields: { __typename?: 'HeroInformationAbilityFields', chainStateTrigger: Array<string | null> | null, chainStateResult: Array<string | null> | null, chainSkillDescription: string | null, chainSkillName: string | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityName: string | null, specialAbilityDescription: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAbilityFieldsPartyBuff', affectsParty: boolean | null, value: number | null, stat: Array<string | null> | null } | null> | null } | null, thumbnail: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, background: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, mlbAwakeningFields: { __typename?: 'HeroInformationMlbAwakeningFields', midGradeHpMlb: number | null, midGradeDreamMlb: number | null, midGradeDefMlb: number | null, midGradeAtkMlb: number | null, lowGradeHpMlb: number | null, lowGradeDreamMlb: number | null, lowGradeDefMlb: number | null, lowGradeAtkMlb: number | null, legendaryAwakeningMlb: number | null, highGradeHpMlb: number | null, highGradeDreamMlb: number | null, highGradeDefMlb: number | null, highGradeAtkMlb: number | null, gold: number | null } | null, statFields: { __typename?: 'HeroInformationStatFields', atk: number | null, basicResistance: number | null, cardSlot: number | null, crit: number | null, damageReduction: number | null, darkResistance: number | null, def: number | null, earthResistance: number | null, fieldGroupName: string | null, heal: number | null, hp: number | null, lightResistance: number | null, waterResistance: number | null, fireResistance: number | null, atkRank: number | null, defRank: number | null, hpRank: number | null, critRank: number | null, healRank: number | null, drRank: number | null, heroCount: number | null } | null, statPriorities: Array<{ __typename?: 'HeroInformationStatPriorities', buildName: string | null, explanation: string | null, statPriority: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item' } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post', id: string, title: string | null } | { __typename?: 'Team' } }> } | null } | null> | null, portrait2: Array<{ __typename?: 'HeroInformationPortrait2', art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null, title: string | null } } | null } | null> | null, costumes: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null, evolutionFields2: { __typename?: 'HeroInformationEvolutionFields2', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evolutionFields: { __typename?: 'HeroInformationEvolutionFields', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evaluationFields: { __typename?: 'HeroInformationEvaluationFields', pros: string | null, cons: string | null, tags: Array<string | null> | null } | null, buildGuideFields: { __typename?: 'HeroInformationBuildGuideFields', suggestedWeapons: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedWeapons', weaponExplanation: string | null, suggestedWeapon: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedShield: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedShield', shieldExplanation: string | null, suggestedShield: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedMerch: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedMerch', merchExplanation: string | null, suggestedMerch: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedCards: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedCards', cardExplanation: string | null, suggestedCard: string | null } | null> | null, suggestedAccessories: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedAccessories', accessoryExplanation: string | null, suggestedAccessory: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Collection' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null } | null, bioFields2: { __typename?: 'HeroInformationBioFields2', weight: string | null, story: string | null, name: string | null, height: string | null, age: string | null } | null, analysisFields: { __typename?: 'HeroInformationAnalysisFields', detailedReview: string | null } | null, ascentAbilities: { __typename?: 'HeroInformationAscentAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, ascentExAbilities: { __typename?: 'HeroInformationAscentExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, exAbilities: { __typename?: 'HeroInformationExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, illustrations: Array<{ __typename?: 'HeroInformationIllustrations', name: string | null, image: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', title: string | null, sourceUrl: string | null } } | null } | null> | null } | null }> } | null };
+export type GetAllHeroesQuery = { __typename?: 'RootQuery', heroes: { __typename?: 'RootQueryToHeroConnection', pageInfo: { __typename?: 'RootQueryToHeroConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Hero', id: string, databaseId: number, uri: string | null, slug: string | null, heroId: number, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaDetails: { __typename?: 'MediaDetails', sizes: Array<{ __typename?: 'MediaSize', sourceUrl: string | null, name: string | null } | null> | null } | null } } | null, heroInformation: { __typename?: 'HeroInformation', variations: Array<string | null> | null, portrait: Array<{ __typename?: 'HeroInformationPortrait', title: string | null, art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null> | null, bioFields: { __typename?: 'HeroInformationBioFields', rarity: Array<string | null> | null, element: string | null, role: string | null, name: string | null, age: string | null, compatibleEquipment: Array<string | null> | null, weight: string | null, story: string | null, species: string | null, naReleaseDate: string | null, krReleaseDate: string | null, jpReleaseDate: string | null, height: string | null, exclusiveWeapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog' } | { __typename?: 'Collection' } | { __typename?: 'Guide' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, title: string | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' }> } | null } | null, abilityFields: { __typename?: 'HeroInformationAbilityFields', chainStateTrigger: Array<string | null> | null, chainStateResult: Array<string | null> | null, chainSkillDescription: string | null, chainSkillName: string | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityName: string | null, specialAbilityDescription: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAbilityFieldsPartyBuff', affectsParty: boolean | null, value: number | null, stat: Array<string | null> | null } | null> | null } | null, thumbnail: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, background: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, mlbAwakeningFields: { __typename?: 'HeroInformationMlbAwakeningFields', midGradeHpMlb: number | null, midGradeDreamMlb: number | null, midGradeDefMlb: number | null, midGradeAtkMlb: number | null, lowGradeHpMlb: number | null, lowGradeDreamMlb: number | null, lowGradeDefMlb: number | null, lowGradeAtkMlb: number | null, legendaryAwakeningMlb: number | null, highGradeHpMlb: number | null, highGradeDreamMlb: number | null, highGradeDefMlb: number | null, highGradeAtkMlb: number | null, gold: number | null } | null, statFields: { __typename?: 'HeroInformationStatFields', atk: number | null, basicResistance: number | null, cardSlot: number | null, crit: number | null, damageReduction: number | null, darkResistance: number | null, def: number | null, earthResistance: number | null, fieldGroupName: string | null, heal: number | null, hp: number | null, lightResistance: number | null, waterResistance: number | null, fireResistance: number | null, atkRank: number | null, defRank: number | null, hpRank: number | null, critRank: number | null, healRank: number | null, drRank: number | null, heroCount: number | null } | null, statPriorities: Array<{ __typename?: 'HeroInformationStatPriorities', buildName: string | null, explanation: string | null, statPriority: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Blog' } | { __typename?: 'Collection' } | { __typename?: 'Guide' } | { __typename?: 'Hero' } | { __typename?: 'Item' } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post', id: string, title: string | null } | { __typename?: 'Team' } }> } | null } | null> | null, portrait2: Array<{ __typename?: 'HeroInformationPortrait2', art: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null, title: string | null } } | null } | null> | null, costumes: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Blog' } | { __typename?: 'Collection' } | { __typename?: 'Guide' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null, evolutionFields2: { __typename?: 'HeroInformationEvolutionFields2', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evolutionFields: { __typename?: 'HeroInformationEvolutionFields', evolution1: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution2: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution3: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution5: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, evolution4: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | null, evaluationFields: { __typename?: 'HeroInformationEvaluationFields', pros: string | null, cons: string | null, tags: Array<string | null> | null } | null, buildGuideFields: { __typename?: 'HeroInformationBuildGuideFields', suggestedWeapons: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedWeapons', weaponExplanation: string | null, suggestedWeapon: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Blog' } | { __typename?: 'Collection' } | { __typename?: 'Guide' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedShield: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedShield', shieldExplanation: string | null, suggestedShield: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Blog' } | { __typename?: 'Collection' } | { __typename?: 'Guide' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedMerch: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedMerch', merchExplanation: string | null, suggestedMerch: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Blog' } | { __typename?: 'Collection' } | { __typename?: 'Guide' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null, suggestedCards: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedCards', cardExplanation: string | null, suggestedCard: string | null } | null> | null, suggestedAccessories: Array<{ __typename?: 'HeroInformationBuildGuideFieldsSuggestedAccessories', accessoryExplanation: string | null, suggestedAccessory: { __typename?: 'AcfContentNodeConnection', edges: Array<{ __typename?: 'AcfContentNodeConnectionEdge', node: { __typename?: 'Blog' } | { __typename?: 'Collection' } | { __typename?: 'Guide' } | { __typename?: 'Hero' } | { __typename?: 'Item', id: string, uri: string | null, title: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null } | { __typename?: 'MediaItem' } | { __typename?: 'Page' } | { __typename?: 'Post' } | { __typename?: 'Team' } }> } | null } | null> | null } | null, bioFields2: { __typename?: 'HeroInformationBioFields2', weight: string | null, story: string | null, name: string | null, height: string | null, age: string | null } | null, analysisFields: { __typename?: 'HeroInformationAnalysisFields', detailedReview: string | null } | null, ascentAbilities: { __typename?: 'HeroInformationAscentAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, ascentExAbilities: { __typename?: 'HeroInformationAscentExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationAscentExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, exAbilities: { __typename?: 'HeroInformationExAbilities', chainSkillDescription: string | null, chainSkillName: string | null, chainStateResult: Array<string | null> | null, chainStateTrigger: Array<string | null> | null, normalAtkDescription: string | null, normalAtkName: string | null, specialAbilityDescription: string | null, specialAbilityName: string | null, partyBuff: Array<{ __typename?: 'HeroInformationExAbilitiesPartyBuff', affectsParty: boolean | null, stat: Array<string | null> | null, value: number | null } | null> | null } | null, illustrations: Array<{ __typename?: 'HeroInformationIllustrations', name: string | null, image: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', title: string | null, sourceUrl: string | null } } | null } | null> | null } | null }> } | null };
 
 export type GetAllItemsQueryVariables = Exact<{
   after: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type GetAllItemsQuery = { __typename?: 'RootQuery', items: { __typename?: 'RootQueryToItemConnection', pageInfo: { __typename?: 'RootQueryToItemConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Item', id: string, databaseId: number, uri: string | null, title: string | null, slug: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, weapons: { __typename?: 'Weapons', exclusive: boolean | null, exclusiveEffects: string | null, isFirstEx: boolean | null, magazine: number | null, maxDps: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, engraving: Array<{ __typename?: 'WeaponsEngraving', stat: Array<string | null> | null, value: number | null } | null> | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl: string | null } } | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null, costume: { __typename?: 'Costume', illustration: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null, itemInformation: { __typename?: 'ItemInformation', achievement: string | null, artifactDescription: string | null, artifactPassives: string | null, artifactRarity: string | null, battleMedalShopCost: number | null, bottleCapCost: number | null, cost: number | null, costumeWeaponType: string | null, equipmentShopCost: number | null, howToObtain: Array<string | null> | null, maxLevel: number | null, mileageShopCost: number | null, mirrorShardCost: number | null, mysticThreadCost: number | null, rarity: Array<string | null> | null, unreleased: boolean | null, collections: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, itemType: { __typename?: 'AcfTermNodeConnection', nodes: Array<{ __typename?: 'Category', name: string | null } | { __typename?: 'ItemType', name: string | null } | { __typename?: 'PostFormat', name: string | null } | { __typename?: 'Tag', name: string | null }> } | null } | null }> } | null };
+export type GetAllItemsQuery = { __typename?: 'RootQuery', items: { __typename?: 'RootQueryToItemConnection', pageInfo: { __typename?: 'RootQueryToItemConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Item', id: string, databaseId: number, uri: string | null, title: string | null, slug: string | null, featuredImage: { __typename?: 'NodeWithFeaturedImageToMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, weapons: { __typename?: 'Weapons', exclusive: boolean | null, exclusiveEffects: string | null, isFirstEx: boolean | null, magazine: number | null, maxDps: number | null, minDps: number | null, weaponSkill: boolean | null, weaponSkillAtk: number | null, weaponSkillChain: Array<string | null> | null, weaponSkillDescription: string | null, weaponSkillName: string | null, weaponSkillRegenTime: number | null, weaponType: string | null, engraving: Array<{ __typename?: 'WeaponsEngraving', stat: Array<string | null> | null, value: number | null } | null> | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSkillVideo: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', mediaItemUrl: string | null } } | null } | null, equipmentOptions: { __typename?: 'EquipmentOptions', lb5Option: Array<string | null> | null, lb5Value: number | null, maxSubOptionLines: number | null, mainStats: Array<{ __typename?: 'EquipmentOptionsMainStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null, subStats: Array<{ __typename?: 'EquipmentOptionsSubStats', stat: Array<string | null> | null, isRange: boolean | null, value: number | null, minValue: number | null, maxValue: number | null } | null> | null } | null, costume: { __typename?: 'Costume', illustration: { __typename?: 'AcfMediaItemConnectionEdge', node: { __typename?: 'MediaItem', sourceUrl: string | null } } | null, hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null, itemInformation: { __typename?: 'ItemInformation', achievement: string | null, artifactDescription: string | null, artifactPassives: string | null, artifactRarity: string | null, battleMedalShopCost: number | null, bottleCapCost: number | null, cost: number | null, costumeWeaponType: string | null, equipmentShopCost: number | null, howToObtain: Array<string | null> | null, maxLevel: number | null, mileageShopCost: number | null, mirrorShardCost: number | null, mysticThreadCost: number | null, rarity: Array<string | null> | null, unreleased: boolean | null, collections: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, itemType: { __typename?: 'AcfTermNodeConnection', nodes: Array<{ __typename?: 'Category', name: string | null } | { __typename?: 'ItemType', name: string | null } | { __typename?: 'PostFormat', name: string | null } | { __typename?: 'Tag', name: string | null }> } | null } | null }> } | null };
 
 export type GetAllTeamsQueryVariables = Exact<{
   after: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
-export type GetAllTeamsQuery = { __typename?: 'RootQuery', teams: { __typename?: 'RootQueryToTeamConnection', pageInfo: { __typename?: 'RootQueryToTeamConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Team', id: string, databaseId: number, title: string | null, teamFields: { __typename?: 'TeamFields', teamType: string | null, notes: string | null, teamDamage: number | null, composition: Array<{ __typename?: 'TeamFieldsComposition', hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shield: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessory: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cards: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merch: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relic: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, heroSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shieldSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessorySubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merchSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cardsSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relicSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Collection', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null> | null } | null }> } | null };
+export type GetAllTeamsQuery = { __typename?: 'RootQuery', teams: { __typename?: 'RootQueryToTeamConnection', pageInfo: { __typename?: 'RootQueryToTeamConnectionPageInfo', endCursor: string | null, hasNextPage: boolean }, nodes: Array<{ __typename?: 'Team', id: string, databaseId: number, title: string | null, teamFields: { __typename?: 'TeamFields', teamType: string | null, notes: string | null, teamDamage: number | null, composition: Array<{ __typename?: 'TeamFieldsComposition', hero: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weapon: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shield: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessory: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cards: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merch: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relic: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, heroSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, weaponSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, shieldSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, accessorySubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, merchSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, cardsSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null, relicSubstitutions: { __typename?: 'AcfContentNodeConnection', nodes: Array<{ __typename?: 'Blog', id: string } | { __typename?: 'Collection', id: string } | { __typename?: 'Guide', id: string } | { __typename?: 'Hero', id: string } | { __typename?: 'Item', id: string } | { __typename?: 'MediaItem', id: string } | { __typename?: 'Page', id: string } | { __typename?: 'Post', id: string } | { __typename?: 'Team', id: string }> } | null } | null> | null } | null }> } | null };
 
 export type GetMetaVotesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -16499,6 +17851,105 @@ export function useUpvoteTeamMutation(baseOptions?: Apollo.MutationHookOptions<U
 export type UpvoteTeamMutationHookResult = ReturnType<typeof useUpvoteTeamMutation>;
 export type UpvoteTeamMutationResult = Apollo.MutationResult<UpvoteTeamMutation>;
 export type UpvoteTeamMutationOptions = Apollo.BaseMutationOptions<UpvoteTeamMutation, UpvoteTeamMutationVariables>;
+export const GetBlogDocument = gql`
+    query GetBlog($after: String) {
+  allBlog(first: 10, after: $after) {
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+    nodes {
+      databaseId
+      title
+      slug
+      content
+      date
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetBlogQuery__
+ *
+ * To run a query within a React component, call `useGetBlogQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBlogQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBlogQuery({
+ *   variables: {
+ *      after: // value for 'after'
+ *   },
+ * });
+ */
+export function useGetBlogQuery(baseOptions?: Apollo.QueryHookOptions<GetBlogQuery, GetBlogQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBlogQuery, GetBlogQueryVariables>(GetBlogDocument, options);
+      }
+export function useGetBlogLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBlogQuery, GetBlogQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBlogQuery, GetBlogQueryVariables>(GetBlogDocument, options);
+        }
+export function useGetBlogSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetBlogQuery, GetBlogQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBlogQuery, GetBlogQueryVariables>(GetBlogDocument, options);
+        }
+export type GetBlogQueryHookResult = ReturnType<typeof useGetBlogQuery>;
+export type GetBlogLazyQueryHookResult = ReturnType<typeof useGetBlogLazyQuery>;
+export type GetBlogSuspenseQueryHookResult = ReturnType<typeof useGetBlogSuspenseQuery>;
+export type GetBlogQueryResult = Apollo.QueryResult<GetBlogQuery, GetBlogQueryVariables>;
+export const GetGuidesDocument = gql`
+    query GetGuides($after: String) {
+  guides(first: 10, after: $after) {
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+    nodes {
+      databaseId
+      title
+      slug
+      content
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetGuidesQuery__
+ *
+ * To run a query within a React component, call `useGetGuidesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetGuidesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetGuidesQuery({
+ *   variables: {
+ *      after: // value for 'after'
+ *   },
+ * });
+ */
+export function useGetGuidesQuery(baseOptions?: Apollo.QueryHookOptions<GetGuidesQuery, GetGuidesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetGuidesQuery, GetGuidesQueryVariables>(GetGuidesDocument, options);
+      }
+export function useGetGuidesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetGuidesQuery, GetGuidesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetGuidesQuery, GetGuidesQueryVariables>(GetGuidesDocument, options);
+        }
+export function useGetGuidesSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetGuidesQuery, GetGuidesQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetGuidesQuery, GetGuidesQueryVariables>(GetGuidesDocument, options);
+        }
+export type GetGuidesQueryHookResult = ReturnType<typeof useGetGuidesQuery>;
+export type GetGuidesLazyQueryHookResult = ReturnType<typeof useGetGuidesLazyQuery>;
+export type GetGuidesSuspenseQueryHookResult = ReturnType<typeof useGetGuidesSuspenseQuery>;
+export type GetGuidesQueryResult = Apollo.QueryResult<GetGuidesQuery, GetGuidesQueryVariables>;
 export const GetAllHeroesDocument = gql`
     query GetAllHeroes($after: String) {
   heroes(first: 100, after: $after) {

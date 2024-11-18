@@ -13,6 +13,7 @@ import { useHeroes } from "#/app/components/GetHeroesProvider";
 import { useItems } from "#/app/components/GetItemsProvider";
 import { useTeams } from "#/app/components/GetTeamsProvider";
 import Gallery from "./Gallery";
+import Review from "./Review";
 
 interface HeroPageProps {
   activeTab: string;
@@ -73,7 +74,7 @@ export default function HeroPage({
       case "Costumes":
         return <Costumes hero={currentHero} items={items as Item[]} />;
       case "Review":
-        return <div></div>;
+        return <Review hero={currentHero} />;
       case "Gallery":
         return <Gallery hero={currentHero} />;
       default:

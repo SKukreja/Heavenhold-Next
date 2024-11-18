@@ -11,10 +11,12 @@ import { getUserData } from './components/UserDataFetcher';
 import { User } from './components/UserContext';
 import { Suspense } from 'react';
 import Loading from './components/loading';
-import { GetAllHeroesDocument, GetAllHeroesQuery, GetAllItemsDocument, GetAllItemsQuery, GetAllTeamsDocument, GetAllTeamsQuery, GetMetaVotesDocument, GetMetaVotesQuery, GetTeamVotesDocument, GetTeamVotesQuery } from '#/graphql/generated/types';
+import { GetBlogQuery, GetGuidesQuery, GetAllHeroesDocument, GetAllHeroesQuery, GetAllItemsDocument, GetAllItemsQuery, GetAllTeamsDocument, GetAllTeamsQuery, GetMetaVotesDocument, GetMetaVotesQuery, GetTeamVotesDocument, GetTeamVotesQuery, GetBlogDocument, GetGuidesDocument } from '#/graphql/generated/types';
 import { fetchGraphQL } from './components/FetchGraphQL';
 import { SidebarProvider } from './components/SidebarProvider';
 import { fetchVotes } from './components/FetchVotes';
+import { GuidesProvider } from './components/GetGuidesProvider';
+import { BlogProvider } from './components/GetBlogProvider';
 
 export const metadata = {
   title: "Heavenhold",
@@ -34,6 +36,8 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
   const teamData: GetAllTeamsQuery = await fetchGraphQL<GetAllTeamsQuery>(GetAllTeamsDocument);
   const teamVotes: GetTeamVotesQuery = await fetchVotes<GetTeamVotesQuery>(GetTeamVotesDocument);
   const metaVotes: GetMetaVotesQuery = await fetchVotes<GetMetaVotesQuery>(GetMetaVotesDocument);
+  const blogData: GetBlogQuery = await fetchGraphQL<GetBlogQuery>(GetBlogDocument);
+  const guideData: GetGuidesQuery = await fetchGraphQL<GetGuidesQuery>(GetGuidesDocument);
 
   return (
     <ApolloWrapper>
@@ -47,19 +51,23 @@ export default async function RootLayout({ children }: RootLayoutProps): Promise
               <HeroesProvider initialData={heroData} initialVotes={metaVotes}>
                 <ItemsProvider initialData={itemData}>                  
                   <TeamsProvider initialData={teamData} initialVotes={teamVotes}>
-                    <SidebarProvider>
-                    <GlobalNav />
-                    <Sidebar />
-                    <div id="main-body" className="absolute right-0 w-full main-body transition-width min-h-screen">
-                      <div>
-                        <div className="rounded-lg shadow-lg shadow-black/20">
-                          <div className="min-h-screen ">
-                            {children}
+                    <GuidesProvider initialData={guideData}>
+                      <BlogProvider initialData={blogData}>
+                        <SidebarProvider>
+                        <GlobalNav />
+                        <Sidebar />
+                        <div id="main-body" className="absolute right-0 w-full main-body transition-width min-h-screen">
+                          <div>
+                            <div className="rounded-lg shadow-lg shadow-black/20">
+                              <div className="min-h-screen ">
+                                {children}
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                    </SidebarProvider>
+                        </SidebarProvider>
+                      </BlogProvider>
+                    </GuidesProvider>
                   </TeamsProvider>
                 </ItemsProvider>
               </HeroesProvider>

@@ -24,4 +24,4 @@ interface PageProps {
         uri={tabParam.uri ?? ""}
       />
     );
-  }
+  } 

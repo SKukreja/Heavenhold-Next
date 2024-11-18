@@ -1,6 +1,6 @@
 import ItemGrid from "../components/ItemGrid";
 
-export default async function Heroes(): Promise<JSX.Element> {
+export default async function Items(): Promise<JSX.Element> {
     return (
         <div className="pt-32 pb-16 lg:pt-4 lg:pb-4">
             <div id="items-header" className="w-full text-8xl font-oswald px-8 py-8">Items</div>

@@ -63,3 +63,57 @@ body {
 .active .teams-icon, .active .heroes-icon, .active .items-icon {
     filter: brightness(0) invert(1);
 }
+
+#Review hr, #GuidePage hr, #BlogPage hr {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: rgb(39, 39, 42);
+    border-color: rgb(39, 39, 42);
+}
+
+#Review h3, #GuidePage h3, #BlogPage h3 {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    font-family: "Oswald", sans-serif;
+}
+
+#Review ul, #GuidePage ul, #BlogPage ul {
+    list-style-type: disc;
+    margin-bottom: 1.25em;
+    padding-left: 1.625em;
+}
+
+#Review ol, #GuidePage ol, #BlogPage ol {
+    list-style-type: decimal;
+    padding-left: 1.625em;
+}
+
+#Review li, #GuidePage li, #BlogPage li {
+    margin-bottom: .5em;
+    margin-top: .5em;
+}
+
+#Review p, #GuidePage p, #BlogPage p {
+    margin-bottom: 1.25em;
+}
+
+pre {
+    background-color: rgb(39, 39, 42);
+    padding: 1rem;
+    margin-bottom: 1.25em;
+    text-wrap: normal;
+    overflow-x: auto;
+    width: 100%;
+    border-radius: 5px;
+}
+
+p > code,
+pre > code {
+    background-color: rgb(39, 39, 42);
+    word-wrap: break-word;
+    box-decoration-break: clone;
+    max-width: 70vw;
+    padding: .1rem .3rem .2rem;
+    border-radius: .2rem;
+}

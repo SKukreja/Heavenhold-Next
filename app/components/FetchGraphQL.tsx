@@ -47,6 +47,20 @@ export async function fetchGraphQL<T extends object>(
       const pageInfo = teams.pageInfo;
       afterCursor = pageInfo?.endCursor;
       hasNextPage = pageInfo?.hasNextPage;
+    } else if (data && 'allBlog' in data && data.allBlog) {
+      const blog = data.allBlog as any;
+      allNodes.push(...blog.nodes);
+
+      const pageInfo = blog.pageInfo;
+      afterCursor = pageInfo?.endCursor;
+      hasNextPage = pageInfo?.hasNextPage;
+    } else if (data && 'guides' in data && data.guides) {
+      const guides = data.guides as any;
+      allNodes.push(...guides.nodes);
+
+      const pageInfo = guides.pageInfo;
+      afterCursor = pageInfo?.endCursor;
+      hasNextPage = pageInfo?.hasNextPage;
     } else {
       hasNextPage = false;
     }
@@ -62,6 +76,10 @@ export async function fetchGraphQL<T extends object>(
   else if (allNodes.length > 0 && 'teamFields' in allNodes[0]) {
     return { teams: { nodes: allNodes } } as T;
   }
+  else if (allNodes.length > 0 && 'content' in allNodes[0]) {
+    return { data: { nodes: allNodes } } as T;
+  }
+  else 
 
   throw new Error('Unexpected data structure');
 }

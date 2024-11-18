@@ -23,7 +23,7 @@ export default function BlogPage({
 
   useEffect(() => {
     setCurrentBlog(currentPost as Blog);
-  }, [blog]);
+  }, [blog, currentPost]);
 
   if (!currentBlog) {
     return <div>Error: Blog not found</div>;

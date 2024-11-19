@@ -10,6 +10,7 @@ import { Item } from "#/graphql/generated/types";
 import { useItems } from './GetItemsProvider';
 import ItemAccessoryCard from "./ItemAccessoryCard";
 import ItemDefCard from "./ItemDefCard";
+import { transformStatKey } from "#/ui/helpers";
 
 export default function ItemGrid() {
   const { data } = useItems();
@@ -30,7 +31,7 @@ export default function ItemGrid() {
 
   return (
     <Suspense fallback={<Loading />}>
-      <div id="ItemList" className="flex flex-wrap justify-start ml-[calc(2rem+2px)] w-[calc(100%-4rem)] lg:w-[calc(100%-2rem)] gap-4 lg:gap-8 transform-gpu">
+      <div id="ItemList" className="flex flex-wrap justify-start ml-[calc(2rem+2px)] w-[calc(100%-4rem-2px)] lg:w-[calc(100%-2rem-2px)] gap-4 lg:gap-8 transform-gpu">
         {items
           .filter((item: Item) => item?.itemInformation?.itemType?.nodes[0].name != "Cards")
           .map((item: Item, index: number) => (
@@ -42,24 +43,56 @@ export default function ItemGrid() {
 }
 
 const ItemLink = ({ item, index }: { item: Item, index: number }) => {
-  const element = item?.equipmentOptions?.mainStats?.find((x) => x?.stat?.includes("Fire") || x?.stat?.includes("Earth") || x?.stat?.includes("Water") || x?.stat?.includes("Light") || x?.stat?.includes("Dark") || x?.stat?.includes("Basic"))?.stat?.toString().replace(" Atk", "");
-  const itemType = item?.itemInformation?.itemType?.nodes[0].name?.toLowerCase();
-  const rarity = item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase();
-  const weaponType = item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase();
+  const element = item?.equipmentOptions?.mainStats?.find((x) =>
+    x?.stat?.[0]?.toString().match(/Fire|Earth|Water|Light|Dark|Basic/)
+  )?.stat?.toString().replace(" Atk", "").toLowerCase() || '';
+
+  const itemType = item?.itemInformation?.itemType?.nodes[0].name?.toLowerCase() || '';
+  const rarity = item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase() || '';
+  const weaponType = item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase() || '';
+
+  // Collect all main stats and create individual data attributes
+  const mainStats = item?.equipmentOptions?.mainStats || [];
+
+  // Prepare an object to hold dynamic data attributes
+  const dataAttributes: { [key: string]: string | number | boolean } = {};
+
+  const transformedStats: string[] = [];
+
+  mainStats.forEach((stat) => {
+    const transformedStat = transformStatKey(stat?.stat?.toString() || '');
+  
+    if (transformedStat) {
+      // Add to data attributes
+      dataAttributes[`data-stat-${transformedStat}`] = stat?.value || true;
+  
+      // Collect transformed stats
+      transformedStats.push(`${transformedStat}`);
+    }
+  });
+
   return (
     <Link
       href={item.uri ?? '/'}
-      data-filter={`${item.title} ${rarity ? "r-" + rarity : ""} ${itemType ? "t-" + itemType : ""} ${element ? "e-" + element : ""} ${itemType == 'weapon' ? 'w-' + weaponType : ''}`}
+      data-sorting={item.title}
+      data-name={item.title}
+      data-title={item.title}
+      data-element={element}
+      data-rarity={rarity}
+      data-type={itemType}
+      data-weapon-type={weaponType}
+      data-filter={`${item.title} ${rarity ? "r-" + rarity : ""} ${itemType ? "t-" + itemType : ""} ${element ? "e-" + element : ""} ${itemType === 'weapon' ? 'w-' + weaponType : ''} ${transformedStats.join(' ')}`}
       className={`${"e-" + element}${item?.itemInformation?.itemType?.nodes[0].name == 'Weapon' 
       ? ' w-' + item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase() : ''} 
       ${"t-" + item?.itemInformation?.itemType?.nodes[0].name?.toLowerCase()} 
       r-${item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase()} 
-      relative w-[calc(100%)] lg:w-[calc((100%/2)-2rem-4px)] xl:w-[calc((100%/3)-2rem-4px)] 3xl:w-[calc((100%/4)-2rem-4px)] 4xl:w-[calc((100%/5)-2rem-4px)] flex cursor-pointer ${itemType == 'costume' ? 'bg-[#0f0c0c]' : 'bg-gray-800'}
+      relative w-[calc(100%)] lg:w-[calc((100%/2)-2rem-4px)] xl:w-[calc((100%/3)-2rem-4px)] 3xl:w-[calc((100%/4)-2rem-4px)] 4xl:w-[calc((100%/5)-2rem-4px)] flex cursor-pointer ${itemType == 'costume' ? 'bg-[#0f0c0c]' : 'bg-gray-800/75'}
       align-middle transition-all duration-200 after:transition-all 
       after:linear after:duration-200 ease grayscale-[30%] 
       hover:after:outline-offset-[-5px] hover:grayscale-0 
       after:w-full after:h-full after:absolute after:inset-0 after:z-20 after:pointer-events-none after:border after:border-gray-800 after:outline after:outline-2 
       p-8`}
+      {...dataAttributes}
     >
       {itemType == 'costume' ? <ItemCostumeCard item={item} element={element} index={index} /> 
       : itemType == 'card' ? <ItemCardCard item={item} element={element} index={index} />

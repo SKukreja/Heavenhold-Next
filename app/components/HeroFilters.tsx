@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Hero } from "#/graphql/generated/types";
@@ -37,27 +37,30 @@ const rarityOptions = ['r-1-star', 'r-2-star', 'r-3-star'];
 export default function HeroFilters() {
   const { data } = useHeroes();
   const heroes = [...(data?.heroes?.nodes ?? [])] as Hero[];
-  const partyBuffsMap: { [key: string]: string } = heroes.reduce((acc, hero) => {
-    const partyBuffs = hero.heroInformation?.abilityFields?.partyBuff ?? [];
-    partyBuffs.forEach((passive) => {
-      if (!passive?.affectsParty) return;
-      const originalStat = passive?.stat;
-      const transformedStat = originalStat?.toString()
-      .replaceAll(/ /g, "-")
-      .replaceAll('[]','')
-      .replaceAll(',','')
-      .replaceAll('--','-')      
-      .toLowerCase()
-      .replaceAll('x%','x')
-      .replaceAll('%', '')
-      .replace('when-a-shield-is-present-damage-dealt-increases-by-x-while-damage-taken-decreases-by-x','shield-damage')
-      .replace('decrease-damage-taken-by-of-increased-skill-damage','skill-damage-decreased-damage-taken') ?? '';
-      if (!acc[transformedStat]) {
-        acc[transformedStat] = originalStat?.toString().replaceAll('[]', 'x').replaceAll('x%','x').replaceAll('%','x') ?? '';
-      }
-    });
-    return acc;
-  }, {} as { [key: string]: string });
+
+  const partyBuffsMap: { [key: string]: string } = useMemo(() => {
+    return heroes.reduce((acc, hero) => {
+      const partyBuffs = hero.heroInformation?.abilityFields?.partyBuff ?? [];
+      partyBuffs.forEach((passive) => {
+        if (!passive?.affectsParty) return;
+        const originalStat = passive?.stat;
+        const transformedStat = originalStat?.toString()
+          .replaceAll(/ /g, "-")
+          .replaceAll('[]','')
+          .replaceAll(',','')
+          .replaceAll('--','-')      
+          .toLowerCase()
+          .replaceAll('x%','x')
+          .replaceAll('%', '')
+          .replace('when-a-shield-is-present-damage-dealt-increases-by-x-while-damage-taken-decreases-by-x','shield-damage')
+          .replace('decrease-damage-taken-by-of-increased-skill-damage','skill-damage-decreased-damage-taken') ?? '';
+        if (!acc[transformedStat]) {
+          acc[transformedStat] = originalStat?.toString().replaceAll('[]', 'x').replaceAll('x%','x').replaceAll('%','x') ?? '';
+        }
+      });
+      return acc;
+    }, {} as { [key: string]: string });
+  }, [heroes]);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -81,9 +84,6 @@ export default function HeroFilters() {
     const activeFilterSection = document.querySelector(`#active-filters`);
     if (activeFilterSection) {
       activeFilterSection.innerHTML = '';
-
-      console.log('filters', filters);
-      console.log(rarityOptions)
       // Create and append filter divs
       Object.keys(filters).forEach((key) => {
         console.log(rarityOptions.includes(key))

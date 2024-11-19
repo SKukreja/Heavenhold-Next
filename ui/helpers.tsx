@@ -4,6 +4,27 @@ export function formatDate(dateString: string): string {
     return new Date(dateString).toLocaleDateString(undefined, options);
 }
 
+export function transformStatKey(stat: string): string {
+    let transformedStat = stat
+      .toString()
+      .replaceAll('(%)', '')
+      .replaceAll('(Flat)','flat')
+      .replaceAll('x%', 'x')
+      .replaceAll('%', 'x')
+      .replaceAll(/ /g, "-")
+      .replaceAll('[]','')
+      .replaceAll(',','')
+      .toLowerCase();
+    
+    while (transformedStat.includes('--')) {
+      transformedStat = transformedStat.replaceAll('--', '-');
+    }
+  
+    transformedStat = transformedStat.replace(/^-|-$/g, '');
+    
+    return transformedStat;
+  }  
+
 export async function getIpAddress(): Promise<string> {
     const cacheKey = "cachedIpAddress";
     const cacheDuration = 5 * 60 * 1000; // Cache for 5 minutes

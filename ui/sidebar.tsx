@@ -92,13 +92,13 @@ export default function Sidebar() {
   };
 
   const clickFilterSettings = () => {
-    if(settingsOpen && heroPathValue || itemPathValue) { setSettingsOpen(false); }
+    if(settingsOpen && (heroPathValue || itemPathValue)) { setSettingsOpen(false); }
     else { setSettingsOpen(true); }
     setSortingOpen(false);
   }
 
   const clickSortingSettings = () => {
-    if(sortingOpen && heroPathValue || itemPathValue) { setSortingOpen(false); }
+    if(sortingOpen && (heroPathValue || itemPathValue)) { setSortingOpen(false); }
     else { setSortingOpen(true); }
     setSettingsOpen(false);
   }
@@ -113,9 +113,9 @@ export default function Sidebar() {
       >
         <Suspense>
         <div className={`w-full h-full ${settingsOpen || sortingOpen ? 'flex' : 'hidden'} bg-black absolute flex-col inset-0 pt-16`}>
-          {((pathname === '/heroes' && !heroPathValue) || pathname.includes('tier-list') || heroPathValue) && <div className={settingsOpen ? 'flex' : 'hidden'}><HeroFilters /></div>}
+          {((pathname === '/heroes' && !heroPathValue) || heroPathValue || pathname.includes('tier-list')) && <div className={settingsOpen ? 'flex' : 'hidden'}><HeroFilters /></div>}
+          {((pathname === '/heroes' && !heroPathValue) || heroPathValue || pathname.includes('tier-list')) && <div className={sortingOpen ? 'flex' : 'hidden'}><HeroSorting /></div>}
           {((pathname === '/items' && !itemPathValue) || itemPathValue) && <div className={settingsOpen ? 'flex' : 'hidden'}><ItemFilters /></div>}
-          {((pathname === '/heroes' && !heroPathValue) || pathname.includes('tier-list') || heroPathValue) && <div className={sortingOpen ? 'flex' : 'hidden'}><HeroSorting /></div>}
           {((pathname === '/items' && !itemPathValue) || itemPathValue) && <div className={sortingOpen ? 'flex' : 'hidden'}><ItemSorting /></div>}
         </div>
         <div className="relative search-bar w-full" ref={searchRef}>

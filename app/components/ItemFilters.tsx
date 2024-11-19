@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from 'next/navigation';
+import { transformStatKey } from "#/ui/helpers";
 
 const ToggleStyles = "flex items-center justify-between w-full px-8 py-4 text-white bg-gray-800";
 const ToggleText = "font-medium text-sm";
@@ -52,6 +53,51 @@ const rarityLabelMap: { [key: string]: string } = {
   'r-normal': 'Normal',
 };
 
+const statOptions = [
+  'Fire Atk',
+  'Earth Atk',
+  'Water Atk',
+  'Dark Atk',
+  'Light Atk',
+  'Basic Atk',
+  'Fire type Atk (%)',
+  'Earth type Atk (%)',
+  'Water type Atk (%)',
+  'Dark type Atk (%)',
+  'Light type Atk (%)',
+  'Basic type Atk (%)',
+  'Atk (%)',
+  'Crit Hit Chance',
+  'Damage Reduction',
+  'Def (Flat)',
+  'Def (%)',
+  'Heal (Flat)',
+  'Heal (%)',
+  'HP (Flat)',
+  'HP (%)',
+  'Atk increase on enemy kill',
+  'HP recovery on enemy kill',
+  'Seconds of weapon skill Regen time on enemy kill',
+  'Shield increase on battle start',
+  'Shield increase on enemy kill',
+  'Melee Damage',
+  'Range Damage',
+  'Skill Damage',
+  'Weapon Skill Regen Speed',
+  'Atk, Heal [] for injured Chain Skills',
+  'Atk Decrease % negated',
+  'Def Decrease % negated',
+  'Doom Damage % negated',
+  'Injury Damage % negated',
+  'On hit extra damage',
+  'On hit heal allies',
+  'Increase damage to enemies with HP',
+  'Decrease damage taken by % of increased Skill Damage',
+  'Increase damage to tanker Hero',
+  'Crit Hit Multiplier',
+  'When a shield is present, damage dealt increases by x% while damage taken decreases by x%',
+];
+
 export default function ItemFilters() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -59,7 +105,16 @@ export default function ItemFilters() {
     "filter-section-mobile-0": true,
     "filter-section-mobile-1": false,
     "filter-section-mobile-2": false,
-  });
+    "filter-section-mobile-3": false,
+  });  
+  // Generate URL-safe keys for stat options
+  const itemStatsMap: { [key: string]: string } = useMemo(() => {
+    return statOptions.reduce((acc, stat) => {
+      const key = transformStatKey(stat);
+      acc[key] = stat;
+      return acc;
+    }, {} as { [key: string]: string });
+  }, []);
 
   const [activeFilters, setActiveFilters] = useState<{ [key: string]: boolean }>({});
 
@@ -69,10 +124,11 @@ export default function ItemFilters() {
   // Define the item types that should show Element and Rarity filters
   const itemTypesWithElement = ['one-handed-sword', 'two-handed-sword', 'rifle', 'bow', 'basket', 'staff', 'gauntlet', 'claw'];
   const itemTypesWithRarity = ['one-handed-sword', 'two-handed-sword', 'rifle', 'bow', 'basket', 'staff', 'gauntlet', 'claw', 'merch', 'relic', 'accessory', 'shield'];
+  const itemTypesWithStats = ['one-handed-sword', 'two-handed-sword', 'rifle', 'bow', 'basket', 'staff', 'gauntlet', 'claw', 'merch', 'relic', 'accessory', 'shield'];
 
   useEffect(() => {
     const params = Object.fromEntries(searchParams.entries());
-    let filters: { [key: string]: boolean } = {};
+    const filters: { [key: string]: boolean } = {};
     Object.keys(params).forEach((key) => {
       if (params[key] === 'true') {
         filters[key] = true;
@@ -81,7 +137,6 @@ export default function ItemFilters() {
   
     // Determine selectedItemType
     let selectedItemType = itemTypeValues.find(type => filters[type]);
-  
     // If no item type is selected, default to 'one-handed-sword'
     if (!selectedItemType) {
       filters['one-handed-sword'] = true;
@@ -103,8 +158,10 @@ export default function ItemFilters() {
           else if(rarityOptions.includes(key)) {
             filter.textContent = "Rarity = " + rarityLabelMap[key];
           }
-          filter.classList.add('p-4', 'cursor-pointer', 'bg-gray-transparent', 'normal-case', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');          
-          filter.style.textTransform = 'none';
+          else if (itemStatsMap[key]) {
+            filter.textContent = "Stats = " + itemStatsMap[key];
+          }
+          filter.classList.add('p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');       
           activeFilterSection.appendChild(filter);
         }
       });
@@ -121,13 +178,19 @@ export default function ItemFilters() {
         if (target.classList.contains('cursor-pointer')) {
           const filterText = target.textContent;
           const key = Object.keys(filters).find(k => {
+            console.log(k)
             if (itemTypeValues.includes(k)) {
               return filterText === "Item Type = " + itemTypes.find(option => option.value === k)?.label;
-            } else if (elementOptions.some(option => option.value === k)) {
+            } 
+            else if (elementOptions.some(option => option.value === k)) {
               return filterText === "Element = " + elementOptions.find(option => option.value === k)?.label;
-            } else if (rarityOptions.includes(k)) {
+            } 
+            else if (rarityOptions.includes(k)) {
               const rarityLabel = rarityLabelMap[k].charAt(0).toUpperCase() + rarityLabelMap[k].slice(1);
               return filterText === "Rarity = " + rarityLabel;
+            }
+            else if (itemStatsMap[k]) {
+              return filterText === "Stats = " + itemStatsMap[k];
             }
             return false;
           });
@@ -204,14 +267,7 @@ export default function ItemFilters() {
         newFilters = cleanupFilters(newFilters, newSelectedItemType);
 
         // Update query parameters
-        const newQuery = new URLSearchParams();
-
-        // Add active filters to query
-        Object.keys(newFilters).forEach(key => {
-          if (newFilters[key]) {
-            newQuery.set(key, 'true');
-          }
-        });
+        const newQuery = new URLSearchParams(searchParams.toString());
 
         // Update the URL immediately
         router.replace(`?${newQuery.toString()}`);
@@ -230,27 +286,25 @@ export default function ItemFilters() {
 
       // Determine selectedItemType
       const selectedItemType = itemTypeValues.find(type => newFilters[type]) || 'one-handed-sword';
-
+      
       // Clean up filters based on selectedItemType
       newFilters = cleanupFilters(newFilters, selectedItemType);
 
-      // Update query parameters
-      const newQuery = new URLSearchParams();
-
-      // Add active filters to query
-      Object.keys(newFilters).forEach(key => {
-        if (newFilters[key]) {
-          newQuery.set(key, 'true');
-        }
-      });
-
-      // Update the URL immediately
+      // Initialize newQuery with existing searchParams
+      const newQuery = new URLSearchParams(searchParams.toString());
+    
+      // Update the query parameters with the new filter state
+      if (isActive) {
+        newQuery.set(filter, 'true');
+      } else {
+        newQuery.delete(filter);
+      }
+    
+      // Update the URL without adding to history
       router.replace(`?${newQuery.toString()}`);
 
-      // Update the state
       setActiveFilters(newFilters);
-
-      // Apply filters
+    
       applyFilters(newFilters);
     }
   };
@@ -260,47 +314,56 @@ export default function ItemFilters() {
     const elementFilters = Object.keys(filters).filter(filter => filters[filter] && elementOptions.some(option => option.value === filter));
     const typeFilters = Object.keys(filters).filter(filter => filters[filter] && itemTypes.some(option => option.value === filter));
     const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && rarityOptions.includes(filter));
+    const statFilters = Object.keys(filters).filter(filter => filters[filter] && itemStatsMap[filter]);
+    
+    elements.forEach((el) => {
+      const elFilters = el.getAttribute('data-filter')?.split(' ') || [];
 
-    if (elementFilters.length === 0 && typeFilters.length === 0 && rarityFilters.length === 0) {
-      elements.forEach((el) => {
+      const matchesType = typeFilters.some(filter => elFilters.includes("t-" + filter) || elFilters.includes("w-" + filter));
+
+      const otherFiltersSelected = elementFilters.length > 0 || rarityFilters.length > 0 || statFilters.length > 0;
+
+      const matchesElement = elementFilters.some(filter => elFilters.includes("e-" + filter));
+      const matchesRarity = rarityFilters.some(filter => elFilters.includes(filter));
+      const matchesStat = statFilters.some(filter => elFilters.includes(filter));
+
+      const matchesOtherFilters = matchesElement || matchesRarity || matchesStat;
+
+      if (matchesType && (!otherFiltersSelected || matchesOtherFilters)) {
         el.classList.remove("hidden");
-      });
-    } else {
-      elements.forEach((el) => {
-        const elFilters = el.getAttribute('data-filter')?.split(' ') || [];
-        
-        const matchesElement = elementFilters.length === 0 || elementFilters.some(filter => elFilters.includes("e-" + filter));
-        const matchesType = typeFilters.length === 0 || typeFilters.some(filter => elFilters.includes("t-" + filter) || elFilters.includes("w-" + filter));
-        const matchesRarity = rarityFilters.length === 0 || rarityFilters.some(filter => elFilters.includes(filter));
-        
-        if (matchesElement && matchesType && matchesRarity) {
-          el.classList.remove("hidden");
-        } else {
-          el.classList.add("hidden");
-        }
-      });
-    }
-  };
+      } else {
+        el.classList.add("hidden");
+      }
+    });
+  };  
 
   function cleanupFilters(filters: { [key: string]: boolean }, selectedItemType: string | undefined) {
     const newFilters = { ...filters };
 
-    if (!selectedItemType || !itemTypesWithElement.includes(selectedItemType)) {
+    if (selectedItemType && !itemTypesWithElement.includes(selectedItemType)) {
       // Remove Element filters
       elementOptions.forEach(option => {
         delete newFilters[option.value];
       });
     }
-
-    if (!selectedItemType || !itemTypesWithRarity.includes(selectedItemType)) {
+  
+    if (selectedItemType && !itemTypesWithRarity.includes(selectedItemType)) {
       // Remove Rarity filters
       rarityOptions.forEach(value => {
         delete newFilters[value];
       });
     }
-
+  
+    if (selectedItemType && !itemTypesWithStats.includes(selectedItemType)) {
+      // Remove Stat filters
+      Object.keys(itemStatsMap).forEach(statKey => {
+        delete newFilters[statKey];
+      });      
+    }
+  
     return newFilters;
   }
+  
 
   // Determine the selected item type
   const selectedItemType = itemTypeValues.find(type => activeFilters[type]);
@@ -309,7 +372,7 @@ export default function ItemFilters() {
     <form className="pt-8 pb-16 w-[calc(100%-0.5rem)] lg:w-full">
       <h3 className="px-8 font-bold tracking-widest uppercase">Filters</h3>
 
-      {["Type", "Element", "Rarity"].map((section, index) => {
+      {["Type", "Element", "Rarity", "Stats"].map((section, index) => {
         const sectionId = `filter-section-mobile-${index}`;
 
         // Conditionally render Element and Rarity sections
@@ -319,6 +382,10 @@ export default function ItemFilters() {
           }
         } else if (section === "Rarity") {
           if (!selectedItemType || !itemTypesWithRarity.includes(selectedItemType)) {
+            return null; // Skip rendering this section
+          }
+        } else if (section === "Stats") {
+          if (!selectedItemType || !itemTypesWithStats.includes(selectedItemType)) {
             return null; // Skip rendering this section
           }
         }
@@ -367,6 +434,16 @@ export default function ItemFilters() {
                     <FilterToggle id="filter-mobile-size-4" value="r-normal" label="Normal" onChange={handleToggleChange('r-normal')} isActive={!!activeFilters['r-normal']} />
                   </>
                 )}
+                {section === "Stats" && Object.entries(itemStatsMap).map(([key, value]) => (
+                  <FilterToggle
+                    key={key}
+                    id={key}
+                    value={key}
+                    label={value}
+                    onChange={handleToggleChange(key)}
+                    isActive={!!activeFilters[key]}
+                  />
+                ))}
               </div>
             </div>
           </div>

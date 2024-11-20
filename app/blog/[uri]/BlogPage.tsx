@@ -34,7 +34,7 @@ export default function BlogPage({
   }
 
   return (
-    <div id="BlogPage" className="w-full h-auto">
+    <div id="BlogPage" className="w-full h-auto pt-32 lg:pt-0">
       <div id="blog-header" className="w-full text-8xl font-oswald px-8 py-8">{currentBlog.title}</div>
       <div className="px-8" dangerouslySetInnerHTML={{ __html: currentBlog.content || "" }}></div>
     </div>

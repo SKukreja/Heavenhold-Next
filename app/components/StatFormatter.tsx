@@ -15,8 +15,8 @@ const StatFormatter: React.FC<StatFormatterProps> = ({ statName, isRange, statVa
   const partyBuffFormatting: { [key: string]: (value: string) => string } = {
     "Atk": (value) => `Atk <span class="text-green-500">+${value}%</span>`,
     "Crit Hit Chance": (value) => `Critical Hit Chance <span class="text-green-500">+${value}%</span>`,
-    "Damage Reduction": (value) => `Damage Reduction: ${value}%`,
-    "Def": (value) => `Defense: ${value}`,
+    "Damage Reduction": (value) => `Damage Reduction <span class="text-green-500">+${value}%`,
+    "Def": (value) => `Defense <span class="text-green-500">+${value}%`,
     "HP": (value) => `HP <span class="text-green-500">+${value}%</span>`,
     "Melee Damage": (value) => `Melee Damage <span class="text-green-500">+${value}%</span>`,
     "Range Damage": (value) => `Range Damage <span class="text-green-500">+${value}%</span>`,

@@ -41,7 +41,7 @@ export default function GuidePage({
   }
 
   return (
-    <div id="GuidePage" className="w-full h-auto">
+    <div id="GuidePage" className="w-full h-auto pt-32 lg:pt-0">
       <div id="guide-header" className="w-full text-8xl font-oswald px-8 py-8">{currentGuide.title}</div>
       <div className="px-8" dangerouslySetInnerHTML={{ __html: currentGuide.content || "" }}></div>
     </div>

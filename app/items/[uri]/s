@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { transformStatKey } from "#/ui/helpers";
+import { useItems } from "./GetItemsProvider";
 
 const ToggleStyles = "flex items-center justify-between w-full px-8 py-4 text-white bg-gray-800";
 const ToggleText = "font-medium text-sm";
@@ -14,6 +15,7 @@ const ButtonWrapperStyles = "flow-root w-full";
 const ButtonIconContainerStyles = "flex items-center";
 const ButtonIconStyles = "w-5 h-5";
 
+// Move shared variables outside of the components
 const itemTypes = [
   { id: 'filter-mobile-category-1hsword', value: 'one-handed-sword', label: 'One-Handed Sword', icon: '/icons/equipment/1hsword.webp' },
   { id: 'filter-mobile-category-2hsword', value: 'two-handed-sword', label: 'Two-Handed Sword', icon: '/icons/equipment/2hsword.webp' },
@@ -98,6 +100,13 @@ const statOptions = [
   'When a shield is present, damage dealt increases by x% while damage taken decreases by x%',
 ];
 
+// Generate URL-safe keys for stat options
+const itemStatsMap: { [key: string]: string } = statOptions.reduce((acc, stat) => {
+  const key = transformStatKey(stat);
+  acc[key] = stat;
+  return acc;
+}, {});
+
 export default function ItemFilters() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -106,20 +115,13 @@ export default function ItemFilters() {
     "filter-section-mobile-1": false,
     "filter-section-mobile-2": false,
     "filter-section-mobile-3": false,
-  });  
-  // Generate URL-safe keys for stat options
-  const itemStatsMap: { [key: string]: string } = useMemo(() => {
-    return statOptions.reduce((acc, stat) => {
-      const key = transformStatKey(stat);
-      acc[key] = stat;
-      return acc;
-    }, {} as { [key: string]: string });
-  }, [statOptions]);
+    "filter-section-mobile-4": false,
+  });
 
-  const [activeFilters, setActiveFilters] = useState<{ [key: string]: boolean }>({});
+  const { activeItemFilters: activeFilters, setActiveItemFilters: setActiveFilters } = useItems();
 
   // Extract item type values for easy access
-  const itemTypeValues = itemTypes.map(option => option.value);
+  const itemTypeValues = useMemo(() => itemTypes.map(option => option.value), []);
 
   // Define the item types that should show Element and Rarity filters
   const itemTypesWithElement = ['one-handed-sword', 'two-handed-sword', 'rifle', 'bow', 'basket', 'staff', 'gauntlet', 'claw'];
@@ -134,7 +136,7 @@ export default function ItemFilters() {
         filters[key] = true;
       }
     });
-  
+
     // Determine selectedItemType
     let selectedItemType = itemTypeValues.find(type => filters[type]);
     // If no item type is selected, default to 'one-handed-sword'
@@ -142,102 +144,12 @@ export default function ItemFilters() {
       filters['one-handed-sword'] = true;
       selectedItemType = 'one-handed-sword';
     }
-  
-    const activeFilterSection = document.querySelector(`#active-filters`);
-    if (activeFilterSection) {
-      activeFilterSection.innerHTML = '';
-      Object.keys(filters).forEach((key) => {
-        if (filters[key]) {
-          const filter = document.createElement('div');
-          if(itemTypeValues.includes(key)) {
-            filter.textContent = "Item Type = " + itemTypes.find(option => option.value === key)?.label;
-          }
-          else if(elementOptions.some(option => option.value === key)) {
-            filter.textContent = "Element = " + elementOptions.find(option => option.value === key)?.label;
-          }
-          else if(rarityOptions.includes(key)) {
-            filter.textContent = "Rarity = " + rarityLabelMap[key];
-          }
-          else if (itemStatsMap[key]) {
-            filter.textContent = "Stats = " + itemStatsMap[key];
-          }
-          filter.classList.add('p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');       
-          activeFilterSection.appendChild(filter);
-        }
-      });
-  
-      // Remove existing event listener to prevent duplicates
-      const existingClickHandler = (activeFilterSection as any)._clickHandler;
-      if (existingClickHandler) {
-        activeFilterSection.removeEventListener('click', existingClickHandler);
-      }
-  
-      // Add event listener once
-      const clickHandler = (event: Event) => {
-        const target = event.target as HTMLElement;
-        if (target.classList.contains('cursor-pointer')) {
-          const filterText = target.textContent;
-          const key = Object.keys(filters).find(k => {
-            console.log(k)
-            if (itemTypeValues.includes(k)) {
-              return filterText === "Item Type = " + itemTypes.find(option => option.value === k)?.label;
-            } 
-            else if (elementOptions.some(option => option.value === k)) {
-              return filterText === "Element = " + elementOptions.find(option => option.value === k)?.label;
-            } 
-            else if (rarityOptions.includes(k)) {
-              const rarityLabel = rarityLabelMap[k].charAt(0).toUpperCase() + rarityLabelMap[k].slice(1);
-              return filterText === "Rarity = " + rarityLabel;
-            }
-            else if (itemStatsMap[k]) {
-              return filterText === "Stats = " + itemStatsMap[k];
-            }
-            return false;
-          });
-          if (key) {
-            handleToggleChange(key)();
-          }
-        }
-      };
-  
-      activeFilterSection.addEventListener('click', clickHandler);
-      (activeFilterSection as any)._clickHandler = clickHandler;
 
-      // Add reset button
-      const resetButton = document.createElement('div');
-      resetButton.textContent = "Reset";
-      resetButton.classList.add('p-4', 'cursor-pointer', Object.keys(filters).length > 0 ? 'flex' : 'hidden', 'select-none', 'bg-red-900/50', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');
-      resetButton.addEventListener('click', () => {
-        // Navigate to a new URL
-        router.replace('/items?one-handed-sword=true');
-      });
-      activeFilterSection.appendChild(resetButton);
-    }
-    
-  
     // Clean up filters
     const cleanedFilters = cleanupFilters(filters, selectedItemType);
-  
-    // Compare cleanedFilters with original filters
-    const filtersChanged = JSON.stringify(filters) !== JSON.stringify(cleanedFilters);
-  
-    // Update activeFilters
+
     setActiveFilters(cleanedFilters);
-  
-    // Apply filters
-    applyFilters(cleanedFilters);
-  
-    // If filters have changed, update the URL
-    if (filtersChanged) {
-      const newQuery = new URLSearchParams();
-      Object.keys(cleanedFilters).forEach(key => {
-        if (cleanedFilters[key]) {
-          newQuery.set(key, 'true');
-        }
-      });
-      router.replace(`?${newQuery.toString()}`);
-    }
-  }, [searchParams, itemStatsMap]);  
+  }, [searchParams]);
 
   const toggleSection = (section: string) => {
     setOpenSections((prev) => ({
@@ -246,94 +158,42 @@ export default function ItemFilters() {
     }));
   };
 
-  const handleToggleChange = (filter: string) => () => {
+  const handleToggleChange = (filter: string) => {
+    const isActive = !activeFilters[filter];
+    let newFilters = { ...activeFilters };
+
     if (itemTypeValues.includes(filter)) {
       // It's an item type filter
-      if (activeFilters[filter]) {
-        // If the filter is already active, do nothing
-        return;
-      } else {
-        // Deactivate all other item type filters
-        let newFilters = { ...activeFilters };
-        itemTypeValues.forEach(typeFilter => {
-          newFilters[typeFilter] = false;
-        });
-        newFilters[filter] = true;
-
-        // Determine new selectedItemType
-        const newSelectedItemType = filter;
-
-        // Clean up filters based on new selectedItemType
-        newFilters = cleanupFilters(newFilters, newSelectedItemType);
-
-        // Update query parameters
-        const newQuery = new URLSearchParams(searchParams.toString());
-
-        // Update the URL immediately
-        router.replace(`?${newQuery.toString()}`);
-
-        // Update the state
-        setActiveFilters(newFilters);
-
-        // Apply filters
-        applyFilters(newFilters);
-      }
+      // Deactivate all other item type filters
+      itemTypeValues.forEach(typeFilter => {
+        newFilters[typeFilter] = false;
+      });
+      newFilters[filter] = true;
     } else {
-      // For other filters, toggle as before
-      const isActive = !activeFilters[filter];
-      let newFilters = { ...activeFilters };
+      // Toggle the filter
       newFilters[filter] = isActive;
-
-      // Determine selectedItemType
-      const selectedItemType = itemTypeValues.find(type => newFilters[type]) || 'one-handed-sword';
-      
-      // Clean up filters based on selectedItemType
-      newFilters = cleanupFilters(newFilters, selectedItemType);
-
-      // Initialize newQuery with existing searchParams
-      const newQuery = new URLSearchParams(searchParams.toString());
-    
-      // Update the query parameters with the new filter state
-      if (isActive) {
-        newQuery.set(filter, 'true');
-      } else {
-        newQuery.delete(filter);
-      }
-    
-      // Update the URL without adding to history
-      router.replace(`?${newQuery.toString()}`);
-    
-      applyFilters(newFilters);
     }
-  };
 
-  const applyFilters = (filters: { [key: string]: boolean }) => {
-    const elements = document.querySelectorAll('[data-filter]');
-    const elementFilters = Object.keys(filters).filter(filter => filters[filter] && elementOptions.some(option => option.value === filter));
-    const typeFilters = Object.keys(filters).filter(filter => filters[filter] && itemTypes.some(option => option.value === filter));
-    const rarityFilters = Object.keys(filters).filter(filter => filters[filter] && rarityOptions.includes(filter));
-    const statFilters = Object.keys(filters).filter(filter => filters[filter] && itemStatsMap[filter]);
-    
-    elements.forEach((el) => {
-      const elFilters = el.getAttribute('data-filter')?.split(' ') || [];
+    // Determine selectedItemType
+    const selectedItemType = itemTypeValues.find(type => newFilters[type]) || 'one-handed-sword';
 
-      const matchesType = typeFilters.some(filter => elFilters.includes("t-" + filter) || elFilters.includes("w-" + filter));
+    // Clean up filters based on selectedItemType
+    newFilters = cleanupFilters(newFilters, selectedItemType);
 
-      const otherFiltersSelected = elementFilters.length > 0 || rarityFilters.length > 0 || statFilters.length > 0;
-
-      const matchesElement = elementFilters.some(filter => elFilters.includes("e-" + filter));
-      const matchesRarity = rarityFilters.some(filter => elFilters.includes(filter));
-      const matchesStat = statFilters.some(filter => elFilters.includes(filter));
-
-      const matchesOtherFilters = matchesElement || matchesRarity || matchesStat;
-
-      if (matchesType && (!otherFiltersSelected || matchesOtherFilters)) {
-        el.classList.remove("hidden");
-      } else {
-        el.classList.add("hidden");
+    // Update query parameters
+    const newQuery = new URLSearchParams();
+    Object.keys(newFilters).forEach(key => {
+      if (newFilters[key]) {
+        newQuery.set(key, 'true');
       }
     });
-  };  
+
+    // Update the URL
+    router.replace(`?${newQuery.toString()}`);
+
+    // Update the state
+    setActiveFilters(newFilters);
+  };
 
   function cleanupFilters(filters: { [key: string]: boolean }, selectedItemType: string | undefined) {
     const newFilters = { ...filters };
@@ -344,24 +204,23 @@ export default function ItemFilters() {
         delete newFilters[option.value];
       });
     }
-  
+
     if (selectedItemType && !itemTypesWithRarity.includes(selectedItemType)) {
       // Remove Rarity filters
       rarityOptions.forEach(value => {
         delete newFilters[value];
       });
     }
-  
+
     if (selectedItemType && !itemTypesWithStats.includes(selectedItemType)) {
       // Remove Stat filters
       Object.keys(itemStatsMap).forEach(statKey => {
         delete newFilters[statKey];
-      });      
+      });
     }
-  
+
     return newFilters;
   }
-  
 
   // Determine the selected item type
   const selectedItemType = itemTypeValues.find(type => activeFilters[type]);
@@ -373,7 +232,7 @@ export default function ItemFilters() {
       {["Type", "Element", "Rarity", "Stats"].map((section, index) => {
         const sectionId = `filter-section-mobile-${index}`;
 
-        // Conditionally render Element and Rarity sections
+        // Conditionally render Element, Rarity, and Stats sections
         if (section === "Element") {
           if (!selectedItemType || !itemTypesWithElement.includes(selectedItemType)) {
             return null; // Skip rendering this section
@@ -418,27 +277,28 @@ export default function ItemFilters() {
             >
               <div>
                 {section === "Type" && itemTypes.map((option) => (
-                  <FilterToggle key={option.id} {...option} onChange={handleToggleChange(option.value)} isActive={!!activeFilters[option.value]} />
+                  <FilterToggle key={option.id} {...option} onChange={() => handleToggleChange(option.value)} isActive={!!activeFilters[option.value]} />
                 ))}
                 {section === "Element" && elementOptions.map((option) => (
-                  <FilterToggle key={option.id} {...option} onChange={handleToggleChange(option.value)} isActive={!!activeFilters[option.value]} />
+                  <FilterToggle key={option.id} {...option} onChange={() => handleToggleChange(option.value)} isActive={!!activeFilters[option.value]} />
                 ))}
-                {section === "Rarity" && (
-                  <>
-                    <FilterToggle id="filter-mobile-size-0" value="r-epic" label="Epic" onChange={handleToggleChange('r-epic')} isActive={!!activeFilters['r-epic']} />
-                    <FilterToggle id="filter-mobile-size-1" value="r-legend" label="Legend" onChange={handleToggleChange('r-legend')} isActive={!!activeFilters['r-legend']} />
-                    <FilterToggle id="filter-mobile-size-2" value="r-unique" label="Unique" onChange={handleToggleChange('r-unique')} isActive={!!activeFilters['r-unique']} />
-                    <FilterToggle id="filter-mobile-size-3" value="r-rare" label="Rare" onChange={handleToggleChange('r-rare')} isActive={!!activeFilters['r-rare']} />
-                    <FilterToggle id="filter-mobile-size-4" value="r-normal" label="Normal" onChange={handleToggleChange('r-normal')} isActive={!!activeFilters['r-normal']} />
-                  </>
-                )}
+                {section === "Rarity" && rarityOptions.map((value, idx) => (
+                  <FilterToggle
+                    key={`rarity-${idx}`}
+                    id={`filter-mobile-size-${idx}`}
+                    value={value}
+                    label={rarityLabelMap[value]}
+                    onChange={() => handleToggleChange(value)}
+                    isActive={!!activeFilters[value]}
+                  />
+                ))}
                 {section === "Stats" && Object.entries(itemStatsMap).map(([key, value]) => (
                   <FilterToggle
                     key={key}
                     id={key}
                     value={key}
                     label={value}
-                    onChange={handleToggleChange(key)}
+                    onChange={() => handleToggleChange(key)}
                     isActive={!!activeFilters[key]}
                   />
                 ))}
@@ -452,10 +312,6 @@ export default function ItemFilters() {
 }
 
 function FilterToggle({ id, value, label, icon, onChange, isActive }: { id: string; value: string; label: string; icon?: string; onChange: () => void; isActive: boolean }) {
-  const handleClick = () => {
-    onChange();
-  };
-
   return (
     <div
       className={`flex items-center p-4 cursor-pointer 
@@ -475,6 +331,73 @@ function FilterToggle({ id, value, label, icon, onChange, isActive }: { id: stri
         {icon && <Image src={icon} alt={label} width={16} height={16} className="mr-4 fill-white" />}
         {label}
       </label>
+    </div>
+  );
+}
+
+export function ActiveFilters() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const { activeItemFilters: activeFilters } = useItems();
+
+  // Extract item type values for easy access
+  const itemTypeValues = useMemo(() => itemTypes.map(option => option.value), []);
+
+  // Create an array of active filter labels
+  const activeFilterLabels = useMemo(() => {
+    const labels = [];
+    Object.keys(activeFilters).forEach((key) => {
+      if (activeFilters[key]) {
+        if (itemTypeValues.includes(key)) {
+          labels.push({ key, label: "Item Type = " + itemTypes.find(option => option.value === key)?.label });
+        } else if (elementOptions.some(option => option.value === key)) {
+          labels.push({ key, label: "Element = " + elementOptions.find(option => option.value === key)?.label });
+        } else if (rarityLabelMap[key]) {
+          labels.push({ key, label: "Rarity = " + rarityLabelMap[key] });
+        } else if (itemStatsMap[key]) {
+          labels.push({ key, label: "Stats = " + itemStatsMap[key] });
+        } else {
+          labels.push({ key, label: key });
+        }
+      }
+    });
+    return labels;
+  }, [activeFilters]);
+
+  const handleFilterClick = (filterKey: string) => {
+    // Update the URL and state to remove the filter
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.delete(filterKey);
+    router.replace(`?${newSearchParams.toString()}`);
+  };
+
+  const resetFilters = () => {
+    router.replace('/items?one-handed-sword=true');
+  };
+
+  return (
+    <div id="active-item-filters" className="w-full px-8 text-2xl font-montserrat flex flex-wrap gap-4 mb-8">
+      {activeFilterLabels.length > 0 ? (
+        <>
+          {activeFilterLabels.map(({ key, label }) => (
+            <div
+              key={key}
+              onClick={() => handleFilterClick(key)}
+              className="p-4 cursor-pointer bg-gray-transparent border-2 border-gray-800 text-white text-sm font-medium w-auto"
+            >
+              {label}
+            </div>
+          ))}
+          <div
+            onClick={resetFilters}
+            className="p-4 cursor-pointer bg-red-900/50 border-2 border-gray-800 text-white text-sm font-medium w-auto"
+          >
+            Reset
+          </div>
+        </>
+      ) : (
+        <div>No active filters</div>
+      )}
     </div>
   );
 }

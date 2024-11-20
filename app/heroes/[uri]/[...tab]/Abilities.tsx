@@ -163,7 +163,7 @@ function Abilities({ hero, items }: AbilitiesProps) {
           {hero.heroInformation?.abilityFields?.partyBuff && (
             <>
               <h2 className="mb-6 text-2xl 3xl:text-4xl font-medium font-oswald">Passives</h2>
-                <div className="w-4/5 h-auto">
+                <div className="w-full h-auto">
                   {
                     selectedItem === 0 ? (
                       ascended ? 

@@ -212,7 +212,7 @@ export default function MetaList({ categoryId }: MetaProps) {
     }
 
     return (
-        <div className="w-full h-auto flex flex-col z-10 mb-8">
+        <div className="w-full h-auto flex flex-col select-none z-10 mb-8">
           <div
             className={`p-4 w-full flex justify-between`}
             style={{ background: 'linear-gradient(to right, rgba(255, 14, 14, 0.3) 0%, rgba(255, 14, 14, 0.2) 85%, transparent 100%)' }}

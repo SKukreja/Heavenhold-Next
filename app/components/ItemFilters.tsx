@@ -259,22 +259,27 @@ export default function ItemFilters() {
           newFilters[typeFilter] = false;
         });
         newFilters[filter] = true;
-
+  
         // Determine new selectedItemType
         const newSelectedItemType = filter;
-
+  
         // Clean up filters based on new selectedItemType
         newFilters = cleanupFilters(newFilters, newSelectedItemType);
-
-        // Update query parameters
-        const newQuery = new URLSearchParams(searchParams.toString());
-
-        // Update the URL immediately
+  
+        // Update query parameters with new filters
+        const newQuery = new URLSearchParams();
+        Object.keys(newFilters).forEach(key => {
+          if (newFilters[key]) {
+            newQuery.set(key, 'true');
+          }
+        });
+  
+        // Update the URL without adding to history
         router.replace(`?${newQuery.toString()}`);
-
+  
         // Update the state
         setActiveFilters(newFilters);
-
+  
         // Apply filters
         applyFilters(newFilters);
       }

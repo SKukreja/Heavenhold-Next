@@ -1,21 +1,23 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { sortDown, sortUp } from "#/ui/icons";
 
 const ToggleStyles = "flex items-center justify-between w-full px-8 py-6 text-white cursor-pointer bg-gray-1000 select-none hover:bg-gray-800";
 const ToggleText = "font-medium text-sm";
-const ButtonIconStyles = "w-4 h-4 flex justify-center items-center fill-white";
+const ButtonIconStyles = "sort-icon w-4 h-4 flex justify-center items-center fill-white";
 
 export default function HeroSorting() {
 
   const searchParams = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
 
   const [activeSort, setActiveSort] = useState<{ option: string; order: 'asc' | 'desc' }>({ option: 'Name', order: 'asc' });
 
   useEffect(() => {
+    if(pathname.toString().includes('tier-list')) return;
     const params = Object.fromEntries(searchParams.entries());
     const sortOption = params.sort || 'Name';
     const sortOrder = params.order || 'asc';
@@ -72,6 +74,8 @@ export default function HeroSorting() {
       });
     }
   };
+
+  if(pathname.toString().includes('tier-list')) return;
 
   return (
     <form className="pt-8 pb-16 w-[calc(100%-0.5rem)] lg:w-full">

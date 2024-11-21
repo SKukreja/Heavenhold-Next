@@ -96,7 +96,7 @@ export default function HeroPage({
                 : itemType == 'card' ? <ItemCardCard item={currentItem} element={element} selectedItem={9999} index={0} />
                 : itemType == 'shield' || itemType == 'accessory' ? <ItemDefCard item={currentItem} selectedItem={9999} element={element} index={0} />
                 : itemType == 'merch' || itemType == 'relic' ? <ItemAccessoryCard item={currentItem} selectedItem={9999} element={element} index={0} />
-                : <ItemCard item={currentItem} element={element} selectedItem={9999} index={0} />
+                : <ItemCard item={currentItem} element={element} hero={heroes?.find(hero => hero.id === item?.weapons?.hero?.nodes[0]?.id) as Hero} selectedItem={9999} index={0} />
                 }  
             </div>
             {currentItem?.weapons?.exclusive && 

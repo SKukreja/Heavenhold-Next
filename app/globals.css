@@ -117,3 +117,9 @@ pre > code {
     padding: .1rem .3rem .2rem;
     border-radius: .2rem;
 }
+
+.sort-icon > svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

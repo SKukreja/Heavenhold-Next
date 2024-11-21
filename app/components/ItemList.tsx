@@ -7,6 +7,7 @@ import Loading from "./loading";
 import FadeInImage from "./FadeInImage";
 import { Item } from "#/graphql/generated/types";
 import { useItems } from './GetItemsProvider';
+import { transformStatKey } from "#/ui/helpers";
 
 export default function ItemList() {
   const { data } = useItems();
@@ -41,10 +42,47 @@ export default function ItemList() {
   return (
     <Suspense fallback={<Loading />}>
       <div ref={containerRef} className="pt-4 pb-4 overflow-y-auto scrollbar-none w-full h-full">
-        {items.map((item: Item) => (
+        {items.map((item: Item) => {
+          const element = item?.equipmentOptions?.mainStats?.find((x) =>
+            x?.stat?.[0]?.toString().match(/Fire|Earth|Water|Light|Dark|Basic/)
+          )?.stat?.toString().replace(" Atk", "").toLowerCase() || '';
+        
+          const itemType = item?.itemInformation?.itemType?.nodes[0].name?.toLowerCase() || '';
+          const rarity = item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase() || '';
+          const weaponType = item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase() || '';
+        
+          // Collect all main stats and create individual data attributes
+          const mainStats = item?.equipmentOptions?.mainStats || [];
+        
+          // Prepare an object to hold dynamic data attributes
+          const dataAttributes: { [key: string]: string | number | boolean } = {};
+        
+          const transformedStats: string[] = [];
+        
+          mainStats.forEach((stat) => {
+            const transformedStat = transformStatKey(stat?.stat?.toString() || '');
+          
+            if (transformedStat) {
+              // Add to data attributes
+              dataAttributes[`data-stat-${transformedStat}`] = stat?.value || true;
+          
+              // Collect transformed stats
+              transformedStats.push(`${transformedStat}`);
+            }
+          });
+          return (
           <div
             key={item.uri}
             ref={(el) => { itemsRef.current[item.uri ?? ""] = el; }}
+            data-sort 
+            data-name={item.title} 
+            data-title={item.title} 
+            data-element={element} 
+            data-rarity={rarity.toLowerCase() == 'epic' ? 6 : rarity.toLowerCase() == 'legend' ? 5 : rarity.toLowerCase() == 'rare' ? 4 : rarity.toLowerCase() == 'uncommon' ? 3 : rarity.toLowerCase() == 'common' ? 2 : 1} 
+            data-type={itemType} 
+            data-weapon-type={weaponType}
+            data-dps={item.weapons?.maxDps}
+            data-filter={`${item.title} ${rarity ? "r-" + rarity : ""} ${itemType ? "t-" + itemType : ""} ${element ? "e-" + element : ""} ${itemType === 'weapon' ? 'w-' + weaponType : ''} ${transformedStats.join(' ')}`}
             className={`pt-4 pb-4 pl-8 pr-8 card ${
               activeItem === item.uri ? 'bg-gray-800 text-gray-300' : 'text-gray-400 hover:bg-gray-900'
             }`}
@@ -66,7 +104,7 @@ export default function ItemList() {
               </h3>
             </Link>
           </div>
-        ))}
+          )})}
       </div>
     </Suspense>
   );

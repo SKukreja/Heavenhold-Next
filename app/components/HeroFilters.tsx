@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { Hero } from "#/graphql/generated/types";
 import { useHeroes } from "./GetHeroesProvider";
 
@@ -37,6 +37,7 @@ const rarityOptions = ['r-1-star', 'r-2-star', 'r-3-star'];
 export default function HeroFilters() {
   const { data } = useHeroes();
   const heroes = [...(data?.heroes?.nodes ?? [])] as Hero[];
+  const pathname = usePathname();
 
   const partyBuffsMap: { [key: string]: string } = useMemo(() => {
     return heroes.reduce((acc, hero) => {
@@ -102,7 +103,14 @@ export default function HeroFilters() {
           activeFilterSection.appendChild(filter);
         }
       });
-  
+      
+      // Toggle 'mb-8' class if activeFilterSection has children
+      if (activeFilterSection.children.length > 0) {
+        activeFilterSection.classList.add('mb-8');
+      } else {
+        activeFilterSection.classList.remove('mb-8');
+      }
+
       // Remove existing event listener to prevent duplicates
       const existingClickHandler = (activeFilterSection as any)._clickHandler;
       if (existingClickHandler) {
@@ -142,8 +150,9 @@ export default function HeroFilters() {
       resetButton.textContent = "Reset";
       resetButton.classList.add('p-4', 'cursor-pointer', Object.keys(filters).length > 0 ? 'flex' : 'hidden', 'select-none', 'bg-red-900/50', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');
       resetButton.addEventListener('click', () => {
+        const newQuery = new URLSearchParams();
         // Navigate to a new URL
-        router.replace('/heroes?sort=name&order=asc&r-3-star=true&r-2-star=true');
+        router.replace(pathname.toString().includes('tier-list') ? `?${newQuery.toString()}` : '/heroes?sort=name&order=asc&r-3-star=true&r-2-star=true');
       });
       activeFilterSection.appendChild(resetButton);
     }

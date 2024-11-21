@@ -17,12 +17,10 @@ export default function ItemCard({
   item,
   element,
 }: ItemCardProps) {
-  const heroNode = hero as Hero || null
-
   return (
     <div className="w-full h-full">
       <div className="flex">
-        <div className="w-24">
+        <div className={`w-24 ${selectedItem === index || selectedItem === 9999 ? 'mb-4' : 'mb-0'}`}>
           <FadeInImage
             src={
               item?.featuredImage?.node?.sourceUrl ??
@@ -66,9 +64,9 @@ export default function ItemCard({
               />
             ))
           : null}
-        {heroNode && item?.weapons?.exclusiveEffects && (
+        {hero && item?.weapons?.exclusiveEffects && (
           <div className="text-gray-400 mt-4">
-            <span className="block">[{heroNode.title} only]</span>
+            <span className="block">[{hero?.title} only]</span>
             <span
               className="w-full block text-wrap whitespace-normal"
               dangerouslySetInnerHTML={{

@@ -73,14 +73,15 @@ const ItemLink = ({ item, index }: { item: Item, index: number }) => {
 
   return (
     <Link
-      href={item.uri ?? '/'}
-      data-sorting={item.title}
-      data-name={item.title}
-      data-title={item.title}
-      data-element={element}
-      data-rarity={rarity}
-      data-type={itemType}
+      href={item.uri ?? '/'} 
+      data-sort 
+      data-name={item.title} 
+      data-title={item.title} 
+      data-element={element} 
+      data-rarity={rarity.toLowerCase() == 'epic' ? 6 : rarity.toLowerCase() == 'legend' ? 5 : rarity.toLowerCase() == 'rare' ? 4 : rarity.toLowerCase() == 'uncommon' ? 3 : rarity.toLowerCase() == 'common' ? 2 : 1} 
+      data-type={itemType} 
       data-weapon-type={weaponType}
+      data-dps={item.weapons?.maxDps}
       data-filter={`${item.title} ${rarity ? "r-" + rarity : ""} ${itemType ? "t-" + itemType : ""} ${element ? "e-" + element : ""} ${itemType === 'weapon' ? 'w-' + weaponType : ''} ${transformedStats.join(' ')}`}
       className={`${"e-" + element}${item?.itemInformation?.itemType?.nodes[0].name == 'Weapon' 
       ? ' w-' + item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase() : ''} 

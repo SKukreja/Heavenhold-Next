@@ -91,7 +91,7 @@ export default function SearchResults({ searchQuery, closeSidebar }: SearchResul
                     result.imageSrc ||
                     "https://api.heavenhold.com/wp-content/uploads/2020/08/1starf-150x150.jpg"
                   }
-                  className={`w-16 h-16 aspect-square object-cover bg-gradient-to-b border-b-4 ${
+                  className={`w-16 h-16 aspect-square object-cover ${result.rarity.includes("Star") ? 'bg-gradient-to-b border-b-4' : ''} ${
                     result.rarity === "Epic" || result.rarity === "3 Star"
                       ? "from-yellow-700 to-yellow-500 border-yellow-500"
                       : result.rarity === "Legend" || result.rarity === "2 Star"

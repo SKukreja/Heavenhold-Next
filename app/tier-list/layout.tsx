@@ -2,6 +2,7 @@
 
 import { PropsWithChildren } from "react";
 import CategoriesHeader from "../components/CategoriesHeader";
+import React from "react";
 
 
 export default function Layout({ children }: PropsWithChildren) {
@@ -17,6 +18,7 @@ export default function Layout({ children }: PropsWithChildren) {
         <div className="w-full h-16 flex justify-between items-end mb-8">
           <CategoriesHeader currentLocation="/tier-list" />
         </div>
+        <div id="active-filters" className={`w-full text-2xl font-montserrat flex flex-wrap gap-4`}></div>
         {children}
       </div>
     </div>

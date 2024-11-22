@@ -135,7 +135,7 @@ export default function ItemSorting() {
     const activeFilterSection = document.querySelector(`#active-filters`);
     if (activeFilterSection) {
       const sortingFilter = activeFilterSection.querySelector('div.sorting-indicator') || document.createElement('div');
-      sortingFilter.classList.add('sorting-indicator','p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');
+      sortingFilter.classList.add('sorting-indicator', 'p-2','lg:p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-xs','lg:text-sm', 'font-medium', 'w-auto');
       sortingFilter.textContent = `Sorting = ${capitalize(activeSort.option)} ${activeSort.order === 'asc' ? '↑' : '↓'}`;
       activeFilterSection.prepend(sortingFilter);
     };

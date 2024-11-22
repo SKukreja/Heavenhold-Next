@@ -11,7 +11,7 @@ import { transformStatKey } from "#/ui/helpers";
 
 export default function ItemList() {
   const { data } = useItems();
-  const items = useMemo(() => [...(data?.items?.nodes ?? [])] as Item[], [data]);
+  const items = useMemo(() => [...(data?.items?.nodes.filter(item => item.itemInformation?.itemType?.nodes[0].name != 'Cards') ?? [])] as Item[], [data]);
   const itemsRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();  

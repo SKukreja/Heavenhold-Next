@@ -31,7 +31,7 @@ export default function HeroSorting() {
     if (activeFilterSection) {
       // Prepend a div with classList.add('p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto'); if one with textContent that includes 'Sorting = '  doesn't already exist, otherwise replace it
       const sortingFilter = activeFilterSection.querySelector('div.sorting-indicator') || document.createElement('div');
-      sortingFilter.classList.add('sorting-indicator','p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');
+      sortingFilter.classList.add('sorting-indicator', 'p-2','lg:p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-xs','lg:text-sm', 'font-medium', 'w-auto');
       sortingFilter.textContent = `Sorting = ${activeSort.option.charAt(0).toUpperCase() + activeSort.option.slice(1)} ${activeSort.order === 'asc' ? '↑' : '↓'}`;
       activeFilterSection.prepend(sortingFilter);
     };

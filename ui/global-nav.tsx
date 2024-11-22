@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useSelectedLayoutSegment } from 'next/navigation';
+import { usePathname, useSelectedLayoutSegment } from 'next/navigation';
 import clsx from 'clsx';
 import { useState, useContext, useEffect } from 'react';
 import { SidebarContext } from '#/app/components/SidebarProvider';
@@ -24,6 +24,7 @@ export function GlobalNav() {
   const close = () => setIsOpen(false);
   const { user } = useUser();
   const router = useRouter();
+  const pathname = usePathname();
   const { setIsActive } = useContext(SidebarContext) || {};
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
 
@@ -72,6 +73,13 @@ export function GlobalNav() {
       }
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    const mainBody = document.querySelector('.main-body');
+    if (mainBody) {
+      mainBody.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [pathname])
 
   const menu: { items: Item[] }[] = [
     {

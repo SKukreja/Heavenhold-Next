@@ -11,6 +11,10 @@
     --color-basic: #a5a5a5; 
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 .e-fire::after {
     outline-color: var(--color-fire);
 }

@@ -17,7 +17,7 @@ export default function ItemGrid() {
 
   const items = useMemo(() => {
     const sortedItems = [...(data?.items?.nodes ?? [])] as Item[];
-    sortedItems.sort((a: Item, b: Item) => {
+    sortedItems.filter(item => item.itemInformation?.itemType?.nodes[0].name != 'Cards').sort((a: Item, b: Item) => {
       const aName = a.title || '';
       const bName = b.title || '';
       return aName.localeCompare(bName);
@@ -96,6 +96,8 @@ const ItemLink = ({ item, index }: { item: Item, index: number }) => {
       {...dataAttributes}
     >
       {itemType == 'costume' ? <ItemCostumeCard item={item} element={element} index={index} /> 
+      : itemType == 'equipment-costume' ? <ItemCostumeCard item={item} element={element} index={index} /> 
+      : itemType == 'illustration-costume' ? <ItemCostumeCard item={item} element={element} index={index} /> 
       : itemType == 'card' ? <ItemCardCard item={item} element={element} index={index} />
       : itemType == 'shield' || itemType == 'accessory' ? <ItemDefCard item={item} element={element} index={index} />
       : itemType == 'merch' || itemType == 'relic' ? <ItemAccessoryCard item={item} element={element} index={index} />

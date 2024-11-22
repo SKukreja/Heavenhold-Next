@@ -112,7 +112,7 @@ export default function Sidebar() {
         } pb-32 lg:pb-16 lg:left-[calc(15vw)] lg:bottom-0 lg:border-b-0 lg:border-r lg:border-gray-800`}
       >
         <Suspense>
-        <div className={`w-full h-full ${settingsOpen || sortingOpen ? 'flex' : 'hidden'} bg-black absolute flex-col inset-0 pt-16`}>
+        <div className={`w-full h-full ${settingsOpen || sortingOpen ? 'flex' : 'hidden'} bg-black absolute flex-col inset-0 pt-32 lg:pt-16`}>
           {((pathname === '/heroes' && !heroPathValue) || heroPathValue || pathname.includes('tier-list')) && <div className={settingsOpen ? 'flex' : 'hidden'}><HeroFilters /></div>}
           {((pathname === '/heroes' && !heroPathValue) || heroPathValue || pathname.includes('tier-list')) && <div className={sortingOpen ? 'flex' : 'hidden'}><HeroSorting /></div>}
           {((pathname === '/items' && !itemPathValue) || itemPathValue) && <div className={settingsOpen ? 'flex' : 'hidden'}><ItemFilters /></div>}

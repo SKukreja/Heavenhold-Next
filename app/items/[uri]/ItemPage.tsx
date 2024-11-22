@@ -9,6 +9,7 @@ import ItemCard from "#/app/components/ItemCard";
 import ItemCardCard from "#/app/components/ItemCardCard";
 import ItemCostumeCard from "#/app/components/ItemCostumeCard";
 import ItemDefCard from "#/app/components/ItemDefCard";
+import ItemIllustrationCostumeCard from "#/app/components/ItemIllustrationCostumeCard";
 import LoopVideo from "#/app/components/LoopVideo";
 import TeamsList from "#/app/components/RenderTeamsList";
 import Loading from "#/app/components/loading";
@@ -44,7 +45,7 @@ export default function HeroPage({
   const [currentItem, setCurrentItem] = useState<Item | null>(item as Item);
 
   const element = currentItem?.equipmentOptions?.mainStats?.find((x) => x?.stat?.includes("Fire") || x?.stat?.includes("Earth") || x?.stat?.includes("Water") || x?.stat?.includes("Light") || x?.stat?.includes("Dark") || x?.stat?.includes("Basic"))?.stat?.toString().replace(" Atk", "");
-  const itemType = currentItem?.itemInformation?.itemType?.nodes[0].name?.toLowerCase();
+  const itemType = currentItem?.itemInformation?.itemType?.nodes[0].name?.toLowerCase().replaceAll(' ', '-');
   
   if (loading || !item) {
     return <Loading />;
@@ -91,8 +92,10 @@ export default function HeroPage({
         </h1>
         <div className="flex flex-col lg:flex-row w-full items-start gap-8">
             <div className={`w-full lg:w-1/3 flex flex-col gap-8`}>
-            <div className={`w-full ${itemType == 'costume' ? 'bg-[#0f0c0c] p-8' : 'bg-gray-800 p-4'}`}>
+            <div className={`w-full ${itemType?.includes('costume') ? 'bg-[#0f0c0c] p-8' : 'bg-gray-800 p-4'}`}>
                 {itemType == 'costume' ? <ItemCostumeCard item={currentItem} element={element} selectedItem={9999} index={0} /> 
+                : itemType == 'equipment-costume' ? <ItemCostumeCard item={currentItem} element={element} selectedItem={9999} index={0} /> 
+                : itemType == 'illustration-costume' ? <ItemIllustrationCostumeCard item={currentItem} element={element} selectedItem={9999} index={0} /> 
                 : itemType == 'card' ? <ItemCardCard item={currentItem} element={element} selectedItem={9999} index={0} />
                 : itemType == 'shield' || itemType == 'accessory' ? <ItemDefCard item={currentItem} selectedItem={9999} element={element} index={0} />
                 : itemType == 'merch' || itemType == 'relic' ? <ItemAccessoryCard item={currentItem} selectedItem={9999} element={element} index={0} />

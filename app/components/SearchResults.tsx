@@ -20,7 +20,7 @@ export default function SearchResults({ searchQuery, closeSidebar }: SearchResul
     const items = itemsData?.items?.nodes ?? [];
     const heroes = heroesData?.heroes?.nodes ?? [];
 
-    const itemResults = items.map((item) => ({
+    const itemResults = items.filter(item => item.itemInformation?.itemType?.nodes[0].name != 'Cards').map((item) => ({
       type: "item",
       title: item.title ?? "",
       uri: item.uri ?? "",

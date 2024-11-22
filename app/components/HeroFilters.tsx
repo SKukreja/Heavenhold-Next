@@ -99,7 +99,7 @@ export default function HeroFilters() {
           } else if (partyBuffsMap[key]) {
             filter.textContent = "Party Buff = " + partyBuffsMap[key];
           }
-          filter.classList.add('p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');
+          filter.classList.add('filter-indicator', 'p-2','lg:p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-xs','lg:text-sm', 'font-medium', 'w-auto');
           activeFilterSection.appendChild(filter);
         }
       });
@@ -148,7 +148,7 @@ export default function HeroFilters() {
       // Add reset button
       const resetButton = document.createElement('div');
       resetButton.textContent = "Reset";
-      resetButton.classList.add('p-4', 'cursor-pointer', Object.keys(filters).length > 0 ? 'flex' : 'hidden', 'select-none', 'bg-red-900/50', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');
+      resetButton.classList.add('p-2','lg:p-4', 'cursor-pointer', Object.keys(filters).length > 0 ? 'flex' : 'hidden', 'select-none', 'bg-red-900/50', 'border-2', 'border-gray-800', 'text-white', 'text-xs','lg:text-sm', 'font-medium', 'w-auto');
       resetButton.addEventListener('click', () => {
         const newQuery = new URLSearchParams();
         // Navigate to a new URL

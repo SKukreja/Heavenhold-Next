@@ -2,8 +2,10 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { transformStatKey } from "#/ui/helpers";
+import { useItems } from "./GetItemsProvider";
+import { Item } from "#/graphql/generated/types";
 
 const ToggleStyles = "flex items-center justify-between w-full px-8 py-4 text-white bg-gray-800";
 const ToggleText = "font-medium text-sm";
@@ -99,8 +101,11 @@ const statOptions = [
 ];
 
 export default function ItemFilters() {
+  const itemData = useItems();
+  const items = [...(itemData?.data?.items?.nodes ?? [])] as Item[];
   const searchParams = useSearchParams();
   const router = useRouter();
+  const pathname = usePathname();
   const [openSections, setOpenSections] = useState<{ [key: string]: boolean }>({
     "filter-section-mobile-0": true,
     "filter-section-mobile-1": false,
@@ -137,10 +142,18 @@ export default function ItemFilters() {
   
     // Determine selectedItemType
     let selectedItemType = itemTypeValues.find(type => filters[type]);
-    // If no item type is selected, default to 'one-handed-sword'
-    if (!selectedItemType) {
-      filters['one-handed-sword'] = true;
-      selectedItemType = 'one-handed-sword';
+    const splitUri = pathname.split("/")
+
+    // If no item type is selected, default to current item page's type
+    if (!selectedItemType && splitUri.length > 2 && pathname.toString().includes('items/')) {      
+      const item = items.find(item => item.slug == splitUri[2]) ?? null;
+      if (item) {
+        selectedItemType = item?.itemInformation?.itemType?.nodes[0].name?.toString().toLowerCase().replace(' ', '-')
+        if(selectedItemType == 'weapon') {
+          selectedItemType = item?.weapons?.weaponType?.toString().toLowerCase().replace(' ', '-')
+        }
+        filters[selectedItemType ?? 'one-handed-sword'] = true;
+      }      
     }
   
     const activeFilterSection = document.querySelector(`#active-filters`);
@@ -161,7 +174,7 @@ export default function ItemFilters() {
           else if (itemStatsMap[key]) {
             filter.textContent = "Stats = " + itemStatsMap[key];
           }
-          filter.classList.add('p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');       
+          filter.classList.add('filter-indicator', 'p-2','lg:p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-xs','lg:text-sm', 'font-medium', 'w-auto');
           activeFilterSection.appendChild(filter);
         }
       });
@@ -206,7 +219,7 @@ export default function ItemFilters() {
       // Add reset button
       const resetButton = document.createElement('div');
       resetButton.textContent = "Reset";
-      resetButton.classList.add('p-4', 'cursor-pointer', Object.keys(filters).length > 0 ? 'flex' : 'hidden', 'select-none', 'bg-red-900/50', 'border-2', 'border-gray-800', 'text-white', 'text-sm', 'font-medium', 'w-auto');
+      resetButton.classList.add('p-2','lg:p-4', 'cursor-pointer', Object.keys(filters).length > 0 ? 'flex' : 'hidden', 'select-none', 'bg-red-900/50', 'border-2', 'border-gray-800', 'text-white', 'text-xs','lg:text-sm', 'font-medium', 'w-auto');
       resetButton.addEventListener('click', () => {
         // Navigate to a new URL
         router.replace('/items?one-handed-sword=true');

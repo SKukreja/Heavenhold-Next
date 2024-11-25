@@ -178,6 +178,13 @@ export default function ItemFilters() {
           activeFilterSection.appendChild(filter);
         }
       });
+
+      // Toggle 'mb-8' class if activeFilterSection has children
+      if (activeFilterSection.children.length > 0) {
+        activeFilterSection.classList.add('mb-8');
+      } else {
+        activeFilterSection.classList.remove('mb-8');
+      }
   
       // Remove existing event listener to prevent duplicates
       const existingClickHandler = (activeFilterSection as any)._clickHandler;

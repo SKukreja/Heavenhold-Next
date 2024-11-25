@@ -138,6 +138,12 @@ export default function ItemSorting() {
       sortingFilter.classList.add('sorting-indicator', 'p-2','lg:p-4', 'cursor-pointer', 'select-none', 'bg-gray-transparent', 'border-2', 'border-gray-800', 'text-white', 'text-xs','lg:text-sm', 'font-medium', 'w-auto');
       sortingFilter.textContent = `Sorting = ${capitalize(activeSort.option)} ${activeSort.order === 'asc' ? '↑' : '↓'}`;
       activeFilterSection.prepend(sortingFilter);
+      // Toggle 'mb-8' class if activeFilterSection has children
+      if (activeFilterSection.children.length > 0) {
+        activeFilterSection.classList.add('mb-8');
+      } else {
+        activeFilterSection.classList.remove('mb-8');
+      }
     };
   }, [searchParams, params.itemType]);
 

@@ -92,7 +92,7 @@ export default function HeroPage({
         </h1>
         <div className="flex flex-col lg:flex-row w-full items-start gap-8">
             <div className={`w-full lg:w-1/3 flex flex-col gap-8`}>
-            <div className={`w-full ${itemType?.includes('costume') ? 'bg-[#0f0c0c] p-8' : 'bg-gray-800 p-4'}`}>
+            <div className={`w-full ${itemType?.includes('costume') ? 'bg-[#22262f] p-8' : 'bg-gray-800 p-4'}`}>
                 {itemType == 'costume' ? <ItemCostumeCard item={currentItem} element={element} selectedItem={9999} index={0} /> 
                 : itemType == 'equipment-costume' ? <ItemCostumeCard item={currentItem} element={element} selectedItem={9999} index={0} /> 
                 : itemType == 'illustration-costume' ? <ItemIllustrationCostumeCard item={currentItem} element={element} selectedItem={9999} index={0} /> 

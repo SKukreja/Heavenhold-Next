@@ -56,3 +56,59 @@ export async function getIpAddress(): Promise<string> {
         return "192.168.201.1";
     }
 }
+
+// utils/markdownToHtml.js
+
+export default function markdownToHtml(markdown: string) {
+    if (!markdown) return '';
+  
+    let html = markdown;
+
+      // Remove wrapping <p> tags
+    html = html.replace(/<\/?p>/g, '\n');
+
+  // Remove <br> tags
+    html = html.replace(/<br\s*\/?>/g, '\n');    
+    
+    // Convert headers
+    html = html.replace(/^\s*######\s+(.*)$/gm, '<h6>$1</h6>');
+    html = html.replace(/^\s*#####\s+(.*)$/gm, '<h5>$1</h5>');
+    html = html.replace(/^\s*####\s+(.*)$/gm, '<h4>$1</h4>');
+    html = html.replace(/^\s*###\s+(.*)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^\s*##\s+(.*)$/gm, '<h2>$1</h2>');
+    html = html.replace(/^\s*#\s+(.*)$/gm, '<h1>$1</h1>');    
+  
+    // Convert bold text
+    html = html.replace(/\*\*(.*?)\*\*/gm, '<strong>$1</strong>');
+  
+    // Convert italic text
+    html = html.replace(/\*(.*?)\*/gm, '<em>$1</em>');
+  
+    // Convert unordered lists
+    html = html.replace(/^\s*[-+*]\s+(.*)$/gm, '<li>$1</li>');
+    html = html.replace(/(<li>[\s\S]*?<\/li>)/gm, '<ul>$1</ul>');
+  
+    // Convert blockquotes
+    html = html.replace(/^>\s+(.*)$/gm, '<blockquote>$1</blockquote>');
+  
+    // Convert horizontal rules
+    html = html.replace(/^---$/gm, '<hr />');
+  
+    // Convert code blocks
+    html = html.replace(/```([\s\S]*?)```/gm, '<pre><code>$1</code></pre>');
+  
+    // Convert inline code
+    html = html.replace(/`([^`]+)`/gm, '<code>$1</code>');
+  
+    // Convert links
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/gm, '<a href="$2">$1</a>');
+  
+    // Convert paragraphs
+    html = html.replace(/^\s*(\S[^\n]*)\n?/gm, '<p>$1</p>');
+
+    html = html.replace(/^\s*—+\s*$/gm, '');
+  
+    return html.trim();
+  }
+  
+  

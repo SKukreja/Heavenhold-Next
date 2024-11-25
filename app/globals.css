@@ -76,9 +76,13 @@ body {
 }
 
 #Review h3, #GuidePage h3, #BlogPage h3 {
-    font-weight: bold;
-    font-size: 1.5rem;
+    font-weight: bold;    
     margin-bottom: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    line-height: 1.5;
+    letter-spacing: 0.025em;
     font-family: "Oswald", sans-serif;
 }
 
@@ -100,6 +104,7 @@ body {
 
 #Review p, #GuidePage p, #BlogPage p {
     margin-bottom: 1.25em;
+    line-height: 1.5;
 }
 
 pre {

@@ -70,6 +70,7 @@ const ItemLink = ({ item, index }: { item: Item, index: number }) => {
       transformedStats.push(`${transformedStat}`);
     }
   });
+  console.log(item)
 
   return (
     <Link
@@ -79,13 +80,13 @@ const ItemLink = ({ item, index }: { item: Item, index: number }) => {
       data-title={item.title} 
       data-element={element} 
       data-rarity={rarity.toLowerCase() == 'epic' ? 6 : rarity.toLowerCase() == 'legend' ? 5 : rarity.toLowerCase() == 'rare' ? 4 : rarity.toLowerCase() == 'uncommon' ? 3 : rarity.toLowerCase() == 'common' ? 2 : 1} 
-      data-type={itemType} 
+      data-type={itemType ? (itemType == 'costume' && item.costume?.super == true ? 'illustration-costume' : itemType) : ""} 
       data-weapon-type={weaponType}
       data-dps={item.weapons?.maxDps}
-      data-filter={`${item.title} ${rarity ? "r-" + rarity : ""} ${itemType ? "t-" + itemType : ""} ${element ? "e-" + element : ""} ${itemType === 'weapon' ? 'w-' + weaponType : ''} ${transformedStats.join(' ')}`}
+      data-filter={`${item.title} ${rarity ? "r-" + rarity : ""} ${itemType ? "t-" + (itemType == 'costume' && item.costume?.super == true ? 'illustration-costume' : itemType) : ""} ${element ? "e-" + element : ""} ${itemType === 'weapon' ? 'w-' + weaponType : ''} ${transformedStats.join(' ')}`}
       className={`${"e-" + element}${item?.itemInformation?.itemType?.nodes[0].name == 'Weapon' 
       ? ' w-' + item?.weapons?.weaponType?.replace(/ /g, "-").toLowerCase() : ''} 
-      ${"t-" + item?.itemInformation?.itemType?.nodes[0].name?.toLowerCase()} 
+      ${"t-" + itemType ? "t-" + (itemType == 'costume' && item.costume?.super == true ? 'illustration-costume' : itemType) : ""} 
       r-${item?.itemInformation?.rarity?.toString().replace(/ /g, "-").toLowerCase()} 
       relative w-[calc(100%)] lg:w-[calc((100%/2)-2rem-4px)] xl:w-[calc((100%/3)-2rem-4px)] 3xl:w-[calc((100%/4)-2rem-4px)] 4xl:w-[calc((100%/5)-2rem-4px)] flex cursor-pointer ${itemType == 'costume' ? 'bg-[#22262f]' : 'bg-gray-800/75'}
       align-middle transition-all duration-200 after:transition-all 

@@ -24,7 +24,7 @@ function Costumes({ hero, items }: CostumeProps) {
                     key={item.id}
                     href={item.uri ?? '/'}                    
                     className={`
-                    relative w-[calc(100%-2rem-4px)] lg:w-[calc((100%/2)-2rem)-(2px/2)] xl:w-[calc((100%/3)-2rem-(2px/3))] 3xl:w-[calc((100%/4)-2rem-(2px/4))] 4xl:w-[calc((100%/6)-2rem-(2px/6))] flex cursor-pointer bg-[#0f0c0c]
+                    relative w-[calc(100%-2rem-4px)] lg:w-[calc((100%/2)-2rem)-(2px/2)] xl:w-[calc((100%/3)-2rem-(2px/3))] 3xl:w-[calc((100%/4)-2rem-(2px/4))] 4xl:w-[calc((100%/6)-2rem-(2px/6))] flex cursor-pointer bg-[#22262f]
                     align-middle transition-all duration-200 after:transition-all 
                     after:linear after:duration-200 ease grayscale-[30%] 
                     hover:after:outline-offset-[-5px] hover:grayscale-0 

@@ -74,6 +74,7 @@ query GetAllItems($after: String) {
             id
           }
         }
+        super
       }
       itemInformation {
         achievement

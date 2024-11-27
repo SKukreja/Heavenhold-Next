@@ -90,7 +90,7 @@ export default function HeroPage({
         <h1 className="text-6xl 3xl:text-8xl font-extrabold font-oswald -ml-1 tracking-wide mb-6 relative z-20">
             {currentItem?.title}
         </h1>
-        <div className="flex flex-col lg:flex-row w-full items-start gap-8">
+        <div className={`flex flex-col lg:flex-row w-full items-start gap-8`}>
             <div className={`w-full lg:w-1/3 flex flex-col gap-8`}>
             <div className={`w-full ${itemType?.includes('costume') ? 'bg-[#22262f] p-8' : 'bg-gray-800 p-4'}`}>
                 {itemType == 'costume' ? <ItemCostumeCard item={currentItem} element={element} selectedItem={9999} index={0} /> 
@@ -199,6 +199,22 @@ export default function HeroPage({
                                 <LoopVideo videoSrc={item?.weapons?.weaponSkillVideo?.node?.mediaItemUrl + ""} />
                             </div>
                         )}   
+                    </div>
+                );
+            })()}
+            {item?.costume?.super && (() => {
+                return (
+                    <div className="flex flex-col relative gap-8 w-full px-4 h-[calc(50vh)] lg:h-[calc(100vh-12rem)] lg:w-2/3">
+                        {item?.costume?.illustration?.node?.sourceUrl && (
+                            <FadeInImage                              
+                              src={item?.costume?.illustration?.node?.sourceUrl ?? ""}
+                              width={1000}
+                              height={800}
+                              className={`absolute inset-0 top-0 lg:-top-12 ml-auto mr-auto w-full h-full object-contain transition-opacity duration-500`}
+                              quality={100}
+                              alt={item.title ?? ""}
+                            />
+                          )}
                     </div>
                 );
             })()}

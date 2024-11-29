@@ -146,6 +146,7 @@ function Bio({ hero }: BioProps) {
                   className={`absolute inset-0 -top-16 ml-auto mr-auto w-full h-full object-contain transition-opacity duration-500 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
                   quality={100}
                   alt={illustration?.name ?? ""}
+                  withLightbox={true}
                 />
               ))}
             </div>

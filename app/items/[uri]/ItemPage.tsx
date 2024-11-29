@@ -213,6 +213,7 @@ export default function HeroPage({
                               className={`absolute inset-0 top-0 lg:-top-12 ml-auto mr-auto w-full h-full object-contain transition-opacity duration-500`}
                               quality={100}
                               alt={item.title ?? ""}
+                              withLightbox={true}
                             />
                           )}
                     </div>

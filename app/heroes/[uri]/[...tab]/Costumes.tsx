@@ -11,14 +11,22 @@ interface CostumeProps {
 }
 
 function Costumes({ hero, items }: CostumeProps) {
+    if (!hero || !items) return null;
+
+    const heroCostumes = items
+      .filter(i => (i as Item)?.itemInformation?.itemType?.nodes[0].name?.toString().toLowerCase().replace(' ', '-') === 'costume' && (i as Item)?.costume?.hero?.nodes[0].id === hero.id)
+      .sort((a, b) => {
+        const titleA = (a as Item)?.title ?? '';
+        const titleB = (b as Item)?.title ?? '';
+        return titleA.localeCompare(titleB);
+      });
+
     return (
       <div id="Costumes" className="relative overflow-visible z-20 pt-8 mt-8 lg:pt-0 w-full h-[calc(100vhrem)] items-start flex flex-col text-xs 2xl:text-sm 3xl:text-base 4xl:text-lg px-8">
         <div className="w-full justify-start h-[calc(100%-8rem)]">
           <div className="w-full h-auto lg:h-full lg:overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 scrollbar-w-2">
             <div className="w-[calc(100%+2rem)] h-auto lg:h-full p-[2px] lg:overflow-y-auto scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-gray-1100 scrollbar-w-2 flex mb-8 gap-8 flex-wrap">                          
-              {(hero.heroInformation?.costumes?.edges?.length ?? 0) > 0 && hero.heroInformation?.costumes?.edges.map((costumeNode, index) => {                
-                const item = items?.find(i => i.id == (costumeNode.node as Item)?.id) ?? null;
-                if (!item) return null;          
+              {(heroCostumes.length ?? 0) > 0 && heroCostumes.map((item, index) => {                 
                 return (                  
                   <Link
                     key={item.id}

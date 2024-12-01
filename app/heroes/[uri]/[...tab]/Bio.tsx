@@ -137,18 +137,20 @@ function Bio({ hero }: BioProps) {
           </div>
           <div className="w-full flex flex-col h-[calc(60vh)] justify-center items-center relative mb-16 lg:mb-0">
             <div className={"w-full h-full mt-16 lg:mt-0 flex items-center relative justify-center overflow-visible"}>
-              {illustrations.map((illustration: any, index: number) => (
-                <FadeInImage
-                  key={illustration?.name || index}
-                  src={illustration?.image?.node.sourceUrl ?? ""}
-                  width={1000}
-                  height={800}
-                  className={`absolute inset-0 -top-16 ml-auto mr-auto w-full h-full object-contain transition-opacity duration-500 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
-                  quality={100}
-                  alt={illustration?.name ?? ""}
-                  withLightbox={true}
-                />
-              ))}
+            {illustrations.map((illustration: any, index: number) => (
+              <FadeInImage
+                key={illustration?.name || index}
+                src={illustration?.image?.node.sourceUrl ?? ""}
+                width={1000}
+                height={800}
+                className={`absolute inset-0 -top-16 ml-auto mr-auto w-full h-full object-contain transition-opacity duration-500 ${
+                  index === currentSlide ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
+                quality={100}
+                alt={illustration?.name ?? ""}
+                withLightbox={true}
+              />
+            ))}
             </div>
             <div className={`left-0 right-0 absolute w-1/2 text-center bottom-0 lg:-bottom-8 text-lg font-bold flex ml-auto mr-auto items-center ${illustrations.length > 1 ? "justify-between" : "justify-center"} gap-8`}>
             {illustrations.length > 1 && (              

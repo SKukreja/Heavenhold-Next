@@ -11,7 +11,33 @@ import { transformStatKey } from "#/ui/helpers";
 
 export default function ItemList() {
   const { data } = useItems();
-  const items = useMemo(() => [...(data?.items?.nodes.filter(item => item.itemInformation?.itemType?.nodes[0].name != 'Cards') ?? [])] as Item[], [data]);
+  const items = useMemo(() => {
+    const filteredItems = data?.items?.nodes.filter(item => item.itemInformation?.itemType?.nodes[0].name !== 'Cards') ?? [];
+    const sortedItems = [...filteredItems].sort((a, b) => {
+      // Sort by rarity
+      const rarityOrder: { [key: string]: number } = {
+        epic: 6,
+        legend: 5,
+        unique: 4,
+        rare: 3,
+        normal: 2,        
+      };
+      const rarityA = rarityOrder[a.itemInformation?.rarity?.toString().toLowerCase() ?? ''] || 1;
+      const rarityB = rarityOrder[b.itemInformation?.rarity?.toString().toLowerCase() ?? ''] || 1;
+      if (rarityA < rarityB) return 1;
+      if (rarityA > rarityB) return -1;
+      // Sort by title within each rarity
+      const titleA = a.title?.toLowerCase() || '';
+      const titleB = b.title?.toLowerCase() || '';
+      if (rarityA === rarityB) {
+      if (titleA < titleB) return -1;
+      if (titleA > titleB) return 1;
+      }
+      
+      return 0;
+    });
+    return sortedItems as Item[];
+  }, [data]);
   const itemsRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();  

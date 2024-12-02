@@ -10,7 +10,24 @@ import { useHeroes } from './GetHeroesProvider';
 
 export default function HeroList() {
   const { data } = useHeroes();
-  const heroes = useMemo(() => [...(data?.heroes?.nodes ?? [])] as Hero[], [data]);
+  const heroes = useMemo(() => {
+    const sortedItems = [...data?.heroes?.nodes ?? []].sort((a, b) => {          
+      const rarityA = a.heroInformation?.bioFields?.rarity?.toString().toLowerCase() ?? '';
+      const rarityB = b.heroInformation?.bioFields?.rarity?.toString().toLowerCase() ?? '';
+      if (rarityA < rarityB) return 1;
+      if (rarityA > rarityB) return -1;
+      // Sort by title within each rarity
+      const titleA = a.title?.toLowerCase() || '';
+      const titleB = b.title?.toLowerCase() || '';
+      if (rarityA === rarityB) {
+      if (titleA < titleB) return -1;
+      if (titleA > titleB) return 1;
+      }
+      
+      return 0;
+    });
+    return sortedItems as Hero[];
+  }, [data]);
   const heroesRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const containerRef = useRef<HTMLDivElement | null>(null);
   const pathname = usePathname();  

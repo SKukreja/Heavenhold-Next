@@ -79,7 +79,7 @@ const ItemLink = ({ item, index }: { item: Item, index: number }) => {
       data-name={item.title} 
       data-title={item.title} 
       data-element={element} 
-      data-rarity={rarity.toLowerCase() == 'epic' ? 6 : rarity.toLowerCase() == 'legend' ? 5 : rarity.toLowerCase() == 'rare' ? 4 : rarity.toLowerCase() == 'uncommon' ? 3 : rarity.toLowerCase() == 'common' ? 2 : 1} 
+      data-rarity={rarity.toLowerCase() == 'epic' ? 6 : rarity.toLowerCase() == 'legend' ? 5 : rarity.toLowerCase() == 'unique' ? 4 : rarity.toLowerCase() == 'rare' ? 3 : rarity.toLowerCase() == 'normal' ? 2 : 1} 
       data-type={itemType ? (itemType == 'costume' && item.costume?.super == true ? 'illustration-costume' : itemType) : ""} 
       data-weapon-type={weaponType}
       data-dps={item.weapons?.maxDps}

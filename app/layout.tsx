@@ -27,6 +27,8 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
+export const revalidate = 3600;
+
 export default async function RootLayout({ children }: RootLayoutProps): Promise<JSX.Element> {
   const userData = await getUserData();
 

@@ -20,6 +20,7 @@ export default function Sidebar() {
   const [sortingOpen, setSortingOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isAtTop, setIsAtTop] = useState(true); // New state to track scroll position
   const pathname = usePathname();
   const searchRef = useRef(null);
 
@@ -32,7 +33,6 @@ export default function Sidebar() {
     return null;
   }
 
-  // Update useEffect hooks to use context's setIsActive
   useEffect(() => {
     if (pathname === '/') {
       setIsActive?.(false);
@@ -86,6 +86,15 @@ export default function Sidebar() {
     }
   }, [pathname, setIsActive]);
 
+  // New useEffect to track scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsAtTop(window.scrollY === 0);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const clearSearch = () => {
     setSearchQuery('');
     setIsSearchFocused(false);
@@ -103,6 +112,8 @@ export default function Sidebar() {
     setSettingsOpen(false);
   }
 
+  // Determine whether to show the toggle button
+  const showToggleButton = isEnabled && !isActive && !isAtTop;
 
   return (
     <>
@@ -185,10 +196,10 @@ export default function Sidebar() {
         </span>
       </div>
       <div
-        className={`${isEnabled && !isActive ? "visible pointer-events-auto" : "invisible pointer-events-none"} 
-        fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-8"} w-16 h-16 lg:w-20 lg:h-20 
+        className={`fixed ${false ? "bottom-6 right-6" : "lg:hidden top-24 right-8"} w-16 h-16 lg:w-20 lg:h-20 
         flex justify-center items-center border-gray-800 border-1 text-white bg-gray-1000/90 
-        hover:bg-gray-1000 z-50 ${heroPathValue || itemPathValue ? 'p-2' : 'p-4'} lg:p-6 cursor-pointer`}
+        hover:bg-gray-1000 z-50 ${heroPathValue || itemPathValue ? 'p-2' : 'p-4'} lg:p-6 cursor-pointer 
+        ${showToggleButton ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'} transition-opacity duration-300`}
         onClick={toggleSidebar}
       >        
           <span className="fill-white relative w-full h-full z-50">{isActive ? (heroPathValue ? filter() : close()) 
